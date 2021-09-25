@@ -1,0 +1,15 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+  <include file="../accountTable.xml" relativeToChangelogFile="true"/>
+  <include file="../accountDetailsTable.xml" relativeToChangelogFile="true"/>
+  <include file="../activityTable.xml" relativeToChangelogFile="true"/>
+  <include file="../accessLevelTable.xml" relativeToChangelogFile="true"/>
+  <include file="../trainingTypeTable.xml" relativeToChangelogFile="true"/>
+  <include file="../trainingPlanTable.xml" relativeToChangelogFile="true"/>
+  <include file="../dietTypeTable.xml" relativeToChangelogFile="true"/>
+  <include file="../dietTable.xml" relativeToChangelogFile="true"/>
+  <include file="../disposableUrlTable.xml" relativeToChangelogFile="true"/>
+</databaseChangeLog>
