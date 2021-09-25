@@ -21,6 +21,7 @@
     <description>GymBackend</description>
     <properties>
         <java.version>11</java.version>
+        <liquibase.core.version>4.4.3</liquibase.core.version>
     </properties>
     <dependencies>
         <dependency>
@@ -49,6 +50,11 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${liquibase.core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

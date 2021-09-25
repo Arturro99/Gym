@@ -1,0 +1,29 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="artur">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <tableExists tableName="account"/>
+            </not>
+        </preConditions>
+        <createTable tableName="account">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(30)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="char(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="boolean" defaultValue="true"/>
+            <column name="confirmed" type="boolean" defaultValue="false"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
