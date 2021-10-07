@@ -26,4 +26,17 @@
             <column name="confirmed" type="boolean" defaultValue="false"/>
         </createTable>
     </changeSet>
+
+    <changeSet id="2" author="artur">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <columnExists tableName="account" columnName="login"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="account">
+            <column name="login" type="varchar(30)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

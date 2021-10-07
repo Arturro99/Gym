@@ -34,4 +34,17 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="2" author="artur">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <columnExists tableName="training_plan" columnName="number"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="training_plan">
+            <column name="number" type="varchar(6)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
