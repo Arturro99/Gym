@@ -12,4 +12,7 @@
   <include file="../dietTypeTable.xml" relativeToChangelogFile="true"/>
   <include file="../dietTable.xml" relativeToChangelogFile="true"/>
   <include file="../disposableUrlTable.xml" relativeToChangelogFile="true"/>
+  <include file="../bookingTable.xml" relativeToChangelogFile="true"/>
+  <include file="../accountDietTable.xml" relativeToChangelogFile="true"/>
+  <include file="../accountTrainingPlanTable.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
