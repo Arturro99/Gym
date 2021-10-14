@@ -1,0 +1,184 @@
+openapi: 3.0.0
+info:
+  description: Swagger API for rest service
+  version: 1.0.0
+  title: Swagger rest
+
+tags:
+  - name: accessLevel
+    description: Endpoints related to access levels
+  - name: account
+    description: Endpoints related to accounts
+  - name: activity
+    description: Endpoints related to access activities
+  - name: booking
+    description: Endpoints related to bookings
+  - name: diet
+    description: Endpoints related to diets
+  - name: dietType
+    description: Endpoints related to types of diets
+  - name: disposableUrl
+    description: Endpoints related to disposable urls
+  - name: trainingPlan
+    description: Endpoints related to trainingPlans
+  - name: trainingType
+    description: Endpoints related to trainingTypes
+  - name: auth
+    description: Endpoints related to authorisation and authentication process
+
+paths:
+  /accessLevels:
+    get:
+      tags:
+        - accessLevel
+      summary: Get access levels
+      description: Get all access levels
+      operationId: getAccessLevels
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessLevelResponseList'
+        500:
+          description: Internal server error
+
+  /accounts:
+    get:
+      tags:
+        - account
+      summary: Get accounts
+      description: Get all accounts
+      operationId: getAccounts
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountGeneralResponseList'
+        500:
+          description: Internal server error
+    post:
+      tags:
+        - account
+      summary: Add account
+      description: Create a new account
+      operationId: createAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountRequest'
+      responses:
+        201:
+          description: Operation successful
+
+  /authenticate:
+    post:
+      tags:
+        - auth
+      summary: Authenticate
+      description: Authenticate using login and password
+      operationId: authenticate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CredentialsRequest'
+      responses:
+        201:
+          description: Operation successful
+
+components:
+  schemas:
+    BaseModel:
+      type: object
+      properties:
+        version:
+          type: string
+
+    AccessLevelResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseModel'
+        - type: object
+          properties:
+            level:
+              type: string
+            active:
+              type: boolean
+            creationDate:
+              type: string
+              format: date-time
+            createdBy:
+              $ref: '#/components/schemas/AccountGeneralResponse'
+            modificationDate:
+              type: string
+              format: date-time
+            modifiedBy:
+              $ref: '#/components/schemas/AccountGeneralResponse'
+
+    AccountGeneralResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseModel'
+        - type: object
+          properties:
+            login:
+              type: string
+            firstName:
+              type: string
+            lastName:
+              type: string
+            active:
+              type: boolean
+            accessLevel:
+              type: array
+              items:
+                type: string
+
+    AccountRequest:
+      type: object
+      required:
+        - login
+        - email
+        - password
+        - firstName
+        - lastName
+        - language
+        - gymMember
+      properties:
+        login:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        language:
+          type: string
+        gymMember:
+          type: boolean
+
+    CredentialsRequest:
+      type: object
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+
+    AccessLevelResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/AccessLevelResponse'
+
+    AccountGeneralResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/AccountGeneralResponse'
