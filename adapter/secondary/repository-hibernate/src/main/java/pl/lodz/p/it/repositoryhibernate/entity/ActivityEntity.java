@@ -8,12 +8,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.ColumnDefault;
 
+/**
+ * Class responsible for keeping a entity model of the activity object.
+ */
 @Entity
 @Table(name = "activity")
 public class ActivityEntity extends BaseEntity {
 
     @Column(name = "number", nullable = false, updatable = false, unique = true)
-    private String number;
+    private String businessId;
 
     @Column(name = "name", nullable = false)
     private String name;
