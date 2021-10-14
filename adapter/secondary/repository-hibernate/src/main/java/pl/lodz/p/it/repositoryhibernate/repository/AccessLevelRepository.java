@@ -1,14 +1,22 @@
 package pl.lodz.p.it.repositoryhibernate.repository;
 
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pl.lodz.p.it.repositoryhibernate.entity.AccessLevelEntity;
-import pl.lodz.p.it.repositoryhibernate.entity.AccountEntity;
 
 /**
  * Repository responsible for managing entities of type {@link AccessLevelEntity}.
  */
 @Repository
-public interface AccessLevelRepository extends JpaRepository<AccessLevelEntity, Long> {
+public interface AccessLevelRepository extends BaseRepository<AccessLevelEntity> {
 
+//    /**
+//     * Method responsible for finding a object of type {@link AccessLevelEntity} with the provided
+//     * level.
+//     *
+//     * @param level Name of the level
+//     * @return Object with provided level
+//     */
+//    Optional<AccessLevelEntity> findByLevel(String level);
 }
