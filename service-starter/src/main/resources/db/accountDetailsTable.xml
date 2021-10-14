@@ -69,4 +69,8 @@
             </column>
         </addColumn>
     </changeSet>
+
+    <changeSet id="4" author="artur">
+        <dropNotNullConstraint tableName="accountDetails" columnName="phone_number"/>
+    </changeSet>
 </databaseChangeLog>

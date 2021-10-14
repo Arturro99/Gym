@@ -2,16 +2,22 @@ package pl.lodz.p.it.repositoryhibernate.entity;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.HashSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 import lombok.ToString.Exclude;
 import org.hibernate.annotations.ColumnDefault;
 
+/**
+ * Class responsible for keeping a entity model of the account object.
+ */
 @Entity
 @Table(name = "account")
 @SecondaryTable(name = "account_details")
@@ -20,9 +26,8 @@ public class AccountEntity extends BaseEntity {
     @Column(name = "creation_date", nullable = false, table = "account_details")
     private final Timestamp creationDate = Timestamp.from(Instant.now());
 
-    //region Account
     @Column(name = "login", nullable = false, unique = true)
-    private String login;
+    private String businessId;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -34,20 +39,18 @@ public class AccountEntity extends BaseEntity {
     @Column(name = "active", nullable = false)
     @ColumnDefault("true")
     private Boolean active;
-    //endregion
 
     @Column(name = "confirmed", nullable = false)
     @ColumnDefault("false")
     private Boolean confirmed;
 
-    //region Account details
     @Column(name = "first_name", table = "account_details", nullable = false)
     private String firstName;
 
     @Column(name = "last_name", table = "account_details", nullable = false)
     private String lastName;
 
-    @Column(name = "phone_number", table = "account_details", nullable = false, unique = true)
+    @Column(name = "phone_number", table = "account_details", unique = true)
     private String phoneNumber;
 
     @Column(name = "language", table = "account_details", nullable = false)
@@ -82,5 +85,20 @@ public class AccountEntity extends BaseEntity {
 
     @Column(name = "gym_member", nullable = false, table = "account_details")
     private Boolean gymMember;
-    //endregion
+
+    @ManyToMany
+    @JoinTable(
+        name = "account_training_plan",
+        joinColumns = { @JoinColumn(name = "account") },
+        inverseJoinColumns = { @JoinColumn(name = "training_plan") }
+    )
+    private HashSet<TrainingPlanEntity> trainingPlans;
+
+    @ManyToMany
+    @JoinTable(
+        name = "account_diet",
+        joinColumns = { @JoinColumn(name = "account") },
+        inverseJoinColumns = { @JoinColumn(name = "diet") }
+    )
+    private HashSet<DietEntity> diets;
 }

@@ -10,6 +10,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+/**
+ * Class responsible for keeping a entity model of the disposable url object.
+ */
 @Entity
 @Table(name = "disposable_url", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"account", "action_type"})
@@ -20,7 +23,7 @@ public class DisposableUrlEntity extends BaseEntity {
     private final Timestamp creationDate = Timestamp.from(Instant.now());
 
     @Column(name = "url", nullable = false, updatable = false, unique = true)
-    private String url;
+    private String businessId;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "account", nullable = false, updatable = false, referencedColumnName = "id")

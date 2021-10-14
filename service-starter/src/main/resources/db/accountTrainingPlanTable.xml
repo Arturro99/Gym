@@ -1,0 +1,21 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="artur">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <tableExists tableName="account_training_plan"/>
+            </not>
+        </preConditions>
+        <createTable tableName="account_training_plan">
+            <column name="account" type="bigint">
+                <constraints foreignKeyName="fk_account" references="account(id)"/>
+            </column>
+            <column name="training_plan" type="bigint">
+                <constraints foreignKeyName="fk_training_plan" references="training_plan(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

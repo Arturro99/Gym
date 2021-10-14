@@ -5,8 +5,12 @@
     <packaging>pom</packaging>
     <modules>
         <module>adapter</module>
-        <module>core</module>
         <module>service-starter</module>
+        <module>core/application</module>
+        <module>core/domain</module>
+        <module>core/shared</module>
+        <module>core/port/primary</module>
+        <module>core/port/secondary</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

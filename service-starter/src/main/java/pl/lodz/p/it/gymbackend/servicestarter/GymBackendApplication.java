@@ -1,4 +1,4 @@
-package pl.lodz.p.it.gymbackend;
+package pl.lodz.p.it.gymbackend.servicestarter;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

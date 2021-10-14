@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>secondary/repository-hibernate</module>
+        <module>primary/rest-api</module>
     </modules>
 
     <properties>
