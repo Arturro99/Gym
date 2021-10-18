@@ -1,12 +1,12 @@
 package pl.lodz.p.it.core.domain;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 
 /**
  * Class responsible for keeping a domain model of the account object.
  */
-public class Account {
+public class Account extends BaseModel {
 
     private String login;
 
@@ -28,15 +28,11 @@ public class Account {
 
     private Account modifiedBy;
 
-    private Timestamp creationDate;
-
-    private Timestamp modificationDate;
-
-    private Timestamp lastKnownGoodLogin;
+    private LocalDateTime lastKnownGoodLogin;
 
     private String lastKnownGoodLoginIp;
 
-    private Timestamp lastKnownBadLogin;
+    private LocalDateTime lastKnownBadLogin;
 
     private String lastKnownBadLoginIp;
 

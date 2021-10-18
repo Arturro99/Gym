@@ -5,7 +5,7 @@ import java.util.HashSet;
 /**
  * Class responsible for keeping a domain model of the diet object.
  */
-public class Diet {
+public class Diet extends BaseModel {
 
     private String number;
 

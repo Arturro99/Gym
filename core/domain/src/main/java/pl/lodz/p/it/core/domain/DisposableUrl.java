@@ -1,14 +1,11 @@
 package pl.lodz.p.it.core.domain;
 
 import java.sql.Timestamp;
-import java.time.Instant;
 
 /**
  * Class responsible for keeping a domain model of the disposable url object.
  */
-public class DisposableUrl {
-
-    private final Timestamp creationDate = Timestamp.from(Instant.now());
+public class DisposableUrl extends BaseModel {
 
     private String url;
 
@@ -19,8 +16,6 @@ public class DisposableUrl {
     private String newEmail;
 
     private Timestamp expireDate;
-
-    private Timestamp modificationDate;
 
     private Account modifiedBy;
 

@@ -5,7 +5,7 @@ import java.util.HashSet;
 /**
  * Class responsible for keeping a domain model of the training plan object.
  */
-public class TrainingPlan {
+public class TrainingPlan extends BaseModel {
 
     private String number;
 
