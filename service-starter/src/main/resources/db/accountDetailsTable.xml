@@ -71,6 +71,6 @@
     </changeSet>
 
     <changeSet id="4" author="artur">
-        <dropNotNullConstraint tableName="accountDetails" columnName="phone_number"/>
+        <dropNotNullConstraint tableName="account_details" columnName="phone_number"/>
     </changeSet>
 </databaseChangeLog>
