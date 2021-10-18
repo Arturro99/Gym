@@ -12,16 +12,13 @@ import org.mapstruct.MappingTarget;
  * @param <T> Type of appropriate entity that is meant to be mapped
  * @param <U> Type of appropriate domain model that is meant to be mapped
  */
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = IGNORE)
 public interface BaseMapper<T, U> {
 
     U toDomainModel(T entityModel);
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "version", ignore = true)
+    @Mapping(target = "businessId", ignore = true)
     T toEntityModel(U domainModel);
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "version", ignore = true)
+    @Mapping(target = "businessId", ignore = true)
     T toEntityModel(@MappingTarget T entityModel, U domainModel);
 }

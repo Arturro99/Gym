@@ -1,14 +1,15 @@
 package pl.lodz.p.it.core.application.secondary.mapper;
 
-import pl.lodz.p.it.core.domain.AccessLevel;
+import org.mapstruct.Mapper;
 import pl.lodz.p.it.core.domain.Booking;
-import pl.lodz.p.it.repositoryhibernate.entity.AccessLevelEntity;
 import pl.lodz.p.it.repositoryhibernate.entity.BookingEntity;
+
+import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 
 /**
  * Interface responsible for mapping {@link Booking} objects and {@link BookingEntity}
  */
-
-public interface BookingMapper extends BaseMapper<AccessLevelEntity, AccessLevel> {
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = IGNORE)
+public interface BookingMapper extends BaseMapper<BookingEntity, Booking> {
 
 }
