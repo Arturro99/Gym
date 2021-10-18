@@ -7,16 +7,17 @@ import lombok.NoArgsConstructor;
 import pl.lodz.p.it.core.application.secondary.mapper.BaseMapper;
 import pl.lodz.p.it.core.shared.BasePort;
 import pl.lodz.p.it.core.shared.exception.core.BaseException;
+import pl.lodz.p.it.repositoryhibernate.entity.BaseEntity;
 import pl.lodz.p.it.repositoryhibernate.repository.BaseRepository;
 
 /**
- * Implementation of base methods provided by the {@link BasePort} interface.
+ * Implementation of base methods provided by the {@link BasePort} interface used by repository-side adapters.
  *
  * @param <T> Type of appropriate entity
  * @param <U> Type of appropriate domain model
  */
 @NoArgsConstructor
-public abstract class BaseService<T, U> implements BasePort<U> {
+public abstract class BaseRepositoryService<T extends BaseEntity, U> implements BasePort<U> {
 
     protected BaseRepository<T> repository;
 

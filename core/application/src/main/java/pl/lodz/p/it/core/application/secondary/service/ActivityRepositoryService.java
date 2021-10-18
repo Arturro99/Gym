@@ -13,7 +13,7 @@ import pl.lodz.p.it.repositoryhibernate.repository.ActivityRepository;
  */
 @Component
 @AllArgsConstructor
-public class ActivityService extends BaseService<ActivityEntity, Activity> implements
+public class ActivityRepositoryService extends BaseRepositoryService<ActivityEntity, Activity> implements
     ActivityRepositoryPort {
 
     private final ActivityRepository activityRepository;

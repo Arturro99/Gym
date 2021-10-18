@@ -2,22 +2,20 @@ package pl.lodz.p.it.core.application.secondary.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.lodz.p.it.core.application.secondary.mapper.DietMapper;
-import pl.lodz.p.it.core.domain.Diet;
-import pl.lodz.p.it.core.port.secondary.DietRepositoryPort;
-import pl.lodz.p.it.repositoryhibernate.entity.DietEntity;
-import pl.lodz.p.it.repositoryhibernate.repository.DietRepository;
+import pl.lodz.p.it.core.domain.TrainingType;
+import pl.lodz.p.it.core.port.secondary.TrainingTypeRepositoryPort;
+import pl.lodz.p.it.repositoryhibernate.entity.TrainingTypeEntity;
+import pl.lodz.p.it.repositoryhibernate.repository.TrainingTypeRepository;
 
 /**
- * Service class responsible for operating on diet repository.
+ * Service class responsible for operating on training type repository.
  */
 @Component
 @AllArgsConstructor
-public class DietService extends BaseService<DietEntity, Diet> implements DietRepositoryPort {
+public class TrainingTypeRepositoryService extends BaseRepositoryService<TrainingTypeEntity, TrainingType> implements
+    TrainingTypeRepositoryPort {
 
-    private final DietRepository dietRepository;
-
-    private final DietMapper dietMapper;
+    private final TrainingTypeRepository trainingTypeRepository;
 
 //    @Override
 //    public Optional<Account> find(String key) {

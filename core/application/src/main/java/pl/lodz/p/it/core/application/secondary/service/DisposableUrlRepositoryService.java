@@ -13,7 +13,7 @@ import pl.lodz.p.it.repositoryhibernate.repository.DisposableUrlRepository;
  */
 @Component
 @AllArgsConstructor
-public class DisposableUrlService extends BaseService<DisposableUrlEntity, DisposableUrl> implements
+public class DisposableUrlRepositoryService extends BaseRepositoryService<DisposableUrlEntity, DisposableUrl> implements
     DisposableUrlRepositoryPort {
 
     private final DisposableUrlRepository disposableUrlRepository;

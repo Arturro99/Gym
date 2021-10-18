@@ -13,7 +13,7 @@ import pl.lodz.p.it.repositoryhibernate.repository.TrainingPlanRepository;
  */
 @Component
 @AllArgsConstructor
-public class TrainingPlanService extends BaseService<TrainingPlanEntity, TrainingPlan> implements
+public class TrainingPlanRepositoryService extends BaseRepositoryService<TrainingPlanEntity, TrainingPlan> implements
     TrainingPlanRepositoryPort {
 
     private final TrainingPlanRepository trainingPlanRepository;

@@ -13,7 +13,7 @@ import pl.lodz.p.it.repositoryhibernate.repository.AccessLevelRepository;
  */
 @Component
 @AllArgsConstructor
-public class AccessLevelService extends BaseService<AccessLevelEntity, AccessLevel> implements
+public class AccessLevelRepositoryService extends BaseRepositoryService<AccessLevelEntity, AccessLevel> implements
     AccessLevelRepositoryPort {
 
     private final AccessLevelRepository accessLevelRepository;

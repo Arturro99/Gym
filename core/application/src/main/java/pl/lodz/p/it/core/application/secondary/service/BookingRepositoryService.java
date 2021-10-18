@@ -13,7 +13,7 @@ import pl.lodz.p.it.repositoryhibernate.repository.BookingRepository;
  */
 @Component
 @AllArgsConstructor
-public class BookingService extends BaseService<BookingEntity, Booking> implements
+public class BookingRepositoryService extends BaseRepositoryService<BookingEntity, Booking> implements
     BookingRepositoryPort {
 
     private final BookingRepository bookingRepository;

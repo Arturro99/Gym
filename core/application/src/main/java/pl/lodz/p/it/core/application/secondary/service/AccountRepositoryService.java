@@ -13,7 +13,7 @@ import pl.lodz.p.it.repositoryhibernate.repository.AccountRepository;
  */
 @Component
 @AllArgsConstructor
-public class AccountService extends BaseService<AccountEntity, Account> implements
+public class AccountRepositoryService extends BaseRepositoryService<AccountEntity, Account> implements
     AccountRepositoryPort {
 
     private final AccountRepository accountRepository;

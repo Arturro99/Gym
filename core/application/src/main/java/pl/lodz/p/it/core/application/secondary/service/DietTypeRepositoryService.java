@@ -12,7 +12,7 @@ import pl.lodz.p.it.repositoryhibernate.repository.DietTypeRepository;
  */
 @Component
 @AllArgsConstructor
-public class DietTypeService extends BaseService<DietTypeEntity, DietType> implements
+public class DietTypeRepositoryService extends BaseRepositoryService<DietTypeEntity, DietType> implements
     DietTypeRepositoryPort {
 
     private final DietTypeRepository dietTypeRepository;
