@@ -1,21 +1,20 @@
 package pl.lodz.p.it.repositoryhibernate.entity;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.Instant;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
  * Class responsible for keeping a entity model of the disposable url object.
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 @Table(name = "disposable_url", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"account", "action_type"})
+        @UniqueConstraint(columnNames = {"account", "action_type"})
 })
 public class DisposableUrlEntity extends BaseEntity {
 

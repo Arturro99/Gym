@@ -1,16 +1,16 @@
 package pl.lodz.p.it.repositoryhibernate.entity;
 
-import java.util.HashSet;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Class responsible for keeping a entity model of the training plan object.
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 @Table(name = "training_plan")
 public class TrainingPlanEntity extends BaseEntity {
@@ -36,5 +36,5 @@ public class TrainingPlanEntity extends BaseEntity {
     private Double price;
 
     @ManyToMany(mappedBy = "trainingPlans")
-    private HashSet<AccountEntity> accounts;
+    private Set<AccountEntity> accounts;
 }

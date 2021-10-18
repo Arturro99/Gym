@@ -1,23 +1,20 @@
 package pl.lodz.p.it.repositoryhibernate.entity;
 
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.HashSet;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.SecondaryTable;
-import javax.persistence.Table;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString.Exclude;
 import org.hibernate.annotations.ColumnDefault;
+
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.Set;
 
 /**
  * Class responsible for keeping a entity model of the account object.
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 @Table(name = "account")
 @SecondaryTable(name = "account_details")
@@ -88,17 +85,17 @@ public class AccountEntity extends BaseEntity {
 
     @ManyToMany
     @JoinTable(
-        name = "account_training_plan",
-        joinColumns = { @JoinColumn(name = "account") },
-        inverseJoinColumns = { @JoinColumn(name = "training_plan") }
+            name = "account_training_plan",
+            joinColumns = {@JoinColumn(name = "account")},
+            inverseJoinColumns = {@JoinColumn(name = "training_plan")}
     )
-    private HashSet<TrainingPlanEntity> trainingPlans;
+    private Set<TrainingPlanEntity> trainingPlans;
 
     @ManyToMany
     @JoinTable(
-        name = "account_diet",
-        joinColumns = { @JoinColumn(name = "account") },
-        inverseJoinColumns = { @JoinColumn(name = "diet") }
+            name = "account_diet",
+            joinColumns = {@JoinColumn(name = "account")},
+            inverseJoinColumns = {@JoinColumn(name = "diet")}
     )
-    private HashSet<DietEntity> diets;
+    private Set<DietEntity> diets;
 }
