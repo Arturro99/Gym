@@ -1,11 +1,16 @@
 package pl.lodz.p.it.core.domain;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import java.time.LocalDateTime;
 import java.util.HashSet;
 
 /**
  * Class responsible for keeping a domain model of the account object.
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class Account extends BaseModel {
 
     private String login;
