@@ -13,20 +13,15 @@ import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
-public class AccountController implements AccountsApi {
+public class AccountController implements AccountsApiDelegate {
 
     private final AccountServicePort accountServicePort;
 
     private final AccountRestMapper accountRestMapper;
 
     @Override
-    public AccountsApiDelegate getDelegate() {
-        return AccountsApi.super.getDelegate();
-    }
-
-    @Override
     public ResponseEntity<Void> createAccount(AccountRequest accountRequest) {
-        return AccountsApi.super.createAccount(accountRequest);
+        return ResponseEntity.ok().build();
     }
 
     @Override
