@@ -5,8 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 /**
  * Class responsible for keeping a entity model of the access level object.
@@ -17,13 +16,11 @@ import java.time.Instant;
 @Table(name = "access_level", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"account", "level"})
 })
+@AttributeOverride(name = "businessId", column = @Column(name = "level", nullable = false, updatable = false, unique = true))
 public class AccessLevelEntity extends BaseEntity {
 
     @Column(name = "creation_date", nullable = false, updatable = false)
-    private final Timestamp creationDate = Timestamp.from(Instant.now());
-
-    @Column(name = "level", nullable = false, updatable = false, unique = true)
-    private String businessId;
+    private final LocalDateTime creationDate = LocalDateTime.now();
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "account", nullable = false, updatable = false, referencedColumnName = "id")
@@ -34,7 +31,7 @@ public class AccessLevelEntity extends BaseEntity {
     private Boolean active;
 
     @Column(name = "modification_date")
-    private Timestamp modificationDate;
+    private LocalDateTime modificationDate;
 
     @ManyToOne
     @JoinColumn(name = "modified_by", referencedColumnName = "id")

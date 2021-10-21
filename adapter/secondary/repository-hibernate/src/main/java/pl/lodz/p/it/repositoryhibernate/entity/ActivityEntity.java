@@ -1,15 +1,12 @@
 package pl.lodz.p.it.repositoryhibernate.entity;
 
-import java.sql.Timestamp;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.ColumnDefault;
+
+import java.time.LocalDateTime;
 
 /**
  * Class responsible for keeping a entity model of the activity object.
@@ -18,16 +15,14 @@ import org.hibernate.annotations.ColumnDefault;
 @Data
 @Entity
 @Table(name = "activity")
+@AttributeOverride(name = "businessId", column = @Column(name = "number", nullable = false, updatable = false, unique = true))
 public class ActivityEntity extends BaseEntity {
-
-    @Column(name = "number", nullable = false, updatable = false, unique = true)
-    private String businessId;
 
     @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "start_date", nullable = false)
-    private Timestamp creationDate;
+    private LocalDateTime creationDate;
 
     @Column(name = "duration", nullable = false)
     private Integer duration;

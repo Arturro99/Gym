@@ -13,10 +13,8 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "booking")
+@AttributeOverride(name = "businessId", column = @Column(name = "number", nullable = false, updatable = false, unique = true))
 public class BookingEntity extends BaseEntity {
-
-    @Column(name = "number", nullable = false, updatable = false, unique = true)
-    private String businessId;
 
     @ManyToOne
     @JoinColumn(name = "account", referencedColumnName = "id")

@@ -13,10 +13,8 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "training_plan")
+@AttributeOverride(name = "businessId", column = @Column(name = "number", nullable = false, updatable = false, unique = true))
 public class TrainingPlanEntity extends BaseEntity {
-
-    @Column(name = "number", nullable = false, updatable = false, unique = true)
-    private String businessId;
 
     @Column(name = "name", nullable = false)
     private String name;

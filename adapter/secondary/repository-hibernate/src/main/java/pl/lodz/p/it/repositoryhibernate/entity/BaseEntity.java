@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass
+@Data
 public abstract class BaseEntity {
 
     @Id
@@ -21,8 +22,6 @@ public abstract class BaseEntity {
     private String businessId;
 
     @Version
-    @Getter
-    @Setter
     @Column(name = "version", nullable = false)
     private Long version;
 
