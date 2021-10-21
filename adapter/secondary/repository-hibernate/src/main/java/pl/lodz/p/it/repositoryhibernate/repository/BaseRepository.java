@@ -1,6 +1,7 @@
 package pl.lodz.p.it.repositoryhibernate.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.NoRepositoryBean;
 import pl.lodz.p.it.repositoryhibernate.entity.BaseEntity;
 
 import java.util.Optional;
@@ -10,6 +11,7 @@ import java.util.Optional;
  *
  * @param <T> Type of the particular entity
  */
+@NoRepositoryBean
 public interface BaseRepository<T extends BaseEntity> extends JpaRepository<T, Long> {
 
     /**
