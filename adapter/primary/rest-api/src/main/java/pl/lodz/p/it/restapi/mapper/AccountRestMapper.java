@@ -7,6 +7,6 @@ import pl.lodz.p.it.restapi.dto.AccountGeneralResponse;
 import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = IGNORE)
-public interface AccountRestMapper extends BaseMapper<AccountGeneralResponse, Account> {
+public abstract class AccountRestMapper implements BaseMapper<AccountGeneralResponse, Account> {
 
 }
