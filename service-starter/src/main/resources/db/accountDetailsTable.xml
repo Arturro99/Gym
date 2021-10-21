@@ -11,7 +11,7 @@
             </not>
         </preConditions>
         <createTable tableName="account_details">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="id" type="bigint">
                 <constraints foreignKeyName="fk_account" references="account(id)"/>
             </column>
             <column name="version" type="bigint">
@@ -73,4 +73,5 @@
     <changeSet id="4" author="artur">
         <dropNotNullConstraint tableName="account_details" columnName="phone_number"/>
     </changeSet>
+
 </databaseChangeLog>
