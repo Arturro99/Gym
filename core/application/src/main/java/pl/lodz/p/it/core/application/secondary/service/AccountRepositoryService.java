@@ -1,6 +1,6 @@
 package pl.lodz.p.it.core.application.secondary.service;
 
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.lodz.p.it.core.application.secondary.mapper.AccountMapper;
 import pl.lodz.p.it.core.domain.Account;
@@ -12,12 +12,11 @@ import pl.lodz.p.it.repositoryhibernate.repository.AccountRepository;
  * Service class responsible for operating on account repository.
  */
 @Component
-@AllArgsConstructor
 public class AccountRepositoryService extends BaseRepositoryService<AccountEntity, Account> implements
-    AccountRepositoryPort {
+        AccountRepositoryPort {
 
-    private final AccountRepository accountRepository;
-
-    private final AccountMapper accountMapper;
-
+    @Autowired
+    public AccountRepositoryService(AccountRepository repository, AccountMapper mapper) {
+        super(repository, mapper);
+    }
 }

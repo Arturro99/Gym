@@ -1,20 +1,21 @@
 package pl.lodz.p.it.core.application.primary.service;
 
-import lombok.NoArgsConstructor;
-import pl.lodz.p.it.core.shared.BasePort;
+import lombok.AllArgsConstructor;
+import pl.lodz.p.it.core.port.primary.BaseServicePort;
+import pl.lodz.p.it.core.port.secondary.BaseRepositoryPort;
 
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Implementation of base methods provided by the {@link BasePort} interface used by client-side adapters.
+ * Implementation of base methods provided by the {@link BaseServicePort} interface used by client-side adapters.
  *
  * @param <T> Type of appropriate domain model
  */
-@NoArgsConstructor
-public abstract class BaseService<T> implements BasePort<T> {
+@AllArgsConstructor
+public abstract class BaseService<T> implements BaseServicePort<T> {
 
-    protected BasePort<T> repository;
+    protected BaseRepositoryPort<T> repository;
 
     @Override
     public Optional<T> find(String key) {
