@@ -75,6 +75,33 @@ paths:
       responses:
         201:
           description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountGeneralResponse'
+
+  /accounts/{login}:
+    get:
+      tags:
+        - account
+      summary: Get account
+      description: Find account with the provided login
+      operationId: getAccount
+      parameters:
+        - in: path
+          name: login
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDetailsResponse'
+        500:
+          description: Internal server error
 
   /authenticate:
     post:
@@ -95,35 +122,38 @@ paths:
 
 components:
   schemas:
-    BaseModel:
+    BaseDto:
+      description: Base dto model containing common attributes.
       type: object
+      discriminator:
+        propertyName: dtoType
       properties:
         version:
           type: string
+        creationDate:
+          type: string
+          format: date-time
+        modificationDate:
+          type: string
+          format: date-time
 
     AccessLevelResponse:
       allOf:
-        - $ref: '#/components/schemas/BaseModel'
+        - $ref: '#/components/schemas/BaseDto'
         - type: object
           properties:
             level:
               type: string
             active:
               type: boolean
-            creationDate:
-              type: string
-              format: date-time
             createdBy:
               $ref: '#/components/schemas/AccountGeneralResponse'
-            modificationDate:
-              type: string
-              format: date-time
             modifiedBy:
               $ref: '#/components/schemas/AccountGeneralResponse'
 
     AccountGeneralResponse:
       allOf:
-        - $ref: '#/components/schemas/BaseModel'
+        - $ref: '#/components/schemas/BaseDto'
         - type: object
           properties:
             login:
@@ -135,9 +165,95 @@ components:
             active:
               type: boolean
             accessLevel:
-              type: array
-              items:
-                type: string
+              $ref: '#/components/schemas/AccessLevelResponseList'
+
+    AccountDetailsResponse:
+      allOf:
+        - $ref: '#/components/schemas/AccountGeneralResponse'
+        - type: object
+          properties:
+            confirmed:
+              type: boolean
+            phoneNumber:
+              type: string
+            language:
+              type: string
+            lastKnownGoodLoginIp:
+              type: string
+            lastKnownGoodLogin:
+              type: string
+              format: date-time
+            lastKnownBadLoginIp:
+              type: string
+            lastKnownBadLogin:
+              type: string
+              format: date-time
+            badLoginsCounter:
+              type: integer
+            loyaltyFactor:
+              type: number
+            gymMember:
+              type: boolean
+            createdBy:
+              $ref: '#/components/schemas/AccountGeneralResponse'
+            modifiedBy:
+              $ref: '#/components/schemas/AccountGeneralResponse'
+            trainingPlans:
+              $ref: '#/components/schemas/TrainingPlanResponseList'
+            diets:
+              $ref: '#/components/schemas/DietResponseList'
+
+    DietResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseDto'
+        - type: object
+          properties:
+            number:
+              type: string
+            name:
+              type: string
+            dietType:
+              $ref: '#/components/schemas/DietTypeResponse'
+            calories:
+              type: integer
+            mealsNumber:
+              type: integer
+            price:
+              type: number
+
+    TrainingPlanResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseDto'
+        - type: object
+          properties:
+            number:
+              type: string
+            name:
+              type: string
+            trainingType:
+              $ref: '#/components/schemas/TrainingTypeResponse'
+            personalTrainingsNumber:
+              type: integer
+            trainer:
+              $ref: '#/components/schemas/AccountGeneralResponse'
+            price:
+              type: number
+
+    DietTypeResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseDto'
+        - type: object
+          properties:
+            name:
+              type: string
+
+    TrainingTypeResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseDto'
+        - type: object
+          properties:
+            name:
+              type: string
 
     AccountRequest:
       type: object
@@ -182,3 +298,13 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/AccountGeneralResponse'
+
+    TrainingPlanResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/TrainingTypeResponse'
+
+    DietResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/DietResponse'

@@ -17,15 +17,15 @@
     <dependencies>
         <dependency>
             <groupId>pl.lodz.p.it</groupId>
+            <artifactId>rest-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.lodz.p.it</groupId>
             <artifactId>application</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
-            <groupId>pl.lodz.p.it</groupId>
-            <artifactId>rest-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
     <properties>
