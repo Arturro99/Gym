@@ -13,16 +13,6 @@ import pl.lodz.p.it.repositoryhibernate.entity.BaseEntity;
 public interface BaseMapper<T extends BaseEntity, U extends BaseModel> {
 
     /**
-     * Method responsible for mapping attributes that are kept in {@link BaseEntity} class into a new object of
-     * {@link U} type.
-     *
-     * @param entityModel Entity model object that provides attributes used for creating a new object of
-     *                    {@link U} type.
-     * @param domainModel Domain model object that is a target of the mapping process.
-     */
-    void mapBaseEntityAttributesToDomainModel(T entityModel, @MappingTarget U domainModel);
-
-    /**
      * Method responsible for mapping object of type {@link T} into an object of type {@link U}.
      *
      * @param entityModel Entity model object that is meant to be mapped.
@@ -38,5 +28,13 @@ public interface BaseMapper<T extends BaseEntity, U extends BaseModel> {
      */
     T toEntityModel(U domainModel);
 
+    /**
+     * Method responsible for mapping object of type {@link U} into an object of type {@link T} using already
+     * created object with initiated by default attributes.
+     *
+     * @param entityModel Already instantiated object which is simultaneously the target of mapping.
+     * @param domainModel Domain model object that is meant to be mapped.
+     * @return Newly mapped object.
+     */
     T toEntityModel(@MappingTarget T entityModel, U domainModel);
 }
