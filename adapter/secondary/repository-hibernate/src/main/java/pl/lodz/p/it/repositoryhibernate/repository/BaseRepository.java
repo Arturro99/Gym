@@ -22,4 +22,12 @@ public interface BaseRepository<T extends BaseEntity> extends JpaRepository<T, L
      * @return Object with provided id
      */
     Optional<T> findByBusinessId(String businessId);
+
+    /**
+     * Method responsible for creating an instance of an entity not yet being managed by Entity Manager.
+     * It's purpose is to instantiate object's fields with default values.
+     *
+     * @return New object of type {@link T}
+     */
+    T instantiate();
 }

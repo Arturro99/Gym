@@ -9,4 +9,8 @@ import pl.lodz.p.it.repositoryhibernate.entity.TrainingTypeEntity;
 @Repository
 public interface TrainingTypeRepository extends BaseRepository<TrainingTypeEntity> {
 
+    @Override
+    default TrainingTypeEntity instantiate() {
+        return new TrainingTypeEntity();
+    }
 }

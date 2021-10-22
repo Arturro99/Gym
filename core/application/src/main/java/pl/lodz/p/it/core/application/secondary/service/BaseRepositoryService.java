@@ -40,19 +40,20 @@ public abstract class BaseRepositoryService<T extends BaseEntity, U extends Base
 
     @Override
     public U save(U u) {
-        T entity = mapper.toEntityModel(u);
+        T entity = repository.instantiate();
+        entity = mapper.toEntityModel(entity, u);
         T savedEntity = repository.save(entity);
         return mapper.toDomainModel(savedEntity);
     }
 
     @Override
-    public U update(String key, U u) {
+    public Optional<U> update(String key, U u) {
         T entity = repository.findByBusinessId(key).orElseThrow(
                 BaseException::notFoundException);
         T updated = mapper
                 .toEntityModel(entity, u);
         T response = repository.save(updated);
-        return mapper.toDomainModel(response);
+        return Optional.of(mapper.toDomainModel(response));
     }
 
     @Override

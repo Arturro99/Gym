@@ -9,12 +9,8 @@ import pl.lodz.p.it.repositoryhibernate.entity.AccessLevelEntity;
 @Repository
 public interface AccessLevelRepository extends BaseRepository<AccessLevelEntity> {
 
-//    /**
-//     * Method responsible for finding a object of type {@link AccessLevelEntity} with the provided
-//     * level.
-//     *
-//     * @param level Name of the level
-//     * @return Object with provided level
-//     */
-//    Optional<AccessLevelEntity> findByLevel(String level);
+    @Override
+    default AccessLevelEntity instantiate() {
+        return new AccessLevelEntity();
+    }
 }

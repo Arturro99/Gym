@@ -9,13 +9,8 @@ import pl.lodz.p.it.repositoryhibernate.entity.ActivityEntity;
 @Repository
 public interface ActivityRepository extends BaseRepository<ActivityEntity> {
 
-//    /**
-//     * Method responsible for finding a object of type {@link ActivityEntity} with the provided
-//     * number.
-//     *
-//     * @param number Activity's business identifier
-//     * @return Activity with provided number
-//     */
-//    Optional<ActivityEntity> findByNumber(String number);
-
+    @Override
+    default ActivityEntity instantiate() {
+        return new ActivityEntity();
+    }
 }

@@ -44,7 +44,7 @@ public interface BaseRepositoryPort<U> {
      * @return Updated object
      * @throws BaseException Thrown in case of providing a non-existent object
      */
-    U update(String key, U u) throws BaseException;
+    Optional<U> update(String key, U u) throws BaseException;
 
     /**
      * Method responsible for deleting object with given key.
