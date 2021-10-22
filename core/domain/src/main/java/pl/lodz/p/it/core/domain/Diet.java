@@ -23,6 +23,4 @@ public class Diet extends BaseModel {
     private Integer mealsNumber;
 
     private Double price;
-
-    private HashSet<Account> accounts;
 }

@@ -3,6 +3,8 @@ package pl.lodz.p.it.core.domain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.OffsetDateTime;
+
 /**
  * Class responsible for keeping a domain model of the activity object.
  */
@@ -15,6 +17,8 @@ public class Activity extends BaseModel {
     private String name;
 
     private Integer duration;
+
+    private OffsetDateTime startDate;
 
     private Account trainer;
 

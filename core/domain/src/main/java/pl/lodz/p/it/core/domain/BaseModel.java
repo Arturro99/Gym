@@ -3,7 +3,7 @@ package pl.lodz.p.it.core.domain;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 /**
  * Class responsible for keeping a base domain model.
@@ -14,7 +14,7 @@ public abstract class BaseModel {
 
     private Long version;
 
-    private LocalDateTime creationDate;
+    private OffsetDateTime creationDate;
 
-    private LocalDateTime modificationDate;
+    private OffsetDateTime modificationDate;
 }

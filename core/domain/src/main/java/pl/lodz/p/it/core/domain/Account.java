@@ -3,7 +3,7 @@ package pl.lodz.p.it.core.domain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.HashSet;
 
 /**
@@ -33,11 +33,11 @@ public class Account extends BaseModel {
 
     private Account modifiedBy;
 
-    private LocalDateTime lastKnownGoodLogin;
+    private OffsetDateTime lastKnownGoodLogin;
 
     private String lastKnownGoodLoginIp;
 
-    private LocalDateTime lastKnownBadLogin;
+    private OffsetDateTime lastKnownBadLogin;
 
     private String lastKnownBadLoginIp;
 

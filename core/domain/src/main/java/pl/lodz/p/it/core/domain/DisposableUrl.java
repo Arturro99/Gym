@@ -3,7 +3,7 @@ package pl.lodz.p.it.core.domain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 
 /**
@@ -21,7 +21,7 @@ public class DisposableUrl extends BaseModel {
 
     private String newEmail;
 
-    private LocalDateTime expireDate;
+    private OffsetDateTime expireDate;
 
     private Account modifiedBy;
 

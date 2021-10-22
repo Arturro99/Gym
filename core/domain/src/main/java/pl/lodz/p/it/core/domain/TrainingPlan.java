@@ -18,7 +18,7 @@ public class TrainingPlan extends BaseModel {
 
     private TrainingType trainingType;
 
-    private Integer calories;
+    private Integer personalTrainingsNumber;
 
     private Account trainer;
 
