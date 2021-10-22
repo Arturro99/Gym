@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 /**
  * Class responsible for keeping a entity model of the disposable url object.
@@ -18,9 +18,6 @@ import java.time.LocalDateTime;
 @AttributeOverride(name = "businessId", column = @Column(name = "url", nullable = false, updatable = false, unique = true))
 public class DisposableUrlEntity extends BaseEntity {
 
-    @Column(name = "creation_date", nullable = false, updatable = false)
-    private final LocalDateTime creationDate = LocalDateTime.now();
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "account", nullable = false, updatable = false, referencedColumnName = "id")
     private AccountEntity account;
@@ -32,10 +29,7 @@ public class DisposableUrlEntity extends BaseEntity {
     private String newEmail;
 
     @Column(name = "expiration_date", nullable = false)
-    private LocalDateTime expireDate;
-
-    @Column(name = "modification_date")
-    private LocalDateTime modificationDate;
+    private OffsetDateTime expireDate;
 
     @ManyToOne
     @JoinColumn(name = "modified_by", referencedColumnName = "id")

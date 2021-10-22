@@ -4,10 +4,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.ToString.Exclude;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Set;
 
 /**
@@ -20,8 +19,8 @@ import java.util.Set;
 @SecondaryTable(name = "account_details")
 @AttributeOverrides(
         {@AttributeOverride(name = "businessId", column = @Column(name = "login", nullable = false, updatable = false, unique = true)),
-        @AttributeOverride(name = "creationDate", column = @Column(name = "creation_date", nullable = false, table = "account_details")),
-        @AttributeOverride(name = "modificationDate", column = @Column(name = "modification_date", table = "account_details"))}
+                @AttributeOverride(name = "creationDate", column = @Column(name = "creation_date", nullable = false, table = "account_details")),
+                @AttributeOverride(name = "modificationDate", column = @Column(name = "modification_date", table = "account_details"))}
 )
 @ToString
 public class AccountEntity extends BaseEntity {
@@ -34,12 +33,10 @@ public class AccountEntity extends BaseEntity {
     private String password;
 
     @Column(name = "active", nullable = false)
-    @ColumnDefault("true")
-    private Boolean active;
+    private Boolean active = true;
 
     @Column(name = "confirmed", nullable = false)
-    @ColumnDefault("false")
-    private Boolean confirmed;
+    private Boolean confirmed = false;
 
     @Column(name = "first_name", table = "account_details", nullable = false)
     private String firstName;
@@ -51,7 +48,6 @@ public class AccountEntity extends BaseEntity {
     private String phoneNumber;
 
     @Column(name = "language", table = "account_details", nullable = false)
-    @ColumnDefault("pl")
     private String language;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
@@ -59,23 +55,22 @@ public class AccountEntity extends BaseEntity {
     private AccountEntity modifiedBy;
 
     @Column(name = "last_known_good_login", table = "account_details")
-    private LocalDateTime lastKnownGoodLogin;
+    private OffsetDateTime lastKnownGoodLogin;
 
     @Column(name = "last_known_good_login_ip", table = "account_details")
     private String lastKnownGoodLoginIp;
 
     @Column(name = "last_known_bad_login", table = "account_details")
-    private LocalDateTime lastKnownBadLogin;
+    private OffsetDateTime lastKnownBadLogin;
 
     @Column(name = "last_known_bad_login_ip", table = "account_details")
     private String lastKnownBadLoginIp;
 
     @Column(name = "bad_logins_counter", nullable = false, table = "account_details")
-    @ColumnDefault("0")
-    private Integer badLoginsCounter;
+    private Integer badLoginsCounter = 0;
 
     @Column(name = "loyalty_factor", nullable = false, table = "account_details")
-    private Float loyaltyFactor;
+    private Float loyaltyFactor = 1F;
 
     @Column(name = "gym_member", nullable = false, table = "account_details")
     private Boolean gymMember;

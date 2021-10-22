@@ -1,12 +1,11 @@
 package pl.lodz.p.it.repositoryhibernate.entity;
 
-import javax.persistence.*;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.ColumnDefault;
 
-import java.time.LocalDateTime;
+import javax.persistence.*;
+import java.time.OffsetDateTime;
 
 /**
  * Class responsible for keeping a entity model of the activity object.
@@ -22,7 +21,7 @@ public class ActivityEntity extends BaseEntity {
     private String name;
 
     @Column(name = "start_date", nullable = false)
-    private LocalDateTime creationDate;
+    private OffsetDateTime startDate;
 
     @Column(name = "duration", nullable = false)
     private Integer duration;
