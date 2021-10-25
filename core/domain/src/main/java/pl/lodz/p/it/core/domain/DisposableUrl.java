@@ -1,14 +1,17 @@
 package pl.lodz.p.it.core.domain;
 
-import java.sql.Timestamp;
-import java.time.Instant;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.time.OffsetDateTime;
+
 
 /**
  * Class responsible for keeping a domain model of the disposable url object.
  */
-public class DisposableUrl {
-
-    private final Timestamp creationDate = Timestamp.from(Instant.now());
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class DisposableUrl extends BaseModel {
 
     private String url;
 
@@ -18,9 +21,7 @@ public class DisposableUrl {
 
     private String newEmail;
 
-    private Timestamp expireDate;
-
-    private Timestamp modificationDate;
+    private OffsetDateTime expireDate;
 
     private Account modifiedBy;
 

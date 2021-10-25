@@ -1,19 +1,24 @@
 package pl.lodz.p.it.core.domain;
 
-import java.sql.Timestamp;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.time.OffsetDateTime;
 
 /**
  * Class responsible for keeping a domain model of the activity object.
  */
-public class Activity {
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class Activity extends BaseModel {
 
     private String number;
 
     private String name;
 
-    private Timestamp creationDate;
-
     private Integer duration;
+
+    private OffsetDateTime startDate;
 
     private Account trainer;
 

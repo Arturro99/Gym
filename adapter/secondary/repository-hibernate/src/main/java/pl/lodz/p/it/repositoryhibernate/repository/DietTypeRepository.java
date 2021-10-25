@@ -9,4 +9,8 @@ import pl.lodz.p.it.repositoryhibernate.entity.DietTypeEntity;
 @Repository
 public interface DietTypeRepository extends BaseRepository<DietTypeEntity> {
 
+    @Override
+    default DietTypeEntity instantiate() {
+        return new DietTypeEntity();
+    }
 }

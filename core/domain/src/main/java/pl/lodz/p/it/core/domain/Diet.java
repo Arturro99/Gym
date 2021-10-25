@@ -1,11 +1,16 @@
 package pl.lodz.p.it.core.domain;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import java.util.HashSet;
 
 /**
  * Class responsible for keeping a domain model of the diet object.
  */
-public class Diet {
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class Diet extends BaseModel {
 
     private String number;
 
@@ -18,6 +23,4 @@ public class Diet {
     private Integer mealsNumber;
 
     private Double price;
-
-    private HashSet<Account> accounts;
 }

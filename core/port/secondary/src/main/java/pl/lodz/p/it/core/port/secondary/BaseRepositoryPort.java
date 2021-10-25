@@ -1,15 +1,16 @@
-package pl.lodz.p.it.core.shared;
+package pl.lodz.p.it.core.port.secondary;
+
+import pl.lodz.p.it.core.shared.exception.core.BaseException;
 
 import java.util.List;
 import java.util.Optional;
-import pl.lodz.p.it.core.shared.exception.core.BaseException;
 
 /**
  * Base interface providing common CRUD methods.
  *
  * @param <U> Model object that will be handled via this interface
  */
-public interface BasePort<U> {
+public interface BaseRepositoryPort<U> {
 
     /**
      * Method responsible for finding object of a generic type with given key.
@@ -43,7 +44,7 @@ public interface BasePort<U> {
      * @return Updated object
      * @throws BaseException Thrown in case of providing a non-existent object
      */
-    U update(String key, U u) throws BaseException;
+    Optional<U> update(String key, U u) throws BaseException;
 
     /**
      * Method responsible for deleting object with given key.

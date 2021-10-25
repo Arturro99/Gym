@@ -18,4 +18,34 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="2" author="artur">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <columnExists tableName="training_type" columnName="creation_date"/>
+                <and>
+                    <columnExists tableName="training_type" columnName="modification_date"/>
+                </and>
+            </not>
+        </preConditions>
+        <addColumn tableName="training_type">
+            <column name="creation_date" type="timestamp" valueDate="${now}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modification_date" type="timestamp"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="3" author="artur">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <columnExists tableName="training_type" columnName="version"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="training_type">
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

@@ -1,33 +1,29 @@
 package pl.lodz.p.it.repositoryhibernate.entity;
 
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.HashSet;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.SecondaryTable;
-import javax.persistence.Table;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.ToString.Exclude;
-import org.hibernate.annotations.ColumnDefault;
+
+import javax.persistence.*;
+import java.time.OffsetDateTime;
+import java.util.Set;
 
 /**
  * Class responsible for keeping a entity model of the account object.
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 @Table(name = "account")
 @SecondaryTable(name = "account_details")
+@AttributeOverrides(
+        {@AttributeOverride(name = "businessId", column = @Column(name = "login", nullable = false, updatable = false, unique = true)),
+                @AttributeOverride(name = "creationDate", column = @Column(name = "creation_date", nullable = false, table = "account_details")),
+                @AttributeOverride(name = "modificationDate", column = @Column(name = "modification_date", table = "account_details"))}
+)
+@ToString
 public class AccountEntity extends BaseEntity {
-
-    @Column(name = "creation_date", nullable = false, table = "account_details")
-    private final Timestamp creationDate = Timestamp.from(Instant.now());
-
-    @Column(name = "login", nullable = false, unique = true)
-    private String businessId;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -37,12 +33,10 @@ public class AccountEntity extends BaseEntity {
     private String password;
 
     @Column(name = "active", nullable = false)
-    @ColumnDefault("true")
-    private Boolean active;
+    private Boolean active = true;
 
     @Column(name = "confirmed", nullable = false)
-    @ColumnDefault("false")
-    private Boolean confirmed;
+    private Boolean confirmed = false;
 
     @Column(name = "first_name", table = "account_details", nullable = false)
     private String firstName;
@@ -54,51 +48,46 @@ public class AccountEntity extends BaseEntity {
     private String phoneNumber;
 
     @Column(name = "language", table = "account_details", nullable = false)
-    @ColumnDefault("pl")
     private String language;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "modified_by", referencedColumnName = "id", table = "account_details")
     private AccountEntity modifiedBy;
 
-    @Column(name = "modification_date", table = "account_details")
-    private Timestamp modificationDate;
-
     @Column(name = "last_known_good_login", table = "account_details")
-    private Timestamp lastKnownGoodLogin;
+    private OffsetDateTime lastKnownGoodLogin;
 
     @Column(name = "last_known_good_login_ip", table = "account_details")
     private String lastKnownGoodLoginIp;
 
     @Column(name = "last_known_bad_login", table = "account_details")
-    private Timestamp lastKnownBadLogin;
+    private OffsetDateTime lastKnownBadLogin;
 
     @Column(name = "last_known_bad_login_ip", table = "account_details")
     private String lastKnownBadLoginIp;
 
     @Column(name = "bad_logins_counter", nullable = false, table = "account_details")
-    @ColumnDefault("0")
-    private Integer badLoginsCounter;
+    private Integer badLoginsCounter = 0;
 
     @Column(name = "loyalty_factor", nullable = false, table = "account_details")
-    private Float loyaltyFactor;
+    private Float loyaltyFactor = 1F;
 
     @Column(name = "gym_member", nullable = false, table = "account_details")
     private Boolean gymMember;
 
     @ManyToMany
     @JoinTable(
-        name = "account_training_plan",
-        joinColumns = { @JoinColumn(name = "account") },
-        inverseJoinColumns = { @JoinColumn(name = "training_plan") }
+            name = "account_training_plan",
+            joinColumns = {@JoinColumn(name = "account")},
+            inverseJoinColumns = {@JoinColumn(name = "training_plan")}
     )
-    private HashSet<TrainingPlanEntity> trainingPlans;
+    private Set<TrainingPlanEntity> trainingPlans;
 
     @ManyToMany
     @JoinTable(
-        name = "account_diet",
-        joinColumns = { @JoinColumn(name = "account") },
-        inverseJoinColumns = { @JoinColumn(name = "diet") }
+            name = "account_diet",
+            joinColumns = {@JoinColumn(name = "account")},
+            inverseJoinColumns = {@JoinColumn(name = "diet")}
     )
-    private HashSet<DietEntity> diets;
+    private Set<DietEntity> diets;
 }

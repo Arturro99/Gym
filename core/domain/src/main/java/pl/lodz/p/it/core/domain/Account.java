@@ -1,12 +1,17 @@
 package pl.lodz.p.it.core.domain;
 
-import java.sql.Timestamp;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.time.OffsetDateTime;
 import java.util.HashSet;
 
 /**
  * Class responsible for keeping a domain model of the account object.
  */
-public class Account {
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class Account extends BaseModel {
 
     private String login;
 
@@ -28,15 +33,11 @@ public class Account {
 
     private Account modifiedBy;
 
-    private Timestamp creationDate;
-
-    private Timestamp modificationDate;
-
-    private Timestamp lastKnownGoodLogin;
+    private OffsetDateTime lastKnownGoodLogin;
 
     private String lastKnownGoodLoginIp;
 
-    private Timestamp lastKnownBadLogin;
+    private OffsetDateTime lastKnownBadLogin;
 
     private String lastKnownBadLoginIp;
 

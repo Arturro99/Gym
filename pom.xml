@@ -2,15 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <packaging>pom</packaging>
     <modules>
-        <module>adapter</module>
         <module>service-starter</module>
         <module>core/application</module>
         <module>core/domain</module>
         <module>core/shared</module>
         <module>core/port/primary</module>
         <module>core/port/secondary</module>
+        <module>adapter/primary/rest-api</module>
+        <module>adapter/secondary/repository-hibernate</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -23,9 +23,12 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>GymBackend</name>
     <description>GymBackend</description>
+    <packaging>pom</packaging>
     <properties>
         <java.version>11</java.version>
         <liquibase.core.version>4.4.3</liquibase.core.version>
+        <mapstruct.version>1.4.2.Final</mapstruct.version>
+        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
     </properties>
     <dependencies>
         <dependency>
@@ -70,6 +73,41 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <release>${java.version}</release>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+<!--                        <path>-->
+<!--                            <groupId>org.projectlombok</groupId>-->
+<!--                            <artifactId>lombok-mapstruct-binding</artifactId>-->
+<!--                            <version>${lombok.mapstruct.binding.version}</version>-->
+<!--                        </path>-->
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

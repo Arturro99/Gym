@@ -6,10 +6,12 @@
         <artifactId>GymBackend</artifactId>
         <groupId>pl.lodz.p.it</groupId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>application</artifactId>
+
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -28,13 +30,14 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>1.4.2.Final</version>
+            <groupId>pl.lodz.p.it</groupId>
+            <artifactId>secondary</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>pl.lodz.p.it</groupId>
-            <artifactId>secondary</artifactId>
+            <artifactId>primary</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

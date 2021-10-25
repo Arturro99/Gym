@@ -1,7 +1,7 @@
 <databaseChangeLog
-    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
     <property name="now" value="now()" dbms="postgresql"/>
     <changeSet id="1" author="artur">
@@ -11,7 +11,7 @@
             </not>
         </preConditions>
         <createTable tableName="account_details">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="id" type="bigint">
                 <constraints foreignKeyName="fk_account" references="account(id)"/>
             </column>
             <column name="version" type="bigint">
@@ -71,6 +71,15 @@
     </changeSet>
 
     <changeSet id="4" author="artur">
-        <dropNotNullConstraint tableName="accountDetails" columnName="phone_number"/>
+        <dropNotNullConstraint tableName="account_details" columnName="phone_number"/>
     </changeSet>
+
+    <changeSet id="5" author="artur">
+        <preConditions onFail="CONTINUE">
+            <columnExists tableName="account_details" columnName="version"/>
+        </preConditions>
+        <comment>Deleted version column due to its existing equivalent in the account table</comment>
+        <dropColumn tableName="account_details" columnName="version"/>
+    </changeSet>
+
 </databaseChangeLog>

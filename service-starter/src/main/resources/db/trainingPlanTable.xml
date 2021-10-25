@@ -47,4 +47,21 @@
             </column>
         </addColumn>
     </changeSet>
+
+    <changeSet id="3" author="artur">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <columnExists tableName="training_plan" columnName="creation_date"/>
+                <and>
+                    <columnExists tableName="training_plan" columnName="modification_date"/>
+                </and>
+            </not>
+        </preConditions>
+        <addColumn tableName="training_plan">
+            <column name="creation_date" type="timestamp" valueDate="${now}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modification_date" type="timestamp"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

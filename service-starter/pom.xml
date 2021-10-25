@@ -6,11 +6,27 @@
         <artifactId>GymBackend</artifactId>
         <groupId>pl.lodz.p.it</groupId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>service-starter</artifactId>
+
     <packaging>war</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>pl.lodz.p.it</groupId>
+            <artifactId>rest-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.lodz.p.it</groupId>
+            <artifactId>application</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

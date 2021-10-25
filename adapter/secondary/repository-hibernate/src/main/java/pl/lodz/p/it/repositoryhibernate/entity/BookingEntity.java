@@ -1,28 +1,27 @@
 package pl.lodz.p.it.repositoryhibernate.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.ColumnDefault;
+
+import javax.persistence.*;
 
 /**
  * Class responsible for keeping a entity model of the booking object.
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 @Table(name = "booking")
+@AttributeOverride(name = "businessId", column = @Column(name = "number", nullable = false, updatable = false, unique = true))
 public class BookingEntity extends BaseEntity {
 
-    @Column(name = "number", nullable = false, updatable = false, unique = true)
-    private String businessId;
-
     @ManyToOne
-    @JoinColumn(name = "account", table = "account", referencedColumnName = "id")
+    @JoinColumn(name = "account", referencedColumnName = "id")
     private AccountEntity account;
 
     @ManyToOne
-    @JoinColumn(name = "activity", table = "activity", referencedColumnName = "id")
+    @JoinColumn(name = "activity", referencedColumnName = "id")
     private ActivityEntity activityEntity;
 
     @JoinColumn(name = "active", nullable = false)

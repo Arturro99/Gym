@@ -1,22 +1,20 @@
 package pl.lodz.p.it.repositoryhibernate.entity;
 
-import java.util.HashSet;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Class responsible for keeping a entity model of the diet object.
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 @Table(name = "diet")
+@AttributeOverride(name = "businessId", column = @Column(name = "number", nullable = false, updatable = false, unique = true))
 public class DietEntity extends BaseEntity {
-
-    @Column(name = "number", nullable = false, updatable = false, unique = true)
-    private String businessId;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -35,5 +33,5 @@ public class DietEntity extends BaseEntity {
     private Double price;
 
     @ManyToMany(mappedBy = "diets")
-    private HashSet<AccountEntity> accounts;
+    private Set<AccountEntity> accounts;
 }
