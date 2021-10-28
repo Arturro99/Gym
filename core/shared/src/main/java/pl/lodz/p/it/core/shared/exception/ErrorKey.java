@@ -27,4 +27,6 @@ public final class ErrorKey {
 
     public static final String TRAINING_PLAN_NOT_FOUND_ERROR = "error.trainingPlan.notFound";
     public static final String TRAINING_PLAN_CONFLICT_ERROR = "error.trainingPlan.conflict";
+
+    public static final String JWT_EXPIRED = "error.jwt.expired";
 }

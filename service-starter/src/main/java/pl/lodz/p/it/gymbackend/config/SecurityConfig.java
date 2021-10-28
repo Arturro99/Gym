@@ -1,5 +1,7 @@
 package pl.lodz.p.it.gymbackend.config;
 
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -13,15 +15,24 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.annotation.Resource;
 
 @Configuration
+@AllArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final JWTRequestFilter jwtRequestFilter;
+
     @Resource
     private UserDetailsService userDetailsService;
+
+//    @Autowired
+//    public SecurityConfig(JWTRequestFilter jwtRequestFilter) {
+//        this.jwtRequestFilter = jwtRequestFilter;
+//    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
@@ -39,6 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
