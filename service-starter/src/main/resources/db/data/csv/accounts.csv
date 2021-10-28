@@ -1,0 +1,4 @@
+﻿id,version,email,login,password,active,confirmed
+1,0,NonExisting2137@wp.pl,admin,Admin1234!,true,true
+2,0,art.daj@wp.pl,arturro,Arturro1234!,true,true
+3,0,art.daj1@wp.pl,trener,Trener123,true,true
