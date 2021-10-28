@@ -1,0 +1,4 @@
+﻿id,version,email,login,password,active,confirmed
+99999991,0,NonExisting2137@wp.pl,admin,$2a$10$dULYjM/AKl8SCNfKwpFkqeozpARcY09lvb7qB.fTUmQ0dvY5r2Wee,true,true
+99999992,0,art.daj@wp.pl,arturro,$2a$10$ScBTqQ89yQk62NHnoEanLO.ApN6nz0SrIBhWKWoo7orDXfbHd4LaW,true,true
+99999993,0,art.daj1@wp.pl,trener,$2a$10$.OQXBuWJSpafir7M9lVrHOEFvKiPEXyWtpvcbqbIDt4PHUdBX/cw.,true,true

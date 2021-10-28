@@ -75,7 +75,7 @@ public class AccountEntity extends BaseEntity {
     @Column(name = "gym_member", nullable = false, table = "account_details")
     private Boolean gymMember;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinTable(
             name = "account_training_plan",
             joinColumns = {@JoinColumn(name = "account")},
@@ -83,7 +83,7 @@ public class AccountEntity extends BaseEntity {
     )
     private Set<TrainingPlanEntity> trainingPlans;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinTable(
             name = "account_diet",
             joinColumns = {@JoinColumn(name = "account")},

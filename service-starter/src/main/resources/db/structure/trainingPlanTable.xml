@@ -3,37 +3,46 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <property name="now" value="now()" dbms="postgresql"/>
     <changeSet id="1" author="artur">
         <preConditions onFail="CONTINUE">
             <not>
-                <tableExists tableName="booking"/>
+                <tableExists tableName="training_plan"/>
             </not>
         </preConditions>
-        <createTable tableName="booking">
+        <createTable tableName="training_plan">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
             <column name="version" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="account" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_account" references="account(id)"/>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
             </column>
-            <column name="activity" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_activity" references="activity(id)"/>
+            <column name="training_type" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_training_type"
+                    references="training_type(id)"/>
             </column>
-            <column name="active" type="boolean" defaultValue="true"/>
-            <column name="completed" type="boolean" defaultValue="false"/>
+            <column name="price" type="double precision">
+                <constraints nullable="false"/>
+            </column>
+            <column name="trainer" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_trainer" references="account(id)"/>
+            </column>
+            <column name="personal_trainings_number" type="integer" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
     <changeSet id="2" author="artur">
         <preConditions onFail="CONTINUE">
             <not>
-                <columnExists tableName="booking" columnName="number"/>
+                <columnExists tableName="training_plan" columnName="number"/>
             </not>
         </preConditions>
-        <addColumn tableName="booking">
+        <addColumn tableName="training_plan">
             <column name="number" type="varchar(6)">
                 <constraints nullable="false" unique="true"/>
             </column>
@@ -43,14 +52,14 @@
     <changeSet id="3" author="artur">
         <preConditions onFail="CONTINUE">
             <not>
-                <columnExists tableName="booking" columnName="creation_date"/>
+                <columnExists tableName="training_plan" columnName="creation_date"/>
                 <and>
-                    <columnExists tableName="booking" columnName="modification_date"/>
+                    <columnExists tableName="training_plan" columnName="modification_date"/>
                 </and>
             </not>
         </preConditions>
-        <addColumn tableName="booking">
-            <column name="creation_date" type="timestamp" valueDate="${now}">
+        <addColumn tableName="training_plan">
+            <column name="creation_date" type="timestamp" defaultValueNumeric="${now}">
                 <constraints nullable="false"/>
             </column>
             <column name="modification_date" type="timestamp"/>

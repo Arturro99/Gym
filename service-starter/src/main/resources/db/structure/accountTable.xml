@@ -19,7 +19,7 @@
             <column name="email" type="varchar(30)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="password" type="char(128)">
+            <column name="password" type="varchar(128)">
                 <constraints nullable="false"/>
             </column>
             <column name="active" type="boolean" defaultValue="true"/>

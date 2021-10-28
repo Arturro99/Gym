@@ -3,16 +3,19 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
-  <include file="../accountTable.xml" relativeToChangelogFile="true"/>
-  <include file="../accountDetailsTable.xml" relativeToChangelogFile="true"/>
-  <include file="../activityTable.xml" relativeToChangelogFile="true"/>
-  <include file="../accessLevelTable.xml" relativeToChangelogFile="true"/>
-  <include file="../trainingTypeTable.xml" relativeToChangelogFile="true"/>
-  <include file="../trainingPlanTable.xml" relativeToChangelogFile="true"/>
-  <include file="../dietTypeTable.xml" relativeToChangelogFile="true"/>
-  <include file="../dietTable.xml" relativeToChangelogFile="true"/>
-  <include file="../disposableUrlTable.xml" relativeToChangelogFile="true"/>
-  <include file="../bookingTable.xml" relativeToChangelogFile="true"/>
-  <include file="../accountDietTable.xml" relativeToChangelogFile="true"/>
-  <include file="../accountTrainingPlanTable.xml" relativeToChangelogFile="true"/>
+  <include file="../structure/accountTable.xml" relativeToChangelogFile="true"/>
+  <include file="../structure/accountDetailsTable.xml" relativeToChangelogFile="true"/>
+  <include file="../structure/activityTable.xml" relativeToChangelogFile="true"/>
+  <include file="../structure/accessLevelTable.xml" relativeToChangelogFile="true"/>
+  <include file="../structure/trainingTypeTable.xml" relativeToChangelogFile="true"/>
+  <include file="../structure/trainingPlanTable.xml" relativeToChangelogFile="true"/>
+  <include file="../structure/dietTypeTable.xml" relativeToChangelogFile="true"/>
+  <include file="../structure/dietTable.xml" relativeToChangelogFile="true"/>
+  <include file="../structure/disposableUrlTable.xml" relativeToChangelogFile="true"/>
+  <include file="../structure/bookingTable.xml" relativeToChangelogFile="true"/>
+  <include file="../structure/accountDietTable.xml" relativeToChangelogFile="true"/>
+  <include file="../structure/accountTrainingPlanTable.xml" relativeToChangelogFile="true"/>
+  <include file="../data/accountData.xml" relativeToChangelogFile="true"/>
+  <include file="../data/accountDetailsData.xml" relativeToChangelogFile="true"/>
+  <include file="../data/accessLevelData.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

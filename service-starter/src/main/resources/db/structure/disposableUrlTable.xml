@@ -3,6 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <property name="now" value="now()" dbms="postgresql"/>
     <changeSet id="1" author="artur">
         <preConditions onFail="CONTINUE">
             <not>
@@ -35,7 +36,7 @@
             <column name="modified_by" type="bigint">
                 <constraints foreignKeyName="fk_modified_by" references="account(id)"/>
             </column>
-            <column name="creation_date" type="timestamp" valueDate="${now}">
+            <column name="creation_date" type="timestamp" defaultValueNumeric="${now}">
                 <constraints nullable="false"/>
             </column>
             <column name="created_by" type="bigint">

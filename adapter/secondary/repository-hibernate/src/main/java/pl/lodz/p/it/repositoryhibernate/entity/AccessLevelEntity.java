@@ -18,7 +18,7 @@ import javax.persistence.*;
 @AttributeOverride(name = "businessId", column = @Column(name = "level", nullable = false, updatable = false, unique = true))
 public class AccessLevelEntity extends BaseEntity {
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "account", nullable = false, updatable = false, referencedColumnName = "id")
     private AccountEntity account;
 
@@ -26,11 +26,11 @@ public class AccessLevelEntity extends BaseEntity {
     @ColumnDefault("true")
     private Boolean active;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "modified_by", referencedColumnName = "id")
     private AccountEntity modifiedBy;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "created_by", updatable = false, referencedColumnName = "id")
     private AccountEntity createdBy;
 }
