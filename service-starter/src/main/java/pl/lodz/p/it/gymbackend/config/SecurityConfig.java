@@ -1,7 +1,6 @@
 package pl.lodz.p.it.gymbackend.config;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -29,11 +28,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private UserDetailsService userDetailsService;
 
-//    @Autowired
-//    public SecurityConfig(JWTRequestFilter jwtRequestFilter) {
-//        this.jwtRequestFilter = jwtRequestFilter;
-//    }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authProvider());
@@ -45,8 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers(HttpMethod.POST, "/authenticate").permitAll()
                 .antMatchers(HttpMethod.GET, "/accounts").hasAuthority("admin")
+                .antMatchers(HttpMethod.GET, "/accounts/*").hasAuthority("admin")
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
