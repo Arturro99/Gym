@@ -1,0 +1,20 @@
+post:
+  tags:
+    - auth
+  summary: Authenticate
+  description: Authenticate using login and password
+  operationId: authenticate
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../schemas/account/CredentialsRequest.yml#/components/schemas/CredentialsRequest'
+  responses:
+    201:
+      description: Operation successful
+      content:
+        application/json:
+          schema:
+            type: string
+            description: User's token

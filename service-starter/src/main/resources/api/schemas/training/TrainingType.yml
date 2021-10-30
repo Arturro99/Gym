@@ -1,0 +1,15 @@
+openapi: 3.0.0
+info:
+  description: TrainingType model
+  title: TrainingType model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    TrainingType:
+      allOf:
+        - $ref: '../BaseDto.yml#/components/schemas/BaseDto'
+      properties:
+        name:
+          type: string

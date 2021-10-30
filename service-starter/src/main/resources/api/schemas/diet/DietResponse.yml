@@ -1,0 +1,25 @@
+openapi: 3.0.0
+info:
+  description: DietResponse model
+  title: DietResponse model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    DietResponse:
+      allOf:
+        - $ref: '../BaseDto.yml#/components/schemas/BaseDto'
+      properties:
+        number:
+          type: string
+        name:
+          type: string
+        dietType:
+          $ref: '../diet/DietType.yml#/components/schemas/DietType'
+        calories:
+          type: integer
+        mealsNumber:
+          type: integer
+        price:
+          type: number

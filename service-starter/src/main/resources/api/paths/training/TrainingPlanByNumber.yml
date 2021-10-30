@@ -1,0 +1,45 @@
+get:
+  tags:
+    - trainingPlan
+  summary: Get training plan
+  description: Find training plan with given number
+  operationId: getTrainingPlan
+  parameters:
+    - in: path
+      name: number
+      schema:
+        type: string
+      required: true
+  responses:
+    200:
+      description: Operation successful
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/training/TrainingPlanResponse.yml#/components/schemas/TrainingPlanResponse'
+
+put:
+  tags:
+    - trainingPlan
+  summary: Update training plan
+  description: Update existing training plan with given number
+  operationId: updateTrainingPlan
+  parameters:
+    - in: path
+      name: number
+      schema:
+        type: string
+      required: true
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../schemas/training/TrainingPlanRequest.yml#/components/schemas/TrainingPlanRequest'
+  responses:
+    200:
+      description: Operation successful
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/training/TrainingPlanResponse.yml#/components/schemas/TrainingPlanResponse'

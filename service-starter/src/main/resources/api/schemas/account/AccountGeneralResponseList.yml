@@ -1,0 +1,13 @@
+openapi: 3.0.0
+info:
+  description: AccountGeneralResponseList model
+  title: AccountGeneralResponseList model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    AccountGeneralResponseList:
+      type: array
+      items:
+        $ref: '../account/AccountGeneralResponse.yml#/components/schemas/AccountGeneralResponse'

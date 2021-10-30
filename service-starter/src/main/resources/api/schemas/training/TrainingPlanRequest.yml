@@ -1,0 +1,24 @@
+openapi: 3.0.0
+info:
+  description: TrainingPlanRequest model
+  title: TrainingPlanRequest model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    TrainingPlanRequest:
+      type: object
+      properties:
+        number:
+          type: string
+        name:
+          type: string
+        trainingType:
+          type: string
+        personalTrainingsNumber:
+          type: integer
+        trainer:
+          type: string
+        price:
+          type: number

@@ -28,97 +28,22 @@ tags:
 
 paths:
   /accessLevels:
-    get:
-      tags:
-        - accessLevel
-      summary: Get access levels
-      description: Get all access levels
-      operationId: getAccessLevels
-      responses:
-        200:
-          description: Operation successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccessLevelResponseList'
-        500:
-          description: Internal server error
+    $ref: './paths/accessLevel/AccessLevel.yml'
 
   /accounts:
-    get:
-      tags:
-        - account
-      summary: Get accounts
-      description: Get all accounts
-      operationId: getAccounts
-      responses:
-        200:
-          description: Operation successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountGeneralResponseList'
-        500:
-          description: Internal server error
-    post:
-      tags:
-        - account
-      summary: Add account
-      description: Create a new account
-      operationId: createAccount
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AccountRequest'
-      responses:
-        201:
-          description: Operation successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountGeneralResponse'
+    $ref: './paths/account/Account.yml'
 
   /accounts/{login}:
-    get:
-      tags:
-        - account
-      summary: Get account
-      description: Find account with the provided login
-      operationId: getAccount
-      parameters:
-        - in: path
-          name: login
-          schema:
-            type: string
-          required: true
-      responses:
-        200:
-          description: Operation successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountDetailsResponse'
-        500:
-          description: Internal server error
+    $ref: './paths/account/AccountByLogin.yml'
 
   /authenticate:
-    post:
-      tags:
-        - auth
-      summary: Authenticate
-      description: Authenticate using login and password
-      operationId: authenticate
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CredentialsRequest'
-      responses:
-        201:
-          description: Operation successful
+    $ref: './paths/account/Authenticate.yml'
+
+  /trainingPlans:
+    $ref: './paths/training/TrainingPlan.yml'
+
+  /trainingPlans/{number}:
+    $ref: './paths/training/TrainingPlanByNumber.yml'
           content:
             application/json:
               schema:
@@ -128,188 +53,52 @@ paths:
 components:
   schemas:
     BaseDto:
-      description: Base dto model containing common attributes.
-      type: object
-      discriminator:
-        propertyName: dtoType
-      properties:
-        version:
-          type: string
-        creationDate:
-          type: string
-          format: date-time
-        modificationDate:
-          type: string
-          format: date-time
-
-    AccessLevelResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseDto'
-        - type: object
-          properties:
-            level:
-              type: string
-            active:
-              type: boolean
-            createdBy:
-              $ref: '#/components/schemas/AccountGeneralResponse'
-            modifiedBy:
-              $ref: '#/components/schemas/AccountGeneralResponse'
+      $ref: './schemas/BaseDto.yml#/components/schemas/BaseDto'
 
     AccountGeneralResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseDto'
-        - type: object
-          properties:
-            login:
-              type: string
-            firstName:
-              type: string
-            lastName:
-              type: string
-            active:
-              type: boolean
-            accessLevel:
-              $ref: '#/components/schemas/AccessLevelResponseList'
+      $ref: './schemas/account/AccountGeneralResponse.yml#/components/schemas/AccountGeneralResponse'
 
-    AccountDetailsResponse:
-      allOf:
-        - $ref: '#/components/schemas/AccountGeneralResponse'
-        - type: object
-          properties:
-            confirmed:
-              type: boolean
-            phoneNumber:
-              type: string
-            language:
-              type: string
-            lastKnownGoodLoginIp:
-              type: string
-            lastKnownGoodLogin:
-              type: string
-              format: date-time
-            lastKnownBadLoginIp:
-              type: string
-            lastKnownBadLogin:
-              type: string
-              format: date-time
-            badLoginsCounter:
-              type: integer
-            loyaltyFactor:
-              type: number
-            gymMember:
-              type: boolean
-            createdBy:
-              $ref: '#/components/schemas/AccountGeneralResponse'
-            modifiedBy:
-              $ref: '#/components/schemas/AccountGeneralResponse'
-            trainingPlans:
-              $ref: '#/components/schemas/TrainingPlanResponseList'
-            diets:
-              $ref: '#/components/schemas/DietResponseList'
-
-    DietResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseDto'
-        - type: object
-          properties:
-            number:
-              type: string
-            name:
-              type: string
-            dietType:
-              $ref: '#/components/schemas/DietTypeResponse'
-            calories:
-              type: integer
-            mealsNumber:
-              type: integer
-            price:
-              type: number
-
-    TrainingPlanResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseDto'
-        - type: object
-          properties:
-            number:
-              type: string
-            name:
-              type: string
-            trainingType:
-              $ref: '#/components/schemas/TrainingTypeResponse'
-            personalTrainingsNumber:
-              type: integer
-            trainer:
-              $ref: '#/components/schemas/AccountGeneralResponse'
-            price:
-              type: number
-
-    DietTypeResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseDto'
-        - type: object
-          properties:
-            name:
-              type: string
-
-    TrainingTypeResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseDto'
-        - type: object
-          properties:
-            name:
-              type: string
-
-    AccountRequest:
-      type: object
-      required:
-        - login
-        - email
-        - password
-        - firstName
-        - lastName
-        - language
-        - gymMember
-      properties:
-        login:
-          type: string
-        email:
-          type: string
-        password:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        language:
-          type: string
-        gymMember:
-          type: boolean
-
-    CredentialsRequest:
-      type: object
-      properties:
-        login:
-          type: string
-        password:
-          type: string
+    AccessLevelResponse:
+      $ref: './schemas/accessLevel/AccessLevelResponse.yml#/components/schemas/AccessLevelResponse'
 
     AccessLevelResponseList:
-      type: array
-      items:
-        $ref: '#/components/schemas/AccessLevelResponse'
+      $ref: './schemas/accessLevel/AccessLevelResponseList.yml#/components/schemas/AccessLevelResponseList'
+
+    AccountDetailsResponse:
+      $ref: './schemas/account/AccountDetailsResponse.yml#/components/schemas/AccountDetailsResponse'
 
     AccountGeneralResponseList:
-      type: array
-      items:
-        $ref: '#/components/schemas/AccountGeneralResponse'
+      $ref: './schemas/account/AccountGeneralResponseList.yml#/AccountGeneralResponseList'
 
-    TrainingPlanResponseList:
-      type: array
-      items:
-        $ref: '#/components/schemas/TrainingTypeResponse'
+    AccountRequest:
+      $ref: './schemas/account/AccountRequest.yml#/components/schemas/AccountRequest'
+
+    CredentialsRequest:
+      $ref: './schemas/account/CredentialsRequest.yml#/components/schemas/CredentialsRequest'
+
+    DietResponse:
+      $ref:  './schemas/diet/DietResponse.yml#/components/schemas/DietResponse'
 
     DietResponseList:
-      type: array
-      items:
-        $ref: '#/components/schemas/DietResponse'
+      $ref: './schemas/diet/DietResponseList.yml#/components/schemas/DietResponseList'
+
+    DietType:
+      $ref:  './schemas/diet/DietType.yml#/components/schemas/DietType'
+
+    TrainingPlanRequest:
+      $ref: './schemas/training/TrainingPlanRequest.yml#/components/schemas/TrainingPlanRequest'
+
+    TrainingPlanResponse:
+      $ref:  './schemas/training/TrainingPlanResponse.yml#/components/schemas/TrainingPlanResponse'
+
+    TrainingPlanResponseList:
+      $ref: './schemas/training/TrainingPlanResponseList.yml#/components/schemas/TrainingPlanResponseList'
+
+    TrainingType:
+      $ref:  './schemas/training/TrainingType.yml#/components/schemas/TrainingType'
+
+    ERRORUNKNOWN:
+      nullable: true
+      properties:
+        dup:
+          type: string
