@@ -1,0 +1,21 @@
+get:
+  tags:
+    - account
+  summary: Get account
+  description: Find account with the provided login
+  operationId: getAccount
+  parameters:
+    - in: path
+      name: login
+      schema:
+        type: string
+      required: true
+  responses:
+    200:
+      description: Operation successful
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/account/AccountDetailsResponse.yml#/components/schemas/AccountDetailsResponse'
+    500:
+      description: Internal server error

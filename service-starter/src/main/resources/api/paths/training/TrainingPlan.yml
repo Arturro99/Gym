@@ -1,0 +1,33 @@
+get:
+  tags:
+    - trainingPlan
+  summary: Get training plans
+  description: Display all training plans
+  operationId: getTrainingPlans
+  responses:
+    200:
+      description: Operation successful
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/training/TrainingPlanResponse.yml'
+
+post:
+  tags:
+    - trainingPlan
+  summary: Add training plan
+  description: Create a new training plan
+  operationId: createTrainingPlan
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../schemas/training/TrainingPlanRequestPost.yml#/components/schemas/TrainingPlanRequestPost'
+  responses:
+    201:
+      description: Operation successful
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/training/TrainingPlanResponse.yml#/components/schemas/TrainingPlanResponse'

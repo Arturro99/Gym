@@ -1,0 +1,30 @@
+openapi: 3.0.0
+info:
+  description: DietRequestPost model
+  title: DietRequestPost model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    DietRequestPost:
+      required:
+        - number
+        - name
+        - dietType
+        - calories
+        - meals_number
+        - price
+      properties:
+        number:
+          type: string
+        name:
+          type: string
+        dietType:
+          type: string
+        calories:
+          type: integer
+        mealsNumber:
+          type: integer
+        price:
+          type: number

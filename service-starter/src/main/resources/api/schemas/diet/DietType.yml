@@ -1,0 +1,13 @@
+openapi: 3.0.0
+info:
+  description: DietType model
+  title: DietType model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    DietType:
+      properties:
+        name:
+          type: string

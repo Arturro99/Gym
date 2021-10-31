@@ -1,0 +1,23 @@
+openapi: 3.0.0
+info:
+  description: BaseDto model
+  title: BaseDto model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    BaseDto:
+      description: Base dto model containing common attributes.
+      type: object
+      discriminator:
+        propertyName: dtoType
+      properties:
+        version:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
+        modificationDate:
+          type: string
+          format: date-time

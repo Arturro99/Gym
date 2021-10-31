@@ -1,0 +1,13 @@
+openapi: 3.0.0
+info:
+  description: AccessLevelRequestPut model
+  title: AccessLevelRequestPut model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    AccessLevelRequestPut:
+      properties:
+        active:
+          type: boolean

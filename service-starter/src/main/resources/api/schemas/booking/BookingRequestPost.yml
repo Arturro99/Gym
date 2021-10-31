@@ -1,0 +1,18 @@
+openapi: 3.0.0
+info:
+  description: BookingRequestPost model
+  title: BookingRequestPost model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    BookingRequestPost:
+      required:
+        - account
+        - activity
+      properties:
+        accountLogin:
+          type: string
+        activity:
+          type: string

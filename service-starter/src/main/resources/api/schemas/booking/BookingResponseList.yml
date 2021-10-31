@@ -1,0 +1,13 @@
+openapi: 3.0.0
+info:
+  description: BookingResponseList model
+  title: BookingResponseList model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    BookingResponseList:
+      type: array
+      items:
+        $ref: '../booking/BookingResponse.yml#/components/schemas/BookingResponse'

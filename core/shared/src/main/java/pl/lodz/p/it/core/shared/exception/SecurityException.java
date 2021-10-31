@@ -13,6 +13,6 @@ public class SecurityException extends BaseException {
     }
 
     public static SecurityException jwtExpiredException() {
-        return new SecurityException(ExpiredException.expired("JWT token espired!", ErrorKey.JWT_EXPIRED));
+        return new SecurityException(ExpiredException.expired("JWT token expired!", ErrorKey.JWT_EXPIRED));
     }
 }

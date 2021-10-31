@@ -1,0 +1,43 @@
+openapi: 3.0.0
+info:
+  description: AccountDetailsResponse model
+  title: AccountDetailsResponse model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    AccountDetailsResponse:
+      allOf:
+        - $ref: '../account/AccountGeneralResponse.yml#/components/schemas/AccountGeneralResponse'
+      properties:
+        confirmed:
+          type: boolean
+        phoneNumber:
+          type: string
+        language:
+          type: string
+        lastKnownGoodLoginIp:
+          type: string
+        lastKnownGoodLogin:
+          type: string
+          format: date-time
+        lastKnownBadLoginIp:
+          type: string
+        lastKnownBadLogin:
+          type: string
+          format: date-time
+        badLoginsCounter:
+          type: integer
+        loyaltyFactor:
+          type: number
+        gymMember:
+          type: boolean
+        createdBy:
+          $ref: '../account/AccountGeneralResponse.yml#/components/schemas/AccountGeneralResponse'
+        modifiedBy:
+          $ref: '../account/AccountGeneralResponse.yml#/components/schemas/AccountGeneralResponse'
+        trainingPlans:
+          $ref: '../training/TrainingPlanResponseList.yml#/components/schemas/TrainingPlanResponseList'
+        diets:
+          $ref: '../diet/DietResponseList.yml#/components/schemas/DietResponseList'

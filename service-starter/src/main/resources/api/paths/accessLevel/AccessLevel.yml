@@ -1,0 +1,15 @@
+get:
+  tags:
+    - accessLevel
+  summary: Get access levels
+  description: Get all access levels
+  operationId: getAccessLevels
+  responses:
+    200:
+      description: Operation successful
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/accessLevel/AccessLevelResponseList.yml#/components/schemas/AccessLevelResponseList'
+    500:
+      description: Internal server error

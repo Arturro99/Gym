@@ -1,0 +1,21 @@
+openapi: 3.0.0
+info:
+  description: AccountRequestPut model
+  title: AccountRequestPut model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    AccountRequestPut:
+      properties:
+        password:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        language:
+          type: string
+        gymMember:
+          type: boolean

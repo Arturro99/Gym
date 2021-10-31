@@ -17,11 +17,11 @@ import javax.persistence.*;
 public class BookingEntity extends BaseEntity {
 
     @ManyToOne
-    @JoinColumn(name = "account", referencedColumnName = "id")
+    @JoinColumn(name = "account", referencedColumnName = "id", updatable = false)
     private AccountEntity account;
 
     @ManyToOne
-    @JoinColumn(name = "activity", referencedColumnName = "id")
+    @JoinColumn(name = "activity", referencedColumnName = "id", updatable = false)
     private ActivityEntity activityEntity;
 
     @JoinColumn(name = "active", nullable = false)

@@ -1,0 +1,23 @@
+openapi: 3.0.0
+info:
+  description: BookingResponse model
+  title: BookingResponse model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    BookingResponse:
+      allOf:
+        - $ref: '../BaseDto.yml#/components/schemas/BaseDto'
+      properties:
+        number:
+          type: string
+        account:
+          $ref: '../account/AccountGeneralResponse.yml#/components/schemas/AccountGeneralResponse'
+        activity:
+          $ref: '../activity/ActivityResponse.yml#/components/schemas/ActivityResponse'
+        active:
+          type: boolean
+        completed:
+          type: boolean

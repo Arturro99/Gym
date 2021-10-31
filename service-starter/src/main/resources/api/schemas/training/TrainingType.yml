@@ -1,0 +1,13 @@
+openapi: 3.0.0
+info:
+  description: TrainingType model
+  title: TrainingType model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    TrainingType:
+      properties:
+        name:
+          type: string

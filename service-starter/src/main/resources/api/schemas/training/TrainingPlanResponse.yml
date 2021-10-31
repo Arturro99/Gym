@@ -1,0 +1,25 @@
+openapi: 3.0.0
+info:
+  description: TrainingPlanResponse model
+  title: TrainingPlanResponse model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    TrainingPlanResponse:
+      allOf:
+        - $ref: '../BaseDto.yml#/components/schemas/BaseDto'
+      properties:
+        number:
+          type: string
+        name:
+          type: string
+        trainingType:
+          $ref: '../training/TrainingType.yml#/components/schemas/TrainingType'
+        personalTrainingsNumber:
+          type: integer
+        trainer:
+          $ref: '../account/AccountGeneralResponse.yml#/components/schemas/AccountGeneralResponse'
+        price:
+          type: number

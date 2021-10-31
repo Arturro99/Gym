@@ -1,0 +1,13 @@
+openapi: 3.0.0
+info:
+  description: AccessLevelResponseList model
+  title: AccessLevelResponseList model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    AccessLevelResponseList:
+      type: array
+      items:
+        $ref: '../accessLevel/AccessLevelResponse.yml#/components/schemas/AccessLevelResponse'

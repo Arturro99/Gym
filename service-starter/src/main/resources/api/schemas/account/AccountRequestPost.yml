@@ -1,0 +1,33 @@
+openapi: 3.0.0
+info:
+  description: AccountRequestPost model
+  title: AccountRequestPost model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    AccountRequestPost:
+      required:
+        - login
+        - email
+        - password
+        - firstName
+        - lastName
+        - language
+        - gymMember
+      properties:
+        login:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        language:
+          type: string
+        gymMember:
+          type: boolean

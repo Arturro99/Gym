@@ -1,0 +1,21 @@
+openapi: 3.0.0
+info:
+  description: AccessLevelResponse model
+  title: AccessLevelResponse model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    AccessLevelResponse:
+      allOf:
+        - $ref: '../BaseDto.yml#/components/schemas/BaseDto'
+      properties:
+        level:
+          type: string
+        active:
+          type: boolean
+        createdBy:
+          $ref: '../account/AccountGeneralResponse.yml#/components/schemas/AccountGeneralResponse'
+        modifiedBy:
+          $ref: '../account/AccountGeneralResponse.yml#/components/schemas/AccountGeneralResponse'
