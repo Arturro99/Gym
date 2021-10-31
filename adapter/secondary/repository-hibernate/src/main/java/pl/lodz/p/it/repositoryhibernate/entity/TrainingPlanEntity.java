@@ -24,7 +24,7 @@ public class TrainingPlanEntity extends BaseEntity {
     private TrainingTypeEntity trainingType;
 
     @Column(name = "personal_trainings_number", nullable = false)
-    private Integer calories;
+    private Integer personalTrainingsNumber;
 
     @ManyToOne
     @JoinColumn(name = "trainer", nullable = false, referencedColumnName = "id")
