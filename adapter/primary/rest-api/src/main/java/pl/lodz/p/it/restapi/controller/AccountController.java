@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.lodz.p.it.core.port.primary.AccountServicePort;
 import pl.lodz.p.it.restapi.dto.AccountDetailsResponse;
 import pl.lodz.p.it.restapi.dto.AccountGeneralResponse;
-import pl.lodz.p.it.restapi.dto.AccountRequest;
+import pl.lodz.p.it.restapi.dto.AccountRequestPost;
 import pl.lodz.p.it.restapi.mapper.AccountDetailsResponseMapper;
 import pl.lodz.p.it.restapi.mapper.AccountGeneralResponseMapper;
-import pl.lodz.p.it.restapi.mapper.AccountRequestMapper;
+import pl.lodz.p.it.restapi.mapper.AccountRequestPostMapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,13 +24,13 @@ public class AccountController implements AccountsApiDelegate {
 
     private final AccountDetailsResponseMapper accountDetailsResponseMapper;
 
-    private final AccountRequestMapper accountRequestMapper;
+    private final AccountRequestPostMapper accountRequestPostMapper;
 
     @Override
-    public ResponseEntity<AccountGeneralResponse> createAccount(AccountRequest accountRequest) {
+    public ResponseEntity<AccountGeneralResponse> createAccount(AccountRequestPost accountRequest) {
         return ResponseEntity.ok(
                 accountGeneralResponseMapper.toDtoModel(
-                        accountServicePort.save(accountRequestMapper.toDomainModel(accountRequest)))
+                        accountServicePort.save(accountRequestPostMapper.toDomainModel(accountRequest)))
         );
     }
 
