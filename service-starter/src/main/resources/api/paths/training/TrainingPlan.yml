@@ -23,7 +23,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: '../../schemas/training/TrainingPlanRequest.yml#/components/schemas/TrainingPlanRequest'
+          $ref: '../../schemas/training/TrainingPlanRequestPost.yml#/components/schemas/TrainingPlanRequestPost'
   responses:
     201:
       description: Operation successful

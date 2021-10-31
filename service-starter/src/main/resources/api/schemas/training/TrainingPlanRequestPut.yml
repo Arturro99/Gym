@@ -1,20 +1,16 @@
 openapi: 3.0.0
 info:
-  description: TrainingPlanRequest model
-  title: TrainingPlanRequest model
+  description: TrainingPlanRequestPut model
+  title: TrainingPlanRequestPut model
   version: 1.0.0
 paths:
 
 components:
   schemas:
-    TrainingPlanRequest:
+    TrainingPlanRequestPut:
       type: object
       properties:
-        number:
-          type: string
         name:
-          type: string
-        trainingType:
           type: string
         personalTrainingsNumber:
           type: integer

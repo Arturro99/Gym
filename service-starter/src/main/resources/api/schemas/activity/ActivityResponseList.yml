@@ -1,0 +1,13 @@
+openapi: 3.0.0
+info:
+  description: ActivityResponseList model
+  title: ActivityResponseList model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    ActivityResponseList:
+      type: array
+      items:
+        $ref: '../activity/ActivityResponse.yml#/components/schemas/ActivityResponse'

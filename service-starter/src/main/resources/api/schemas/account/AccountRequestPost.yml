@@ -1,14 +1,13 @@
 openapi: 3.0.0
 info:
-  description: AccountRequest model
-  title: AccountRequest model
+  description: AccountRequestPost model
+  title: AccountRequestPost model
   version: 1.0.0
 paths:
 
 components:
   schemas:
-    AccountRequest:
-      type: object
+    AccountRequestPost:
       required:
         - login
         - email

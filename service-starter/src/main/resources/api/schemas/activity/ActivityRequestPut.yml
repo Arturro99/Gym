@@ -1,0 +1,22 @@
+openapi: 3.0.0
+info:
+  description: ActivityRequestPut model
+  title: ActivityRequestPut model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    ActivityRequestPut:
+      properties:
+        name:
+          type: string
+        startDate:
+          type: string
+          format: date-time
+        duration:
+          type: integer
+        trainer:
+          type: string
+        active:
+          type: boolean

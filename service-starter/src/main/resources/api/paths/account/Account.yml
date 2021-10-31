@@ -24,7 +24,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: '../../schemas/account/AccountRequest.yml#/components/schemas/AccountRequest'
+          $ref: '../../schemas/account/AccountRequestPost.yml#/components/schemas/AccountRequestPost'
   responses:
     201:
       description: Operation successful

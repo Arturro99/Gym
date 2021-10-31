@@ -44,14 +44,10 @@ paths:
 
   /trainingPlans/{number}:
     $ref: './paths/training/TrainingPlanByNumber.yml'
-          content:
-            application/json:
-              schema:
-                type: string
-                description: User's token
 
 components:
   schemas:
+
     BaseDto:
       $ref: './schemas/BaseDto.yml#/components/schemas/BaseDto'
 
@@ -60,6 +56,12 @@ components:
 
     AccessLevelResponse:
       $ref: './schemas/accessLevel/AccessLevelResponse.yml#/components/schemas/AccessLevelResponse'
+
+    AccessLevelRequestPut:
+      $ref: './schemas/accessLevel/AccessLevelRequestPut.yml#/components/schemas/AccessLevelRequestPut'
+
+    AccessLevelRequestPost:
+      $ref: './schemas/accessLevel/AccessLevelRequestPost.yml#/components/schemas/AccessLevelRequestPost'
 
     AccessLevelResponseList:
       $ref: './schemas/accessLevel/AccessLevelResponseList.yml#/components/schemas/AccessLevelResponseList'
@@ -70,8 +72,11 @@ components:
     AccountGeneralResponseList:
       $ref: './schemas/account/AccountGeneralResponseList.yml#/AccountGeneralResponseList'
 
-    AccountRequest:
-      $ref: './schemas/account/AccountRequest.yml#/components/schemas/AccountRequest'
+    AccountRequestPut:
+      $ref: './schemas/account/AccountRequestPut.yml#/components/schemas/AccountRequestPut'
+
+    AccountRequestPost:
+      $ref: './schemas/account/AccountRequestPost.yml#/components/schemas/AccountRequestPost'
 
     CredentialsRequest:
       $ref: './schemas/account/CredentialsRequest.yml#/components/schemas/CredentialsRequest'
@@ -82,11 +87,44 @@ components:
     DietResponseList:
       $ref: './schemas/diet/DietResponseList.yml#/components/schemas/DietResponseList'
 
+    DietRequestPut:
+      $ref: './schemas/diet/DietRequestPut.yml#/components/schemas/DietRequestPut'
+
+    DietRequestPost:
+      $ref: './schemas/diet/DietRequestPost.yml#/components/schemas/DietRequestPost'
+
     DietType:
       $ref:  './schemas/diet/DietType.yml#/components/schemas/DietType'
 
-    TrainingPlanRequest:
-      $ref: './schemas/training/TrainingPlanRequest.yml#/components/schemas/TrainingPlanRequest'
+    ActivityRequestPost:
+      $ref: './schemas/activity/ActivityRequestPost.yml#/components/schemas/ActivityRequestPost'
+
+    ActivityRequestPut:
+      $ref: './schemas/activity/ActivityRequestPut.yml#/components/schemas/ActivityRequestPut'
+
+    ActivityResponse:
+      $ref: './schemas/activity/ActivityResponse.yml#/components/schemas/ActivityResponse'
+
+    ActivityResponseList:
+      $ref: './schemas/activity/ActivityResponseList.yml#/components/schemas/ActivityResponseList'
+
+    BookingRequestPost:
+      $ref: './schemas/booking/BookingRequestPost.yml#/components/schemas/BookingRequestPost'
+
+    BookingRequestPut:
+      $ref: './schemas/booking/BookingRequestPut.yml#/components/schemas/BookingRequestPut'
+
+    BookingResponse:
+      $ref: './schemas/booking/BookingResponse.yml#/components/schemas/BookingResponse'
+
+    BookingResponseList:
+      $ref: './schemas/booking/BookingResponseList.yml#/components/schemas/BookingResponseList'
+
+    TrainingPlanRequestPost:
+      $ref: './schemas/training/TrainingPlanRequestPost.yml#/components/schemas/TrainingPlanRequestPost'
+
+    TrainingPlanRequestPut:
+      $ref: './schemas/training/TrainingPlanRequestPut.yml#/components/schemas/TrainingPlanRequestPut'
 
     TrainingPlanResponse:
       $ref:  './schemas/training/TrainingPlanResponse.yml#/components/schemas/TrainingPlanResponse'

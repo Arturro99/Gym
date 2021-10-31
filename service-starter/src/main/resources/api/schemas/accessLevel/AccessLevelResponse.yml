@@ -10,7 +10,6 @@ components:
     AccessLevelResponse:
       allOf:
         - $ref: '../BaseDto.yml#/components/schemas/BaseDto'
-      type: object
       properties:
         level:
           type: string

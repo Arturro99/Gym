@@ -1,0 +1,28 @@
+openapi: 3.0.0
+info:
+  description: ActivityRequestPost model
+  title: ActivityRequestPost model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    ActivityRequestPost:
+      required:
+        - number
+        - name
+        - startDate
+        - duration
+        - trainer
+      properties:
+        number:
+          type: string
+        name:
+          type: string
+        startDate:
+          type: string
+          format: date-time
+        duration:
+          type: integer
+        trainer:
+          type: string

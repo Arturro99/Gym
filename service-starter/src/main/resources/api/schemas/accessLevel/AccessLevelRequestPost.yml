@@ -1,0 +1,18 @@
+openapi: 3.0.0
+info:
+  description: AccessLevelRequestPost model
+  title: AccessLevelRequestPost model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    AccessLevelRequestPost:
+      required:
+        - level
+        - accountLogin
+      properties:
+        level:
+          type: string
+        accountLogin:
+          type: string
