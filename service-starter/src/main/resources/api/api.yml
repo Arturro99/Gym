@@ -127,16 +127,10 @@ components:
       $ref: './schemas/training/TrainingPlanRequestPut.yml#/components/schemas/TrainingPlanRequestPut'
 
     TrainingPlanResponse:
-      $ref:  './schemas/training/TrainingPlanResponse.yml#/components/schemas/TrainingPlanResponse'
+      $ref: './schemas/training/TrainingPlanResponse.yml#/components/schemas/TrainingPlanResponse'
 
     TrainingPlanResponseList:
       $ref: './schemas/training/TrainingPlanResponseList.yml#/components/schemas/TrainingPlanResponseList'
 
     TrainingType:
       $ref:  './schemas/training/TrainingType.yml#/components/schemas/TrainingType'
-
-    ERRORUNKNOWN:
-      nullable: true
-      properties:
-        dup:
-          type: string

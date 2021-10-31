@@ -8,8 +8,6 @@ paths:
 components:
   schemas:
     TrainingType:
-      allOf:
-        - $ref: '../BaseDto.yml#/components/schemas/BaseDto'
       properties:
         name:
           type: string

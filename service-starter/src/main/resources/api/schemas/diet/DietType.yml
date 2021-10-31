@@ -8,8 +8,6 @@ paths:
 components:
   schemas:
     DietType:
-      allOf:
-        - $ref: '../BaseDto.yml#/components/schemas/BaseDto'
       properties:
         name:
           type: string
