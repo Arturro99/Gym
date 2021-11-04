@@ -1,7 +1,7 @@
 package pl.lodz.p.it.repositoryhibernate.entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -9,8 +9,8 @@ import java.util.Set;
 /**
  * Class responsible for keeping a entity model of the training plan object.
  */
-@EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "training_plan")
 @AttributeOverride(name = "businessId", column = @Column(name = "number", nullable = false, updatable = false, unique = true))
@@ -20,7 +20,7 @@ public class TrainingPlanEntity extends BaseEntity {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "training_type", nullable = false, updatable = false, referencedColumnName = "id")
+    @JoinColumn(name = "training_type", nullable = false, referencedColumnName = "id")
     private TrainingTypeEntity trainingType;
 
     @Column(name = "personal_trainings_number", nullable = false)

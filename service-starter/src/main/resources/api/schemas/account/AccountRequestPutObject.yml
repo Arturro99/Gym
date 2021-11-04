@@ -1,0 +1,14 @@
+openapi: 3.0.0
+info:
+  description: Model used for updating account with diets or training plans
+  title: AccountRequestPut model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    AccountRequestPutObject:
+      properties:
+        number:
+          type: string
+          description: Business identifier of the object.

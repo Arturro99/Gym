@@ -10,7 +10,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../../schemas/training/TrainingPlanResponse.yml'
+            $ref: '../../schemas/training/TrainingPlanResponseList.yml#/components/schemas/TrainingPlanResponseList'
 
 post:
   tags:
