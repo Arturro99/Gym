@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class TrainingType extends BaseModel{
+public class TrainingType extends BaseModel {
 
     private String name;
 }

@@ -23,6 +23,4 @@ public class TrainingPlan extends BaseModel {
     private Account trainer;
 
     private Double price;
-
-    private HashSet<Account> accounts;
 }
