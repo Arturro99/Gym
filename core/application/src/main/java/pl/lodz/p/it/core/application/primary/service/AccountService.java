@@ -23,4 +23,24 @@ public class AccountService extends BaseService<Account> implements
         this.accountRepositoryPort = accountRepositoryPort;
         this.accessLevelRepositoryPort = accessLevelRepositoryPort;
     }
+
+    @Override
+    public Account addTrainingPlan(String login, String trainingPlanNumber) {
+        return accountRepositoryPort.addTrainingPlan(login, trainingPlanNumber);
+    }
+
+    @Override
+    public void removeTrainingPlan(String login, String trainingPlanNumber) {
+        accountRepositoryPort.removeTrainingPlan(login, trainingPlanNumber);
+    }
+
+    @Override
+    public Account addDiet(String login, String dietNumber) {
+        return accountRepositoryPort.addDiet(login, dietNumber);
+    }
+
+    @Override
+    public void removeDiet(String login, String dietNumber) {
+        accountRepositoryPort.removeDiet(login, dietNumber);
+    }
 }
