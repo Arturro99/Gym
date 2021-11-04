@@ -21,6 +21,6 @@ public class TrainingPlanException extends BaseException {
     public static TrainingPlanException trainingPlanConflictException() {
         return new TrainingPlanException(
             ConflictException
-                .conflict("Training plan already exists!", ErrorKey.TRAINING_PLAN_CONFLICT_ERROR));
+                .conflict("Training is being used!", ErrorKey.TRAINING_PLAN_CONFLICT_ERROR));
     }
 }
