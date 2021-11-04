@@ -36,6 +36,12 @@ paths:
   /accounts/{login}:
     $ref: './paths/account/AccountByLogin.yml'
 
+  /accounts/{login}/trainingPlans:
+    $ref: './paths/account/AccountByLogin.yml#/trainingPlan/add'
+
+  /accounts/{login}/trainingPlans/{number}:
+    $ref: './paths/account/AccountByLogin.yml#/trainingPlan/remove'
+
   /authenticate:
     $ref: './paths/account/Authenticate.yml'
 
@@ -44,6 +50,9 @@ paths:
 
   /trainingPlans/{number}:
     $ref: './paths/training/TrainingPlanByNumber.yml'
+
+  /trainingPlans/trainer/{login}:
+    $ref: './paths/training/TrainingPlanByTrainerLogin.yml'
 
 components:
   schemas:

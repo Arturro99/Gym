@@ -19,3 +19,54 @@ get:
             $ref: '../../schemas/account/AccountDetailsResponse.yml#/components/schemas/AccountDetailsResponse'
     500:
       description: Internal server error
+
+trainingPlan:
+  add:
+    post:
+      tags:
+        - account
+      summary: Add training plan
+      description: Assign a new training plan to the user with provided login
+      operationId: addTrainingPlan
+      parameters:
+        - in: path
+          name: login
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../../schemas/account/AccountRequestPutObject.yml#/components/schemas/AccountRequestPutObject'
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '../../schemas/account/AccountDetailsResponse.yml#/components/schemas/AccountDetailsResponse'
+        500:
+          description: Internal server error
+  remove:
+    delete:
+      tags:
+        - account
+      summary: Remove training plan
+      description: Remove from user's list the training plan with the given number
+      operationId: deleteTrainingPlan
+      parameters:
+        - in: path
+          name: number
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: login
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Operation successful

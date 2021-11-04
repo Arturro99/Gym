@@ -1,0 +1,19 @@
+get:
+  tags:
+    - trainingPlan
+  summary: Get training plan
+  description: Find training plans that are being offered by the trainer with the given login
+  operationId: getTrainingPlanByTrainer
+  parameters:
+    - in: path
+      name: trainerLogin
+      schema:
+        type: string
+      required: true
+  responses:
+    200:
+      description: Operation successful
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/training/TrainingPlanResponseList.yml#/components/schemas/TrainingPlanResponseList'
