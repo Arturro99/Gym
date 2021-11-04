@@ -40,7 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers(HttpMethod.GET, "/accounts").hasAuthority("admin")
-                .antMatchers(HttpMethod.GET, "/accounts/*").hasAuthority("admin")
+                .antMatchers(HttpMethod.GET, "/accounts/**").hasAuthority("admin")
+                .antMatchers(HttpMethod.GET, "/trainingPlans/**").hasAnyAuthority("client", "trainer")
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

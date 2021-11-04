@@ -35,7 +35,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: '../../schemas/training/TrainingPlanRequestPost.yml#/components/schemas/TrainingPlanRequestPost'
+          $ref: '../../schemas/training/TrainingPlanRequestPut.yml#/components/schemas/TrainingPlanRequestPut'
   responses:
     200:
       description: Operation successful
@@ -43,3 +43,19 @@ put:
         application/json:
           schema:
             $ref: '../../schemas/training/TrainingPlanResponse.yml#/components/schemas/TrainingPlanResponse'
+
+delete:
+  tags:
+    - trainingPlan
+  summary: Remove training plan
+  description: Remove training plan with the given number
+  operationId: deleteTrainingPlan
+  parameters:
+    - in: path
+      name: number
+      schema:
+        type: string
+      required: true
+  responses:
+    200:
+      description: Operation successful

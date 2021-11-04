@@ -12,7 +12,7 @@ import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 public interface TrainingPlanRequestPostMapper extends BaseRequestMapper<TrainingPlanRequestPost, TrainingPlan> {
 
     @Override
-    @Mapping(target = "trainer", ignore = true)
-    @Mapping(target = "trainingType", ignore = true)
+    @Mapping(target = "trainer.login", source = "trainer")
+    @Mapping(target = "trainingType.name", source = "trainingType")
     TrainingPlan toDomainModel(TrainingPlanRequestPost dtoModel);
 }

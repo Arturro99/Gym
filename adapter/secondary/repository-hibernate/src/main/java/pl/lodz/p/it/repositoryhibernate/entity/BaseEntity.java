@@ -28,6 +28,6 @@ public abstract class BaseEntity {
     @Column(name = "creation_date", nullable = false, updatable = false)
     private OffsetDateTime creationDate = OffsetDateTime.now();
 
-    @Column(name = "modification_date", nullable = false)
+    @Column(name = "modification_date")
     private OffsetDateTime modificationDate;
 }

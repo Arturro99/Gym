@@ -18,3 +18,5 @@ components:
           type: string
         price:
           type: number
+        trainingType:
+          type: string
