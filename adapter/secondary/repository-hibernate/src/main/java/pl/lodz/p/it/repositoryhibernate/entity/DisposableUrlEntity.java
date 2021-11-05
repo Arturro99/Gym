@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.time.OffsetDateTime;
 
 /**
- * Class responsible for keeping a entity model of the disposable url object.
+ * Class responsible for keeping an entity model of the disposable url object.
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

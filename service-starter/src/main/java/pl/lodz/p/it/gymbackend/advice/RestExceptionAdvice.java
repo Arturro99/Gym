@@ -39,8 +39,11 @@ public class RestExceptionAdvice {
             errorKey = ErrorKey.TRAINING_PLAN_CONFLICT_ERROR;
             message = "Training plan already exists!";
         } else if (e.getMessage().contains("account_email_key") || e.getMessage().contains("account_login_key")) {
-            errorKey = ErrorKey.TRAINING_PLAN_CONFLICT_ERROR;
+            errorKey = ErrorKey.ACCOUNT_CONFLICT_ERROR;
             message = "User with provided email or password exists!";
+        } else if (e.getMessage().contains("diet_number_key")) {
+            errorKey = ErrorKey.DIET_CONFLICT_ERROR;
+            message = "Diet already exists!";
         }
 
         return ErrorResponse.error(errorKey, message);

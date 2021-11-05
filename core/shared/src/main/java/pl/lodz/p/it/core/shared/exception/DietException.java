@@ -21,6 +21,6 @@ public class DietException extends BaseException {
     public static DietException dietConflictException() {
         return new DietException(
             ConflictException
-                .conflict("Diet already exists!", ErrorKey.DIET_CONFLICT_ERROR));
+                .conflict("Diet is being used!", ErrorKey.DIET_CONFLICT_ERROR));
     }
 }

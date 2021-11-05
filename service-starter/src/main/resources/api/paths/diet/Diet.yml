@@ -1,0 +1,33 @@
+get:
+  tags:
+    - diet
+  summary: Get diets
+  description: Display all diets
+  operationId: getDiets
+  responses:
+    200:
+      description: Operation successful
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/diet/DietResponseList.yml#/components/schemas/DietResponseList'
+
+post:
+  tags:
+    - diet
+  summary: Add training plan
+  description: Create a new diet
+  operationId: createDiet
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../schemas/diet/DietRequestPost.yml#/components/schemas/DietRequestPost'
+  responses:
+    201:
+      description: Operation successful
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/diet/DietResponse.yml#/components/schemas/DietResponse'

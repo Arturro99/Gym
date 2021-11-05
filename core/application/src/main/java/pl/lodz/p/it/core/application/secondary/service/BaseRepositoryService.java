@@ -9,7 +9,6 @@ import pl.lodz.p.it.repositoryhibernate.entity.BaseEntity;
 import pl.lodz.p.it.repositoryhibernate.repository.BaseRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -26,9 +25,9 @@ public abstract class BaseRepositoryService<T extends BaseEntity, U extends Base
     protected BaseMapper<T, U> mapper;
 
     @Override
-    public Optional<U> find(String key) {
+    public U find(String key) {
         return repository.findByBusinessId(key)
-                .map(mapper::toDomainModel);
+                .map(mapper::toDomainModel).orElseThrow(BaseException::notFoundException);
     }
 
     @Override
@@ -47,13 +46,13 @@ public abstract class BaseRepositoryService<T extends BaseEntity, U extends Base
     }
 
     @Override
-    public Optional<U> update(String key, U u) {
+    public U update(String key, U u) {
         T entity = repository.findByBusinessId(key).orElseThrow(
                 BaseException::notFoundException);
         T updated = mapper
                 .toEntityModel(entity, u);
         T response = repository.save(updated);
-        return Optional.of(mapper.toDomainModel(response));
+        return mapper.toDomainModel(response);
     }
 
     @Override

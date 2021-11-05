@@ -3,7 +3,6 @@ package pl.lodz.p.it.core.application.primary.service;
 import lombok.AllArgsConstructor;
 import pl.lodz.p.it.core.port.primary.BaseServicePort;
 import pl.lodz.p.it.core.port.secondary.BaseRepositoryPort;
-import pl.lodz.p.it.core.shared.exception.core.BaseException;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ public abstract class BaseService<T> implements BaseServicePort<T> {
 
     @Override
     public T find(String key) {
-        return repository.find(key).orElseThrow(BaseException::notFoundException);
+        return repository.find(key);
     }
 
     @Override
@@ -34,7 +33,7 @@ public abstract class BaseService<T> implements BaseServicePort<T> {
 
     @Override
     public T update(String key, T t) {
-        return repository.update(key, t).orElseThrow(BaseException::notFoundException);
+        return repository.update(key, t);
     }
 
     @Override

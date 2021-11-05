@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 /**
- * Class responsible for keeping a entity model of the training plan object.
+ * Class responsible for keeping an entity model of the training plan object.
  */
 @Getter
 @Setter

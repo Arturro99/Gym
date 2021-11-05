@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.time.OffsetDateTime;
 
 /**
- * Class responsible for keeping a entity model of the activity object.
+ * Class responsible for keeping an entity model of the activity object.
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

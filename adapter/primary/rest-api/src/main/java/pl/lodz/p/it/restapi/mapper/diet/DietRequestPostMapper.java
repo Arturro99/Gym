@@ -12,6 +12,6 @@ import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 public interface DietRequestPostMapper extends BaseRequestMapper<DietRequestPost, Diet> {
 
     @Override
-    @Mapping(target = "dietType", ignore = true)
+    @Mapping(target = "dietType.name", source = "dietType")
     Diet toDomainModel(DietRequestPost dtoModel);
 }

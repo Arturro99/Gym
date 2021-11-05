@@ -9,7 +9,6 @@ import pl.lodz.p.it.core.shared.exception.AccessLevelException;
 import pl.lodz.p.it.core.shared.exception.AccountException;
 import pl.lodz.p.it.core.shared.exception.TrainingPlanException;
 import pl.lodz.p.it.core.shared.exception.TrainingTypeException;
-import pl.lodz.p.it.core.shared.exception.core.BaseException;
 import pl.lodz.p.it.repositoryhibernate.entity.AccessLevelEntity;
 import pl.lodz.p.it.repositoryhibernate.entity.AccountEntity;
 import pl.lodz.p.it.repositoryhibernate.entity.TrainingPlanEntity;
@@ -20,7 +19,6 @@ import pl.lodz.p.it.repositoryhibernate.repository.TrainingPlanRepository;
 import pl.lodz.p.it.repositoryhibernate.repository.TrainingTypeRepository;
 
 import java.time.OffsetDateTime;
-import java.util.Optional;
 
 /**
  * Service class responsible for operating on training plan repository.
@@ -47,6 +45,12 @@ public class TrainingPlanRepositoryService extends BaseRepositoryService<Trainin
     }
 
     @Override
+    public TrainingPlan find(String key) {
+        return repository.findByBusinessId(key)
+                .map(mapper::toDomainModel).orElseThrow(TrainingPlanException::trainingPlanNotFoundException);
+    }
+
+    @Override
     public TrainingPlan save(TrainingPlan trainingPlan) {
         TrainingPlanEntity entity = repository.instantiate();
         entity = mapper.toEntityModel(entity, trainingPlan);
@@ -65,9 +69,9 @@ public class TrainingPlanRepositoryService extends BaseRepositoryService<Trainin
     }
 
     @Override
-    public Optional<TrainingPlan> update(String key, TrainingPlan trainingPlan) {
+    public TrainingPlan update(String key, TrainingPlan trainingPlan) {
         TrainingPlanEntity entity = repository.findByBusinessId(key).orElseThrow(
-                BaseException::notFoundException);
+                TrainingPlanException::trainingPlanNotFoundException);
         TrainingPlanEntity updated = mapper
                 .toEntityModel(entity, trainingPlan);
         AccountEntity accountEntity = accountRepository.findByBusinessId(
@@ -84,13 +88,13 @@ public class TrainingPlanRepositoryService extends BaseRepositoryService<Trainin
         updated.setTrainer(accountEntity);
         updated.setTrainingType(trainingType);
         TrainingPlanEntity response = repository.save(updated);
-        return Optional.of(mapper.toDomainModel(response));
+        return mapper.toDomainModel(response);
     }
 
     @Override
     public void delete(String key) {
         TrainingPlanEntity entity = repository.findByBusinessId(key)
-                .orElseThrow(BaseException::notFoundException);
+                .orElseThrow(TrainingPlanException::trainingPlanNotFoundException);
         if (!entity.getAccounts().isEmpty()) {
             throw TrainingPlanException.trainingPlanConflictException();
         }

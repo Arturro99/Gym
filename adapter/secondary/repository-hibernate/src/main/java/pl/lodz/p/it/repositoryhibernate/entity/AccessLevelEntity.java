@@ -7,7 +7,7 @@ import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 
 /**
- * Class responsible for keeping a entity model of the access level object.
+ * Class responsible for keeping an entity model of the access level object.
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 
 /**
- * Class responsible for keeping a entity model of the training type object.
+ * Class responsible for keeping an entity model of the training type object.
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
