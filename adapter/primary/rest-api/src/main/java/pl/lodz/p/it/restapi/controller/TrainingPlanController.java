@@ -23,10 +23,6 @@ public class TrainingPlanController implements TrainingPlansApiDelegate {
 
     private final TrainingPlanServicePort trainingPlanServicePort;
 
-    private final AccountServicePort accountServicePort;
-
-    private final TrainingTypeServicePort trainingTypeServicePort;
-
     private final TrainingPlanResponseMapper trainingPlanResponseMapper;
 
     private final TrainingPlanRequestPostMapper trainingPlanRequestPostMapper;

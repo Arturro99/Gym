@@ -67,6 +67,12 @@ public class AccountRepositoryService extends BaseRepositoryService<AccountEntit
     }
 
     @Override
+    public Account find(String key) {
+        return repository.findByBusinessId(key)
+                .map(mapper::toDomainModel).orElseThrow(AccountException::accountNotFoundException);
+    }
+
+    @Override
     public Account addTrainingPlan(String login, String trainingPlanNumber) {
         final AccountEntity account = accountRepository.findByBusinessId(login)
                 .orElseThrow(AccountException::accountNotFoundException);
