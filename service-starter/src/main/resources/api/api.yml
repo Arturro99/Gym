@@ -42,6 +42,12 @@ paths:
   /accounts/{login}/trainingPlans/{number}:
     $ref: './paths/account/AccountByLogin.yml#/trainingPlan/remove'
 
+  /accounts/{login}/diets:
+    $ref: './paths/account/AccountByLogin.yml#/diet/add'
+
+  /accounts/{login}/diets/{number}:
+    $ref: './paths/account/AccountByLogin.yml#/diet/remove'
+
   /authenticate:
     $ref: './paths/account/Authenticate.yml'
 
@@ -53,6 +59,12 @@ paths:
 
   /trainingPlans/trainer/{login}:
     $ref: './paths/training/TrainingPlanByTrainerLogin.yml'
+
+  /diets:
+    $ref: './paths/diet/Diet.yml'
+
+  /diets/{number}:
+    $ref: './paths/diet/DietByNumber.yml'
 
 components:
   schemas:

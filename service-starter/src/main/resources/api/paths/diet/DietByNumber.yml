@@ -1,0 +1,61 @@
+get:
+  tags:
+    - diet
+  summary: Get diet
+  description: Find diet with given number
+  operationId: getDiet
+  parameters:
+    - in: path
+      name: number
+      schema:
+        type: string
+      required: true
+  responses:
+    200:
+      description: Operation successful
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/diet/DietResponse.yml#/components/schemas/DietResponse'
+
+put:
+  tags:
+    - diet
+  summary: Update diet
+  description: Update existing diet with given number
+  operationId: updateDiet
+  parameters:
+    - in: path
+      name: number
+      schema:
+        type: string
+      required: true
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../schemas/diet/DietRequestPut.yml#/components/schemas/DietRequestPut'
+  responses:
+    200:
+      description: Operation successful
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/diet/DietResponse.yml#/components/schemas/DietResponse'
+
+delete:
+  tags:
+    - diet
+  summary: Remove diet
+  description: Remove diet with the given number
+  operationId: deleteDiet
+  parameters:
+    - in: path
+      name: number
+      schema:
+        type: string
+      required: true
+  responses:
+    200:
+      description: Operation successful
