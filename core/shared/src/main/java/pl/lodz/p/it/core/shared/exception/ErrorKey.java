@@ -23,6 +23,8 @@ public final class ErrorKey {
     public static final String DIET_NOT_FOUND_ERROR = "error.diet.notFound";
     public static final String DIET_CONFLICT_ERROR = "error.diet.conflict";
 
+    public static final String DIET_TYPE_NOT_FOUND_ERROR = "error.dietType.notFound";
+
     public static final String URL_NOT_FOUND_ERROR = "error.url.notFound";
     public static final String URL_CONFLICT_ERROR = "error.url.conflict";
 
