@@ -10,7 +10,7 @@ import java.time.OffsetDateTime;
 import java.util.Set;
 
 /**
- * Class responsible for keeping a entity model of the account object.
+ * Class responsible for keeping an entity model of the account object.
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

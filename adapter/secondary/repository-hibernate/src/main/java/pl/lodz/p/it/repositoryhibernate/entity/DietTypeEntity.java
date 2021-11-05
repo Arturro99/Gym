@@ -2,12 +2,14 @@ package pl.lodz.p.it.repositoryhibernate.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.AttributeAccessor;
 
-import javax.persistence.*;
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
- * Class responsible for keeping a entity model of the diet type object.
+ * Class responsible for keeping an entity model of the diet type object.
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

@@ -1,16 +1,16 @@
 package pl.lodz.p.it.repositoryhibernate.entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
 
 /**
- * Class responsible for keeping a entity model of the diet object.
+ * Class responsible for keeping an entity model of the diet object.
  */
-@EqualsAndHashCode(callSuper = true)
-@Data
+@Setter
+@Getter
 @Entity
 @Table(name = "diet")
 @AttributeOverride(name = "businessId", column = @Column(name = "number", nullable = false, updatable = false, unique = true))

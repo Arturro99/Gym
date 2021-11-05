@@ -7,7 +7,7 @@ import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 
 /**
- * Class responsible for keeping a entity model of the booking object.
+ * Class responsible for keeping an entity model of the booking object.
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
