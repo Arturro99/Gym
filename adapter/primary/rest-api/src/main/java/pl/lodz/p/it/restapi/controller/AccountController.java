@@ -65,4 +65,16 @@ public class AccountController implements AccountsApiDelegate {
         accountServicePort.removeTrainingPlan(login, number);
         return ResponseEntity.ok().build();
     }
+
+    @Override
+    public ResponseEntity<AccountDetailsResponse> addDiet(String login, AccountRequestPutObject accountRequestPutObject) {
+        Account updated = accountServicePort.addDiet(login, accountRequestPutObject.getNumber());
+        return ResponseEntity.ok(accountDetailsResponseMapper.toDtoModel(updated));
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteDiet(String number, String login) {
+        accountServicePort.removeDiet(login, number);
+        return ResponseEntity.ok().build();
+    }
 }
