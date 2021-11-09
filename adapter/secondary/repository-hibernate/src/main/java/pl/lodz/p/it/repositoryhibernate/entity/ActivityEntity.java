@@ -2,9 +2,12 @@ package pl.lodz.p.it.repositoryhibernate.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
 import java.time.OffsetDateTime;
 
 /**
@@ -18,19 +21,24 @@ import java.time.OffsetDateTime;
 public class ActivityEntity extends BaseEntity {
 
     @Column(name = "name", nullable = false)
+    @NotBlank
     private String name;
 
     @Column(name = "start_date", nullable = false)
+    @NotNull
+    @Future
     private OffsetDateTime startDate;
 
     @Column(name = "duration", nullable = false)
+    @Range(min = 1)
     private Integer duration;
 
     @ManyToOne
     @JoinColumn(name = "trainer", nullable = false, referencedColumnName = "id")
+    @NotNull
     private AccountEntity trainer;
 
     @Column(name = "active", nullable = false)
-    @ColumnDefault("true")
-    private Boolean active;
+    @NotNull
+    private Boolean active = true;
 }
