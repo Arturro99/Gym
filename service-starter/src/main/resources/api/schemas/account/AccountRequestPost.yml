@@ -31,3 +31,5 @@ components:
           type: string
         gymMember:
           type: boolean
+        phoneNumber:
+          type: number
