@@ -11,6 +11,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>domain</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>pl.lodz.p.it</groupId>
+            <artifactId>shared</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
