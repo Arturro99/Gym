@@ -2,6 +2,7 @@ package pl.lodz.p.it.core.port.primary;
 
 import pl.lodz.p.it.core.shared.exception.core.BaseException;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public interface BaseServicePort<U> {
      * @param u Newly created object
      * @return Created object
      */
-    U save(U u);
+    U save(@Valid U u);
 
     /**
      * Method responsible for updating existing object.
@@ -41,7 +42,7 @@ public interface BaseServicePort<U> {
      * @param u   Updated object's body
      * @return Updated object
      */
-    U update(String key, U u);
+    U update(String key, @Valid U u);
 
     /**
      * Method responsible for deleting object with given key.

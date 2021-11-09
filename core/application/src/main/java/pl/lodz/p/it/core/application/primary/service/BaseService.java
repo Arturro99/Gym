@@ -1,9 +1,11 @@
 package pl.lodz.p.it.core.application.primary.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import pl.lodz.p.it.core.port.primary.BaseServicePort;
 import pl.lodz.p.it.core.port.secondary.BaseRepositoryPort;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -12,6 +14,7 @@ import java.util.List;
  * @param <T> Type of appropriate domain model
  */
 @AllArgsConstructor
+@Validated
 public abstract class BaseService<T> implements BaseServicePort<T> {
 
     protected BaseRepositoryPort<T> repository;
@@ -27,12 +30,12 @@ public abstract class BaseService<T> implements BaseServicePort<T> {
     }
 
     @Override
-    public T save(T t) {
+    public T save(@Valid T t) {
         return repository.save(t);
     }
 
     @Override
-    public T update(String key, T t) {
+    public T update(String key, @Valid T t) {
         return repository.update(key, t);
     }
 
