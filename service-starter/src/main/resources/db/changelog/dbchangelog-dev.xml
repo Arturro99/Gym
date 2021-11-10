@@ -18,4 +18,6 @@
   <include file="../data/accountData.xml" relativeToChangelogFile="true"/>
   <include file="../data/accountDetailsData.xml" relativeToChangelogFile="true"/>
   <include file="../data/accessLevelData.xml" relativeToChangelogFile="true"/>
+  <include file="../data/dietTypeData.xml" relativeToChangelogFile="true"/>
+  <include file="../data/trainingTypeData.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
