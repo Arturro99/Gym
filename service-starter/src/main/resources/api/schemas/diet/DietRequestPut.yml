@@ -11,9 +11,20 @@ components:
       properties:
         name:
           type: string
+        dietType:
+          type: string
+          enum:
+            - LOW-CALORIE
+            - HIGH-PROTEIN
+            - LOW-CARBOHYDRATE
+            - HIGH-CARBOHYDRATE
+            - VEGE
         calories:
           type: integer
+          minimum: 1
         mealsNumber:
           type: string
+          minimum: 1
         price:
           type: number
+          minimum: 1

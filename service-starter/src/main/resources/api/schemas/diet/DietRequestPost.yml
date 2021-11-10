@@ -18,13 +18,23 @@ components:
       properties:
         number:
           type: string
+          pattern: "^DIE[0-9]{3}$"
         name:
           type: string
         dietType:
           type: string
+          enum:
+            - LOW-CALORIE
+            - HIGH-PROTEIN
+            - LOW-CARBOHYDRATE
+            - HIGH-CARBOHYDRATE
+            - VEGE
         calories:
           type: integer
+          minimum: 1
         mealsNumber:
           type: integer
+          minimum: 1
         price:
           type: number
+          minimum: 1

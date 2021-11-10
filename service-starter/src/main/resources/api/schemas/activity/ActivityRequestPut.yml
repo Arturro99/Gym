@@ -16,6 +16,7 @@ components:
           format: date-time
         duration:
           type: integer
+          minimum: 1
         trainer:
           type: string
         active:
