@@ -75,6 +75,18 @@ paths:
   /activities/trainer/{login}:
     $ref: './paths/activity/ActivityByNumber.yml#/trainerLogin'
 
+  /bookings:
+    $ref: './paths/booking/Booking.yml'
+
+  /bookings/{number}:
+    $ref: './paths/booking/BookingByNumber.yml#/bookingNumber'
+
+  /bookings/client/{login}:
+    $ref: './paths/booking/BookingByNumber.yml#/clientLogin'
+
+  /bookings/activity/{number}:
+    $ref: './paths/booking/BookingByNumber.yml#/activityNumber'
+
 components:
   schemas:
 

@@ -22,4 +22,9 @@ public class ActivityException extends BaseException {
         return new ActivityException(
             ConflictException.conflict("Activity is still active!", ErrorKey.ACTIVITY_CONFLICT_ERROR));
     }
+
+    public static ActivityException activityExpiredException() {
+        return new ActivityException(
+                ConflictException.conflict("Activity is already finished!", ErrorKey.ACTIVITY_CONFLICT_ERROR));
+    }
 }

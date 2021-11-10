@@ -1,22 +1,133 @@
 package pl.lodz.p.it.core.application.secondary.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import pl.lodz.p.it.core.application.secondary.mapper.BookingMapper;
 import pl.lodz.p.it.core.domain.Booking;
 import pl.lodz.p.it.core.port.secondary.BookingRepositoryPort;
+import pl.lodz.p.it.core.shared.constant.Level;
+import pl.lodz.p.it.core.shared.exception.AccessLevelException;
+import pl.lodz.p.it.core.shared.exception.AccountException;
+import pl.lodz.p.it.core.shared.exception.ActivityException;
+import pl.lodz.p.it.core.shared.exception.BookingException;
+import pl.lodz.p.it.repositoryhibernate.entity.AccessLevelEntity;
+import pl.lodz.p.it.repositoryhibernate.entity.AccountEntity;
+import pl.lodz.p.it.repositoryhibernate.entity.ActivityEntity;
 import pl.lodz.p.it.repositoryhibernate.entity.BookingEntity;
+import pl.lodz.p.it.repositoryhibernate.repository.AccessLevelRepository;
+import pl.lodz.p.it.repositoryhibernate.repository.AccountRepository;
+import pl.lodz.p.it.repositoryhibernate.repository.ActivityRepository;
 import pl.lodz.p.it.repositoryhibernate.repository.BookingRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Service class responsible for operating on booking repository.
  */
-@Component
+@Service
 public class BookingRepositoryService extends BaseRepositoryService<BookingEntity, Booking> implements
         BookingRepositoryPort {
 
+    private final AccountRepository accountRepository;
+
+    private final BookingRepository bookingRepository;
+
+    private final AccessLevelRepository accessLevelRepository;
+
+    private final ActivityRepository activityRepository;
+
     @Autowired
-    public BookingRepositoryService(BookingRepository repository, BookingMapper mapper) {
+    public BookingRepositoryService(BookingRepository repository, BookingMapper mapper,
+                                    AccountRepository accountRepository, AccessLevelRepository accessLevelRepository,
+                                    ActivityRepository activityRepository) {
         super(repository, mapper);
+        this.bookingRepository = repository;
+        this.accountRepository = accountRepository;
+        this.accessLevelRepository = accessLevelRepository;
+        this.activityRepository = activityRepository;
+    }
+
+    @Override
+    public List<Booking> findByClient(String login) {
+        AccountEntity client = accountRepository.findByBusinessId(login).orElseThrow(AccountException::accountNotFoundException);
+        return bookingRepository.findAllByAccount(client).stream()
+                .map(mapper::toDomainModel)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Booking> findByActivity(String number) {
+        ActivityEntity activity = activityRepository.findByBusinessId(number).orElseThrow(ActivityException::activityNotFoundException);
+        return bookingRepository.findAllByActivity(activity).stream()
+                .map(mapper::toDomainModel)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Booking find(String key) {
+        return repository.findByBusinessId(key)
+                .map(mapper::toDomainModel)
+                .orElseThrow(BookingException::bookingNotFoundException);
+    }
+
+    @Override
+    public Booking save(Booking booking) {
+        BookingEntity entity = repository.instantiate();
+        entity = mapper.toEntityModel(entity, booking);
+        entity.setBusinessId(generateNumber());
+
+        AccountEntity account = accountRepository.findByBusinessId(
+                booking.getAccount().getLogin()).orElseThrow(AccountException::accountNotFoundException);
+        if (!hasClientRole(account)) {
+            throw AccessLevelException.illegalAccessLevel();
+        }
+        entity.setAccount(account);
+
+        ActivityEntity activity = activityRepository.findByBusinessId(booking.getActivity().getNumber())
+                .orElseThrow(ActivityException::activityNotFoundException);
+        if (isActivityCompleted(activity)) {
+            throw ActivityException.activityExpiredException();
+        }
+        entity.setActivity(activity);
+
+        BookingEntity savedEntity = repository.save(entity);
+        return mapper.toDomainModel(savedEntity);
+    }
+
+    @Override
+    public Booking update(String key, Booking booking) {
+        BookingEntity entity = repository.findByBusinessId(key).orElseThrow(
+                BookingException::bookingNotFoundException);
+        BookingEntity updated = mapper
+                .toEntityModel(entity, booking);
+        BookingEntity response = repository.save(updated);
+        return mapper.toDomainModel(response);
+    }
+
+    private boolean hasClientRole(AccountEntity accountEntity) {
+        return accessLevelRepository.findByAccount(accountEntity).stream()
+                .map(AccessLevelEntity::getBusinessId)
+                .anyMatch(x -> x.equals(Level.CLIENT.name()));
+    }
+
+    private boolean isActivityCompleted(ActivityEntity activityEntity) {
+        return !activityEntity.getActive();
+    }
+
+    private String generateNumber() {
+        StringBuilder builder = new StringBuilder("BOO");
+        long bookingsNumber = bookingRepository.findAll().stream()
+                .distinct()
+                .count();
+        if (bookingsNumber < 9) {
+            builder.append("00".concat(String.valueOf(bookingsNumber + 1)));
+        } else if (bookingsNumber < 99) {
+            builder.append("0".concat(String.valueOf(bookingsNumber + 1)));
+        } else {
+            builder.append(bookingsNumber);
+        }
+
+        return builder.toString();
     }
 }

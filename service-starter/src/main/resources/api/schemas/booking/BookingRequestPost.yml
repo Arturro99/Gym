@@ -12,7 +12,7 @@ components:
         - account
         - activity
       properties:
-        accountLogin:
+        account:
           type: string
         activity:
           type: string

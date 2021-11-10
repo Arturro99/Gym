@@ -56,6 +56,9 @@ public class RestExceptionAdvice {
         } else if (e.getMessage().contains("activity_number_key")) {
             errorKey = ErrorKey.ACTIVITY_CONFLICT_ERROR;
             message = "Activity already exists!";
+        } else if (e.getMessage().contains("booking_account_activity_key")) {
+            errorKey = ErrorKey.BOOKING_CONFLICT_ERROR;
+            message = "Such booking already exists!";
         }
 
         return ErrorResponse.error(errorKey, message);

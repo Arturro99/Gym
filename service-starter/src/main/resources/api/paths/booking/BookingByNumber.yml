@@ -1,0 +1,88 @@
+bookingNumber:
+  get:
+    tags:
+      - booking
+    summary: Get booking
+    description: Find booking with given number
+    operationId: getBooking
+    parameters:
+      - in: path
+        name: number
+        schema:
+          type: string
+        required: true
+    responses:
+      200:
+        description: Operation successful
+        content:
+          application/json:
+            schema:
+              $ref: '../../schemas/booking/BookingResponse.yml#/components/schemas/BookingResponse'
+
+  put:
+    tags:
+      - booking
+    summary: Update booking
+    description: Update existing booking with given number
+    operationId: updateBooking
+    parameters:
+      - in: path
+        name: number
+        schema:
+          type: string
+        required: true
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/booking/BookingRequestPut.yml#/components/schemas/BookingRequestPut'
+    responses:
+      200:
+        description: Operation successful
+        content:
+          application/json:
+            schema:
+              $ref: '../../schemas/booking/BookingResponse.yml#/components/schemas/BookingResponse'
+
+clientLogin:
+  get:
+    tags:
+      - booking
+    summary: Get bookings by client login
+    description: Find all bookings that are assigned to the client with provided login
+    operationId: getBookingsByClient
+    parameters:
+      - in: path
+        name: login
+        schema:
+          type: string
+        required: true
+    responses:
+      200:
+        description: Operation successful
+        content:
+          application/json:
+            schema:
+              $ref: '../../schemas/booking/BookingResponseList.yml#/components/schemas/BookingResponseList'
+
+activityNumber:
+  get:
+    tags:
+      - booking
+    summary: Get booking by activity number
+    description: Find all bookings that are assigned to the activity with provided number
+    operationId: getBookingsByActivity
+    parameters:
+      - in: path
+        name: number
+        schema:
+          type: string
+        required: true
+    responses:
+      200:
+        description: Operation successful
+        content:
+          application/json:
+            schema:
+              $ref: '../../schemas/booking/BookingResponseList.yml#/components/schemas/BookingResponseList'

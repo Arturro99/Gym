@@ -12,6 +12,8 @@ import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 public interface BookingRequestPostMapper extends BaseRequestMapper<BookingRequestPost, Booking> {
 
     @Override
-    @Mapping(target = "account", ignore = true)
+    @Mapping(target = "account.login", source = "dtoModel.account")
+    @Mapping(target = "activity.number", source = "dtoModel.activity")
     Booking toDomainModel(BookingRequestPost dtoModel);
+
 }
