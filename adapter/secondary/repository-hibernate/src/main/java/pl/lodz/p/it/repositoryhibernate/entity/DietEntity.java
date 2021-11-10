@@ -24,7 +24,7 @@ public class DietEntity extends BaseEntity {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "diet_type", nullable = false, updatable = false, referencedColumnName = "id")
+    @JoinColumn(name = "diet_type", nullable = false, referencedColumnName = "id")
     @NotNull
     private DietTypeEntity dietType;
 
