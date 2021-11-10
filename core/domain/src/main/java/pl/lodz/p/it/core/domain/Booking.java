@@ -18,7 +18,7 @@ public class Booking extends BaseModel {
 
     private Account account;
 
-    private Activity activityEntity;
+    private Activity activity;
 
     private Boolean active;
 

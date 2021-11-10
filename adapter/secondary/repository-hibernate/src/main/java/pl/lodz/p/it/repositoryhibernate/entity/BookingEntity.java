@@ -2,7 +2,6 @@ package pl.lodz.p.it.repositoryhibernate.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -25,7 +24,7 @@ public class BookingEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "activity", referencedColumnName = "id", updatable = false)
     @NotNull
-    private ActivityEntity activityEntity;
+    private ActivityEntity activity;
 
     @JoinColumn(name = "active", nullable = false)
     @NotNull
