@@ -20,8 +20,6 @@ import static pl.lodz.p.it.core.shared.validation.RegexPattern.TRAINING_PLAN_NUM
 @Target({FIELD, PARAMETER})
 @Retention(RUNTIME)
 @Constraint(validatedBy = {})
-@NotBlank
-@Size(min = 6, max = 6, message = "Number needs have exactly 6 characters")
 @Pattern(regexp = TRAINING_PLAN_NUMBER_PATTERN, message = "Invalid regex of the number")
 public @interface TrainingPlanNumber {
 

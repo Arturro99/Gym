@@ -16,15 +16,11 @@ public class Booking extends BaseModel {
     @BookingNumber
     private String number;
 
-    @NotNull
     private Account account;
 
-    @NotNull
     private Activity activityEntity;
 
-    @NotNull
     private Boolean active;
 
-    @NotNull
     private Boolean completed;
 }
