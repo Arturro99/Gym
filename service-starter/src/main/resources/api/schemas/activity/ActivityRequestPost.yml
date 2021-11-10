@@ -17,6 +17,7 @@ components:
       properties:
         number:
           type: string
+          pattern: "^ACT[0-9]{3}$"
         name:
           type: string
         startDate:
@@ -24,5 +25,6 @@ components:
           format: date-time
         duration:
           type: integer
+          minimum: 1
         trainer:
           type: string

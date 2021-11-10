@@ -29,6 +29,8 @@
         <liquibase.core.version>4.4.3</liquibase.core.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+        <jsonwebtoken.jjwt.version>0.9.1</jsonwebtoken.jjwt.version>
+        <hibernate.validator.version>5.4.1.Final</hibernate.validator.version>
     </properties>
     <dependencies>
         <dependency>
@@ -81,7 +83,12 @@
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
-            <version>0.9.1</version>
+            <version>${jsonwebtoken.jjwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validator.version}</version>
         </dependency>
     </dependencies>
 

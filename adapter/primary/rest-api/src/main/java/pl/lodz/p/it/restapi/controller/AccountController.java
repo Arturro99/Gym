@@ -2,6 +2,7 @@ package pl.lodz.p.it.restapi.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RestController;
 import pl.lodz.p.it.core.domain.Account;
 import pl.lodz.p.it.core.port.primary.AccountServicePort;
@@ -31,8 +32,11 @@ public class AccountController implements AccountsApiDelegate {
 
     private final AccountRequestPutObjectMapper accountRequestPutObjectMapper;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Override
     public ResponseEntity<AccountGeneralResponse> createAccount(AccountRequestPost accountRequest) {
+        accountRequest.setPassword(passwordEncoder.encode(accountRequest.getPassword()));
         return ResponseEntity.ok(
                 accountGeneralResponseMapper.toDtoModel(
                         accountServicePort.save(accountRequestPostMapper.toDomainModel(accountRequest)))

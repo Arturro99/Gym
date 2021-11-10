@@ -23,6 +23,7 @@ components:
           type: string
         password:
           type: string
+          pattern: "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$"
         firstName:
           type: string
         lastName:
@@ -31,3 +32,6 @@ components:
           type: string
         gymMember:
           type: boolean
+        phoneNumber:
+          type: number
+          pattern: "^[0-9]{9}$"

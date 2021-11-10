@@ -12,13 +12,24 @@ components:
       properties:
         number:
           type: string
+          pattern: "^TRA[0-9]{3}$"
         name:
           type: string
         trainingType:
           type: string
+          enum:
+            - CARDIO
+            - STRENGTH
+            - CALISTHENICS
+            - CIRCUIT
+            - INTERVALS
+            - CROSSFIT
+            - FUNCTIONAL
         personalTrainingsNumber:
           type: integer
+          minimum: 0
         trainer:
           type: string
         price:
           type: number
+          minimum: 1

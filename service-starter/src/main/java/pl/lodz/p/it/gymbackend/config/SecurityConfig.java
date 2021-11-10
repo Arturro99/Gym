@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import pl.lodz.p.it.core.shared.constant.Level;
 
 import javax.annotation.Resource;
 
@@ -24,6 +25,12 @@ import javax.annotation.Resource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JWTRequestFilter jwtRequestFilter;
+
+    private final static String ADMIN = Level.ADMIN.name();
+
+    private final static String CLIENT = Level.CLIENT.name();
+
+    private final static String TRAINER = Level.CLIENT.name();
 
     @Resource
     private UserDetailsService userDetailsService;
@@ -39,9 +46,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers(HttpMethod.GET, "/accounts").hasAuthority("admin")
-                .antMatchers(HttpMethod.GET, "/accounts/**").hasAuthority("admin")
-                .antMatchers(HttpMethod.GET, "/trainingPlans/**").hasAnyAuthority("client", "trainer")
+                .antMatchers(HttpMethod.GET, "/accounts").hasAuthority(ADMIN)
+                .antMatchers(HttpMethod.GET, "/accounts/**").hasAuthority(ADMIN)
+                .antMatchers(HttpMethod.GET, "/trainingPlans/**").hasAnyAuthority(CLIENT, TRAINER)
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

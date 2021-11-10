@@ -14,9 +14,19 @@ components:
           type: string
         personalTrainingsNumber:
           type: integer
+          minimum: 0
         trainer:
           type: string
         price:
           type: number
+          minimum: 1
         trainingType:
           type: string
+          enum:
+            - CARDIO
+            - STRENGTH
+            - CALISTHENICS
+            - CIRCUIT
+            - INTERVALS
+            - CROSSFIT
+            - FUNCTIONAL

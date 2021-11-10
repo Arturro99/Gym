@@ -7,6 +7,7 @@ public final class ErrorKey {
 
     public static final String NOT_FOUND_ERROR = "error.general.notFound";
     public static final String CONFLICT_ERROR = "error.general.conflict";
+    public static final String CONSTRAINT_VIOLATION = "error.general.constraintViolation";
 
     public static final String ACCESS_LEVEL_NOT_FOUND_ERROR = "error.accessLevel.notFound";
     public static final String ACCESS_LEVEL_BAD_REQUEST_ERROR = "error.accessLevel.badRequest";
@@ -34,4 +35,5 @@ public final class ErrorKey {
     public static final String TRAINING_TYPE_NOT_FOUND_ERROR = "error.trainingType.notFound";
 
     public static final String JWT_EXPIRED = "error.jwt.expired";
+
 }

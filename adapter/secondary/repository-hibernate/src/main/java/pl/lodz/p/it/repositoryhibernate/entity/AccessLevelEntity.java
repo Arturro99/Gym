@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Class responsible for keeping an entity model of the access level object.
@@ -20,10 +21,12 @@ public class AccessLevelEntity extends BaseEntity {
 
     @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "account", nullable = false, updatable = false, referencedColumnName = "id")
+    @NotNull
     private AccountEntity account;
 
     @Column(name = "active", nullable = false)
     @ColumnDefault("true")
+    @NotNull
     private Boolean active;
 
     @ManyToOne(cascade = CascadeType.REFRESH)

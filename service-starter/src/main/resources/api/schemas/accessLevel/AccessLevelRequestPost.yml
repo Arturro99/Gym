@@ -14,5 +14,9 @@ components:
       properties:
         level:
           type: string
+          enum:
+            - CLIENT
+            - ADMIN
+            - TRAINER
         accountLogin:
           type: string

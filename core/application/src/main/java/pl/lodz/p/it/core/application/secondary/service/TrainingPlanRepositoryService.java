@@ -3,6 +3,7 @@ package pl.lodz.p.it.core.application.secondary.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.lodz.p.it.core.application.secondary.mapper.TrainingPlanMapper;
+import pl.lodz.p.it.core.shared.constant.Level;
 import pl.lodz.p.it.core.domain.TrainingPlan;
 import pl.lodz.p.it.core.port.secondary.TrainingPlanRepositoryPort;
 import pl.lodz.p.it.core.shared.exception.AccessLevelException;
@@ -78,7 +79,7 @@ public class TrainingPlanRepositoryService extends BaseRepositoryService<Trainin
                 trainingPlan.getTrainer().getLogin()).orElseThrow(AccountException::accountNotFoundException);
         boolean hasTrainerRole = accessLevelRepository.findByAccount(accountEntity).stream()
                 .map(AccessLevelEntity::getBusinessId)
-                .anyMatch(x -> x.equals("trainer"));
+                .anyMatch(x -> x.equals(Level.TRAINER.name()));
         if (!hasTrainerRole) {
             throw AccessLevelException.illegalAccessLevel();
         }

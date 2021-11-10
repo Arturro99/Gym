@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Class responsible for keeping an entity model of the booking object.
@@ -18,17 +19,19 @@ public class BookingEntity extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "account", referencedColumnName = "id", updatable = false)
+    @NotNull
     private AccountEntity account;
 
     @ManyToOne
     @JoinColumn(name = "activity", referencedColumnName = "id", updatable = false)
+    @NotNull
     private ActivityEntity activityEntity;
 
     @JoinColumn(name = "active", nullable = false)
-    @ColumnDefault("true")
-    private Boolean active;
+    @NotNull
+    private Boolean active = true;
 
     @JoinColumn(name = "active", nullable = false)
-    @ColumnDefault("false")
-    private Boolean completed;
+    @NotNull
+    private Boolean completed = false;
 }
