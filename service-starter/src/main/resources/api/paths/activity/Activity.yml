@@ -1,0 +1,33 @@
+get:
+  tags:
+    - activity
+  summary: Get activities
+  description: Display all activities
+  operationId: getActivities
+  responses:
+    200:
+      description: Operation successful
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/activity/ActivityResponseList.yml#/components/schemas/ActivityResponseList'
+
+post:
+  tags:
+    - activity
+  summary: Add activity
+  description: Create a new activity
+  operationId: createActivity
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../schemas/activity/ActivityRequestPost.yml#/components/schemas/ActivityRequestPost'
+  responses:
+    201:
+      description: Operation successful
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/activity/ActivityResponse.yml#/components/schemas/ActivityResponse'

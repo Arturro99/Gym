@@ -53,6 +53,9 @@ public class RestExceptionAdvice {
         } else if (e.getMessage().contains("diet_number_key")) {
             errorKey = ErrorKey.DIET_CONFLICT_ERROR;
             message = "Diet already exists!";
+        } else if (e.getMessage().contains("activity_number_key")) {
+            errorKey = ErrorKey.ACTIVITY_CONFLICT_ERROR;
+            message = "Activity already exists!";
         }
 
         return ErrorResponse.error(errorKey, message);
