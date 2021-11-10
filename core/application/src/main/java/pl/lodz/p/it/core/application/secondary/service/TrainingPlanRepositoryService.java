@@ -3,9 +3,9 @@ package pl.lodz.p.it.core.application.secondary.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.lodz.p.it.core.application.secondary.mapper.TrainingPlanMapper;
-import pl.lodz.p.it.core.shared.constant.Level;
 import pl.lodz.p.it.core.domain.TrainingPlan;
 import pl.lodz.p.it.core.port.secondary.TrainingPlanRepositoryPort;
+import pl.lodz.p.it.core.shared.constant.Level;
 import pl.lodz.p.it.core.shared.exception.AccessLevelException;
 import pl.lodz.p.it.core.shared.exception.AccountException;
 import pl.lodz.p.it.core.shared.exception.TrainingPlanException;
@@ -58,6 +58,9 @@ public class TrainingPlanRepositoryService extends BaseRepositoryService<Trainin
 
         AccountEntity trainer = accountRepository.findByBusinessId(
                 trainingPlan.getTrainer().getLogin()).orElseThrow(AccountException::accountNotFoundException);
+        if (!hasTrainerRole(trainer)) {
+            throw AccessLevelException.illegalAccessLevel();
+        }
         TrainingTypeEntity trainingType = trainingTypeRepository.findByBusinessId(
                 trainingPlan.getTrainingType().getName()).orElseThrow(TrainingTypeException::trainingTypeNotFoundException);
         entity.setCreationDate(OffsetDateTime.now());
@@ -75,19 +78,22 @@ public class TrainingPlanRepositoryService extends BaseRepositoryService<Trainin
                 TrainingPlanException::trainingPlanNotFoundException);
         TrainingPlanEntity updated = mapper
                 .toEntityModel(entity, trainingPlan);
-        AccountEntity accountEntity = accountRepository.findByBusinessId(
-                trainingPlan.getTrainer().getLogin()).orElseThrow(AccountException::accountNotFoundException);
-        boolean hasTrainerRole = accessLevelRepository.findByAccount(accountEntity).stream()
-                .map(AccessLevelEntity::getBusinessId)
-                .anyMatch(x -> x.equals(Level.TRAINER.name()));
-        if (!hasTrainerRole) {
-            throw AccessLevelException.illegalAccessLevel();
-        }
-        TrainingTypeEntity trainingType = trainingTypeRepository.findByBusinessId(
-                trainingPlan.getTrainingType().getName()).orElseThrow(TrainingTypeException::trainingTypeNotFoundException);
 
-        updated.setTrainer(accountEntity);
-        updated.setTrainingType(trainingType);
+        if (trainingPlan.getTrainer().getLogin() != null) {
+            AccountEntity accountEntity = accountRepository.findByBusinessId(
+                    trainingPlan.getTrainer().getLogin()).orElseThrow(AccountException::accountNotFoundException);
+            if (!hasTrainerRole(accountEntity)) {
+                throw AccessLevelException.illegalAccessLevel();
+            }
+            updated.setTrainer(accountEntity);
+        }
+
+        if (trainingPlan.getTrainingType().getName() != null) {
+            TrainingTypeEntity trainingType = trainingTypeRepository.findByBusinessId(
+                    trainingPlan.getTrainingType().getName()).orElseThrow(TrainingTypeException::trainingTypeNotFoundException);
+            updated.setTrainingType(trainingType);
+        }
+
         TrainingPlanEntity response = repository.save(updated);
         return mapper.toDomainModel(response);
     }
@@ -100,5 +106,11 @@ public class TrainingPlanRepositoryService extends BaseRepositoryService<Trainin
             throw TrainingPlanException.trainingPlanConflictException();
         }
         repository.delete(entity);
+    }
+
+    private boolean hasTrainerRole(AccountEntity accountEntity) {
+        return accessLevelRepository.findByAccount(accountEntity).stream()
+                .map(AccessLevelEntity::getBusinessId)
+                .anyMatch(x -> x.equals(Level.TRAINER.name()));
     }
 }
