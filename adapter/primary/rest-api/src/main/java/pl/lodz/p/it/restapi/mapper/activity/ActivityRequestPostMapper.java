@@ -12,6 +12,6 @@ import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 public interface ActivityRequestPostMapper extends BaseRequestMapper<ActivityRequestPost, Activity> {
 
     @Override
-    @Mapping(target = "trainer", ignore = true)
+    @Mapping(target = "trainer.login", source = "dtoModel.trainer")
     Activity toDomainModel(ActivityRequestPost dtoModel);
 }

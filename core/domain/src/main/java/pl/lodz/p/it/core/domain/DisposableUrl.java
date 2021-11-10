@@ -23,7 +23,6 @@ public class DisposableUrl extends BaseModel {
     @Size(min = 32, max = 32)
     private String url;
 
-    @NotNull
     private Account account;
 
     @NotBlank
@@ -33,13 +32,10 @@ public class DisposableUrl extends BaseModel {
     @Email(message = "Email is not valid")
     private String newEmail;
 
-    @NotNull
     @Future
     private OffsetDateTime expireDate;
 
-    @NotNull
     private Account modifiedBy;
 
-    @NotNull
     private Account createdBy;
 }

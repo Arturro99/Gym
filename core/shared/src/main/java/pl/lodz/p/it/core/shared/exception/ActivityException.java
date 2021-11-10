@@ -20,6 +20,6 @@ public class ActivityException extends BaseException {
 
     public static ActivityException activityConflictException() {
         return new ActivityException(
-            ConflictException.conflict("Activity already exists!", ErrorKey.ACTIVITY_CONFLICT_ERROR));
+            ConflictException.conflict("Activity is still active!", ErrorKey.ACTIVITY_CONFLICT_ERROR));
     }
 }

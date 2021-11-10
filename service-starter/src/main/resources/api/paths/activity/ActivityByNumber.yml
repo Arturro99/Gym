@@ -1,0 +1,83 @@
+activityNumber:
+  get:
+    tags:
+      - activity
+    summary: Get activity
+    description: Find activity with given number
+    operationId: getActivity
+    parameters:
+      - in: path
+        name: number
+        schema:
+          type: string
+        required: true
+    responses:
+      200:
+        description: Operation successful
+        content:
+          application/json:
+            schema:
+              $ref: '../../schemas/activity/ActivityResponse.yml#/components/schemas/ActivityResponse'
+
+  put:
+    tags:
+      - activity
+    summary: Update activity
+    description: Update existing activity with given number
+    operationId: updateActivity
+    parameters:
+      - in: path
+        name: number
+        schema:
+          type: string
+        required: true
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/activity/ActivityRequestPut.yml#/components/schemas/ActivityRequestPut'
+    responses:
+      200:
+        description: Operation successful
+        content:
+          application/json:
+            schema:
+              $ref: '../../schemas/activity/ActivityResponse.yml#/components/schemas/ActivityResponse'
+
+  delete:
+    tags:
+      - activity
+    summary: Remove activity
+    description: Remove activity with the given number
+    operationId: deleteActivity
+    parameters:
+      - in: path
+        name: number
+        schema:
+          type: string
+        required: true
+    responses:
+      200:
+        description: Operation successful
+
+trainerLogin:
+  get:
+    tags:
+      - activity
+    summary: Get activity by trainer
+    description: Find all activities that are assigned to the trainer with provided login
+    operationId: getActivityByTrainer
+    parameters:
+      - in: path
+        name: login
+        schema:
+          type: string
+        required: true
+    responses:
+      200:
+        description: Operation successful
+        content:
+          application/json:
+            schema:
+              $ref: '../../schemas/activity/ActivityResponseList.yml#/components/schemas/ActivityResponseList'

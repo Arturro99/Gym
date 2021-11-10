@@ -14,8 +14,8 @@ import pl.lodz.p.it.core.port.secondary.AccountRepositoryPort;
 public class AccountService extends BaseService<Account> implements
         AccountServicePort {
 
-    AccountRepositoryPort accountRepositoryPort;
-    AccessLevelRepositoryPort accessLevelRepositoryPort;
+    private final AccountRepositoryPort accountRepositoryPort;
+    private final AccessLevelRepositoryPort accessLevelRepositoryPort;
 
     @Autowired
     public AccountService(AccountRepositoryPort accountRepositoryPort, AccessLevelRepositoryPort accessLevelRepositoryPort) {

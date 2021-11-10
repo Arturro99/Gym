@@ -15,7 +15,7 @@ get:
 post:
   tags:
     - diet
-  summary: Add training plan
+  summary: Add diet
   description: Create a new diet
   operationId: createDiet
   requestBody:

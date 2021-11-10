@@ -18,21 +18,16 @@ public class Diet extends BaseModel {
     @DietNumber
     private String number;
 
-    @NotBlank
     private String name;
 
-    @NotNull
     private DietType dietType;
 
-    @NotNull
     @Range(min = 1)
     private Integer calories;
 
-    @NotNull
     @Range(min = 1)
     private Integer mealsNumber;
 
-    @NotNull
     @Range(min = 1)
     private Double price;
 }

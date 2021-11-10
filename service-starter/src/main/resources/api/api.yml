@@ -66,6 +66,15 @@ paths:
   /diets/{number}:
     $ref: './paths/diet/DietByNumber.yml'
 
+  /activities:
+    $ref: './paths/activity/Activity.yml'
+
+  /activities/{number}:
+    $ref: './paths/activity/ActivityByNumber.yml#/activityNumber'
+
+  /activities/trainer/{login}:
+    $ref: './paths/activity/ActivityByNumber.yml#/trainerLogin'
+
 components:
   schemas:
 

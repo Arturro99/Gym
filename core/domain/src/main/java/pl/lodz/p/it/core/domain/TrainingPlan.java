@@ -18,20 +18,15 @@ public class TrainingPlan extends BaseModel {
     @TrainingPlanNumber
     private String number;
 
-    @NotBlank
     private String name;
 
-    @NotNull
     private TrainingType trainingType;
 
-    @NotNull
     @Range(min = 0)
     private Integer personalTrainingsNumber;
 
-    @NotNull
     private Account trainer;
 
-    @NotNull
     @Range(min = 1)
     private Double price;
 }

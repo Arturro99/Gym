@@ -2,7 +2,6 @@ package pl.lodz.p.it.repositoryhibernate.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -25,9 +24,8 @@ public class AccessLevelEntity extends BaseEntity {
     private AccountEntity account;
 
     @Column(name = "active", nullable = false)
-    @ColumnDefault("true")
     @NotNull
-    private Boolean active;
+    private Boolean active = true;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "modified_by", referencedColumnName = "id")

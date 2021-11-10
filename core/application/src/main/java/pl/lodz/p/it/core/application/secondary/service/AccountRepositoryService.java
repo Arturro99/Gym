@@ -10,6 +10,7 @@ import pl.lodz.p.it.core.application.secondary.mapper.AccountMapper;
 import pl.lodz.p.it.core.domain.Account;
 import pl.lodz.p.it.core.domain.UserPrincipal;
 import pl.lodz.p.it.core.port.secondary.AccountRepositoryPort;
+import pl.lodz.p.it.core.shared.constant.Level;
 import pl.lodz.p.it.core.shared.exception.AccountException;
 import pl.lodz.p.it.core.shared.exception.DietException;
 import pl.lodz.p.it.core.shared.exception.TrainingPlanException;
@@ -64,6 +65,21 @@ public class AccountRepositoryService extends BaseRepositoryService<AccountEntit
         return new UserPrincipal(accountMapper.toDomainModel(account), roles.stream()
                 .map(accessLevelMapper::toDomainModel)
                 .collect(Collectors.toList()));
+    }
+
+    @Override
+    public Account save(Account account) {
+        AccountEntity accountEntity = repository.instantiate();
+        accountEntity = mapper.toEntityModel(accountEntity, account);
+        AccountEntity savedEntity = repository.save(accountEntity);
+
+        AccessLevelEntity accessLevelEntity = accessLevelRepository.instantiate();
+        accessLevelEntity.setAccount(accountEntity);
+        accessLevelEntity.setBusinessId(Level.CLIENT.name());
+        accessLevelEntity.setCreatedBy(accountEntity);
+        accessLevelRepository.save(accessLevelEntity);
+
+        return mapper.toDomainModel(savedEntity);
     }
 
     @Override

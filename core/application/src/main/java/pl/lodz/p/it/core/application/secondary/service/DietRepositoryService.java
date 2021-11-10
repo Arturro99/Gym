@@ -1,7 +1,7 @@
 package pl.lodz.p.it.core.application.secondary.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import pl.lodz.p.it.core.application.secondary.mapper.DietMapper;
 import pl.lodz.p.it.core.domain.Diet;
 import pl.lodz.p.it.core.port.secondary.DietRepositoryPort;
@@ -12,12 +12,10 @@ import pl.lodz.p.it.repositoryhibernate.entity.DietTypeEntity;
 import pl.lodz.p.it.repositoryhibernate.repository.DietRepository;
 import pl.lodz.p.it.repositoryhibernate.repository.DietTypeRepository;
 
-import java.time.OffsetDateTime;
-
 /**
  * Service class responsible for operating on diet repository.
  */
-@Component
+@Service
 public class DietRepositoryService extends BaseRepositoryService<DietEntity, Diet> implements DietRepositoryPort {
 
     private final DietTypeRepository dietTypeRepository;
@@ -41,7 +39,6 @@ public class DietRepositoryService extends BaseRepositoryService<DietEntity, Die
 
         DietTypeEntity dietType = dietTypeRepository.findByBusinessId(
                 diet.getDietType().getName()).orElseThrow(DietTypeException::dietTypeNotFoundException);
-        entity.setCreationDate(OffsetDateTime.now());
         entity.setDietType(dietType);
 
         DietEntity saved = repository.save(entity);

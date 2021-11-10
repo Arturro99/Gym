@@ -1,11 +1,8 @@
 package pl.lodz.p.it.core.shared.validation;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -20,8 +17,6 @@ import static pl.lodz.p.it.core.shared.validation.RegexPattern.DIET_NUMBER_PATTE
 @Target({FIELD, PARAMETER})
 @Retention(RUNTIME)
 @Constraint(validatedBy = {})
-@NotBlank
-@Size(min = 6, max = 6, message = "Number needs have exactly 6 characters")
 @Pattern(regexp = DIET_NUMBER_PATTERN, message = "Invalid regex of the number")
 public @interface DietNumber {
 
