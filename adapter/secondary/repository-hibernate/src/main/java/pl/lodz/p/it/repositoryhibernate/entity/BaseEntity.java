@@ -4,7 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
+import javax.validation.constraints.PastOrPresent;
 import java.time.OffsetDateTime;
 
 /**
@@ -29,11 +29,11 @@ public abstract class BaseEntity {
     private Long version;
 
     @Column(name = "creation_date", nullable = false, updatable = false)
-    @Past
+    @PastOrPresent
     private OffsetDateTime creationDate;
 
     @Column(name = "modification_date")
-    @Past
+    @PastOrPresent
     private OffsetDateTime modificationDate;
 
     @PrePersist

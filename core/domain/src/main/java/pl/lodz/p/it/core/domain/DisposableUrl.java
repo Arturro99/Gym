@@ -2,13 +2,12 @@ package pl.lodz.p.it.core.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.validator.constraints.Email;
 import pl.lodz.p.it.core.shared.constant.UrlAction;
 import pl.lodz.p.it.core.shared.validation.UrlActions;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.OffsetDateTime;
 

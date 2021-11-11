@@ -4,15 +4,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.ToString.Exclude;
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Range;
 import pl.lodz.p.it.core.shared.validation.RegexPattern;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.OffsetDateTime;
 import java.util.Set;
 
@@ -72,7 +68,7 @@ public class AccountEntity extends BaseEntity {
     private AccountEntity modifiedBy;
 
     @Column(name = "last_known_good_login", table = "account_details")
-    @Past
+    @PastOrPresent
     private OffsetDateTime lastKnownGoodLogin;
 
     @Column(name = "last_known_good_login_ip", table = "account_details")
@@ -80,7 +76,7 @@ public class AccountEntity extends BaseEntity {
     private String lastKnownGoodLoginIp;
 
     @Column(name = "last_known_bad_login", table = "account_details")
-    @Past
+    @PastOrPresent
     private OffsetDateTime lastKnownBadLogin;
 
     @Column(name = "last_known_bad_login_ip", table = "account_details")
