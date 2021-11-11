@@ -19,5 +19,3 @@ components:
           type: string
         active:
           type: boolean
-        accessLevel:
-          $ref: '../accessLevel/AccessLevelResponseList.yml#/components/schemas/AccessLevelResponseList'

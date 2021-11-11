@@ -13,3 +13,23 @@ get:
             $ref: '../../schemas/accessLevel/AccessLevelResponseList.yml#/components/schemas/AccessLevelResponseList'
     500:
       description: Internal server error
+
+post:
+  tags:
+    - accessLevel
+  summary: Add access level
+  description: Create a new access level for the particular user
+  operationId: createAccessLevel
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../schemas/accessLevel/AccessLevelRequestPost.yml#/components/schemas/AccessLevelRequestPost'
+  responses:
+    201:
+      description: Operation successful
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/accessLevel/AccessLevelResponse.yml#/components/schemas/AccessLevelResponse'

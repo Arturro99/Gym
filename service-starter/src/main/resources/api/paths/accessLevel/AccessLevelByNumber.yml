@@ -1,0 +1,24 @@
+delete:
+  tags:
+    - accessLevel
+  summary: Remove accessLevel
+  description: Remove accessLevel with the given user's login and level
+  operationId: deleteAccessLevel
+  parameters:
+    - in: path
+      name: login
+      schema:
+        type: string
+      required: true
+    - in: path
+      name: level
+      schema:
+        type: string
+        enum:
+          - CLIENT
+          - ADMIN
+          - TRAINER
+      required: true
+  responses:
+    200:
+      description: Operation successful

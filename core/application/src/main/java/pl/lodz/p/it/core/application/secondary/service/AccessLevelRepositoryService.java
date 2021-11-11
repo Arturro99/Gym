@@ -7,6 +7,7 @@ import pl.lodz.p.it.core.application.secondary.mapper.AccountMapper;
 import pl.lodz.p.it.core.domain.AccessLevel;
 import pl.lodz.p.it.core.domain.Account;
 import pl.lodz.p.it.core.port.secondary.AccessLevelRepositoryPort;
+import pl.lodz.p.it.core.shared.exception.AccessLevelException;
 import pl.lodz.p.it.core.shared.exception.AccountException;
 import pl.lodz.p.it.repositoryhibernate.entity.AccessLevelEntity;
 import pl.lodz.p.it.repositoryhibernate.entity.AccountEntity;
@@ -45,5 +46,32 @@ public class AccessLevelRepositoryService extends BaseRepositoryService<AccessLe
         return accessLevelRepository.findByAccount(accountEntity).stream()
                 .map(accessLevelMapper::toDomainModel)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void removeAccessLevel(String login, String level) {
+        AccountEntity account = accountRepository.findByBusinessId(login).orElseThrow(AccountException::accountNotFoundException);
+        AccessLevelEntity toDeactivation = accessLevelRepository.findByAccountAndBusinessId(account, level)
+                .orElseThrow(AccessLevelException::accessLevelNotFoundException);
+
+        toDeactivation.setActive(false);
+        repository.save(toDeactivation);
+    }
+
+    @Override
+    public AccessLevel save(AccessLevel accessLevel) {
+        AccountEntity account = accountRepository.findByBusinessId(
+                accessLevel.getAccount().getLogin()).orElseThrow(AccountException::accountNotFoundException);
+
+        AccessLevelEntity accessLevelEntity = accessLevelRepository.findByAccountAndBusinessId(account, accessLevel.getLevel())
+                .orElseGet(() -> {
+                    AccessLevelEntity newAccessLevel = repository.instantiate();
+                    newAccessLevel = mapper.toEntityModel(newAccessLevel, accessLevel);
+                    newAccessLevel.setAccount(account);
+                    return newAccessLevel;
+                });
+        accessLevelEntity.setActive(true);
+        AccessLevelEntity savedEntity = repository.save(accessLevelEntity);
+        return mapper.toDomainModel(savedEntity);
     }
 }
