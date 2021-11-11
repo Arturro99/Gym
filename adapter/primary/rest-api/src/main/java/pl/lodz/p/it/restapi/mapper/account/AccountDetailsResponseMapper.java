@@ -7,7 +7,7 @@ import pl.lodz.p.it.restapi.mapper.BaseResponseMapper;
 
 import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = IGNORE, uses = AccountDetailsResponseMapper.class)
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = IGNORE)
 public interface AccountDetailsResponseMapper extends BaseResponseMapper<AccountDetailsResponse, Account> {
 
     @Override

@@ -13,7 +13,8 @@ import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
  * Interface responsible for mapping {@link Account} objects and {@link AccountEntity}
  */
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = IGNORE,
-        unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {TrainingPlanMapper.class, DietMapper.class})
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        uses = {TrainingPlanMapper.class, DietMapper.class})
 public interface AccountMapper extends BaseMapper<AccountEntity, Account> {
 
     @Override
