@@ -28,4 +28,9 @@ public class AccessLevelService extends BaseService<AccessLevel> implements
     public List<AccessLevel> findByAccount(Account account) {
         return accessLevelRepositoryPort.findByAccount(account);
     }
+
+    @Override
+    public void removeAccessLevel(String login, String level) {
+        accessLevelRepositoryPort.removeAccessLevel(login, level);
+    }
 }
