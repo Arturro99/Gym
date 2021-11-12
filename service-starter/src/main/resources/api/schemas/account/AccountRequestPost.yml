@@ -30,6 +30,7 @@ components:
           type: string
         language:
           type: string
+          maxLength: 5
         gymMember:
           type: boolean
         phoneNumber:

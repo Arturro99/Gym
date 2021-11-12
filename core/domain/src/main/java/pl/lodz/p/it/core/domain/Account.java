@@ -37,6 +37,7 @@ public class Account extends BaseModel {
     @Pattern(regexp = RegexPattern.PHONE_NUMBER_PATTERN, message = "Invalid phone number")
     private String phoneNumber;
 
+    @Size(max = 5)
     private String language;
 
     private Account modifiedBy;

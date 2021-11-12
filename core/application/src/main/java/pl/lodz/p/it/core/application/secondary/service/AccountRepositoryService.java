@@ -14,6 +14,7 @@ import pl.lodz.p.it.core.shared.constant.Level;
 import pl.lodz.p.it.core.shared.exception.AccountException;
 import pl.lodz.p.it.core.shared.exception.DietException;
 import pl.lodz.p.it.core.shared.exception.TrainingPlanException;
+import pl.lodz.p.it.core.shared.exception.core.BaseException;
 import pl.lodz.p.it.repositoryhibernate.entity.AccessLevelEntity;
 import pl.lodz.p.it.repositoryhibernate.entity.AccountEntity;
 import pl.lodz.p.it.repositoryhibernate.entity.DietEntity;
@@ -80,6 +81,16 @@ public class AccountRepositoryService extends BaseRepositoryService<AccountEntit
         accessLevelRepository.save(accessLevelEntity);
 
         return mapper.toDomainModel(savedEntity);
+    }
+
+    @Override
+    public Account update(String key, Account account) {
+        AccountEntity entity = repository.findByBusinessId(key).orElseThrow(
+            AccountException::accountNotFoundException);
+        AccountEntity updated = mapper
+            .toEntityModel(entity, account);
+        AccountEntity response = repository.save(updated);
+        return mapper.toDomainModel(response);
     }
 
     @Override
