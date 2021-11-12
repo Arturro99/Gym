@@ -60,6 +60,7 @@ public class AccountEntity extends BaseEntity {
     private String phoneNumber;
 
     @Column(name = "language", table = "account_details", nullable = false)
+    @Size(max = 5)
     @NotNull
     private String language;
 

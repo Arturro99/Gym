@@ -20,6 +20,32 @@ get:
     500:
       description: Internal server error
 
+put:
+  tags:
+    - account
+  summary: Update account
+  description: Update existing account with provided login
+  operationId: updateAccount
+  parameters:
+    - in: path
+      name: login
+      schema:
+        type: string
+      required: true
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../schemas/account/AccountRequestPut.yml#/components/schemas/AccountRequestPut'
+  responses:
+    200:
+      description: Operation successful
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/account/AccountDetailsResponse.yml#/components/schemas/AccountDetailsResponse'
+
 trainingPlan:
   add:
     post:
