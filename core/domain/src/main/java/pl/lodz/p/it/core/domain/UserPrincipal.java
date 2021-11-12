@@ -18,6 +18,7 @@ public class UserPrincipal implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return levels.stream()
+                .filter(AccessLevel::getActive)
                 .map(level -> new SimpleGrantedAuthority(level.getLevel())).collect(Collectors.toList());
     }
 

@@ -12,7 +12,8 @@ import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 /**
  * Interface responsible for mapping {@link AccessLevel} objects and {@link AccessLevelEntity}
  */
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = IGNORE, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = IGNORE,
+        unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = AccountMapper.class)
 public interface AccessLevelMapper extends BaseMapper<AccessLevelEntity, AccessLevel> {
 
     @Override

@@ -5,6 +5,7 @@ import pl.lodz.p.it.repositoryhibernate.entity.AccessLevelEntity;
 import pl.lodz.p.it.repositoryhibernate.entity.AccountEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Repository responsible for managing entities of type {@link AccessLevelEntity}.
@@ -18,4 +19,6 @@ public interface AccessLevelRepository extends BaseRepository<AccessLevelEntity>
     }
 
     List<AccessLevelEntity> findByAccount(AccountEntity accountEntity);
+
+    Optional<AccessLevelEntity> findByAccountAndBusinessId(AccountEntity account, String level);
 }

@@ -12,6 +12,6 @@ import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 public interface AccessLevelRequestPostMapper extends BaseRequestMapper<AccessLevelRequestPost, AccessLevel> {
 
     @Override
-    @Mapping(target = "account", ignore = true)
+    @Mapping(target = "account.login", source = "dtoModel.accountLogin")
     AccessLevel toDomainModel(AccessLevelRequestPost dtoModel);
 }

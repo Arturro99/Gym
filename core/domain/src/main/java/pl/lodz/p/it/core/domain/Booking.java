@@ -4,8 +4,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import pl.lodz.p.it.core.shared.validation.BookingNumber;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * Class responsible for keeping a domain model of the booking object.
  */

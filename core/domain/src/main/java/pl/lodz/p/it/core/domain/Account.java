@@ -2,10 +2,10 @@ package pl.lodz.p.it.core.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Range;
 import pl.lodz.p.it.core.shared.validation.RegexPattern;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.OffsetDateTime;
