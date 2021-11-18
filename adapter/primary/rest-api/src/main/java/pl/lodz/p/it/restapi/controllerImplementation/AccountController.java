@@ -1,4 +1,4 @@
-package pl.lodz.p.it.restapi.controller;
+package pl.lodz.p.it.restapi.controllerImplementation;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RestController;
 import pl.lodz.p.it.core.domain.Account;
 import pl.lodz.p.it.core.port.primary.AccountServicePort;
+import pl.lodz.p.it.restapi.controller.AccountsApiDelegate;
 import pl.lodz.p.it.restapi.dto.AccountDetailsResponse;
 import pl.lodz.p.it.restapi.dto.AccountGeneralResponse;
 import pl.lodz.p.it.restapi.dto.AccountRequestPost;

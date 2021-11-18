@@ -1,10 +1,11 @@
-package pl.lodz.p.it.restapi.controller;
+package pl.lodz.p.it.restapi.controllerImplementation;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import pl.lodz.p.it.core.domain.Booking;
 import pl.lodz.p.it.core.port.primary.BookingServicePort;
+import pl.lodz.p.it.restapi.controller.BookingsApiDelegate;
 import pl.lodz.p.it.restapi.dto.BookingRequestPost;
 import pl.lodz.p.it.restapi.dto.BookingRequestPut;
 import pl.lodz.p.it.restapi.dto.BookingResponse;

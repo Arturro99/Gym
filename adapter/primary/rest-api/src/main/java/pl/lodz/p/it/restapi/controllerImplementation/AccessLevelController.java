@@ -1,10 +1,11 @@
-package pl.lodz.p.it.restapi.controller;
+package pl.lodz.p.it.restapi.controllerImplementation;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import pl.lodz.p.it.core.domain.AccessLevel;
 import pl.lodz.p.it.core.port.primary.AccessLevelServicePort;
+import pl.lodz.p.it.restapi.controller.AccessLevelsApiDelegate;
 import pl.lodz.p.it.restapi.dto.AccessLevelRequestPost;
 import pl.lodz.p.it.restapi.dto.AccessLevelResponse;
 import pl.lodz.p.it.restapi.mapper.accessLevel.AccessLevelRequestPostMapper;

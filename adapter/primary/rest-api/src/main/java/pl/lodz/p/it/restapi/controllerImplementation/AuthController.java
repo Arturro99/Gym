@@ -1,4 +1,4 @@
-package pl.lodz.p.it.restapi.controller;
+package pl.lodz.p.it.restapi.controllerImplementation;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -12,6 +12,7 @@ import pl.lodz.p.it.core.domain.AccessLevel;
 import pl.lodz.p.it.core.port.primary.AccessLevelServicePort;
 import pl.lodz.p.it.core.port.primary.AccountServicePort;
 import pl.lodz.p.it.core.shared.SecurityConstants;
+import pl.lodz.p.it.restapi.controller.AuthenticateApiDelegate;
 import pl.lodz.p.it.restapi.dto.CredentialsRequest;
 
 import java.util.Date;

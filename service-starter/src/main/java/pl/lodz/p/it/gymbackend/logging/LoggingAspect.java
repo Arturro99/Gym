@@ -2,6 +2,8 @@ package pl.lodz.p.it.gymbackend.logging;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
@@ -17,27 +19,38 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StopWatch;
 
 @Aspect
 @Slf4j
 @Component
 public class LoggingAspect {
 
-    private final static StopWatch stopWatch = new StopWatch();
-
     /**
      * Pointcut leading to all the methods in all classes
      */
-    @Pointcut("execution(* pl.lodz.p.it..*(..))")
+    @Pointcut("execution(* pl.lodz.p.it..*(..)) && !execution(* pl.lodz.p.it.gymbackend..*(..))")
     public void allMethods() {
     }
 
     /**
-     * Pointcut leading to methods in controllers
+     * Pointcut leading to methods in controllers' implementations
+     */
+    @Pointcut("execution(* pl.lodz.p.it.restapi.controllerImplementation..*(..))")
+    public void methodsInImplementedControllers() {
+    }
+
+    /**
+     * Pointcut leading to methods in generated controllers
      */
     @Pointcut("execution(* pl.lodz.p.it.restapi.controller..*(..))")
-    public void methodsInControllers() {
+    public void methodsInGeneratedControllers() {
+    }
+
+    /**
+     * Pointcut leading to methods in AuthController
+     */
+    @Pointcut("within(pl.lodz.p.it.restapi.controllerImplementation.AuthController)")
+    public void methodsInAuthController() {
     }
 
     /**
@@ -61,7 +74,8 @@ public class LoggingAspect {
      * @param joinPoint Object providing lots of information about newly invoked method
      * @return Object being a result of the running method
      */
-    @Around("allMethods() && !methodsInControllerMappers() && !methodsInCoreMappers() && !methodsInControllers()")
+    @Around("allMethods() && !methodsInControllerMappers() && !methodsInCoreMappers() && "
+        + "!methodsInGeneratedControllers() && !methodsInImplementedControllers()")
     public Object logMethods(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = methodSignature.getMethod();
@@ -78,7 +92,7 @@ public class LoggingAspect {
      * @param joinPoint Object providing lots of information about newly invoked method
      * @return Object being a result of the running method
      */
-    @Around("methodsInControllers()")
+    @Around("methodsInImplementedControllers() && !methodsInAuthController()")
     public Object logControllerMethods(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = methodSignature.getMethod();
@@ -114,11 +128,12 @@ public class LoggingAspect {
         String methodName = method.getName();
         String returnType = method.getReturnType().getSimpleName();
 
-        stopWatch.start();
+        Instant start = Instant.now();
         Object result = joinPoint.proceed();
-        stopWatch.stop();
+        Instant end = Instant.now();
+        Long duration = Duration.between(start, end).toMillis();
 
-        log.info(createExitMessage(className, methodName, stopWatch.getTotalTimeMillis(), result,
+        log.info(createExitMessage(className, methodName, duration, result,
             returnType));
         return result;
     }
@@ -129,11 +144,12 @@ public class LoggingAspect {
         String className = method.getDeclaringClass().getSimpleName();
         String methodName = method.getName();
 
-        stopWatch.start();
+        Instant start = Instant.now();
         Object result = joinPoint.proceed();
-        stopWatch.stop();
+        Instant end = Instant.now();
+        Long duration = Duration.between(start, end).toMillis();
 
-        log.info(createExitControllerMessage(className, methodName, stopWatch.getTotalTimeMillis(),
+        log.info(createExitControllerMessage(className, methodName, duration,
             result));
         return result;
     }

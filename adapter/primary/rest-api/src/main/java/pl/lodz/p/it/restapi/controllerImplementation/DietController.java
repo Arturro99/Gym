@@ -1,10 +1,11 @@
-package pl.lodz.p.it.restapi.controller;
+package pl.lodz.p.it.restapi.controllerImplementation;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import pl.lodz.p.it.core.domain.Diet;
 import pl.lodz.p.it.core.port.primary.DietServicePort;
+import pl.lodz.p.it.restapi.controller.DietsApiDelegate;
 import pl.lodz.p.it.restapi.dto.DietRequestPost;
 import pl.lodz.p.it.restapi.dto.DietRequestPut;
 import pl.lodz.p.it.restapi.dto.DietResponse;

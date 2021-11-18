@@ -1,12 +1,11 @@
-package pl.lodz.p.it.restapi.controller;
+package pl.lodz.p.it.restapi.controllerImplementation;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import pl.lodz.p.it.core.domain.TrainingPlan;
-import pl.lodz.p.it.core.port.primary.AccountServicePort;
 import pl.lodz.p.it.core.port.primary.TrainingPlanServicePort;
-import pl.lodz.p.it.core.port.primary.TrainingTypeServicePort;
+import pl.lodz.p.it.restapi.controller.TrainingPlansApiDelegate;
 import pl.lodz.p.it.restapi.dto.TrainingPlanRequestPost;
 import pl.lodz.p.it.restapi.dto.TrainingPlanRequestPut;
 import pl.lodz.p.it.restapi.dto.TrainingPlanResponse;

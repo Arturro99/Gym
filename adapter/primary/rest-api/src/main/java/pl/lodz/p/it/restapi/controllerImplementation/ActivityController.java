@@ -1,10 +1,11 @@
-package pl.lodz.p.it.restapi.controller;
+package pl.lodz.p.it.restapi.controllerImplementation;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import pl.lodz.p.it.core.domain.Activity;
 import pl.lodz.p.it.core.port.primary.ActivityServicePort;
+import pl.lodz.p.it.restapi.controller.ActivitiesApiDelegate;
 import pl.lodz.p.it.restapi.dto.ActivityRequestPost;
 import pl.lodz.p.it.restapi.dto.ActivityRequestPut;
 import pl.lodz.p.it.restapi.dto.ActivityResponse;
