@@ -1,20 +1,25 @@
 package pl.lodz.p.it.core.application.primary.service;
 
+import static org.springframework.transaction.annotation.Isolation.READ_COMMITTED;
+import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
+
+import java.util.List;
+import javax.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import pl.lodz.p.it.core.port.primary.BaseServicePort;
 import pl.lodz.p.it.core.port.secondary.BaseRepositoryPort;
 
-import javax.validation.Valid;
-import java.util.List;
-
 /**
- * Implementation of base methods provided by the {@link BaseServicePort} interface used by client-side adapters.
+ * Implementation of base methods provided by the {@link BaseServicePort} interface used by
+ * client-side adapters.
  *
  * @param <T> Type of appropriate domain model
  */
 @AllArgsConstructor
 @Validated
+@Transactional(propagation = REQUIRES_NEW, isolation = READ_COMMITTED)
 public abstract class BaseService<T> implements BaseServicePort<T> {
 
     protected BaseRepositoryPort<T> repository;
