@@ -14,6 +14,13 @@
 
     <packaging>war</packaging>
 
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <postgresql.version>42.2.23</postgresql.version>
+        <logback-colorizer.version>1.0.1</logback-colorizer.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>pl.lodz.p.it</groupId>
@@ -29,12 +36,14 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.2.23</version>
+            <version>${postgresql.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.tuxdude.logback.extensions</groupId>
+            <artifactId>logback-colorizer</artifactId>
+            <version>${logback-colorizer.version}</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
-
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-    </properties>
 </project>
