@@ -27,4 +27,7 @@ public class Activity extends BaseModel {
     private Account trainer;
 
     private Boolean active;
+
+    @Range(min = 1)
+    private Integer capacity;
 }
