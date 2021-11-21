@@ -1,7 +1,15 @@
 package pl.lodz.p.it.core.application.secondary.service;
 
+import static org.springframework.transaction.annotation.Isolation.READ_COMMITTED;
+import static org.springframework.transaction.annotation.Propagation.MANDATORY;
+
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.core.application.secondary.mapper.ActivityMapper;
 import pl.lodz.p.it.core.domain.Activity;
 import pl.lodz.p.it.core.port.secondary.ActivityRepositoryPort;
@@ -16,15 +24,17 @@ import pl.lodz.p.it.repositoryhibernate.repository.AccessLevelRepository;
 import pl.lodz.p.it.repositoryhibernate.repository.AccountRepository;
 import pl.lodz.p.it.repositoryhibernate.repository.ActivityRepository;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 /**
  * Service class responsible for operating on activity repository.
  */
 @Service
-public class ActivityRepositoryService extends BaseRepositoryService<ActivityEntity, Activity> implements
-        ActivityRepositoryPort {
+@Transactional(propagation = MANDATORY, isolation = READ_COMMITTED, timeout = 3)
+@Retryable(exclude = {ActivityException.class, AccountException.class},
+    maxAttemptsExpression = "${retry.maxAttempts}",
+    backoff = @Backoff(delayExpression = "${retry.maxDelay}"))
+public class ActivityRepositoryService extends
+    BaseRepositoryService<ActivityEntity, Activity> implements
+    ActivityRepositoryPort {
 
     private final AccountRepository accountRepository;
 
@@ -33,7 +43,9 @@ public class ActivityRepositoryService extends BaseRepositoryService<ActivityEnt
     private final AccessLevelRepository accessLevelRepository;
 
     @Autowired
-    public ActivityRepositoryService(ActivityRepository repository, ActivityMapper mapper, AccountRepository accountRepository, ActivityRepository activityRepository, AccessLevelRepository accessLevelRepository) {
+    public ActivityRepositoryService(ActivityRepository repository, ActivityMapper mapper,
+        AccountRepository accountRepository, ActivityRepository activityRepository,
+        AccessLevelRepository accessLevelRepository) {
         super(repository, mapper);
         this.accountRepository = accountRepository;
         this.activityRepository = activityRepository;
@@ -42,16 +54,17 @@ public class ActivityRepositoryService extends BaseRepositoryService<ActivityEnt
 
     @Override
     public List<Activity> findByTrainer(String login) {
-        AccountEntity trainer = accountRepository.findByBusinessId(login).orElseThrow(AccountException::accountNotFoundException);
+        AccountEntity trainer = accountRepository.findByBusinessId(login)
+            .orElseThrow(AccountException::accountNotFoundException);
         return activityRepository.findAllByTrainer(trainer).stream()
-                .map(mapper::toDomainModel)
-                .collect(Collectors.toList());
+            .map(mapper::toDomainModel)
+            .collect(Collectors.toList());
     }
 
     @Override
     public Activity find(String key) {
         return repository.findByBusinessId(key)
-                .map(mapper::toDomainModel).orElseThrow(ActivityException::activityNotFoundException);
+            .map(mapper::toDomainModel).orElseThrow(ActivityException::activityNotFoundException);
     }
 
     @Override
@@ -60,7 +73,8 @@ public class ActivityRepositoryService extends BaseRepositoryService<ActivityEnt
         entity = mapper.toEntityModel(entity, activity);
 
         AccountEntity accountEntity = accountRepository.findByBusinessId(
-                activity.getTrainer().getLogin()).orElseThrow(AccountException::accountNotFoundException);
+            activity.getTrainer().getLogin())
+            .orElseThrow(AccountException::accountNotFoundException);
         if (!hasTrainerRole(accountEntity)) {
             throw AccessLevelException.illegalAccessLevel();
         }
@@ -73,13 +87,14 @@ public class ActivityRepositoryService extends BaseRepositoryService<ActivityEnt
     @Override
     public Activity update(String key, Activity activity) {
         ActivityEntity entity = repository.findByBusinessId(key).orElseThrow(
-                ActivityException::activityNotFoundException);
+            ActivityException::activityNotFoundException);
         ActivityEntity updated = mapper
-                .toEntityModel(entity, activity);
+            .toEntityModel(entity, activity);
 
         if (activity.getTrainer().getLogin() != null) {
             AccountEntity accountEntity = accountRepository.findByBusinessId(
-                    activity.getTrainer().getLogin()).orElseThrow(AccountException::accountNotFoundException);
+                activity.getTrainer().getLogin())
+                .orElseThrow(AccountException::accountNotFoundException);
             if (!hasTrainerRole(accountEntity)) {
                 throw AccessLevelException.illegalAccessLevel();
             }
@@ -93,7 +108,7 @@ public class ActivityRepositoryService extends BaseRepositoryService<ActivityEnt
     @Override
     public void delete(String key) {
         ActivityEntity entity = repository.findByBusinessId(key)
-                .orElseThrow(ActivityException::activityNotFoundException);
+            .orElseThrow(ActivityException::activityNotFoundException);
         if (entity.getActive()) {
             throw ActivityException.activityConflictException();
         }
@@ -102,8 +117,8 @@ public class ActivityRepositoryService extends BaseRepositoryService<ActivityEnt
 
     private boolean hasTrainerRole(AccountEntity accountEntity) {
         return accessLevelRepository.findByAccount(accountEntity).stream()
-                .map(AccessLevelEntity::getBusinessId)
-                .anyMatch(x -> x.equals(Level.TRAINER.name()));
+            .map(AccessLevelEntity::getBusinessId)
+            .anyMatch(x -> x.equals(Level.TRAINER.name()));
     }
 
 }

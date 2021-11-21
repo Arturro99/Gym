@@ -1,7 +1,14 @@
 package pl.lodz.p.it.core.application.secondary.service;
 
+import static org.springframework.transaction.annotation.Isolation.READ_COMMITTED;
+import static org.springframework.transaction.annotation.Propagation.MANDATORY;
+
+import java.time.OffsetDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.core.application.secondary.mapper.TrainingPlanMapper;
 import pl.lodz.p.it.core.domain.TrainingPlan;
 import pl.lodz.p.it.core.port.secondary.TrainingPlanRepositoryPort;
@@ -19,14 +26,17 @@ import pl.lodz.p.it.repositoryhibernate.repository.AccountRepository;
 import pl.lodz.p.it.repositoryhibernate.repository.TrainingPlanRepository;
 import pl.lodz.p.it.repositoryhibernate.repository.TrainingTypeRepository;
 
-import java.time.OffsetDateTime;
-
 /**
  * Service class responsible for operating on training plan repository.
  */
-@Component
-public class TrainingPlanRepositoryService extends BaseRepositoryService<TrainingPlanEntity, TrainingPlan> implements
-        TrainingPlanRepositoryPort {
+@Service
+@Transactional(propagation = MANDATORY, isolation = READ_COMMITTED, timeout = 3)
+@Retryable(exclude = {TrainingPlanException.class, AccountException.class},
+    maxAttemptsExpression = "${retry.maxAttempts}",
+    backoff = @Backoff(delayExpression = "${retry.maxDelay}"))
+public class TrainingPlanRepositoryService extends
+    BaseRepositoryService<TrainingPlanEntity, TrainingPlan> implements
+    TrainingPlanRepositoryPort {
 
     private final AccountRepository accountRepository;
 
@@ -35,10 +45,11 @@ public class TrainingPlanRepositoryService extends BaseRepositoryService<Trainin
     private final AccessLevelRepository accessLevelRepository;
 
     @Autowired
-    public TrainingPlanRepositoryService(TrainingPlanRepository repository, TrainingPlanMapper mapper,
-                                         AccountRepository accountRepository,
-                                         TrainingTypeRepository trainingTypeRepository,
-                                         AccessLevelRepository accessLevelRepository) {
+    public TrainingPlanRepositoryService(TrainingPlanRepository repository,
+        TrainingPlanMapper mapper,
+        AccountRepository accountRepository,
+        TrainingTypeRepository trainingTypeRepository,
+        AccessLevelRepository accessLevelRepository) {
         super(repository, mapper);
         this.accountRepository = accountRepository;
         this.trainingTypeRepository = trainingTypeRepository;
@@ -48,7 +59,8 @@ public class TrainingPlanRepositoryService extends BaseRepositoryService<Trainin
     @Override
     public TrainingPlan find(String key) {
         return repository.findByBusinessId(key)
-                .map(mapper::toDomainModel).orElseThrow(TrainingPlanException::trainingPlanNotFoundException);
+            .map(mapper::toDomainModel)
+            .orElseThrow(TrainingPlanException::trainingPlanNotFoundException);
     }
 
     @Override
@@ -57,12 +69,14 @@ public class TrainingPlanRepositoryService extends BaseRepositoryService<Trainin
         entity = mapper.toEntityModel(entity, trainingPlan);
 
         AccountEntity trainer = accountRepository.findByBusinessId(
-                trainingPlan.getTrainer().getLogin()).orElseThrow(AccountException::accountNotFoundException);
+            trainingPlan.getTrainer().getLogin())
+            .orElseThrow(AccountException::accountNotFoundException);
         if (!hasTrainerRole(trainer)) {
             throw AccessLevelException.illegalAccessLevel();
         }
         TrainingTypeEntity trainingType = trainingTypeRepository.findByBusinessId(
-                trainingPlan.getTrainingType().getName()).orElseThrow(TrainingTypeException::trainingTypeNotFoundException);
+            trainingPlan.getTrainingType().getName())
+            .orElseThrow(TrainingTypeException::trainingTypeNotFoundException);
         entity.setCreationDate(OffsetDateTime.now());
         entity.setTrainer(trainer);
         entity.setTrainingType(trainingType);
@@ -75,13 +89,14 @@ public class TrainingPlanRepositoryService extends BaseRepositoryService<Trainin
     @Override
     public TrainingPlan update(String key, TrainingPlan trainingPlan) {
         TrainingPlanEntity entity = repository.findByBusinessId(key).orElseThrow(
-                TrainingPlanException::trainingPlanNotFoundException);
+            TrainingPlanException::trainingPlanNotFoundException);
         TrainingPlanEntity updated = mapper
-                .toEntityModel(entity, trainingPlan);
+            .toEntityModel(entity, trainingPlan);
 
         if (trainingPlan.getTrainer().getLogin() != null) {
             AccountEntity accountEntity = accountRepository.findByBusinessId(
-                    trainingPlan.getTrainer().getLogin()).orElseThrow(AccountException::accountNotFoundException);
+                trainingPlan.getTrainer().getLogin())
+                .orElseThrow(AccountException::accountNotFoundException);
             if (!hasTrainerRole(accountEntity)) {
                 throw AccessLevelException.illegalAccessLevel();
             }
@@ -90,7 +105,8 @@ public class TrainingPlanRepositoryService extends BaseRepositoryService<Trainin
 
         if (trainingPlan.getTrainingType().getName() != null) {
             TrainingTypeEntity trainingType = trainingTypeRepository.findByBusinessId(
-                    trainingPlan.getTrainingType().getName()).orElseThrow(TrainingTypeException::trainingTypeNotFoundException);
+                trainingPlan.getTrainingType().getName())
+                .orElseThrow(TrainingTypeException::trainingTypeNotFoundException);
             updated.setTrainingType(trainingType);
         }
 
@@ -101,7 +117,7 @@ public class TrainingPlanRepositoryService extends BaseRepositoryService<Trainin
     @Override
     public void delete(String key) {
         TrainingPlanEntity entity = repository.findByBusinessId(key)
-                .orElseThrow(TrainingPlanException::trainingPlanNotFoundException);
+            .orElseThrow(TrainingPlanException::trainingPlanNotFoundException);
         if (!entity.getAccounts().isEmpty()) {
             throw TrainingPlanException.trainingPlanConflictException();
         }
@@ -110,7 +126,7 @@ public class TrainingPlanRepositoryService extends BaseRepositoryService<Trainin
 
     private boolean hasTrainerRole(AccountEntity accountEntity) {
         return accessLevelRepository.findByAccount(accountEntity).stream()
-                .map(AccessLevelEntity::getBusinessId)
-                .anyMatch(x -> x.equals(Level.TRAINER.name()));
+            .map(AccessLevelEntity::getBusinessId)
+            .anyMatch(x -> x.equals(Level.TRAINER.name()));
     }
 }

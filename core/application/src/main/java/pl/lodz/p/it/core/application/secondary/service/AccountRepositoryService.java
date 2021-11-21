@@ -1,10 +1,19 @@
 package pl.lodz.p.it.core.application.secondary.service;
 
+import static org.springframework.transaction.annotation.Isolation.READ_COMMITTED;
+import static org.springframework.transaction.annotation.Propagation.MANDATORY;
+
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.core.application.secondary.mapper.AccessLevelMapper;
 import pl.lodz.p.it.core.application.secondary.mapper.AccountMapper;
 import pl.lodz.p.it.core.domain.Account;
@@ -14,7 +23,6 @@ import pl.lodz.p.it.core.shared.constant.Level;
 import pl.lodz.p.it.core.shared.exception.AccountException;
 import pl.lodz.p.it.core.shared.exception.DietException;
 import pl.lodz.p.it.core.shared.exception.TrainingPlanException;
-import pl.lodz.p.it.core.shared.exception.core.BaseException;
 import pl.lodz.p.it.repositoryhibernate.entity.AccessLevelEntity;
 import pl.lodz.p.it.repositoryhibernate.entity.AccountEntity;
 import pl.lodz.p.it.repositoryhibernate.entity.DietEntity;
@@ -24,15 +32,16 @@ import pl.lodz.p.it.repositoryhibernate.repository.AccountRepository;
 import pl.lodz.p.it.repositoryhibernate.repository.DietRepository;
 import pl.lodz.p.it.repositoryhibernate.repository.TrainingPlanRepository;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 /**
  * Service class responsible for operating on account repository.
  */
 @Service
-public class AccountRepositoryService extends BaseRepositoryService<AccountEntity, Account> implements
-        AccountRepositoryPort, UserDetailsService {
+@Transactional(propagation = MANDATORY, isolation = READ_COMMITTED, timeout = 3)
+@Retryable(exclude = AccountException.class, maxAttemptsExpression = "${retry.maxAttempts}",
+    backoff = @Backoff(delayExpression = "${retry.maxDelay}"))
+public class AccountRepositoryService extends
+    BaseRepositoryService<AccountEntity, Account> implements
+    AccountRepositoryPort, UserDetailsService {
 
     private final AccountRepository accountRepository;
 
@@ -47,9 +56,10 @@ public class AccountRepositoryService extends BaseRepositoryService<AccountEntit
     private final AccessLevelMapper accessLevelMapper;
 
     @Autowired
-    public AccountRepositoryService(AccountRepository accountRepository, AccountMapper accountMapper, AccessLevelRepository accessLevelRepository,
-                                    TrainingPlanRepository trainingPlanRepository, DietRepository dietRepository,
-                                    AccessLevelMapper accessLevelMapper) {
+    public AccountRepositoryService(AccountRepository accountRepository,
+        AccountMapper accountMapper, AccessLevelRepository accessLevelRepository,
+        TrainingPlanRepository trainingPlanRepository, DietRepository dietRepository,
+        AccessLevelMapper accessLevelMapper) {
         super(accountRepository, accountMapper);
         this.accountRepository = accountRepository;
         this.accessLevelRepository = accessLevelRepository;
@@ -59,13 +69,15 @@ public class AccountRepositoryService extends BaseRepositoryService<AccountEntit
         this.accountMapper = accountMapper;
     }
 
+    @Transactional(propagation = Propagation.NEVER)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        final AccountEntity account = accountRepository.findByBusinessId(username).orElseThrow(AccountException::accountNotFoundException);
+        final AccountEntity account = accountRepository.findByBusinessId(username)
+            .orElseThrow(AccountException::accountNotFoundException);
         final List<AccessLevelEntity> roles = accessLevelRepository.findByAccount(account);
         return new UserPrincipal(accountMapper.toDomainModel(account), roles.stream()
-                .map(accessLevelMapper::toDomainModel)
-                .collect(Collectors.toList()));
+            .map(accessLevelMapper::toDomainModel)
+            .collect(Collectors.toList()));
     }
 
     @Override
@@ -96,15 +108,16 @@ public class AccountRepositoryService extends BaseRepositoryService<AccountEntit
     @Override
     public Account find(String key) {
         return repository.findByBusinessId(key)
-                .map(mapper::toDomainModel).orElseThrow(AccountException::accountNotFoundException);
+            .map(mapper::toDomainModel).orElseThrow(AccountException::accountNotFoundException);
     }
 
     @Override
     public Account addTrainingPlan(String login, String trainingPlanNumber) {
         final AccountEntity account = accountRepository.findByBusinessId(login)
-                .orElseThrow(AccountException::accountNotFoundException);
-        final TrainingPlanEntity trainingPlan = trainingPlanRepository.findByBusinessId(trainingPlanNumber)
-                .orElseThrow(TrainingPlanException::trainingPlanNotFoundException);
+            .orElseThrow(AccountException::accountNotFoundException);
+        final TrainingPlanEntity trainingPlan = trainingPlanRepository
+            .findByBusinessId(trainingPlanNumber)
+            .orElseThrow(TrainingPlanException::trainingPlanNotFoundException);
         if (account.getTrainingPlans().contains(trainingPlan)) {
             throw TrainingPlanException.trainingPlanConflictException();
         }
@@ -117,9 +130,10 @@ public class AccountRepositoryService extends BaseRepositoryService<AccountEntit
     @Override
     public void removeTrainingPlan(String login, String trainingPlanNumber) {
         final AccountEntity account = accountRepository.findByBusinessId(login)
-                .orElseThrow(AccountException::accountNotFoundException);
-        final TrainingPlanEntity trainingPlan = trainingPlanRepository.findByBusinessId(trainingPlanNumber)
-                .orElseThrow(TrainingPlanException::trainingPlanNotFoundException);
+            .orElseThrow(AccountException::accountNotFoundException);
+        final TrainingPlanEntity trainingPlan = trainingPlanRepository
+            .findByBusinessId(trainingPlanNumber)
+            .orElseThrow(TrainingPlanException::trainingPlanNotFoundException);
         if (!account.getTrainingPlans().contains(trainingPlan)) {
             throw TrainingPlanException.trainingPlanNotFoundException();
         }
@@ -131,9 +145,9 @@ public class AccountRepositoryService extends BaseRepositoryService<AccountEntit
     @Override
     public Account addDiet(String login, String dietNumber) {
         final AccountEntity account = accountRepository.findByBusinessId(login)
-                .orElseThrow(AccountException::accountNotFoundException);
+            .orElseThrow(AccountException::accountNotFoundException);
         final DietEntity diet = dietRepository.findByBusinessId(dietNumber)
-                .orElseThrow(DietException::dietNotFoundException);
+            .orElseThrow(DietException::dietNotFoundException);
         if (account.getDiets().contains(diet)) {
             throw DietException.dietConflictException();
         }
@@ -146,9 +160,9 @@ public class AccountRepositoryService extends BaseRepositoryService<AccountEntit
     @Override
     public void removeDiet(String login, String dietNumber) {
         final AccountEntity account = accountRepository.findByBusinessId(login)
-                .orElseThrow(AccountException::accountNotFoundException);
+            .orElseThrow(AccountException::accountNotFoundException);
         final DietEntity diet = dietRepository.findByBusinessId(dietNumber)
-                .orElseThrow(DietException::dietNotFoundException);
+            .orElseThrow(DietException::dietNotFoundException);
         if (!account.getDiets().contains(diet)) {
             throw DietException.dietNotFoundException();
         }
