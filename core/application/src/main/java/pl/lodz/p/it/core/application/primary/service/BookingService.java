@@ -9,11 +9,10 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.lodz.p.it.core.domain.Account;
+import pl.lodz.p.it.core.application.primary.service.util.PreferentialAlgorithm;
 import pl.lodz.p.it.core.domain.Activity;
 import pl.lodz.p.it.core.domain.Booking;
 import pl.lodz.p.it.core.port.primary.BookingServicePort;
-import pl.lodz.p.it.core.port.secondary.ActivityRepositoryPort;
 import pl.lodz.p.it.core.port.secondary.BookingRepositoryPort;
 
 /**
@@ -27,14 +26,13 @@ public class BookingService extends BaseService<Booking> implements
 
     BookingRepositoryPort bookingRepositoryPort;
 
-    ActivityRepositoryPort activityRepositoryPort;
+    PreferentialAlgorithm algorithm;
 
     @Autowired
-    public BookingService(BookingRepositoryPort bookingRepositoryPort,
-        ActivityRepositoryPort activityRepositoryPort) {
+    public BookingService(BookingRepositoryPort bookingRepositoryPort) {
         super(bookingRepositoryPort);
         this.bookingRepositoryPort = bookingRepositoryPort;
-        this.activityRepositoryPort = activityRepositoryPort;
+        this.algorithm = new PreferentialAlgorithm(bookingRepositoryPort);
     }
 
     @Override
@@ -48,13 +46,17 @@ public class BookingService extends BaseService<Booking> implements
     }
 
     @Override
-    public Booking save(Booking booking) {
-
-        return repository.save(booking);
+    public Booking findByClientAndActivity(String login, String number) {
+        return bookingRepositoryPort.findByClientAndActivity(login, number);
     }
 
-//    private boolean canParticipateInActivity(Activity activity, Account account,
-//        List<Booking> allBookings) {
-//
-//    }
+    @Override
+    public Booking save(Booking booking) {
+        Activity activity = booking.getActivity();
+        repository.save(booking);
+        if (algorithm.isActivityFull(activity)) {
+            algorithm.applyPreference(activity);
+        }
+        return repository.save(booking);
+    }
 }

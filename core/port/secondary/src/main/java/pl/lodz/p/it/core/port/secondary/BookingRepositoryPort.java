@@ -12,4 +12,6 @@ public interface BookingRepositoryPort extends BaseRepositoryPort<Booking> {
     List<Booking> findByClient(String login);
 
     List<Booking> findByActivity(String number);
+
+    Booking findByClientAndActivity(String login, String number);
 }
