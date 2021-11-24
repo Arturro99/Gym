@@ -1,5 +1,6 @@
 package pl.lodz.p.it.core.domain;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Range;
@@ -16,6 +17,7 @@ import java.util.HashSet;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Builder
 public class Account extends BaseModel {
 
     private String login;
