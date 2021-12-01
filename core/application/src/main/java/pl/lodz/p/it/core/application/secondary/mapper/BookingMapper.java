@@ -1,5 +1,8 @@
 package pl.lodz.p.it.core.application.secondary.mapper;
 
+import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
+
+import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -7,13 +10,13 @@ import org.mapstruct.ReportingPolicy;
 import pl.lodz.p.it.core.domain.Booking;
 import pl.lodz.p.it.repositoryhibernate.entity.BookingEntity;
 
-import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
-
 /**
  * Interface responsible for mapping {@link Booking} objects and {@link BookingEntity}
  */
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = IGNORE,
-        unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {AccountMapper.class, ActivityMapper.class})
+    unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {AccountMapper.class,
+    ActivityMapper.class},
+    builder = @Builder(disableBuilder = true))
 public interface BookingMapper extends BaseMapper<BookingEntity, Booking> {
 
     @Override
