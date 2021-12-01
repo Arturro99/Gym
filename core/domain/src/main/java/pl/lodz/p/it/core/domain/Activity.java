@@ -1,12 +1,12 @@
 package pl.lodz.p.it.core.domain;
 
+import java.time.OffsetDateTime;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Range;
 import pl.lodz.p.it.core.shared.validation.ActivityNumber;
-
-import java.time.OffsetDateTime;
 
 /**
  * Class responsible for keeping a domain model of the activity object.
@@ -14,6 +14,7 @@ import java.time.OffsetDateTime;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
+@AllArgsConstructor
 public class Activity extends BaseModel {
 
     @ActivityNumber
