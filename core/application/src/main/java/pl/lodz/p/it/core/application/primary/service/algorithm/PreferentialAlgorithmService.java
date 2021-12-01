@@ -1,4 +1,4 @@
-package pl.lodz.p.it.core.application.primary.service.util;
+package pl.lodz.p.it.core.application.primary.service.algorithm;
 
 import java.util.Comparator;
 import java.util.List;
@@ -13,34 +13,14 @@ import pl.lodz.p.it.core.domain.Booking;
 import pl.lodz.p.it.core.port.secondary.BookingRepositoryPort;
 
 /**
- * Class responsible for the logic of preferential algorithm.
+ * Class responsible for the main logic of preferential algorithm.
  */
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Slf4j
-public class PreferentialAlgorithm {
+public class PreferentialAlgorithmService {
 
-    BookingRepositoryPort bookingRepositoryPort;
-
-    /**
-     * Method responsible for checking whether activity is already full.
-     *
-     * @param activity Object of type {@link Activity}
-     * @return True if activity is full, false otherwise.
-     */
-    public boolean isActivityFull(Activity activity) {
-        List<Booking> allBookings = bookingRepositoryPort.findAll();
-        int capacity = activity.getCapacity();
-        long bookingsNumber = allBookings.stream()
-            .filter(Booking::getActive)
-            .filter(b -> !b.getCompleted())
-            .map(Booking::getActivity)
-            .map(Activity::getNumber)
-            .filter(number -> number.equals(activity.getNumber()))
-            .count();
-
-        return bookingsNumber >= capacity;
-    }
+    final BookingRepositoryPort bookingRepositoryPort;
 
     /**
      * Method responsible for applying the preference to the users that signed up for the activity.

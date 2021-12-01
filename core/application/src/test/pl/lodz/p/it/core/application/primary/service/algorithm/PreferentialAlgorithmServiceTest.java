@@ -1,4 +1,4 @@
-package pl.lodz.p.it.core.application.primary.service.util;
+package pl.lodz.p.it.core.application.primary.service.algorithm;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -9,7 +9,6 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
@@ -21,26 +20,18 @@ import pl.lodz.p.it.core.domain.Booking;
 import pl.lodz.p.it.core.port.secondary.BookingRepositoryPort;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PreferentialAlgorithmTest {
+public class PreferentialAlgorithmServiceTest {
 
     @Mock
     BookingRepositoryPort bookingRepositoryPort;
 
     @InjectMocks
-    PreferentialAlgorithm algorithm;
+    PreferentialAlgorithmService algorithm;
 
-    Booking inactiveBooking;
-    Booking completedBooking;
     Booking pendingBooking;
     Booking highPreferenceBooking;
     Booking midPreferenceBooking;
     Booking lowPreferenceBooking;
-
-    @Mock
-    Account accountWithInactiveBooking;
-
-    @Mock
-    Account accountWithCompletedBooking;
 
     Account accountWithPendingBooking;
     Account accountWithHighPreferenceBooking;
@@ -48,21 +39,18 @@ public class PreferentialAlgorithmTest {
     Account accountWithLowPreferenceBooking;
 
     Activity fullyOccupiedActivity;
-    Activity activityWithVacancies;
-
-    List<Booking> bookings;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        initActivities();
+        initActivity();
         initAccounts();
         initBookings();
 
-        bookings = List.of(
-            inactiveBooking, completedBooking, pendingBooking,
-            highPreferenceBooking, midPreferenceBooking, lowPreferenceBooking
+        List<Booking> bookings = List.of(
+            pendingBooking, highPreferenceBooking,
+            midPreferenceBooking, lowPreferenceBooking
         );
         when(bookingRepositoryPort.findAll()).thenReturn(bookings);
         when(bookingRepositoryPort
@@ -81,33 +69,6 @@ public class PreferentialAlgorithmTest {
             .findByClientAndActivity(accountWithPendingBooking.getLogin(),
                 fullyOccupiedActivity.getNumber()))
             .thenReturn(pendingBooking);
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = {0, 1, 2})
-    void shouldReturnFalseWhenIsActivityFullCalled(int numberOfBookings) {
-        //given
-        bookings = bookings.subList(0, numberOfBookings);
-        bookings.forEach(booking -> {
-            booking.setCompleted(false);
-            booking.setActive(true);
-            booking.setActivity(activityWithVacancies);
-        });
-        //then
-        assertFalse(algorithm.isActivityFull(activityWithVacancies));
-    }
-
-    @Test
-    void shouldReturnTrueWhenIsActivityFullCalled() {
-        //given
-        bookings = bookings.subList(0, 3);
-        bookings.forEach(booking -> {
-            booking.setCompleted(false);
-            booking.setActive(true);
-            booking.setActivity(activityWithVacancies);
-        });
-        //then
-        assertTrue(algorithm.isActivityFull(activityWithVacancies));
     }
 
     @ParameterizedTest
@@ -134,37 +95,14 @@ public class PreferentialAlgorithmTest {
         });
     }
 
-    private void initActivities() {
+    private void initActivity() {
         fullyOccupiedActivity = Activity.builder()
             .number("ACT001")
             .capacity(2)
             .build();
-
-        activityWithVacancies = Activity.builder()
-            .number("ACT002")
-            .capacity(3)
-            .build();
     }
 
     private void initBookings() {
-        inactiveBooking = Booking.builder()
-            .account(accountWithInactiveBooking)
-            .active(false)
-            .activity(fullyOccupiedActivity)
-            .completed(false)
-            .pending(false)
-            .number("BOO001")
-            .build();
-
-        completedBooking = Booking.builder()
-            .account(accountWithCompletedBooking)
-            .active(true)
-            .activity(fullyOccupiedActivity)
-            .completed(true)
-            .pending(false)
-            .number("BOO002")
-            .build();
-
         pendingBooking = Booking.builder()
             .account(accountWithPendingBooking)
             .active(true)
