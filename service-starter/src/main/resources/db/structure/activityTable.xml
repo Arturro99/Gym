@@ -64,4 +64,17 @@
             <column name="modification_date" type="timestamp"/>
         </addColumn>
     </changeSet>
+
+    <changeSet id="4" author="artur">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <columnExists tableName="activity" columnName="capacity"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="activity">
+            <column name="capacity" type="integer">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

@@ -1,5 +1,6 @@
 package pl.lodz.p.it.core.domain;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Range;
@@ -12,6 +13,7 @@ import java.time.OffsetDateTime;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Builder
 public class Activity extends BaseModel {
 
     @ActivityNumber
@@ -27,4 +29,7 @@ public class Activity extends BaseModel {
     private Account trainer;
 
     private Boolean active;
+
+    @Range(min = 1)
+    private Integer capacity;
 }

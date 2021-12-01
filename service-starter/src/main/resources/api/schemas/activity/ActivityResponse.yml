@@ -24,3 +24,5 @@ components:
           $ref: '../account/AccountGeneralResponse.yml#/components/schemas/AccountGeneralResponse'
         active:
           type: boolean
+        capacity:
+          type: integer

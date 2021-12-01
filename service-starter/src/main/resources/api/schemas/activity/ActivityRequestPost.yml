@@ -14,6 +14,7 @@ components:
         - startDate
         - duration
         - trainer
+        - capacity
       properties:
         number:
           type: string
@@ -28,3 +29,5 @@ components:
           minimum: 1
         trainer:
           type: string
+        capacity:
+          type: integer

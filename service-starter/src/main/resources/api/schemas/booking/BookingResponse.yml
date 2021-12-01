@@ -21,3 +21,5 @@ components:
           type: boolean
         completed:
           type: boolean
+        pending:
+          type: boolean

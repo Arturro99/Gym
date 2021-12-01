@@ -41,4 +41,8 @@ public class ActivityEntity extends BaseEntity {
     @Column(name = "active", nullable = false)
     @NotNull
     private Boolean active = true;
+
+    @Column(name = "capacity", nullable = false)
+    @NotNull
+    private Integer capacity;
 }

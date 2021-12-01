@@ -26,11 +26,15 @@ public class BookingEntity extends BaseEntity {
     @NotNull
     private ActivityEntity activity;
 
-    @JoinColumn(name = "active", nullable = false)
+    @Column(name = "active", nullable = false)
     @NotNull
     private Boolean active = true;
 
-    @JoinColumn(name = "active", nullable = false)
+    @Column(name = "completed", nullable = false)
     @NotNull
     private Boolean completed = false;
+
+    @Column(name = "pending", nullable = false)
+    @NotNull
+    private Boolean pending = false;
 }
