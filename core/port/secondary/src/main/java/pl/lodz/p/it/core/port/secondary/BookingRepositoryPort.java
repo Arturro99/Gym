@@ -14,4 +14,8 @@ public interface BookingRepositoryPort extends BaseRepositoryPort<Booking> {
     List<Booking> findByActivity(String number);
 
     Booking findByClientAndActivity(String login, String number);
+
+    List<Booking> findAllByActiveTrueAndCompletedFalse();
+
+    List<Booking> findAllByActiveTrueAndCompletedTrue();
 }

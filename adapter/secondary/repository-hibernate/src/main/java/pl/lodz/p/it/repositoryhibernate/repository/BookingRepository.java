@@ -23,4 +23,8 @@ public interface BookingRepository extends BaseRepository<BookingEntity> {
 
     BookingEntity findByAccountAndActivity(AccountEntity accountEntity,
         ActivityEntity activityEntity);
+
+    List<BookingEntity> findAllByActiveTrueAndCompletedFalse();
+
+    List<BookingEntity> findAllByActiveTrueAndCompletedTrue();
 }

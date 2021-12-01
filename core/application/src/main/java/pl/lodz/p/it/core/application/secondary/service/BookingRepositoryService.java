@@ -86,6 +86,20 @@ public class BookingRepositoryService extends
     }
 
     @Override
+    public List<Booking> findAllByActiveTrueAndCompletedFalse() {
+        return bookingRepository.findAllByActiveTrueAndCompletedFalse().stream()
+            .map(mapper::toDomainModel)
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Booking> findAllByActiveTrueAndCompletedTrue() {
+        return bookingRepository.findAllByActiveTrueAndCompletedTrue().stream()
+            .map(mapper::toDomainModel)
+            .collect(Collectors.toList());
+    }
+
+    @Override
     public Booking find(String key) {
         return repository.findByBusinessId(key)
             .map(mapper::toDomainModel)
