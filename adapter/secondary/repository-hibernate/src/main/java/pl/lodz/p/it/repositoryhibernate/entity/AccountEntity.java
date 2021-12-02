@@ -89,7 +89,7 @@ public class AccountEntity extends BaseEntity {
     private Integer badLoginsCounter = 0;
 
     @Column(name = "loyalty_factor", nullable = false, table = "account_details")
-    @Range(min = 1)
+    @Range(min = 0)
     private Float loyaltyFactor = 1F;
 
     @Column(name = "gym_member", nullable = false, table = "account_details")

@@ -61,7 +61,7 @@ public class IntervalFactorsService {
             .filter(Account::getGymMember)
             .forEach(account -> {
                     account.setLoyaltyFactor(account.getLoyaltyFactor() * membershipFactor);
-                    accountRepositoryPort.save(account);
+                    accountRepositoryPort.update(account.getLogin(), account);
                 }
             );
     }
@@ -95,9 +95,13 @@ public class IntervalFactorsService {
 
         accountsToPunish.forEach(account -> {
                 account.setLoyaltyFactor(account.getLoyaltyFactor() * absenceFactor);
-                accountRepositoryPort.save(account);
+                accountRepositoryPort.update(account.getLogin(), account);
             }
         );
+        bookingsWithAbsence.forEach(booking -> {
+            booking.setActive(false);
+            bookingRepositoryPort.update(booking.getNumber(), booking);
+        });
     }
 
     //Method responsible for increasing loyalty factor for accounts that have active and completed
@@ -112,8 +116,12 @@ public class IntervalFactorsService {
 
         accountsToReward.forEach(account -> {
                 account.setLoyaltyFactor(account.getLoyaltyFactor() * presenceFactor);
-                accountRepositoryPort.save(account);
+                accountRepositoryPort.update(account.getLogin(), account);
             }
         );
+        activeAndCompletedBookings.forEach(booking -> {
+            booking.setActive(false);
+            bookingRepositoryPort.update(booking.getNumber(), booking);
+        });
     }
 }
