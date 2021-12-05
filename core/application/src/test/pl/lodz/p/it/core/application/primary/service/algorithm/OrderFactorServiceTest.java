@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -129,22 +130,22 @@ public class OrderFactorServiceTest {
 
         when(bookingRepositoryPort
             .findByClientAndActivity(accountWithLowPreferenceBooking.getLogin(),
-                fullyOccupiedActivity.getNumber())).thenReturn(lowPreferenceBooking);
+                fullyOccupiedActivity.getNumber())).thenReturn(Optional.of(lowPreferenceBooking));
         when(bookingRepositoryPort
             .findByClientAndActivity(accountWithMidPreferenceBooking.getLogin(),
-                fullyOccupiedActivity.getNumber())).thenReturn(midPreferenceBooking);
+                fullyOccupiedActivity.getNumber())).thenReturn(Optional.of(midPreferenceBooking));
         when(bookingRepositoryPort
             .findByClientAndActivity(accountWithHighPreferenceBooking.getLogin(),
-                fullyOccupiedActivity.getNumber())).thenReturn(highPreferenceBooking);
+                fullyOccupiedActivity.getNumber())).thenReturn(Optional.of(highPreferenceBooking));
         when(bookingRepositoryPort
             .findByClientAndActivity(accountWithPendingBooking.getLogin(),
-                fullyOccupiedActivity.getNumber())).thenReturn(pendingBooking);
+                fullyOccupiedActivity.getNumber())).thenReturn(Optional.of(pendingBooking));
         when(bookingRepositoryPort
             .findByClientAndActivity(additionalAccount1.getLogin(),
-                fullyOccupiedActivity.getNumber())).thenReturn(additionalBooking1);
+                fullyOccupiedActivity.getNumber())).thenReturn(Optional.of(additionalBooking1));
         when(bookingRepositoryPort
             .findByClientAndActivity(additionalAccount2.getLogin(),
-                fullyOccupiedActivity.getNumber())).thenReturn(additionalBooking2);
+                fullyOccupiedActivity.getNumber())).thenReturn(Optional.of(additionalBooking2));
 
         List<Account> accounts = bookings.stream()
             .map(Booking::getAccount)
@@ -152,7 +153,9 @@ public class OrderFactorServiceTest {
 
         //when
         accounts.forEach(account ->
-            orderFactorService.calculateBookingOrderFactor(fullyOccupiedActivity, account));
+            orderFactorService.calculateBookingOrderFactor(bookings.stream()
+                .filter(booking -> booking.getAccount().getLogin().equals(account.getLogin()))
+                .findFirst().get()));
 
         //then
         assertAll(() -> {

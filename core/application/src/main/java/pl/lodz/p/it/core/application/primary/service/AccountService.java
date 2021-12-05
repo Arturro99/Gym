@@ -36,25 +36,29 @@ public class AccountService extends BaseService<Account> implements
 
     @Override
     public Account addTrainingPlan(String login, String trainingPlanNumber) {
-        goodsFactorService.increaseTrainingPlanPossessingFactor(accountRepositoryPort.find(login));
-        return accountRepositoryPort.addTrainingPlan(login, trainingPlanNumber);
+        float loyaltyFactor = goodsFactorService
+            .getIncreasedTrainingPlanPossessingFactor(accountRepositoryPort.find(login));
+        return accountRepositoryPort.addTrainingPlan(login, trainingPlanNumber, loyaltyFactor);
     }
 
     @Override
     public void removeTrainingPlan(String login, String trainingPlanNumber) {
-        goodsFactorService.decreaseTrainingPlanPossessingFactor(accountRepositoryPort.find(login));
-        accountRepositoryPort.removeTrainingPlan(login, trainingPlanNumber);
+        float loyaltyFactor = goodsFactorService
+            .getDecreasedTrainingPlanPossessingFactor(accountRepositoryPort.find(login));
+        accountRepositoryPort.removeTrainingPlan(login, trainingPlanNumber, loyaltyFactor);
     }
 
     @Override
     public Account addDiet(String login, String dietNumber) {
-        goodsFactorService.increaseDietPossessingFactor(accountRepositoryPort.find(login));
-        return accountRepositoryPort.addDiet(login, dietNumber);
+        float loyaltyFactor = goodsFactorService
+            .getIncreasedDietPossessingFactor(accountRepositoryPort.find(login));
+        return accountRepositoryPort.addDiet(login, dietNumber, loyaltyFactor);
     }
 
     @Override
     public void removeDiet(String login, String dietNumber) {
-        goodsFactorService.decreaseDietPossessingFactor(accountRepositoryPort.find(login));
-        accountRepositoryPort.removeDiet(login, dietNumber);
+        float loyaltyFactor = goodsFactorService
+            .getDecreasedDietPossessingFactor(accountRepositoryPort.find(login));
+        accountRepositoryPort.removeDiet(login, dietNumber, loyaltyFactor);
     }
 }

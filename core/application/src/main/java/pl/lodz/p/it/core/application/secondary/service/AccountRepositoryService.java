@@ -112,7 +112,7 @@ public class AccountRepositoryService extends
     }
 
     @Override
-    public Account addTrainingPlan(String login, String trainingPlanNumber) {
+    public Account addTrainingPlan(String login, String trainingPlanNumber, float loyaltyFactor) {
         final AccountEntity account = accountRepository.findByBusinessId(login)
             .orElseThrow(AccountException::accountNotFoundException);
         final TrainingPlanEntity trainingPlan = trainingPlanRepository
@@ -123,12 +123,13 @@ public class AccountRepositoryService extends
         }
 
         account.getTrainingPlans().add(trainingPlan);
+        account.setLoyaltyFactor(loyaltyFactor);
         AccountEntity saved = repository.save(account);
-        return mapper.toDomainModel(saved);
+        return mapper.toDomainModel(account);
     }
 
     @Override
-    public void removeTrainingPlan(String login, String trainingPlanNumber) {
+    public void removeTrainingPlan(String login, String trainingPlanNumber, float loyaltyFactor) {
         final AccountEntity account = accountRepository.findByBusinessId(login)
             .orElseThrow(AccountException::accountNotFoundException);
         final TrainingPlanEntity trainingPlan = trainingPlanRepository
@@ -139,11 +140,12 @@ public class AccountRepositoryService extends
         }
 
         account.getTrainingPlans().remove(trainingPlan);
+        account.setLoyaltyFactor(loyaltyFactor);
         repository.save(account);
     }
 
     @Override
-    public Account addDiet(String login, String dietNumber) {
+    public Account addDiet(String login, String dietNumber, float loyaltyFactor) {
         final AccountEntity account = accountRepository.findByBusinessId(login)
             .orElseThrow(AccountException::accountNotFoundException);
         final DietEntity diet = dietRepository.findByBusinessId(dietNumber)
@@ -153,12 +155,13 @@ public class AccountRepositoryService extends
         }
 
         account.getDiets().add(diet);
+        account.setLoyaltyFactor(loyaltyFactor);
         AccountEntity saved = repository.save(account);
         return mapper.toDomainModel(saved);
     }
 
     @Override
-    public void removeDiet(String login, String dietNumber) {
+    public void removeDiet(String login, String dietNumber, float loyaltyFactor) {
         final AccountEntity account = accountRepository.findByBusinessId(login)
             .orElseThrow(AccountException::accountNotFoundException);
         final DietEntity diet = dietRepository.findByBusinessId(dietNumber)
@@ -168,6 +171,7 @@ public class AccountRepositoryService extends
         }
 
         account.getDiets().remove(diet);
+        account.setLoyaltyFactor(loyaltyFactor);
         repository.save(account);
     }
 }

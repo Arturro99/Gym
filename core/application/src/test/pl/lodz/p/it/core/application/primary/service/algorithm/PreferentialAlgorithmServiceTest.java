@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,19 +57,19 @@ public class PreferentialAlgorithmServiceTest {
         when(bookingRepositoryPort
             .findByClientAndActivity(accountWithHighPreferenceBooking.getLogin(),
                 fullyOccupiedActivity.getNumber()))
-            .thenReturn(highPreferenceBooking);
+            .thenReturn(Optional.of(highPreferenceBooking));
         when(bookingRepositoryPort
             .findByClientAndActivity(accountWithMidPreferenceBooking.getLogin(),
                 fullyOccupiedActivity.getNumber()))
-            .thenReturn(midPreferenceBooking);
+            .thenReturn(Optional.of(midPreferenceBooking));
         when(bookingRepositoryPort
             .findByClientAndActivity(accountWithLowPreferenceBooking.getLogin(),
                 fullyOccupiedActivity.getNumber()))
-            .thenReturn(lowPreferenceBooking);
+            .thenReturn(Optional.of(lowPreferenceBooking));
         when(bookingRepositoryPort
             .findByClientAndActivity(accountWithPendingBooking.getLogin(),
                 fullyOccupiedActivity.getNumber()))
-            .thenReturn(pendingBooking);
+            .thenReturn(Optional.of(pendingBooking));
     }
 
     @ParameterizedTest
@@ -78,7 +79,7 @@ public class PreferentialAlgorithmServiceTest {
         //given
         accountWithPendingBooking.setLoyaltyFactor(accountWithPendingBookingLoyaltyFactor);
         //when
-        algorithm.applyPreference(fullyOccupiedActivity);
+        algorithm.applyPreference(fullyOccupiedActivity, highPreferenceBooking);
 
         //then
         assertAll(() -> {
