@@ -1,6 +1,7 @@
 package pl.lodz.p.it.repositoryhibernate.repository;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Repository;
 import pl.lodz.p.it.repositoryhibernate.entity.AccountEntity;
 import pl.lodz.p.it.repositoryhibernate.entity.ActivityEntity;
@@ -21,7 +22,7 @@ public interface BookingRepository extends BaseRepository<BookingEntity> {
 
     List<BookingEntity> findAllByActivity(ActivityEntity activityEntity);
 
-    BookingEntity findByAccountAndActivity(AccountEntity accountEntity,
+    Optional<BookingEntity> findByAccountAndActivity(AccountEntity accountEntity,
         ActivityEntity activityEntity);
 
     List<BookingEntity> findAllByActiveTrueAndCompletedFalse();

@@ -5,6 +5,7 @@ import static org.springframework.transaction.annotation.Propagation.MANDATORY;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,29 @@ public class OrderFactorService {
 
 
     /**
+     * Method responsible for checking whether activity is already full (including newly added
+     * booking).
+     *
+     * @param activity Object of type {@link Activity}
+     * @param booking  Object of type {@link Booking} representing newly added booking
+     * @return True if activity is full, false otherwise.
+     */
+    public boolean isActivityFull(Activity activity, Booking booking) {
+        List<Booking> allBookings = bookingRepositoryPort.findAll();
+        allBookings.add(booking);
+        int capacity = activity.getCapacity();
+        long bookingsNumber = allBookings.stream()
+            .filter(Booking::getActive)
+            .filter(b -> !b.getCompleted())
+            .map(Booking::getActivity)
+            .map(Activity::getNumber)
+            .filter(number -> number.equals(activity.getNumber()))
+            .count();
+
+        return bookingsNumber >= capacity;
+    }
+
+    /**
      * Method responsible for checking whether activity is already full.
      *
      * @param activity Object of type {@link Activity}
@@ -68,11 +92,12 @@ public class OrderFactorService {
      * Method responsible for calculating and updating user's loyalty factor. The result of
      * calculation is determined by the order of bookings considering time of their submitting.
      *
-     * @param activity Activity that is considered
+     * @param booking Booking that is being considered
      */
-    public void calculateBookingOrderFactor(Activity activity, Account account) {
+    public void calculateBookingOrderFactor(Booking booking) {
+        Account account = booking.getAccount();
         float loyaltyFactor = account.getLoyaltyFactor();
-        long positionOnTheList = getPositionOnTheList(activity, account);
+        long positionOnTheList = getPositionOnTheList(booking);
         if (positionOnTheList <= 5) {
             account.setLoyaltyFactor(
                 positionOnTheList == 0 ?
@@ -80,18 +105,23 @@ public class OrderFactorService {
                     loyaltyFactor * (firstOneToBookFactor
                         - differenceBetweenNextOnesToBookFactor * (positionOnTheList)));
 
-            accountRepositoryPort.save(account);
+            accountRepositoryPort.update(account.getLogin(), account);
         }
     }
 
     //Method responsible for retrieving the position on the list of bookings for the particular
     //activity. Position means here a place in an ordered queue when the first spot is for user who
-    //was the first one to book a place.
-    private long getPositionOnTheList(Activity activity, Account account) {
-        List<Booking> list = bookingRepositoryPort.findByActivity(activity.getNumber());
-        list.sort(Comparator.comparing(Booking::getCreationDate));
-        Booking userBooking = bookingRepositoryPort
-            .findByClientAndActivity(account.getLogin(), activity.getNumber());
-        return list.indexOf(userBooking);
+    //was the first one to book a place. It includes the newly added booking.
+    private long getPositionOnTheList(Booking booking) {
+        List<Booking> list = bookingRepositoryPort
+            .findByActivity(booking.getActivity().getNumber());
+        list.add(booking);
+        list = list.stream()
+            .filter(Booking::getActive)
+            .collect(Collectors.toList());
+        if (list.size() > 1) {
+            list.sort(Comparator.comparing(Booking::getCreationDate));
+        }
+        return list.indexOf(booking);
     }
 }

@@ -1,5 +1,6 @@
 package pl.lodz.p.it.core.port.secondary;
 
+import java.util.Optional;
 import pl.lodz.p.it.core.domain.Booking;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public interface BookingRepositoryPort extends BaseRepositoryPort<Booking> {
 
     List<Booking> findByActivity(String number);
 
-    Booking findByClientAndActivity(String login, String number);
+    Optional<Booking> findByClientAndActivity(String login, String number);
 
     List<Booking> findAllByActiveTrueAndCompletedFalse();
 
