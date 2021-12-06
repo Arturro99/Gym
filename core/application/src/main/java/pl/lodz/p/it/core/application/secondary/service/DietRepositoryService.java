@@ -24,7 +24,7 @@ import pl.lodz.p.it.repositoryhibernate.repository.DietTypeRepository;
  */
 @Service
 @Transactional(propagation = MANDATORY, isolation = READ_COMMITTED, timeout = 3)
-@Retryable(exclude = {DietException.class, AccountException.class},
+@Retryable(exclude = {DietException.class, AccountException.class, DietTypeException.class},
     maxAttemptsExpression = "${retry.maxAttempts}",
     backoff = @Backoff(delayExpression = "${retry.maxDelay}"))
 public class DietRepositoryService extends BaseRepositoryService<DietEntity, Diet> implements
@@ -47,6 +47,9 @@ public class DietRepositoryService extends BaseRepositoryService<DietEntity, Die
 
     @Override
     public Diet save(Diet diet) {
+        if (repository.findByBusinessId(diet.getNumber()).isPresent()) {
+            throw DietException.dietConflictException();
+        }
         DietEntity entity = repository.instantiate();
         entity = mapper.toEntityModel(entity, diet);
 

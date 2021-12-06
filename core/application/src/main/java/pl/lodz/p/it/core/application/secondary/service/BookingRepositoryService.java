@@ -4,6 +4,7 @@ import static org.springframework.transaction.annotation.Isolation.READ_COMMITTE
 import static org.springframework.transaction.annotation.Propagation.MANDATORY;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.retry.annotation.Backoff;
@@ -77,12 +78,14 @@ public class BookingRepositoryService extends
     }
 
     @Override
-    public Booking findByClientAndActivity(String login, String number) {
+    public Optional<Booking> findByClientAndActivity(String login, String number) {
         AccountEntity client = accountRepository.findByBusinessId(login)
             .orElseThrow(AccountException::accountNotFoundException);
         ActivityEntity activity = activityRepository.findByBusinessId(number)
             .orElseThrow(ActivityException::activityNotFoundException);
-        return mapper.toDomainModel(bookingRepository.findByAccountAndActivity(client, activity));
+        return Optional
+            .of(mapper.toDomainModel(bookingRepository.findByAccountAndActivity(client, activity)
+                .orElseThrow(BookingException::bookingNotFoundException)));
     }
 
     @Override
@@ -108,17 +111,12 @@ public class BookingRepositoryService extends
 
     @Override
     public Booking save(Booking booking) {
-        BookingEntity entity = repository.instantiate();
-        entity = mapper.toEntityModel(entity, booking);
-        entity.setBusinessId(generateNumber());
-
         AccountEntity account = accountRepository.findByBusinessId(
             booking.getAccount().getLogin())
             .orElseThrow(AccountException::accountNotFoundException);
         if (!hasClientRole(account)) {
             throw AccessLevelException.illegalAccessLevel();
         }
-        entity.setAccount(account);
 
         ActivityEntity activity = activityRepository
             .findByBusinessId(booking.getActivity().getNumber())
@@ -126,7 +124,14 @@ public class BookingRepositoryService extends
         if (isActivityCompleted(activity)) {
             throw ActivityException.activityExpiredException();
         }
-        entity.setActivity(activity);
+
+        if (bookingRepository.findByAccountAndActivity(account, activity).isPresent()) {
+            throw BookingException.bookingConflictException();
+        }
+
+        BookingEntity entity = repository.instantiate();
+        entity = mapper.toEntityModel(entity, booking);
+        entity.setBusinessId(generateNumber());
 
         BookingEntity savedEntity = repository.save(entity);
         return mapper.toDomainModel(savedEntity);

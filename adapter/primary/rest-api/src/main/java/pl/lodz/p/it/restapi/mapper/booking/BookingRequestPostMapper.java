@@ -1,14 +1,16 @@
 package pl.lodz.p.it.restapi.mapper.booking;
 
+import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
+
+import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import pl.lodz.p.it.core.domain.Booking;
 import pl.lodz.p.it.restapi.dto.BookingRequestPost;
 import pl.lodz.p.it.restapi.mapper.BaseRequestMapper;
 
-import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
-
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = IGNORE)
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = IGNORE,
+    builder = @Builder(disableBuilder = true))
 public interface BookingRequestPostMapper extends BaseRequestMapper<BookingRequestPost, Booking> {
 
     @Override

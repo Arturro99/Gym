@@ -3,7 +3,9 @@ package pl.lodz.p.it.core.application.primary.service;
 import static org.springframework.transaction.annotation.Isolation.READ_COMMITTED;
 import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
 
+import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,9 @@ import pl.lodz.p.it.core.domain.Activity;
 import pl.lodz.p.it.core.domain.Booking;
 import pl.lodz.p.it.core.port.primary.BookingServicePort;
 import pl.lodz.p.it.core.port.secondary.AccountRepositoryPort;
+import pl.lodz.p.it.core.port.secondary.ActivityRepositoryPort;
 import pl.lodz.p.it.core.port.secondary.BookingRepositoryPort;
+import pl.lodz.p.it.core.shared.exception.BookingException;
 
 /**
  * Service class responsible for operating on booking objects.
@@ -35,16 +39,20 @@ public class BookingService extends BaseService<Booking> implements
 
     final PreferentialAlgorithmService algorithm;
 
+    final ActivityRepositoryPort activityRepositoryPort;
+
     @Autowired
     public BookingService(BookingRepositoryPort bookingRepositoryPort,
         AccountRepositoryPort accountRepositoryPort,
         OrderFactorService orderFactorService,
-        PreferentialAlgorithmService algorithm) {
+        PreferentialAlgorithmService algorithm,
+        ActivityRepositoryPort activityRepositoryPort) {
         super(bookingRepositoryPort);
         this.bookingRepositoryPort = bookingRepositoryPort;
         this.accountRepositoryPort = accountRepositoryPort;
         this.orderFactorService = orderFactorService;
         this.algorithm = algorithm;
+        this.activityRepositoryPort = activityRepositoryPort;
     }
 
     @Override
@@ -59,21 +67,35 @@ public class BookingService extends BaseService<Booking> implements
 
     @Override
     public Booking findByClientAndActivity(String login, String number) {
-        return bookingRepositoryPort.findByClientAndActivity(login, number);
+        return bookingRepositoryPort.findByClientAndActivity(login, number)
+            .orElseThrow(BookingException::bookingNotFoundException);
     }
 
     @Override
     public Booking save(Booking booking) {
-        Activity activity = booking.getActivity();
-        Account account = booking.getAccount();
+        Activity activity = activityRepositoryPort.find(booking.getActivity().getNumber());
+        Account account = accountRepositoryPort.find(booking.getAccount().getLogin());
 
-        orderFactorService.calculateBookingOrderFactor(activity, account);
-        accountRepositoryPort.save(account);
-
-        repository.save(booking);
-        if (orderFactorService.isActivityFull(activity)) {
-            algorithm.applyPreference(activity);
+        Optional<Booking> existingBooking = bookingRepositoryPort
+            .findByClientAndActivity(account.getLogin(), activity.getNumber());
+        if (existingBooking.isPresent() && !existingBooking.get().getActive()) {
+            existingBooking.get().setActive(true);
+            if (orderFactorService.isActivityFull(activity)) {
+                algorithm.applyPreference(activity, existingBooking.get());
+            }
+            return repository.update(existingBooking.get().getNumber(), existingBooking.get());
+        } else {
+            booking.setActivity(activity);
+            booking.setAccount(account);
+            booking.setActive(true);
+            booking.setCompleted(false);
+            booking.setPending(false);
+            booking.setCreationDate(OffsetDateTime.now());
+            orderFactorService.calculateBookingOrderFactor(booking);
+            if (orderFactorService.isActivityFull(activity, booking)) {
+                algorithm.applyPreference(activity, booking);
+            }
+            return repository.save(booking);
         }
-        return repository.save(booking);
     }
 }

@@ -65,6 +65,9 @@ public class TrainingPlanRepositoryService extends
 
     @Override
     public TrainingPlan save(TrainingPlan trainingPlan) {
+        if (repository.findByBusinessId(trainingPlan.getNumber()).isPresent()) {
+            throw TrainingPlanException.trainingPlanConflictException();
+        }
         TrainingPlanEntity entity = repository.instantiate();
         entity = mapper.toEntityModel(entity, trainingPlan);
 

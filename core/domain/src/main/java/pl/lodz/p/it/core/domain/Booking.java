@@ -1,5 +1,6 @@
 package pl.lodz.p.it.core.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,6 +12,7 @@ import pl.lodz.p.it.core.shared.validation.BookingNumber;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
+@AllArgsConstructor
 public class Booking extends BaseModel {
 
     @BookingNumber

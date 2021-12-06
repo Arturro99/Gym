@@ -1,10 +1,12 @@
 package pl.lodz.p.it.core.application.secondary.service;
 
+import static lombok.AccessLevel.PRIVATE;
 import static org.springframework.transaction.annotation.Isolation.READ_COMMITTED;
 import static org.springframework.transaction.annotation.Propagation.MANDATORY;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
@@ -20,9 +22,11 @@ import pl.lodz.p.it.core.shared.exception.ActivityException;
 import pl.lodz.p.it.repositoryhibernate.entity.AccessLevelEntity;
 import pl.lodz.p.it.repositoryhibernate.entity.AccountEntity;
 import pl.lodz.p.it.repositoryhibernate.entity.ActivityEntity;
+import pl.lodz.p.it.repositoryhibernate.entity.BookingEntity;
 import pl.lodz.p.it.repositoryhibernate.repository.AccessLevelRepository;
 import pl.lodz.p.it.repositoryhibernate.repository.AccountRepository;
 import pl.lodz.p.it.repositoryhibernate.repository.ActivityRepository;
+import pl.lodz.p.it.repositoryhibernate.repository.BookingRepository;
 
 /**
  * Service class responsible for operating on activity repository.
@@ -32,24 +36,29 @@ import pl.lodz.p.it.repositoryhibernate.repository.ActivityRepository;
 @Retryable(exclude = {ActivityException.class, AccountException.class},
     maxAttemptsExpression = "${retry.maxAttempts}",
     backoff = @Backoff(delayExpression = "${retry.maxDelay}"))
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 public class ActivityRepositoryService extends
     BaseRepositoryService<ActivityEntity, Activity> implements
     ActivityRepositoryPort {
 
-    private final AccountRepository accountRepository;
+    AccountRepository accountRepository;
 
-    private final ActivityRepository activityRepository;
+    ActivityRepository activityRepository;
 
-    private final AccessLevelRepository accessLevelRepository;
+    AccessLevelRepository accessLevelRepository;
+
+    BookingRepository bookingRepository;
 
     @Autowired
     public ActivityRepositoryService(ActivityRepository repository, ActivityMapper mapper,
         AccountRepository accountRepository, ActivityRepository activityRepository,
-        AccessLevelRepository accessLevelRepository) {
+        AccessLevelRepository accessLevelRepository,
+        BookingRepository bookingRepository) {
         super(repository, mapper);
         this.accountRepository = accountRepository;
         this.activityRepository = activityRepository;
         this.accessLevelRepository = accessLevelRepository;
+        this.bookingRepository = bookingRepository;
     }
 
     @Override
@@ -69,6 +78,9 @@ public class ActivityRepositoryService extends
 
     @Override
     public Activity save(Activity activity) {
+        if (activityRepository.findByBusinessId(activity.getNumber()).isPresent()) {
+            throw ActivityException.activityConflictException();
+        }
         ActivityEntity entity = repository.instantiate();
         entity = mapper.toEntityModel(entity, activity);
 
@@ -88,6 +100,10 @@ public class ActivityRepositoryService extends
     public Activity update(String key, Activity activity) {
         ActivityEntity entity = repository.findByBusinessId(key).orElseThrow(
             ActivityException::activityNotFoundException);
+        if (bookingRepository.findAllByActivity(entity).stream()
+            .anyMatch(BookingEntity::getActive) && activity.getCapacity() != null) {
+            throw ActivityException.activityConflictException();
+        }
         ActivityEntity updated = mapper
             .toEntityModel(entity, activity);
 

@@ -1,5 +1,8 @@
 package pl.lodz.p.it.core.application.secondary.mapper;
 
+import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
+
+import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -7,14 +10,13 @@ import org.mapstruct.ReportingPolicy;
 import pl.lodz.p.it.core.domain.Account;
 import pl.lodz.p.it.repositoryhibernate.entity.AccountEntity;
 
-import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
-
 /**
  * Interface responsible for mapping {@link Account} objects and {@link AccountEntity}
  */
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = IGNORE,
-        unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        uses = {TrainingPlanMapper.class, DietMapper.class})
+    unmappedTargetPolicy = ReportingPolicy.IGNORE,
+    uses = {TrainingPlanMapper.class, DietMapper.class},
+    builder = @Builder(disableBuilder = true))
 public interface AccountMapper extends BaseMapper<AccountEntity, Account> {
 
     @Override

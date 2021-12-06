@@ -1,16 +1,16 @@
 package pl.lodz.p.it.core.domain;
 
+import java.time.OffsetDateTime;
+import java.util.HashSet;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Range;
 import pl.lodz.p.it.core.shared.validation.RegexPattern;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import java.time.OffsetDateTime;
-import java.util.HashSet;
 
 /**
  * Class responsible for keeping a domain model of the account object.
@@ -18,6 +18,7 @@ import java.util.HashSet;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
+@AllArgsConstructor
 public class Account extends BaseModel {
 
     private String login;

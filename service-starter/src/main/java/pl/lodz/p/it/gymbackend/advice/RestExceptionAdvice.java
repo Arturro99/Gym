@@ -44,19 +44,19 @@ public class RestExceptionAdvice {
         String errorKey = ErrorKey.CONFLICT_ERROR;
         String message = "Conflict occurred!";
 
-        if (e.getMessage().contains("training_plan_number_key")) {
+        if (e.getCause().getMessage().contains("training_plan_number_key")) {
             errorKey = ErrorKey.TRAINING_PLAN_CONFLICT_ERROR;
             message = "Training plan already exists!";
-        } else if (e.getMessage().contains("account_email_key") || e.getMessage().contains("account_login_key")) {
+        } else if (e.getCause().getMessage().contains("account_email_key") || e.getCause().getMessage().contains("account_login_key")) {
             errorKey = ErrorKey.ACCOUNT_CONFLICT_ERROR;
             message = "User with provided email or login exists!";
-        } else if (e.getMessage().contains("diet_number_key")) {
+        } else if (e.getCause().getMessage().contains("diet_number_key")) {
             errorKey = ErrorKey.DIET_CONFLICT_ERROR;
             message = "Diet already exists!";
-        } else if (e.getMessage().contains("activity_number_key")) {
+        } else if (e.getCause().getMessage().contains("activity_number_key")) {
             errorKey = ErrorKey.ACTIVITY_CONFLICT_ERROR;
             message = "Activity already exists!";
-        } else if (e.getMessage().contains("booking_account_activity_key")) {
+        } else if (e.getCause().getMessage().contains("booking_account_activity_key")) {
             errorKey = ErrorKey.BOOKING_CONFLICT_ERROR;
             message = "Such booking already exists!";
         }

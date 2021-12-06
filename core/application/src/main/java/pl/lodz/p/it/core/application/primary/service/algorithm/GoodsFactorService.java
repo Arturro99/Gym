@@ -41,23 +41,19 @@ public class GoodsFactorService {
         this.accountRepositoryPort = accountRepositoryPort;
     }
 
-    public void increaseDietPossessingFactor(Account account) {
-        account.setLoyaltyFactor(account.getLoyaltyFactor() * dietAddingFactor);
-        accountRepositoryPort.save(account);
+    public float getIncreasedDietPossessingFactor(Account account) {
+        return account.getLoyaltyFactor() * dietAddingFactor;
     }
 
-    public void decreaseDietPossessingFactor(Account account) {
-        account.setLoyaltyFactor(account.getLoyaltyFactor() * dietRemovingFactor);
-        accountRepositoryPort.save(account);
+    public float getDecreasedDietPossessingFactor(Account account) {
+        return account.getLoyaltyFactor() * dietRemovingFactor;
     }
 
-    public void increaseTrainingPlanPossessingFactor(Account account) {
-        account.setLoyaltyFactor(account.getLoyaltyFactor() * trainingPlanAddingFactor);
-        accountRepositoryPort.save(account);
+    public float getIncreasedTrainingPlanPossessingFactor(Account account) {
+        return account.getLoyaltyFactor() * trainingPlanAddingFactor;
     }
 
-    public void decreaseTrainingPlanPossessingFactor(Account account) {
-        account.setLoyaltyFactor(account.getLoyaltyFactor() * trainingPlanRemovingFactor);
-        accountRepositoryPort.save(account);
+    public float getDecreasedTrainingPlanPossessingFactor(Account account) {
+        return account.getLoyaltyFactor() * trainingPlanRemovingFactor;
     }
 }
