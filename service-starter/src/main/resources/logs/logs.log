@@ -1,0 +1,36 @@
+06-12-2021 12:25:10 INFO org.hibernate.validator.internal.util.Version [background-preinit] HV000001: Hibernate Validator 6.1.6.Final
+06-12-2021 12:25:10 INFO pl.lodz.p.it.gymbackend.servicestarter.GymBackendApplication [main] Starting GymBackendApplication using Java 11.0.11 on LAPTOP-9U07OP1D with PID 32468 (C:\Users\a822292\Gym\backend\service-starter\target\classes started by a822292 in C:\Users\a822292\Gym)
+06-12-2021 12:25:10 INFO pl.lodz.p.it.gymbackend.servicestarter.GymBackendApplication [main] No active profile set, falling back to default profiles: default
+06-12-2021 12:25:14 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+06-12-2021 12:25:14 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 418 ms. Found 9 JPA repository interfaces.
+06-12-2021 12:25:16 INFO org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [main] Bean 'org.springframework.retry.annotation.RetryConfiguration' of type [org.springframework.retry.annotation.RetryConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+06-12-2021 12:25:17 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat initialized with port(s): 8080 (http)
+06-12-2021 12:25:17 INFO org.apache.coyote.http11.Http11NioProtocol [main] Initializing ProtocolHandler ["http-nio-8080"]
+06-12-2021 12:25:17 INFO org.apache.catalina.core.StandardService [main] Starting service [Tomcat]
+06-12-2021 12:25:17 INFO org.apache.catalina.core.StandardEngine [main] Starting Servlet engine: [Apache Tomcat/9.0.52]
+06-12-2021 12:25:18 INFO org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [main] Initializing Spring embedded WebApplicationContext
+06-12-2021 12:25:18 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 7125 ms
+06-12-2021 12:25:19 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+06-12-2021 12:25:19 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+06-12-2021 12:25:20 INFO liquibase.database [main] Set default schema name to public
+06-12-2021 12:25:20 INFO liquibase.lockservice [main] Successfully acquired change log lock
+06-12-2021 12:25:22 INFO liquibase.changelog [main] Reading from public.databasechangelog
+06-12-2021 12:25:22 INFO liquibase.lockservice [main] Successfully released change log lock
+06-12-2021 12:25:22 INFO org.hibernate.jpa.internal.util.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
+06-12-2021 12:25:22 INFO org.hibernate.Version [main] HHH000412: Hibernate ORM core version 5.4.32.Final
+06-12-2021 12:25:23 INFO org.hibernate.annotations.common.Version [main] HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+06-12-2021 12:25:23 INFO org.hibernate.dialect.Dialect [main] HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+06-12-2021 12:25:25 INFO org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [main] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+06-12-2021 12:25:25 INFO org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
+06-12-2021 12:25:27 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+06-12-2021 12:25:29 INFO springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping [main] Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+06-12-2021 12:25:30 INFO org.springframework.security.web.DefaultSecurityFilterChain [main] Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3014c46f, org.springframework.security.web.context.SecurityContextPersistenceFilter@47ffce5d, org.springframework.security.web.header.HeaderWriterFilter@591dd039, org.springframework.web.filter.CorsFilter@6abd88fe, org.springframework.security.web.authentication.logout.LogoutFilter@4baf0b7f, pl.lodz.p.it.gymbackend.config.JWTRequestFilter@64cbc28e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@76b35c38, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1e0be005, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@16337c8e, org.springframework.security.web.session.SessionManagementFilter@10ecdd85, org.springframework.security.web.access.ExceptionTranslationFilter@42bd4a4c, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@32fa956b]
+06-12-2021 12:25:30 INFO org.apache.coyote.http11.Http11NioProtocol [main] Starting ProtocolHandler ["http-nio-8080"]
+06-12-2021 12:25:30 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat started on port(s): 8080 (http) with context path ''
+06-12-2021 12:25:30 INFO springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper [main] Context refreshed
+06-12-2021 12:25:30 INFO springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper [main] Found 1 custom documentation plugin(s)
+06-12-2021 12:25:30 INFO springfox.documentation.spring.web.scanners.ApiListingReferenceScanner [main] Scanning for api listing references
+06-12-2021 12:25:31 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [main] Generating unique operation named: deleteDiet_1
+06-12-2021 12:25:31 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [main] Generating unique operation named: openapiJsonUsingGET_1
+06-12-2021 12:25:31 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [main] Generating unique operation named: deleteTrainingPlan_1
+06-12-2021 12:25:31 INFO pl.lodz.p.it.gymbackend.servicestarter.GymBackendApplication [main] Started GymBackendApplication in 21.813 seconds (JVM running for 28.43)
