@@ -10,6 +10,10 @@ export const TRANSLATIONS_EN = {
   active: 'Active',
   actions: 'Actions',
   create: 'Create',
+  price: 'Price',
+  delete: 'Delete',
+  update: 'Update',
+  apply: 'Apply',
 
   error_name_string_empty: 'Name required',
   error_trainer_string_empty: 'Trainer required',
@@ -44,6 +48,7 @@ export const TRANSLATIONS_EN = {
   duration: 'Duration',
   capacity: 'Capacity',
   chooseDateTime: 'Choose date and time',
+  activities: 'Activities',
 
   error_activityNumber_string_pattern_base: 'Number must match: \'ACTXXX\' where XXX are digits',
   error_activityNumber_string_empty: 'Number required',
@@ -51,4 +56,23 @@ export const TRANSLATIONS_EN = {
   error_duration_number_min: 'Duration must be at least 30',
   error_capacity_number_base: 'Capacity required',
   error_capacity_number_min: 'Capacity must be at least 1',
+
+  //Diets
+  noDiets: 'No available diets. Try again later...',
+  newDiet: 'Add diet',
+  calories: 'Amount of calories',
+  mealsNumber: 'Number of meals',
+  diets: 'Diets',
+
+  error_dietNumber_string_pattern_base: 'Number must match: \'DIEXXX\' where XXX are digits',
+  error_dietNumber_string_empty: 'Number required',
+  error_calories_number_base: 'Amount of calories required',
+  error_calories_number_min: 'Amount of calories be at least 100',
+  error_mealsNumber_number_base: 'Meals number required',
+  error_mealsNumber_number_min: 'Capacity must be at least 1',
+  error_price_number_base: 'Price required',
+  error_price_number_min: 'Price must be at least 1',
+
+  //Training plans
+  trainingPlans: 'Training plans',
 };

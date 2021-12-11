@@ -8,16 +8,18 @@ import RegisterForm from "./RegisterForm";
 import LoginForm from "./LoginForm";
 import NavigationBar from "./common/NavigationBar";
 import ActivityForm from "./ActivityForm";
+import { withTranslation } from "react-i18next";
+import DietForm from "./DietForm";
 
-export default class MainComponent extends Component {
+class MainComponent extends Component {
 
   state = {
     headers: [
-      { path: "/activities", value: "Activity" },
-      { path: "/diets", value: "Diets" },
-      { path: "/trainingPlans", value: "Training plans" },
-      { path: "/login", value: "Login" },
-      { path: "/register", value: "Register" }
+      { path: "/activities", value: `${this.props.t('activities')}` },
+      { path: "/diets", value: `${this.props.t('diets')}` },
+      { path: "/trainingPlans", value: `${this.props.t('trainingPlans')}` },
+      { path: "/login", value: `${this.props.t('login')}` },
+      { path: "/register", value: `${this.props.t('register')}` }
     ],
     data: {
       login: ''
@@ -39,9 +41,12 @@ export default class MainComponent extends Component {
                      component={TrainingPlansComponent}/>
               <Route exact path={headers[4].path} component={RegisterForm}/>
               <Route path="/activities/new" component={ActivityForm}/>
+              <Route path="/diets/new" component={DietForm}/>
             </Switch>
           </main>
         </React.Fragment>
     );
   }
 }
+
+export default withTranslation()(MainComponent);

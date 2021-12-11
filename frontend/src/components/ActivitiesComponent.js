@@ -79,7 +79,7 @@ class ActivitiesComponent extends Component {
         <div className="row">
           <div className="col">
             <Link to="/activities/new"
-                  className="btn btn-primary btn-sm mt-3 position-relative start-100"
+                  className="btn btn-primary btn-lg mt-3 position-relative start-100"
                   style={{ marginBottom: 20 }}>{t('newActivity')}
             </Link>
             {/*<Search onSearchChange={this.handleSearchChange}*/}

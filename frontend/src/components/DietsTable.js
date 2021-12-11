@@ -1,9 +1,8 @@
 import { Component } from "react";
-import { Link } from "react-router-dom";
 import { withTranslation } from "react-i18next";
 import Table from "./common/Table";
 
-class ActivitiesTable extends Component {
+class DietsTable extends Component {
 
   columns = [
     {
@@ -13,21 +12,13 @@ class ActivitiesTable extends Component {
       path: 'name', label: 'name'
     },
     {
-      path: 'startDate', label: 'startDate'
+      path: 'calories', label: 'calories'
     },
     {
-      path: 'duration', label: 'duration'
+      path: 'mealsNumber', label: 'mealsNumber'
     },
     {
-      path: 'trainer', label: 'trainer',
-      // content: activity =>
-      //     <Link to={'/accounts'}/>
-    },
-    {
-      path: 'active', label: 'active'
-    },
-    {
-      path: 'capacity', label: 'capacity'
+      path: 'price', label: 'price'
     },
     {
       key: 'utils', label: 'actions',
@@ -47,15 +38,15 @@ class ActivitiesTable extends Component {
   ];
 
   render() {
-    const { activities, onSort, sortColumn } = this.props;
+    const { diets, onSort, sortColumn } = this.props;
 
     return (
         <Table columns={this.columns}
-               data={activities}
+               data={diets}
                sortColumn={sortColumn}
                onSort={onSort}/>
     )
   }
 }
 
-export default withTranslation()(ActivitiesTable);
+export default withTranslation()(DietsTable);
