@@ -1,6 +1,6 @@
 import Form from "../common/Form";
 import Joi from "joi";
-import 'bootstrap/dist/js/bootstrap';
+import 'bootstrap/dist/js/bootstrap.min.js';
 import Dropdown from "../common/Dropdown";
 import { TrainingType } from "../../model/TrainingType"
 import { withTranslation } from "react-i18next";

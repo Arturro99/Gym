@@ -63,6 +63,7 @@ export const TRANSLATIONS_EN = {
   calories: 'Amount of calories',
   mealsNumber: 'Number of meals',
   diets: 'Diets',
+  dietType: 'Diet type',
 
   error_dietNumber_string_pattern_base: 'Number must match: \'DIEXXX\' where XXX are digits',
   error_dietNumber_string_empty: 'Number required',
