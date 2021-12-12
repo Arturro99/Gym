@@ -1,6 +1,6 @@
 import { Component } from "react";
-import { withTranslation } from "react-i18next";
 import Table from "../common/Table";
+import { withTranslation } from "react-i18next";
 
 class DietsTable extends Component {
 
@@ -25,26 +25,38 @@ class DietsTable extends Component {
       content: diet =>
           <div>
             <button className="btn btn-outline-danger"
-                    onClick={() => this.props.onDelete(diet)}>{this.props.t('delete')}
+                    onClick={() => this.props.onDelete(diet)}>{this.props.t(
+                'delete')}
             </button>
-            <button className="btn btn-outline-info ms-2"
-                    onClick={() => this.props.onUpdate(diet)}>{this.props.t('update')}
-            </button>
-            <button className="btn btn-outline-success ms-2"
-                    onClick={() => this.props.onApply(diet)}>{this.props.t('apply')}
-            </button>
+            {this.props.myTable ? null :
+                <button className="btn btn-outline-info ms-2"
+                        onClick={() => this.props.onUpdate(diet)}>{this.props.t(
+                    'update')}
+                </button>
+            }
+            {this.props.myTable ? null :
+                <button className="btn btn-outline-success ms-2"
+                        onClick={() => this.props.onApply(diet)}>{this.props.t(
+                    'apply')}
+                </button>
+            }
           </div>
     }
   ];
 
   render() {
-    const { diets, onSort, sortColumn } = this.props;
-
+    const { diets, onSort, sortColumn, t } = this.props;
     return (
-        <Table columns={this.columns}
-               data={diets}
-               sortColumn={sortColumn}
-               onSort={onSort}/>
+        <div
+            className="position-absolute top-25 start-50 translate-middle mt-5">
+          {this.props.myTable ?
+              <h1 className="text-center">{t('myDiets')}</h1>
+              : null}
+          <Table columns={this.columns}
+                 data={diets}
+                 sortColumn={sortColumn}
+                 onSort={onSort}/>
+        </div>
     )
   }
 }

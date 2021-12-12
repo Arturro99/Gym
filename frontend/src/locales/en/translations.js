@@ -3,6 +3,7 @@ export const TRANSLATIONS_EN = {
 
   //Common
   signIn: 'Sign in',
+  signOut: 'Sign out',
   cancel: 'Cancel',
   number: 'Number',
   name: 'Name',
@@ -14,6 +15,8 @@ export const TRANSLATIONS_EN = {
   delete: 'Delete',
   update: 'Update',
   apply: 'Apply',
+  activate: 'Activate',
+  deactivate: 'Deactivate',
 
   error_name_string_empty: 'Name required',
   error_trainer_string_empty: 'Trainer required',
@@ -59,6 +62,7 @@ export const TRANSLATIONS_EN = {
 
   //Diets
   noDiets: 'No available diets. Try again later...',
+  noIndividualDiets: 'You have no assigned diets. It is high time you tried something new!',
   newDiet: 'Add diet',
   calories: 'Amount of calories',
   mealsNumber: 'Number of meals',
@@ -76,6 +80,7 @@ export const TRANSLATIONS_EN = {
 
   //Training plans
   noTrainingPlans: 'No available training plans. Try again later...',
+  noIndividualTrainingPlans: 'You have no assigned training plans. It is high time you tried something new!',
   newTrainingPlan: 'Add training plan',
   personalTrainingsNumber: 'Number of personal trainings',
   trainingPlans: 'Training plans',
@@ -85,4 +90,11 @@ export const TRANSLATIONS_EN = {
   error_trainingPlanNumber_string_empty: 'Number required',
   error_personalTrainingsNumber_number_base: 'Number of personal trainings required',
   error_personalTrainingsNumber_number_min: 'Number of personal trainings must be positive',
+
+  //Account
+  accounts: 'Accounts',
+  accountDetails: 'Account details',
+  myBookings: 'My bookings',
+  myTrainingPlans: 'My training plans',
+  myDiets: 'My diets',
 };

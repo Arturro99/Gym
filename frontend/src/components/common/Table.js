@@ -7,13 +7,14 @@ const Table = (props) => {
   const { columns, sortColumn, data, onSort } = props;
 
   return (
-      <table className="table">
-        <TableHeader columns={columns}
-                     sortColumn={sortColumn}
-                     onSort={onSort}/>
-        <TableBody data={data}
-                   columns={columns}/>
-      </table>
+        <table
+            className="table align-baseline table-striped table-bordered text-center mt-5">
+          <TableHeader columns={columns}
+                       sortColumn={sortColumn}
+                       onSort={onSort}/>
+          <TableBody data={data}
+                     columns={columns}/>
+        </table>
   )
 }
 

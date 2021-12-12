@@ -1,5 +1,5 @@
 import Joi from "joi";
-import Form from "./common/Form";
+import Form from "../common/Form";
 import { withTranslation } from "react-i18next";
 
 class RegisterForm extends Form {

@@ -1,6 +1,6 @@
 import Form from "../common/Form";
 import Joi from "joi";
-import 'bootstrap/dist/js/bootstrap.min.js';
+// import 'bootstrap/dist/js/bootstrap.min.js';
 import Dropdown from "../common/Dropdown";
 import { TrainingType } from "../../model/TrainingType"
 import { withTranslation } from "react-i18next";
@@ -53,7 +53,8 @@ class TrainingPlanForm extends Form {
   }
 
   continueSubmitting = () => {
-    console.log(`TrainingPlan: ${this.state.data.trainingPlanNumber} created ${this.state.data.trainingType}`)
+    console.log(
+        `TrainingPlan: ${this.state.data.trainingPlanNumber} created ${this.state.data.trainingType}`)
   }
 
   handleTrainingTypeChange = (type) => {

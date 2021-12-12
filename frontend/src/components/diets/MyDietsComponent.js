@@ -1,6 +1,5 @@
 import { withTranslation } from "react-i18next";
 import '../../locales/i18n';
-import { Link } from "react-router-dom";
 import { Diet } from "../../model/Diet";
 import { Component } from "react";
 import DietsTable from "./DietsTable";
@@ -17,25 +16,12 @@ class DietsComponent extends Component {
   paginatedDiets = {};
 
   componentDidMount() {
-    const die1 = new Diet(
-        'DIE001',
-        'Niskoweglowodanowa',
-        'Low-carbohydrate',
-        1500,
-        3,
-        1100
-    )
-    const die2 = new Diet(
-        'DIE002',
-        'Wysokobiałkowa',
-        'High-protein',
-        3200,
-        4,
-        1800
-    )
+    const pathParam = this.props.match.params.login;
     this.setState({
-      diets: [die1, die2]
-    })
+      diets: [new Diet('DIE007', 'Nowa', 'Vege', 1200,
+          2, 1200)]
+    });
+    //TODO fetch diets
   }
 
   handleDelete = diet => {
@@ -45,14 +31,6 @@ class DietsComponent extends Component {
     this.setState({ diets: currentDiets });
 
     //TODO implement deletion
-  }
-
-  handleUpdate = diet => {
-    //TODO implement diet update
-  }
-
-  handleApply = diet => {
-    //TODO implement appliance for diet
   }
 
   handleSort = sortColumn => {
@@ -70,29 +48,19 @@ class DietsComponent extends Component {
     const { t } = this.props;
 
     if (count === 0) {
-      return <h1>{t('noDiets')}</h1>;
+      return <h1>{t('noIndividualDiets')}</h1>;
     }
 
     return (
-        <div className="row">
-          <div className="col">
-            <Link to="/diets/new"
-                  className="btn btn-primary btn-lg mt-3 position-relative start-100"
-                  style={{ marginBottom: 20 }}>{t('newDiet')}
-            </Link>
-            {/*<Search onSearchChange={this.handleSearchChange}*/}
-            {/*        value={this.state.searchQuery}/>*/}
+        <div className="row mt-5">
+          <div className="col mt-5">
             <DietsTable diets={diets}
+                        myTable={true}
                         sortColumn={sortColumn}
                         onDelete={this.handleDelete}
                         onUpdate={this.handleUpdate}
                         onApply={this.handleApply}
                         onSort={this.handleSort}/>
-            {/*<Pagination*/}
-            {/*    itemsCount={totalCount}*/}
-            {/*    pageSize={pageSize}*/}
-            {/*    onPageChange={this.handlePageChange}*/}
-            {/*    currentPage={currentPage}/>*/}
           </div>
         </div>
     );

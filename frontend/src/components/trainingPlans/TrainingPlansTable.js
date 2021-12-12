@@ -28,29 +28,42 @@ class TrainingPlansTable extends Component {
       content: trainingPlan =>
           <div>
             <button className="btn btn-outline-danger"
-                    onClick={() => this.props.onDelete(trainingPlan)}>{this.props.t(
+                    onClick={() => this.props.onDelete(
+                        trainingPlan)}>{this.props.t(
                 'delete')}
             </button>
-            <button className="btn btn-outline-info ms-2"
-                    onClick={() => this.props.onUpdate(trainingPlan)}>{this.props.t(
-                'update')}
-            </button>
-            <button className="btn btn-outline-success ms-2"
-                    onClick={() => this.props.onApply(trainingPlan)}>{this.props.t(
-                'apply')}
-            </button>
+            {this.props.myTable ? null :
+                <button className="btn btn-outline-info ms-2"
+                        onClick={() => this.props.onUpdate(
+                            trainingPlan)}>{this.props.t(
+                    'update')}
+                </button>
+            }
+            {this.props.myTable ? null :
+                <button className="btn btn-outline-success ms-2"
+                        onClick={() => this.props.onApply(
+                            trainingPlan)}>{this.props.t(
+                    'apply')}
+                </button>
+            }
           </div>
     }
   ];
 
   render() {
-    const { trainingPlans, onSort, sortColumn } = this.props;
+    const { trainingPlans, onSort, sortColumn, t } = this.props;
 
     return (
-        <Table columns={this.columns}
-               data={trainingPlans}
-               sortColumn={sortColumn}
-               onSort={onSort}/>
+        <div
+            className="position-absolute top-25 start-50 translate-middle mt-5">
+          {this.props.myTable ?
+              <h1 className="text-center">{t('myTrainingPlans')}</h1>
+              : null}
+          <Table columns={this.columns}
+                 data={trainingPlans}
+                 sortColumn={sortColumn}
+                 onSort={onSort}/>
+        </div>
     )
   }
 }
