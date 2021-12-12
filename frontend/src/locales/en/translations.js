@@ -67,12 +67,21 @@ export const TRANSLATIONS_EN = {
   error_dietNumber_string_pattern_base: 'Number must match: \'DIEXXX\' where XXX are digits',
   error_dietNumber_string_empty: 'Number required',
   error_calories_number_base: 'Amount of calories required',
-  error_calories_number_min: 'Amount of calories be at least 100',
+  error_calories_number_min: 'Amount of calories must be at least 100',
   error_mealsNumber_number_base: 'Meals number required',
   error_mealsNumber_number_min: 'Capacity must be at least 1',
   error_price_number_base: 'Price required',
   error_price_number_min: 'Price must be at least 1',
 
   //Training plans
+  noTrainingPlans: 'No available training plans. Try again later...',
+  newTrainingPlan: 'Add training plan',
+  personalTrainingsNumber: 'Number of personal trainings',
   trainingPlans: 'Training plans',
+  trainingType: 'Training type',
+
+  error_trainingPlanNumber_string_pattern_base: 'Number must match: \'TRAXXX\' where XXX are digits',
+  error_trainingPlanNumber_string_empty: 'Number required',
+  error_personalTrainingsNumber_number_base: 'Number of personal trainings required',
+  error_personalTrainingsNumber_number_min: 'Number of personal trainings must be positive',
 };

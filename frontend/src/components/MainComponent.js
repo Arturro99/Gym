@@ -1,15 +1,17 @@
 import React, { Component } from "react";
 import { Route, Switch } from 'react-router'
 import '../locales/i18n';
-import ActivitiesComponent from "./ActivitiesComponent";
-import DietsComponent from "./DietsComponent";
-import TrainingPlansComponent from "./TrainingPlansComponent";
+import ActivitiesComponent from "./activities/ActivitiesComponent";
+import DietsComponent from "./diets/DietsComponent";
+import TrainingPlansComponent from "./trainingPlans/TrainingPlansComponent";
 import RegisterForm from "./RegisterForm";
 import LoginForm from "./LoginForm";
 import NavigationBar from "./common/NavigationBar";
-import ActivityForm from "./ActivityForm";
+import ActivityForm from "./activities/ActivityForm";
 import { withTranslation } from "react-i18next";
-import DietForm from "./DietForm";
+import DietForm from "./diets/DietForm";
+import TrainingPlanForm from "./trainingPlans/TrainingPlanForm";
+import { Modal } from "bootstrap";//DO NOT REMOVE THIS -> MODAL WON'T WORK WITHOUT IT
 
 class MainComponent extends Component {
 
@@ -42,6 +44,7 @@ class MainComponent extends Component {
               <Route exact path={headers[4].path} component={RegisterForm}/>
               <Route path="/activities/new" component={ActivityForm}/>
               <Route path="/diets/new" component={DietForm}/>
+              <Route path="/trainingPlans/new" component={TrainingPlanForm}/>
             </Switch>
           </main>
         </React.Fragment>
