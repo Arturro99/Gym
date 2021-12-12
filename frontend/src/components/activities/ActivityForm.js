@@ -1,5 +1,5 @@
 import { withTranslation } from "react-i18next";
-import Form from "./common/Form";
+import Form from "../common/Form";
 import Joi from "joi";
 import { DateTimePickerComponent } from '@syncfusion/ej2-react-calendars'
 
@@ -59,10 +59,11 @@ class ActivityForm extends Form {
             {this.renderInput("duration", t("duration"), 'number')}
             {this.renderInput("trainer", t("trainer"))}
             {this.renderInput("capacity", t("capacity"), 'number')}
+            <label>{t('startDate')}</label>
             <DateTimePickerComponent
                 onChange={this.handleDateChange}
                 strictMode={true}
-                className="mt-3 fs-5"
+                className="mt-2 fs-5"
                 placeholder={t("chooseDateTime")}
                 format="dd-MM-yyyy HH:mm"/>
             {this.renderButton(t("create"))}

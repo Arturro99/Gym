@@ -1,7 +1,7 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
 import { withTranslation } from "react-i18next";
-import Table from "./common/Table";
+import Table from "../common/Table";
 
 class ActivitiesTable extends Component {
 

@@ -1,5 +1,5 @@
 import { withTranslation } from "react-i18next";
-import Form from "./common/Form";
+import Form from "../common/Form";
 import Joi from "joi";
 
 class DietForm extends Form {

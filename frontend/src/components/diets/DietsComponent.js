@@ -1,7 +1,7 @@
 import { withTranslation } from "react-i18next";
-import '../locales/i18n';
+import '../../locales/i18n';
 import { Link } from "react-router-dom";
-import { Diet } from "../model/Diet";
+import { Diet } from "../../model/Diet";
 import { Component } from "react";
 import DietsTable from "./DietsTable";
 

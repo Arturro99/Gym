@@ -1,7 +1,7 @@
 import { withTranslation } from "react-i18next";
-import '../locales/i18n';
+import '../../locales/i18n';
 import { Component } from "react";
-import { Activity } from "../model/Activity";
+import { Activity } from "../../model/Activity";
 import { Link } from "react-router-dom";
 import ActivitiesTable from "./ActivitiesTable";
 
