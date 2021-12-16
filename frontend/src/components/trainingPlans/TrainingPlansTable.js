@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { withTranslation } from "react-i18next";
 import Table from "../common/Table";
+import { Link } from "react-router-dom";
 
 class TrainingPlansTable extends Component {
 
@@ -9,7 +10,7 @@ class TrainingPlansTable extends Component {
       path: 'number', label: 'number'
     },
     {
-      path: 'name', label: 'name'
+      path: '_name', label: 'name'
     },
     {
       path: 'trainingType', label: 'trainingType'
@@ -18,7 +19,11 @@ class TrainingPlansTable extends Component {
       path: 'personalTrainingsNumber', label: 'personalTrainingsNumber'
     },
     {
-      path: 'trainer', label: 'trainer'
+      path: 'trainer', label: 'trainer',
+      content: trainingPlan =>
+          <Link to={`/accounts/${trainingPlan.trainer}`}>
+            {trainingPlan.trainer}
+          </Link>
     },
     {
       path: 'price', label: 'price'
@@ -26,26 +31,26 @@ class TrainingPlansTable extends Component {
     {
       key: 'utils', label: 'actions',
       content: trainingPlan =>
-          <div>
-            <button className="btn btn-outline-danger"
-                    onClick={() => this.props.onDelete(
-                        trainingPlan)}>{this.props.t(
-                'delete')}
+          <div className="row justify-content-md-center">
+            <button
+                className="btn btn-outline-danger col-3 ms-2 d-flex justify-content-center text-center"
+                onClick={() => this.props.onDelete(trainingPlan)}>
+              {this.props.myTable ?
+                  this.props.t('cancel') : this.props.t('delete')}
             </button>
             {this.props.myTable ? null :
-                <button className="btn btn-outline-info ms-2"
-                        onClick={() => this.props.onUpdate(
-                            trainingPlan)}>{this.props.t(
+                <button
+                    className="btn btn-outline-info col-3 ms-2 d-flex justify-content-center text-center"
+                    onClick={() => this.props.onUpdate(
+                        trainingPlan)}>{this.props.t(
                     'update')}
                 </button>
             }
-            {this.props.myTable ? null :
-                <button className="btn btn-outline-success ms-2"
-                        onClick={() => this.props.onApply(
-                            trainingPlan)}>{this.props.t(
-                    'apply')}
-                </button>
-            }
+            <Link
+                className="btn btn-outline-success col-3 ms-2 d-flex justify-content-center text-center"
+                to={`/trainingPlans/${trainingPlan.number}`}>{this.props.t(
+                'details')}
+            </Link>
           </div>
     }
   ];
@@ -54,11 +59,10 @@ class TrainingPlansTable extends Component {
     const { trainingPlans, onSort, sortColumn, t } = this.props;
 
     return (
-        <div
-            className="position-absolute top-25 start-50 translate-middle mt-5">
+        <div className="card-header">
           {this.props.myTable ?
               <h1 className="text-center">{t('myTrainingPlans')}</h1>
-              : null}
+              : <h1 className="text-center">{t('trainingPlans')}</h1>}
           <Table columns={this.columns}
                  data={trainingPlans}
                  sortColumn={sortColumn}

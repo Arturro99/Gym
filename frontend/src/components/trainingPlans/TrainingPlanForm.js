@@ -66,8 +66,8 @@ class TrainingPlanForm extends Form {
   render() {
     const { t } = this.props;
     return (
-        <div>
-          <h1 className="modal-header">{t('newTrainingPlan')}</h1>
+        <div className="card-header mt-5 w-50 mx-auto">
+          <h1 className="text-center">{t('newTrainingPlan')}</h1>
           <form onSubmit={this.handleSubmit}>
             {this.renderInput("trainingPlanNumber", t("number"))}
             {this.renderInput("name", t("name"))}

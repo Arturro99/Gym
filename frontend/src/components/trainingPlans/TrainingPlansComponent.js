@@ -74,12 +74,8 @@ class TrainingPlansComponent extends Component {
     }
 
     return (
-        <div className="row">
+        <div className="row mt-5">
           <div className="col">
-            <Link to="/trainingPlans/new"
-                  className="btn btn-primary btn-lg mt-3 position-relative start-100"
-                  style={{ marginBottom: 20 }}>{t('newTrainingPlan')}
-            </Link>
             {/*<Search onSearchChange={this.handleSearchChange}*/}
             {/*        value={this.state.searchQuery}/>*/}
             <TrainingPlansTable trainingPlans={trainingPlans}
@@ -88,6 +84,10 @@ class TrainingPlansComponent extends Component {
                                 onUpdate={this.handleUpdate}
                                 onApply={this.handleApply}
                                 onSort={this.handleSort}/>
+            <Link to="/trainingPlans/new"
+                  className="btn btn-primary btn-lg mt-3 float-end"
+                  style={{ marginBottom: 20 }}>{t('newTrainingPlan')}
+            </Link>
             {/*<Pagination*/}
             {/*    itemsCount={totalCount}*/}
             {/*    pageSize={pageSize}*/}
