@@ -51,8 +51,8 @@ class ActivityForm extends Form {
   render() {
     const { t } = this.props;
     return (
-        <div>
-          <h1 className="modal-header">{t('newActivity')}</h1>
+        <div className="card-header mt-5 w-50 mx-auto">
+          <h1 className="text-center">{t('newActivity')}</h1>
           <form onSubmit={this.handleSubmit}>
             {this.renderInput("activityNumber", t("number"))}
             {this.renderInput("name", t("name"))}
