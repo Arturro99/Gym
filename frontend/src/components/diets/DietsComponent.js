@@ -74,12 +74,8 @@ class DietsComponent extends Component {
     }
 
     return (
-        <div className="row">
+        <div className="row mt-5">
           <div className="col">
-            <Link to="/diets/new"
-                  className="btn btn-primary btn-lg mt-3 position-relative start-100"
-                  style={{ marginBottom: 20 }}>{t('newDiet')}
-            </Link>
             {/*<Search onSearchChange={this.handleSearchChange}*/}
             {/*        value={this.state.searchQuery}/>*/}
             <DietsTable diets={diets}
@@ -88,6 +84,10 @@ class DietsComponent extends Component {
                         onUpdate={this.handleUpdate}
                         onApply={this.handleApply}
                         onSort={this.handleSort}/>
+            <Link to="/diets/new"
+                  className="btn btn-primary btn-lg mt-3 float-end"
+                  style={{ marginBottom: 20 }}>{t('newDiet')}
+            </Link>
             {/*<Pagination*/}
             {/*    itemsCount={totalCount}*/}
             {/*    pageSize={pageSize}*/}

@@ -65,8 +65,8 @@ class DietForm extends Form {
   render() {
     const { t } = this.props;
     return (
-        <div>
-          <h1 className="modal-header">{t('newDiet')}</h1>
+        <div className="card-header mt-5 w-50 mx-auto">
+          <h1 className="text-center">{t('newDiet')}</h1>
           <form onSubmit={this.handleSubmit}>
             {this.renderInput("dietNumber", t("number"))}
             {this.renderInput("name", t("name"))}
@@ -74,7 +74,8 @@ class DietForm extends Form {
                       itemName={t('dietType')}
                       propertyName='name'
                       buttonLabel={this.state.data.dietType}
-                      onChangeBtn={this.handleDietTypeChange}/>
+                      onChangeBtn={this.handleDietTypeChange}
+                      style={{right: 0}}/>
             {this.renderInput("calories", t("calories"), 'number')}
             {this.renderInput("mealsNumber", t("mealsNumber"), 'number')}
             {this.renderInput("price", t("price"), 'number')}
