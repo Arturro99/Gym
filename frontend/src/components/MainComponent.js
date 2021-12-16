@@ -12,9 +12,15 @@ import { withTranslation } from "react-i18next";
 import DietForm from "./diets/DietForm";
 import TrainingPlanForm from "./trainingPlans/TrainingPlanForm";
 import AccountDetails from "./accounts/AccountDetails";
-import { Modal } from "bootstrap";
 import MyTrainingPlansComponent from "./trainingPlans/MyTrainingPlansComponent";
 import MyDietsComponent from "./diets/MyDietsComponent";
+import AccountsComponent from "./accounts/AccountsComponent";
+import TrainingPlanDetails from "./trainingPlans/TrainingPlanDetails";
+import DietDetails from "./diets/DietDetails";
+import BookingsComponent from "./bookings/BookingsComponent";
+import MyBookingsComponent from "./bookings/MyBookingsComponent";
+import ActivityDetails from "./activities/ActivityDetails";
+import { Modal } from "bootstrap";
 //DO NOT REMOVE THIS -> MODAL WON'T WORK WITHOUT IT
 
 class MainComponent extends Component {
@@ -24,6 +30,7 @@ class MainComponent extends Component {
       { path: "/activities", value: `${this.props.t('activities')}` },
       { path: "/diets", value: `${this.props.t('diets')}` },
       { path: "/trainingPlans", value: `${this.props.t('trainingPlans')}` },
+      { path: "/bookings", value: `${this.props.t('bookings')}` },
       { path: "/accounts", value: `${this.props.t('accounts')}` },
       { path: "/login", value: `${this.props.t('login')}` },
       { path: "/register", value: `${this.props.t('register')}` }
@@ -43,7 +50,9 @@ class MainComponent extends Component {
   }
 
   handleSignOutClick = () => {
-    console.log(`User: ${this.state.data.login} signed out.`)
+    let newData = {...this.state.data};
+    newData.login = '';
+    this.setState({data: newData});
   }
 
   render() {
@@ -57,21 +66,33 @@ class MainComponent extends Component {
           <LoginForm/>
           <main className="container">
             <Switch>
-              <Route exact path={headers[0].path}
+              <Route exact path={'/activities'}
                      component={ActivitiesComponent}/>
-              <Route exact path={headers[1].path} component={DietsComponent}/>
-              <Route exact path={headers[2].path}
+              <Route exact path={'/diets'} component={DietsComponent}/>
+              <Route exact path={'/trainingPlans'}
                      component={TrainingPlansComponent}/>
-              <Route exact path={headers[3].path + "/:login"}
+              <Route exact path={'/accounts'}
+                     component={AccountsComponent}/>
+              <Route exact path={'/accounts/:login'}
                      render={(props) => <AccountDetails {...props}/>}/>
-              <Route exact path={headers[5].path} component={RegisterForm}/>
+              <Route exact path={'/register'} component={RegisterForm}/>
               <Route path="/activities/new" component={ActivityForm}/>
+              <Route path="/activities/:number"
+                     render={(props) => <ActivityDetails {...props}/>}/>
               <Route path="/diets/new" component={DietForm}/>
-              <Route path="/diets/:login"
+              <Route path="/diets/own/:login"
                      render={(props) => <MyDietsComponent {...props}/>}/>
-              <Route path="/trainingPlans/:login"
+              <Route path="/diets/:number"
+                     render={(props) => <DietDetails {...props}/>}/>
+              <Route path="/trainingPlans/own/:login"
                      render={(props) => <MyTrainingPlansComponent {...props}/>}/>
               <Route path="/trainingPlans/new" component={TrainingPlanForm}/>
+              <Route path="/trainingPlans/:number"
+                     render={(props) => <TrainingPlanDetails {...props}/>}/>
+              <Route exact path={'/bookings'}
+                     component={BookingsComponent}/>
+              <Route path="/bookings/own/:login"
+                     render={(props) => <MyBookingsComponent {...props}/>}/>
             </Switch>
           </main>
         </React.Fragment>

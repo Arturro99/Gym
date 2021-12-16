@@ -37,7 +37,7 @@ const NavigationBar = (props) => {
               )}
             </ul> :
             <ul className="navbar-nav ms-auto me-5 fs-5">
-              <div className="collapse navbar-collapse fs-5"
+              <div className="collapse navbar-collapse fs-5 me-auto"
                    id="navbarNavDarkDropdown">
                 <ul className="navbar-nav">
                   <li className="nav-item dropdown">
@@ -57,7 +57,7 @@ const NavigationBar = (props) => {
                   </li>
                 </ul>
               </div>
-              <div className="collapse navbar-collapse mx-lg-2"
+              <div className="collapse navbar-collapse me-5 ms-3"
                    id="navbarNavDarkDropdown">
                 <ul className="navbar-nav">
                   <li className="nav-item dropdown">
@@ -72,13 +72,13 @@ const NavigationBar = (props) => {
                             to={`/accounts/${data.login}`}
                             type="button">{t('accountDetails')}</Link>
                       <Link className="dropdown-item"
-                            to={`/bookings/${data.login}`}
+                            to={`/bookings/own/${data.login}`}
                             type="button">{t('myBookings')}</Link>
                       <Link className="dropdown-item"
-                            to={`/trainingPlans/${data.login}`}
+                            to={`/trainingPlans/own/${data.login}`}
                             type="button">{t('myTrainingPlans')}</Link>
                       <Link className="dropdown-item"
-                            to={`/diets/${data.login}`}
+                            to={`/diets/own/${data.login}`}
                             type="button">{t('myDiets')}</Link>
                       <button className="dropdown-item"
                               onClick={onSignOutClick}

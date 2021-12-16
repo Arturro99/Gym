@@ -8,7 +8,9 @@ export const TRANSLATIONS_EN = {
   number: 'Number',
   name: 'Name',
   trainer: 'Trainer',
+  activity: 'Activity',
   active: 'Active',
+  inactive: 'Inactive',
   actions: 'Actions',
   create: 'Create',
   price: 'Price',
@@ -17,6 +19,11 @@ export const TRANSLATIONS_EN = {
   apply: 'Apply',
   activate: 'Activate',
   deactivate: 'Deactivate',
+  details: 'Details',
+  creationDate: 'Creation Date',
+  modificationDate: 'Modification Date',
+  createdBy: 'Created by',
+  modifiedBy: 'Modified by',
 
   error_name_string_empty: 'Name required',
   error_trainer_string_empty: 'Trainer required',
@@ -68,6 +75,7 @@ export const TRANSLATIONS_EN = {
   mealsNumber: 'Number of meals',
   diets: 'Diets',
   dietType: 'Diet type',
+  dietDetails: 'Diet details',
 
   error_dietNumber_string_pattern_base: 'Number must match: \'DIEXXX\' where XXX are digits',
   error_dietNumber_string_empty: 'Number required',
@@ -85,6 +93,7 @@ export const TRANSLATIONS_EN = {
   personalTrainingsNumber: 'Number of personal trainings',
   trainingPlans: 'Training plans',
   trainingType: 'Training type',
+  trainingPlanDetails: 'Training plan details',
 
   error_trainingPlanNumber_string_pattern_base: 'Number must match: \'TRAXXX\' where XXX are digits',
   error_trainingPlanNumber_string_empty: 'Number required',
@@ -94,7 +103,22 @@ export const TRANSLATIONS_EN = {
   //Account
   accounts: 'Accounts',
   accountDetails: 'Account details',
-  myBookings: 'My bookings',
   myTrainingPlans: 'My training plans',
   myDiets: 'My diets',
+  confirmed: 'Confirmed',
+  unconfirmed: 'Unconfirmed',
+  status: 'Status',
+  accessLevels: 'Access levels',
+  language: 'Language',
+  loyaltyFactor: 'Loyalty factor',
+  lastKnownGoodLogin: 'Last known good login',
+  lastKnownGoodLoginIp: 'Last known good login IP',
+  lastKnownBadLogin: 'Last known bad login',
+  lastKnownBadLoginIp: 'Last known bad login IP',
+  badLoginsCounter: 'Number of bad logins',
+
+  //Booking
+  bookings: 'Bookings',
+  bookingDetails: 'Booking details',
+  myBookings: 'My bookings'
 };
