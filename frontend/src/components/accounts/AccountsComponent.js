@@ -1,9 +1,8 @@
 import { withTranslation } from "react-i18next";
 import '../../locales/i18n';
 import { Component } from "react";
-import { Activity } from "../../model/Activity";
-import { Link } from "react-router-dom";
 import AccountsTable from "./AccountsTable";
+import { Account } from "../../model/Account";
 
 class AccountsComponent extends Component {
 
@@ -17,44 +16,47 @@ class AccountsComponent extends Component {
   paginatedAccounts = {};
 
   componentDidMount() {
-    const act1 = new Activity(
-        'ACT001',
-        'Rozciaganie',
-        '12.12.2022',
-        60,
-        'trener',
-        'true',
-        '2'
-    )
-    const act2 = new Activity(
-        'ACT002',
-        'Bieganie',
-        '12.03.2022',
-        90,
-        'trener',
-        'true',
-        '5'
-    )
+    const acc1 = new Account();
+    acc1.login = 'acc1';
+    acc1.email = 'acc1@aaa.pl';
+    acc1.active = 'Active';
+    acc1.confirmed = 'confirmed';
+    acc1.firstName = 'Karol';
+    acc1.lastName = 'Karolewski';
+    acc1.phoneNumber = '123456987';
+    const acc2 = new Account();
+    acc2.login = 'acc2';
+    acc2.email = 'acc2@aaa.pl';
+    acc2.active = 'Inactive';
+    acc2.confirmed = 'unconfirmed';
+    acc2.firstName = 'Jan';
+    acc2.lastName = 'Janowicz';
+    acc2.phoneNumber = '987456321';
     this.setState({
-      accounts: [act1, act2]
+      accounts: [acc1, acc2]
     })
+
+    //TODO fetch accounts and map active/confirmed from true/false values to strings
   }
 
-  handleDelete = activity => {
-    const originalAccounts = this.state.accounts;
-    const currentAccounts = originalAccounts.filter(
-        act => act.number !== activity.number);
-    this.setState({ accounts: currentAccounts });
+  handleActivate = account => {
+    const accounts = this.state.accounts;
+    const index = accounts.findIndex(acc => acc.login === account.login);
+    accounts[index].active = (accounts[index].active === this.props.t('active'))
+        ? this.props.t('inactive')
+        : this.props.t('active');
+    console.log(accounts[index])
+    this.setState({ accounts: accounts });
 
-    //TODO implement deletion
+    //TODO implement activation/deactivation
   }
 
-  handleUpdate = activity => {
-    //TODO implement activity update
+  handleAccessLevels = account => {
+    //TODO add modal with pointers for access levels
   }
 
-  handleApply = activity => {
-    //TODO implement appliance for activity
+  handleUpdate = account => {
+    //TODO implement account update
   }
 
   handleSort = sortColumn => {
@@ -76,20 +78,16 @@ class AccountsComponent extends Component {
     }
 
     return (
-        <div className="row">
+        <div className="row mt-5">
           <div className="col">
-            <Link to="/accounts/new"
-                  className="btn btn-primary btn-lg mt-3 position-relative start-100"
-                  style={{ marginBottom: 20 }}>{t('newActivity')}
-            </Link>
             {/*<Search onSearchChange={this.handleSearchChange}*/}
             {/*        value={this.state.searchQuery}/>*/}
             <AccountsTable accounts={accounts}
-                             sortColumn={sortColumn}
-                             onDelete={this.handleDelete}
-                             onUpdate={this.handleUpdate}
-                             onApply={this.handleApply}
-                             onSort={this.handleSort}/>
+                           sortColumn={sortColumn}
+                           onActivate={this.handleActivate}
+                           onAccessLevels={this.handleAccessLevels}
+                           onUpdate={this.handleUpdate}
+                           onSort={this.handleSort}/>
             {/*<Pagination*/}
             {/*    itemsCount={totalCount}*/}
             {/*    pageSize={pageSize}*/}

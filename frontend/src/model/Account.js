@@ -20,7 +20,6 @@ export function Account(login, email, password, active, confirmed, firstName,
   this.lastKnownBadLogin = lastKnownBadLogin;
   this.lastKnownBadLoginIp = lastKnownBadLoginIp;
   this.badLoginsCounter = badLoginsCounter;
-  this.createdBy = createdBy;
   this.modifiedBy = modifiedBy;
   this.creationDate = creationDate;
   this.modificationDate = modificationDate;
