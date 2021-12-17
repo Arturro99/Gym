@@ -84,7 +84,7 @@ export default class Form extends Component {
     )
   }
 
-  renderInput(name, label, type = 'text') {
+  renderInput(name, label, type = 'text', labelClassName, inputClassName) {
     const { data, errors } = this.state;
     const { t } = this.props;
     return (
@@ -93,7 +93,9 @@ export default class Form extends Component {
                value={data[name]}
                type={type}
                onChange={this.handleChange}
-               error={t(errors[name])}/>
+               error={t(errors[name])}
+               labelClassName={labelClassName}
+               inputClassName={inputClassName}/>
     )
   }
 }

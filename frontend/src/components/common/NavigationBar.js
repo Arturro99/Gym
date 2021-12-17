@@ -22,7 +22,7 @@ const NavigationBar = (props) => {
           )}
         </ul>
         {data.login === '' ?
-            <ul className="navbar-nav ms-auto">
+            <ul className="navbar-nav ms-auto me-5">
               {registerHeader.map(header =>
                   <li className="nav-item mx-lg-2">
                     <NavLink to={header.path}

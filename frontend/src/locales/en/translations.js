@@ -8,6 +8,8 @@ export const TRANSLATIONS_EN = {
   number: 'Number',
   name: 'Name',
   trainer: 'Trainer',
+  admin: 'Admin',
+  client: 'Client',
   activity: 'Activity',
   active: 'Active',
   inactive: 'Inactive',
@@ -24,6 +26,7 @@ export const TRANSLATIONS_EN = {
   modificationDate: 'Modification Date',
   createdBy: 'Created by',
   modifiedBy: 'Modified by',
+  save: 'Save',
 
   error_name_string_empty: 'Name required',
   error_trainer_string_empty: 'Trainer required',
@@ -120,5 +123,9 @@ export const TRANSLATIONS_EN = {
   //Booking
   bookings: 'Bookings',
   bookingDetails: 'Booking details',
-  myBookings: 'My bookings'
+  myBookings: 'My bookings',
+
+  //Access levels
+  assignAccessLevels: 'Assign access levels',
+
 };

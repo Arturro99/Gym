@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import { withTranslation } from "react-i18next";
 import Table from "../common/Table";
 import { Link } from "react-router-dom";
@@ -31,6 +31,7 @@ class AccountsTable extends Component {
                 ? this.props.t('deactivate') : this.props.t('activate')}
             </button>
             <button className="btn btn-outline-warning col-3 ms-2"
+                    data-bs-toggle='modal' data-bs-target='#accessLevelModal'
                     onClick={() => this.props.onAccessLevels(
                         account)}>{this.props.t('accessLevels')}
             </button>

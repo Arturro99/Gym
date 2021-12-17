@@ -1,6 +1,5 @@
 import { withTranslation } from "react-i18next";
 import '../../locales/i18n';
-import { Link } from "react-router-dom";
 import BookingsTable from "../bookings/BookingsTable";
 import { Booking } from "../../model/Booking";
 import { Component } from "react";
@@ -81,15 +80,11 @@ class BookingsComponent extends Component {
             {/*<Search onSearchChange={this.handleSearchChange}*/}
             {/*        value={this.state.searchQuery}/>*/}
             <BookingsTable bookings={bookings}
-                                sortColumn={sortColumn}
-                                onDelete={this.handleDelete}
-                                onUpdate={this.handleUpdate}
-                                onApply={this.handleApply}
-                                onSort={this.handleSort}/>
-            <Link to="/bookings/new"
-                  className="btn btn-primary btn-lg mt-3 float-end"
-                  style={{ marginBottom: 20 }}>{t('newBooking')}
-            </Link>
+                           sortColumn={sortColumn}
+                           onDelete={this.handleDelete}
+                           onUpdate={this.handleUpdate}
+                           onApply={this.handleApply}
+                           onSort={this.handleSort}/>
             {/*<Pagination*/}
             {/*    itemsCount={totalCount}*/}
             {/*    pageSize={pageSize}*/}

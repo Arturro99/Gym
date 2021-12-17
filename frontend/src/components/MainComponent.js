@@ -20,6 +20,7 @@ import DietDetails from "./diets/DietDetails";
 import BookingsComponent from "./bookings/BookingsComponent";
 import MyBookingsComponent from "./bookings/MyBookingsComponent";
 import ActivityDetails from "./activities/ActivityDetails";
+import AccessLevelModal from "./accounts/AccessLevelModal";
 import { Modal } from "bootstrap";
 //DO NOT REMOVE THIS -> MODAL WON'T WORK WITHOUT IT
 
@@ -46,13 +47,12 @@ class MainComponent extends Component {
     let newData = { ...this.state.data };
     newData.currentRole = role;
     this.setState({ data: newData });
-    console.log(`Switched to role: ${role}`);
   }
 
   handleSignOutClick = () => {
-    let newData = {...this.state.data};
+    let newData = { ...this.state.data };
     newData.login = '';
-    this.setState({data: newData});
+    this.setState({ data: newData });
   }
 
   render() {
@@ -64,6 +64,7 @@ class MainComponent extends Component {
                          onChangeRoleClick={this.handleChangeRoleClick}
                          onSignOutClick={this.handleSignOutClick}/>
           <LoginForm/>
+          <AccessLevelModal accessLevels={data.roles}/>
           <main className="container">
             <Switch>
               <Route exact path={'/activities'}
@@ -85,7 +86,8 @@ class MainComponent extends Component {
               <Route path="/diets/:number"
                      render={(props) => <DietDetails {...props}/>}/>
               <Route path="/trainingPlans/own/:login"
-                     render={(props) => <MyTrainingPlansComponent {...props}/>}/>
+                     render={(props) =>
+                         <MyTrainingPlansComponent {...props}/>}/>
               <Route path="/trainingPlans/new" component={TrainingPlanForm}/>
               <Route path="/trainingPlans/:number"
                      render={(props) => <TrainingPlanDetails {...props}/>}/>

@@ -1,14 +1,23 @@
 import React from "react";
 
-const Input = ({ name, label, error, ...rest }) => {
+const Input = ({
+  name,
+  label,
+  error,
+  labelClassName,
+  inputClassName,
+  ...rest
+}) => {
   return (
-      <form>
-        <label htmlFor={name} className="form-label">{label}</label>
+      <form id={name}>
+        <label htmlFor={name}
+               className={labelClassName ? labelClassName
+                   : "form-label"}>{label}</label>
         <input autoFocus
                name={name}
                {...rest}
                id={name}
-               className="form-control"/>
+               className={inputClassName ? inputClassName : 'form-control'}/>
         {error && <div className="alert alert-danger">{error}</div>}
       </form>
   )
