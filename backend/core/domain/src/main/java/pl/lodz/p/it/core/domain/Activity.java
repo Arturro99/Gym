@@ -33,4 +33,8 @@ public class Activity extends BaseModel {
 
     @Range(min = 1)
     private Integer capacity;
+
+    private Account modifiedBy;
+
+    private Account createdBy;
 }

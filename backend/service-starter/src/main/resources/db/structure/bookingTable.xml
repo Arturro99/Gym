@@ -78,4 +78,23 @@
       </column>
     </addColumn>
   </changeSet>
+
+  <changeSet id="6" author="artur">
+    <preConditions onFail="CONTINUE">
+      <not>
+        <columnExists tableName="booking" columnName="created_by"/>
+        <and>
+          <columnExists tableName="booking" columnName="modified_by"/>
+        </and>
+      </not>
+    </preConditions>
+    <addColumn tableName="booking">
+      <column name="created_by" type="bigint">
+        <constraints foreignKeyName="fk_created_by" references="account(id)"/>
+      </column>
+      <column name="modified_by" type="bigint">
+        <constraints foreignKeyName="fk_modified_by" references="account(id)"/>
+      </column>
+    </addColumn>
+  </changeSet>
 </databaseChangeLog>

@@ -26,4 +26,8 @@ public class TrainingPlan extends BaseModel {
 
     @Range(min = 1)
     private Double price;
+
+    private Account modifiedBy;
+
+    private Account createdBy;
 }

@@ -1,10 +1,18 @@
 package pl.lodz.p.it.repositoryhibernate.entity;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
 
 /**
  * Class responsible for keeping an entity model of the booking object.
@@ -13,7 +21,11 @@ import javax.validation.constraints.NotNull;
 @Data
 @Entity
 @Table(name = "booking")
-@AttributeOverride(name = "businessId", column = @Column(name = "number", nullable = false, updatable = false, unique = true))
+@AttributeOverrides(
+    {@AttributeOverride(name = "businessId", column = @Column(name = "number", nullable = false, updatable = false, unique = true)),
+        @AttributeOverride(name = "creationDate", column = @Column(name = "creation_date", nullable = false)),
+        @AttributeOverride(name = "modificationDate", column = @Column(name = "modification_date"))}
+)
 public class BookingEntity extends BaseEntity {
 
     @ManyToOne
@@ -37,4 +49,14 @@ public class BookingEntity extends BaseEntity {
     @Column(name = "pending", nullable = false)
     @NotNull
     private Boolean pending = false;
+
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @LastModifiedBy
+    @JoinColumn(name = "modified_by", referencedColumnName = "id")
+    private AccountEntity modifiedBy;
+
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @CreatedBy
+    @JoinColumn(name = "created_by", referencedColumnName = "id")
+    private AccountEntity createdBy;
 }

@@ -77,4 +77,23 @@
             </column>
         </addColumn>
     </changeSet>
+
+    <changeSet id="5" author="artur">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <columnExists tableName="activity" columnName="created_by"/>
+                <and>
+                    <columnExists tableName="activity" columnName="modified_by"/>
+                </and>
+            </not>
+        </preConditions>
+        <addColumn tableName="activity">
+            <column name="created_by" type="bigint">
+                <constraints foreignKeyName="fk_created_by" references="account(id)"/>
+            </column>
+            <column name="modified_by" type="bigint">
+                <constraints foreignKeyName="fk_modified_by" references="account(id)"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

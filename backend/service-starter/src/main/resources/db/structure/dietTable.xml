@@ -65,4 +65,23 @@
             <column name="modification_date" type="timestamp"/>
         </addColumn>
     </changeSet>
+
+    <changeSet id="4" author="artur">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <columnExists tableName="diet" columnName="created_by"/>
+                <and>
+                    <columnExists tableName="diet" columnName="modified_by"/>
+                </and>
+            </not>
+        </preConditions>
+        <addColumn tableName="diet">
+            <column name="created_by" type="bigint">
+                <constraints foreignKeyName="fk_created_by" references="account(id)"/>
+            </column>
+            <column name="modified_by" type="bigint">
+                <constraints foreignKeyName="fk_modified_by" references="account(id)"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

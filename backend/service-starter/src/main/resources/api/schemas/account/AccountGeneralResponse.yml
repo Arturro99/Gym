@@ -19,3 +19,5 @@ components:
           type: string
         active:
           type: boolean
+        confirmed:
+          type: boolean

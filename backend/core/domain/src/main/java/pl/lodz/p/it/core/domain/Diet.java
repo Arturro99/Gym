@@ -27,4 +27,8 @@ public class Diet extends BaseModel {
 
     @Range(min = 1)
     private Double price;
+
+    private Account modifiedBy;
+
+    private Account createdBy;
 }

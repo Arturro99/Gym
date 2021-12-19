@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.ToString.Exclude;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.data.annotation.LastModifiedBy;
 import pl.lodz.p.it.core.shared.validation.RegexPattern;
 
 import javax.persistence.*;
@@ -65,6 +66,7 @@ public class AccountEntity extends BaseEntity {
     private String language;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
+    @LastModifiedBy
     @JoinColumn(name = "modified_by", referencedColumnName = "id", table = "account_details")
     private AccountEntity modifiedBy;
 

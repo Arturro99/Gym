@@ -27,4 +27,8 @@ public class Booking extends BaseModel {
     private Boolean completed;
 
     private Boolean pending;
+
+    private Account modifiedBy;
+
+    private Account createdBy;
 }
