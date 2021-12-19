@@ -1,26 +1,13 @@
 <databaseChangeLog
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
-<changeSet id="1" author="artur">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+  <changeSet id="1" author="artur">
     <preConditions onFail="CONTINUE">
-        <sqlCheck expectedResult="0">
-            SELECT COUNT(id) FROM diet;
-        </sqlCheck>
+      <sqlCheck expectedResult="0">
+        SELECT COUNT(id) FROM diet;
+      </sqlCheck>
     </preConditions>
-    <loadData tableName="diet" file="db/data/csv/diets.csv">
-<!--        <column header="id" name="id" type="int"/>-->
-<!--        <column header="version" name="version" type="int"/>-->
-<!--        <column header="name" name="name" type="varchar(100)"/>-->
-<!--        <column header="diet_type" name="diet_type" type="bigint"/>-->
-<!--        <column header="calories" name="calories" type="int"/>-->
-<!--        <column header="meals_number" name="meals_number" type="int"/>-->
-<!--        <column header="price" name="price" type="numeric"/>-->
-<!--        <column header="number" name="number" type="varchar(6)"/>-->
-<!--        <column header="creation_date" name="creation_date" type="timestamp"/>-->
-<!--        <column header="modification_date" name="modification_date" type="timestamp"/>-->
-<!--        <column header="created_by" name="created_by" type="bigint"/>-->
-<!--        <column header="modified_by" name="modified_by" type="bigint"/>-->
-    </loadData>
-</changeSet>
+    <loadData tableName="diet" file="db/data/csv/diets.csv"/>
+  </changeSet>
 </databaseChangeLog>

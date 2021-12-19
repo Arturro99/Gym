@@ -30,7 +30,7 @@
             <column name="meals_number" type="integer">
                 <constraints nullable="false"/>
             </column>
-            <column name="price" type="int">
+            <column name="price" type="double precision">
                 <constraints nullable="false"/>
             </column>
         </createTable>
