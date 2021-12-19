@@ -14,8 +14,10 @@ import pl.lodz.p.it.core.port.secondary.DietRepositoryPort;
 import pl.lodz.p.it.core.shared.exception.AccountException;
 import pl.lodz.p.it.core.shared.exception.DietException;
 import pl.lodz.p.it.core.shared.exception.DietTypeException;
+import pl.lodz.p.it.core.shared.exception.TrainingTypeException;
 import pl.lodz.p.it.repositoryhibernate.entity.DietEntity;
 import pl.lodz.p.it.repositoryhibernate.entity.DietTypeEntity;
+import pl.lodz.p.it.repositoryhibernate.entity.TrainingTypeEntity;
 import pl.lodz.p.it.repositoryhibernate.repository.DietRepository;
 import pl.lodz.p.it.repositoryhibernate.repository.DietTypeRepository;
 
@@ -48,7 +50,7 @@ public class DietRepositoryService extends BaseRepositoryService<DietEntity, Die
     @Override
     public Diet save(Diet diet) {
         if (repository.findByBusinessId(diet.getNumber()).isPresent()) {
-            throw DietException.dietConflictException();
+            throw DietException.existingDietConflictException();
         }
         DietEntity entity = repository.instantiate();
         entity = mapper.toEntityModel(entity, diet);
@@ -69,6 +71,13 @@ public class DietRepositoryService extends BaseRepositoryService<DietEntity, Die
         DietEntity updated = mapper
             .toEntityModel(entity, diet);
 
+        if (diet.getDietType().getName() != null) {
+            DietTypeEntity dietType = dietTypeRepository.findByBusinessId(
+                diet.getDietType().getName())
+                .orElseThrow(DietTypeException::dietTypeNotFoundException);
+            updated.setDietType(dietType);
+        }
+
         DietEntity response = repository.save(updated);
         return mapper.toDomainModel(response);
     }
@@ -78,7 +87,7 @@ public class DietRepositoryService extends BaseRepositoryService<DietEntity, Die
         DietEntity entity = repository.findByBusinessId(key)
             .orElseThrow(DietException::dietNotFoundException);
         if (!entity.getAccounts().isEmpty()) {
-            throw DietException.dietConflictException();
+            throw DietException.inUseDietConflictException();
         }
         repository.delete(entity);
     }

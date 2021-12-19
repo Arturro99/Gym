@@ -20,4 +20,5 @@
   <include file="../data/accessLevelData.xml" relativeToChangelogFile="true"/>
   <include file="../data/dietTypeData.xml" relativeToChangelogFile="true"/>
   <include file="../data/trainingTypeData.xml" relativeToChangelogFile="true"/>
+  <include file="../data/dietData.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

@@ -151,7 +151,7 @@ public class AccountRepositoryService extends
         final DietEntity diet = dietRepository.findByBusinessId(dietNumber)
             .orElseThrow(DietException::dietNotFoundException);
         if (account.getDiets().contains(diet)) {
-            throw DietException.dietConflictException();
+            throw DietException.possessedDietConflictException();
         }
 
         account.getDiets().add(diet);
