@@ -1,23 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { ReactFragment, useState } from "react";
+import MainComponent from "./components/MainComponent";
+import LoginForm from "./components/LoginForm";
 
 function App() {
+  const [isLoginShowed, setIsLoginShowed] = useState(false);
+
+  const handleLoginClick = () => {
+    setIsLoginShowed((isLoginShowed) => !isLoginShowed);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <LoginForm isVisible={isLoginShowed}/>
+      <MainComponent onLoginClick={handleLoginClick}/>
     </div>
   );
 }
