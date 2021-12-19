@@ -45,7 +45,6 @@ class AccountsComponent extends Component {
     accounts[index].active = (accounts[index].active === this.props.t('active'))
         ? this.props.t('inactive')
         : this.props.t('active');
-    console.log(accounts[index])
     this.setState({ accounts: accounts });
 
     //TODO implement activation/deactivation

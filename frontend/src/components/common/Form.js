@@ -33,7 +33,6 @@ export default class Form extends Component {
     let obj = { [name]: value };
     const schema = Joi.object({ [name]: this.fieldRestrictions[name] });
     const { error } = schema.validate(obj);
-
     return error ? this.bindErrorMessageToOwnMessage(error.details) : null;
   }
 
@@ -84,7 +83,8 @@ export default class Form extends Component {
     )
   }
 
-  renderInput(name, label, type = 'text', labelClassName, inputClassName) {
+  renderInput(name, label, type = 'text', labelClassName, inputClassName,
+      placeholder, checked, onCheck) {
     const { data, errors } = this.state;
     const { t } = this.props;
     return (
@@ -92,10 +92,12 @@ export default class Form extends Component {
                label={label}
                value={data[name]}
                type={type}
-               onChange={this.handleChange}
+               onChange={onCheck ? onCheck : this.handleChange}
                error={t(errors[name])}
                labelClassName={labelClassName}
-               inputClassName={inputClassName}/>
+               inputClassName={inputClassName}
+               placeholder={placeholder}
+               checked={checked}/>
     )
   }
 }

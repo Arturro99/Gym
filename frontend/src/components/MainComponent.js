@@ -22,6 +22,9 @@ import MyBookingsComponent from "./bookings/MyBookingsComponent";
 import ActivityDetails from "./activities/ActivityDetails";
 import AccessLevelModal from "./accounts/AccessLevelModal";
 import { Modal } from "bootstrap";
+import BookingDetails from "./bookings/BookingDetails";
+import MyAccountComponent from "./accounts/MyAccountDetails";
+import MyAccountDetails from "./accounts/MyAccountDetails";
 //DO NOT REMOVE THIS -> MODAL WON'T WORK WITHOUT IT
 
 class MainComponent extends Component {
@@ -74,6 +77,8 @@ class MainComponent extends Component {
                      component={TrainingPlansComponent}/>
               <Route exact path={'/accounts'}
                      component={AccountsComponent}/>
+              <Route exact path={'/accounts/own/:login'}
+                     component={MyAccountDetails}/>
               <Route exact path={'/accounts/:login'}
                      render={(props) => <AccountDetails {...props}/>}/>
               <Route exact path={'/register'} component={RegisterForm}/>
@@ -95,6 +100,8 @@ class MainComponent extends Component {
                      component={BookingsComponent}/>
               <Route path="/bookings/own/:login"
                      render={(props) => <MyBookingsComponent {...props}/>}/>
+              <Route path="/bookings/:number"
+                     render={(props) => <BookingDetails {...props}/>}/>
             </Switch>
           </main>
         </React.Fragment>

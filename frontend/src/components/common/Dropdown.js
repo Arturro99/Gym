@@ -7,10 +7,11 @@ const Dropdown = (props) => {
     itemName,
     items,
     propertyName,
+    labelClassName
   } = props;
   return (
       <div className="form-group">
-        <label>{itemName}</label>
+        <label className={labelClassName}>{itemName}</label>
         <div className="dropdown">
           <button className="btn btn-primary mr-1 dropdown-toggle"
                   type="button" id="dropdownMenuButton"
@@ -18,7 +19,7 @@ const Dropdown = (props) => {
                   aria-expanded="false">
             {buttonLabel}
           </button>
-          <div className="dropdown-menu"
+          <div className="dropdown-menu text-center"
                aria-labelledby="dropdownMenuButton">
             {items.map(
                 item => <button className="dropdown-item"

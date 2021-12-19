@@ -25,19 +25,16 @@ class AccountsTable extends Component {
       key: 'utils', label: 'actions',
       content: account =>
           <div className="row justify-content-md-center">
-            <button className="btn btn-outline-danger col-2 ms-2"
-                    onClick={() => this.props.onActivate(
-                        account)}>{account.active === this.props.t('active')
+            <button
+                className="btn btn-outline-danger col-2 ms-2 d-flex justify-content-center text-center"
+                onClick={() => this.props.onActivate(
+                    account)}>{account.active === this.props.t('active')
                 ? this.props.t('deactivate') : this.props.t('activate')}
             </button>
             <button className="btn btn-outline-warning col-3 ms-2"
                     data-bs-toggle='modal' data-bs-target='#accessLevelModal'
                     onClick={() => this.props.onAccessLevels(
                         account)}>{this.props.t('accessLevels')}
-            </button>
-            <button className="btn btn-outline-info col-2 ms-2"
-                    onClick={() => this.props.onUpdate(account)}>{this.props.t(
-                'update')}
             </button>
             <Link className="btn btn-outline-success col-2 ms-2"
                   to={`/accounts/${account.login}`}>{this.props.t('details')}

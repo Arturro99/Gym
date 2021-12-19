@@ -44,10 +44,10 @@ class BookingsTable extends Component {
             </button>
             {this.props.myTable ? null :
                 <button
-                    className="btn btn-outline-info col-3 ms-2 d-flex justify-content-center text-center"
-                    onClick={() => this.props.onUpdate(
-                        booking)}>{this.props.t(
-                    'update')}
+                    className="btn btn-outline-warning col-3 ms-2 d-flex justify-content-center text-center"
+                    onClick={() => this.props.onComplete(
+                        booking)}>{booking.completed === this.props.t('completed')
+                    ? this.props.t('incomplete') : this.props.t('complete')}
                 </button>
             }
             <Link

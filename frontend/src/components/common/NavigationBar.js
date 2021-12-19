@@ -69,7 +69,7 @@ const NavigationBar = (props) => {
                     <ul className="dropdown-menu dropdown-menu-dark dropdown-menu-end text"
                         aria-labelledby="navbarDarkDropdownMenuLink">
                       <Link className="dropdown-item"
-                            to={`/accounts/${data.login}`}
+                            to={`/accounts/own/${data.login}`}
                             type="button">{t('accountDetails')}</Link>
                       <Link className="dropdown-item"
                             to={`/bookings/own/${data.login}`}

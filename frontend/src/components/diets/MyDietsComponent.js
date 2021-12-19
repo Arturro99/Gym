@@ -4,7 +4,7 @@ import { Diet } from "../../model/Diet";
 import { Component } from "react";
 import DietsTable from "./DietsTable";
 
-class DietsComponent extends Component {
+class MyDietsComponent extends Component {
 
   state = {
     diets: [],
@@ -67,4 +67,4 @@ class DietsComponent extends Component {
   }
 }
 
-export default withTranslation()(DietsComponent);
+export default withTranslation()(MyDietsComponent);

@@ -48,8 +48,14 @@ class BookingsComponent extends Component {
     //TODO implement deletion
   }
 
-  handleUpdate = booking => {
-    //TODO implement booking update
+  handleComplete = booking => {
+    const bookings = this.state.bookings;
+    const index = bookings.findIndex(
+        boo => boo.number === booking.number);
+    bookings[index].completed = (bookings[index].completed === this.props.t('completed'))
+        ? this.props.t('incomplete')
+        : this.props.t('completed');
+    this.setState({ bookings: bookings });
   }
 
   handleApply = booking => {
@@ -82,7 +88,7 @@ class BookingsComponent extends Component {
             <BookingsTable bookings={bookings}
                            sortColumn={sortColumn}
                            onDelete={this.handleDelete}
-                           onUpdate={this.handleUpdate}
+                           onComplete={this.handleComplete}
                            onApply={this.handleApply}
                            onSort={this.handleSort}/>
             {/*<Pagination*/}

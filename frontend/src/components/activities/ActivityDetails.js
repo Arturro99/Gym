@@ -1,6 +1,7 @@
 import Details from "../common/Details";
 import { withTranslation } from "react-i18next";
 import { Activity } from "../../model/Activity";
+import UpdateActivityModal from "./UpdateActivityModal";
 
 class ActivityDetails extends Details {
 
@@ -16,6 +17,7 @@ class ActivityDetails extends Details {
     currentState.data.activity.number = pathParam;
     currentState.data.activity._name = 'Pobiegamy, poskaczemy';
     currentState.data.activity.trainer = 'trener';
+    currentState.data.activity.startDate = '08-12-2021, 08:00';
     this.setState({ currentState });
 
     //TODO Populate details
@@ -25,8 +27,10 @@ class ActivityDetails extends Details {
     const { t } = this.props;
     return (
         <div className="card text-center shadow-lg mt-3 w-75 mx-auto">
+          <UpdateActivityModal activity={this.state.data.activity}/>
           <div className="card-header">
             <h1>{t('activityDetails')}</h1>
+            {this.renderUpdateButton('updateActivityModal', t('update'))}
           </div>
           {this.renderField('number', t('number'),
               this.state.data.activity)}

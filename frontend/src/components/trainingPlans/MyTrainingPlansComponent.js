@@ -4,7 +4,7 @@ import TrainingPlansTable from "../trainingPlans/TrainingPlansTable";
 import { TrainingPlan } from "../../model/TrainingPlan";
 import { Component } from "react";
 
-class TrainingPlansComponent extends Component {
+class MyTrainingPlansComponent extends Component {
 
   state = {
     trainingPlans: [],
@@ -67,4 +67,4 @@ class TrainingPlansComponent extends Component {
   }
 }
 
-export default withTranslation()(TrainingPlansComponent);
+export default withTranslation()(MyTrainingPlansComponent);

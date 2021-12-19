@@ -1,6 +1,7 @@
 import Details from "../common/Details";
 import { withTranslation } from "react-i18next";
 import { Diet } from "../../model/Diet";
+import UpdateDietModal from "./UpdateDietModal";
 
 class DietDetails extends Details {
 
@@ -25,8 +26,10 @@ class DietDetails extends Details {
     const { t } = this.props;
     return (
         <div className="card text-center shadow-lg mt-3 w-75 mx-auto">
+          <UpdateDietModal diet={this.state.data.diet}/>
           <div className="card-header">
             <h1>{t('dietDetails')}</h1>
+            {this.renderUpdateButton('updateDietModal', t('update'))}
           </div>
           {this.renderField('number', t('number'),
               this.state.data.diet)}
@@ -38,6 +41,14 @@ class DietDetails extends Details {
           {this.renderField('mealsNumber', t('mealsNumber'),
               this.state.data.diet)}
           {this.renderField('price', t('price'), this.state.data.diet)}
+          {this.renderField('createdBy', t('createdBy'),
+              this.state.data.diet)}
+          {this.renderField('modifiedBy', t('modifiedBy'),
+              this.state.data.diet)}
+          {this.renderField('creationDate', t('creationDate'),
+              this.state.data.diet)}
+          {this.renderField('modificationDate', t('modificationDate'),
+              this.state.data.diet)}
         </div>
     );
   }

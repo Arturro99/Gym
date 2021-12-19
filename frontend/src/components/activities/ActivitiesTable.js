@@ -41,11 +41,6 @@ class ActivitiesTable extends Component {
                 'delete')}
             </button>
             <button
-                className="btn btn-outline-info col-3 ms-2 d-flex justify-content-center text-center"
-                onClick={() => this.props.onUpdate(activity)}>{this.props.t(
-                'update')}
-            </button>
-            <button
                 className="btn btn-outline-success col-3 ms-2 d-flex justify-content-center text-center"
                 onClick={() => this.props.onApply(activity)}>{this.props.t(
                 'apply')}

@@ -27,8 +27,10 @@ export const TRANSLATIONS_EN = {
   createdBy: 'Created by',
   modifiedBy: 'Modified by',
   save: 'Save',
+  yes: 'Yes',
+  no: 'No',
 
-  error_name_string_empty: 'Name required',
+  error__name_string_empty: 'Name required',
   error_trainer_string_empty: 'Trainer required',
 
   //Registration form
@@ -57,11 +59,13 @@ export const TRANSLATIONS_EN = {
   //Activities
   noActivities: 'No available activities. Try again later...',
   newActivity: 'Add activity',
+  updateActivity: 'Update activity',
   startDate: 'Start date',
   duration: 'Duration',
   capacity: 'Capacity',
   chooseDateTime: 'Choose date and time',
   activities: 'Activities',
+  activityDetails: 'Activity details',
 
   error_activityNumber_string_pattern_base: 'Number must match: \'ACTXXX\' where XXX are digits',
   error_activityNumber_string_empty: 'Number required',
@@ -74,6 +78,7 @@ export const TRANSLATIONS_EN = {
   noDiets: 'No available diets. Try again later...',
   noIndividualDiets: 'You have no assigned diets. It is high time you tried something new!',
   newDiet: 'Add diet',
+  updateDiet: 'Update diet',
   calories: 'Amount of calories',
   mealsNumber: 'Number of meals',
   diets: 'Diets',
@@ -105,12 +110,15 @@ export const TRANSLATIONS_EN = {
 
   //Account
   accounts: 'Accounts',
+  myAccount: 'My account',
+  updateAccount: 'Update account',
   accountDetails: 'Account details',
   myTrainingPlans: 'My training plans',
   myDiets: 'My diets',
   confirmed: 'Confirmed',
   unconfirmed: 'Unconfirmed',
   status: 'Status',
+  gymMember: 'Gym member',
   accessLevels: 'Access levels',
   language: 'Language',
   loyaltyFactor: 'Loyalty factor',
@@ -124,6 +132,9 @@ export const TRANSLATIONS_EN = {
   bookings: 'Bookings',
   bookingDetails: 'Booking details',
   myBookings: 'My bookings',
+  completed: 'Completed',
+  complete: 'Complete',
+  incomplete: 'Incomplete',
 
   //Access levels
   assignAccessLevels: 'Assign access levels',
