@@ -18,3 +18,8 @@ components:
           maxLength: 5
         gymMember:
           type: boolean
+        phoneNumber:
+          type: string
+          pattern: "^[0-9]{9,12}$"
+        active:
+          type: boolean

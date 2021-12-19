@@ -35,5 +35,6 @@ public final class ErrorKey {
     public static final String TRAINING_TYPE_NOT_FOUND_ERROR = "error.trainingType.notFound";
 
     public static final String JWT_EXPIRED = "error.jwt.expired";
+    public static final String ACCOUNT_INACTIVE = "error.account.inactive";
 
 }

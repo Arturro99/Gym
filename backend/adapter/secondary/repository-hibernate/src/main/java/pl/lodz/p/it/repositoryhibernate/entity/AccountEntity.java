@@ -96,7 +96,7 @@ public class AccountEntity extends BaseEntity {
 
     @Column(name = "gym_member", nullable = false, table = "account_details")
     @NotNull
-    private Boolean gymMember;
+    private Boolean gymMember = false;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinTable(

@@ -1,6 +1,7 @@
 package pl.lodz.p.it.gymbackend.advice;
 
-import org.springframework.http.HttpStatus;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
+
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -14,7 +15,7 @@ import pl.lodz.p.it.restapi.dto.ErrorResponse;
 public class SecurityExceptionAdvice {
 
     @ExceptionHandler(SecurityException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseStatus(FORBIDDEN)
     public ErrorResponse forbidden(SecurityException e) {
         return ErrorResponse.error(e.getErrorKey(), e.getMessage());
     }
