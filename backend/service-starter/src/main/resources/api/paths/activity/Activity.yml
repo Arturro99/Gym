@@ -30,4 +30,4 @@ post:
       content:
         application/json:
           schema:
-            $ref: '../../schemas/activity/ActivityResponse.yml#/components/schemas/ActivityResponse'
+            $ref: '../../schemas/activity/ActivityDetailsResponse.yml#/components/schemas/ActivityDetailsResponse'

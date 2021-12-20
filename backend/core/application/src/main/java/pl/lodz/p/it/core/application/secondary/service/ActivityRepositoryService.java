@@ -5,6 +5,7 @@ import static org.springframework.transaction.annotation.Isolation.READ_COMMITTE
 import static org.springframework.transaction.annotation.Propagation.MANDATORY;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +80,7 @@ public class ActivityRepositoryService extends
     @Override
     public Activity save(Activity activity) {
         if (activityRepository.findByBusinessId(activity.getNumber()).isPresent()) {
-            throw ActivityException.activityConflictException();
+            throw ActivityException.existingActivityConflictException();
         }
         ActivityEntity entity = repository.instantiate();
         entity = mapper.toEntityModel(entity, activity);
@@ -102,12 +103,12 @@ public class ActivityRepositoryService extends
             ActivityException::activityNotFoundException);
         if (bookingRepository.findAllByActivity(entity).stream()
             .anyMatch(BookingEntity::getActive) && activity.getCapacity() != null) {
-            throw ActivityException.activityConflictException();
+            throw ActivityException.inUseActivityConflictException();
         }
         ActivityEntity updated = mapper
             .toEntityModel(entity, activity);
 
-        if (activity.getTrainer().getLogin() != null) {
+        if (Optional.ofNullable(activity.getTrainer()).isPresent()) {
             AccountEntity accountEntity = accountRepository.findByBusinessId(
                 activity.getTrainer().getLogin())
                 .orElseThrow(AccountException::accountNotFoundException);
@@ -126,7 +127,7 @@ public class ActivityRepositoryService extends
         ActivityEntity entity = repository.findByBusinessId(key)
             .orElseThrow(ActivityException::activityNotFoundException);
         if (entity.getActive()) {
-            throw ActivityException.activityConflictException();
+            throw ActivityException.activeActivityConflictException();
         }
         repository.delete(entity);
     }

@@ -18,9 +18,21 @@ public class ActivityException extends BaseException {
             .notFound("Required activity not found!", ErrorKey.ACTIVITY_NOT_FOUND_ERROR));
     }
 
-    public static ActivityException activityConflictException() {
+    public static ActivityException existingActivityConflictException() {
         return new ActivityException(
-            ConflictException.conflict("Activity is still active or has assigned clients!",
+            ConflictException.conflict("Activity already exists!",
+                ErrorKey.ACTIVITY_CONFLICT_ERROR));
+    }
+
+    public static ActivityException activeActivityConflictException() {
+        return new ActivityException(
+            ConflictException.conflict("Activity is still active!",
+                ErrorKey.ACTIVITY_CONFLICT_ERROR));
+    }
+
+    public static ActivityException inUseActivityConflictException() {
+        return new ActivityException(
+            ConflictException.conflict("Activity is being used!",
                 ErrorKey.ACTIVITY_CONFLICT_ERROR));
     }
 

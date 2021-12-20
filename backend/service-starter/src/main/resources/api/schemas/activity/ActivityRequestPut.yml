@@ -17,8 +17,6 @@ components:
         duration:
           type: integer
           minimum: 1
-        trainer:
-          type: string
         active:
           type: boolean
         capacity:

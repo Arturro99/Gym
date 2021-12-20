@@ -14,6 +14,5 @@ import pl.lodz.p.it.restapi.mapper.BaseRequestMapper;
 public interface ActivityRequestPutMapper extends BaseRequestMapper<ActivityRequestPut, Activity> {
 
     @Override
-    @Mapping(target = "trainer.login", source = "dtoModel.trainer")
     Activity toDomainModel(ActivityRequestPut dtoModel);
 }
