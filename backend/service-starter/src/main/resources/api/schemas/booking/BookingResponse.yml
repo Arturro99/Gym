@@ -8,8 +8,6 @@ paths:
 components:
   schemas:
     BookingResponse:
-      allOf:
-        - $ref: '../BaseDto.yml#/components/schemas/BaseDto'
       properties:
         number:
           type: string

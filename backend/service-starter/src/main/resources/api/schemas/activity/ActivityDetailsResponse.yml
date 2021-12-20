@@ -1,0 +1,13 @@
+openapi: 3.0.0
+info:
+  description: ActivityDetailsResponse model
+  title: ActivityDetailsResponse model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    ActivityDetailsResponse:
+      allOf:
+        - $ref: '../BaseDto.yml#/components/schemas/BaseDto'
+        - $ref: 'ActivityResponse.yml#/components/schemas/ActivityResponse'

@@ -8,8 +8,6 @@ paths:
 components:
   schemas:
     AccountGeneralResponse:
-      allOf:
-        - $ref: '../BaseDto.yml#/components/schemas/BaseDto'
       properties:
         login:
           type: string
