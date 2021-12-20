@@ -30,4 +30,4 @@ post:
       content:
         application/json:
           schema:
-            $ref: '../../schemas/training/TrainingPlanResponse.yml#/components/schemas/TrainingPlanResponse'
+            $ref: '../../schemas/training/TrainingPlanDetailsResponse.yml#/components/schemas/TrainingPlanDetailsResponse'

@@ -9,6 +9,13 @@ components:
   schemas:
     TrainingPlanRequestPost:
       type: object
+      required:
+        - number
+        - name
+        - trainingType
+        - personalTrainingsNumber
+        - trainer
+        - price
       properties:
         number:
           type: string

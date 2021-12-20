@@ -6,6 +6,7 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -54,7 +55,7 @@ public class TrainingPlanEntity extends BaseEntity {
     @Range(min = 1)
     private Double price;
 
-    @ManyToMany(mappedBy = "trainingPlans")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "trainingPlans")
     private Set<AccountEntity> accounts;
 
     @ManyToOne(cascade = CascadeType.REFRESH)

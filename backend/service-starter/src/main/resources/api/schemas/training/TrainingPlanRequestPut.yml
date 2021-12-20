@@ -15,8 +15,6 @@ components:
         personalTrainingsNumber:
           type: integer
           minimum: 0
-        trainer:
-          type: string
         price:
           type: number
           minimum: 1

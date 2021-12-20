@@ -4,6 +4,7 @@ import static org.springframework.transaction.annotation.Isolation.READ_COMMITTE
 import static org.springframework.transaction.annotation.Propagation.MANDATORY;
 
 import java.time.OffsetDateTime;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
@@ -66,7 +67,7 @@ public class TrainingPlanRepositoryService extends
     @Override
     public TrainingPlan save(TrainingPlan trainingPlan) {
         if (repository.findByBusinessId(trainingPlan.getNumber()).isPresent()) {
-            throw TrainingPlanException.trainingPlanConflictException();
+            throw TrainingPlanException.existingTrainingPlanConflictException();
         }
         TrainingPlanEntity entity = repository.instantiate();
         entity = mapper.toEntityModel(entity, trainingPlan);
@@ -96,7 +97,7 @@ public class TrainingPlanRepositoryService extends
         TrainingPlanEntity updated = mapper
             .toEntityModel(entity, trainingPlan);
 
-        if (trainingPlan.getTrainer().getLogin() != null) {
+        if (Optional.ofNullable(trainingPlan.getTrainer()).isPresent()) {
             AccountEntity accountEntity = accountRepository.findByBusinessId(
                 trainingPlan.getTrainer().getLogin())
                 .orElseThrow(AccountException::accountNotFoundException);
@@ -106,7 +107,7 @@ public class TrainingPlanRepositoryService extends
             updated.setTrainer(accountEntity);
         }
 
-        if (trainingPlan.getTrainingType().getName() != null) {
+        if (Optional.ofNullable(trainingPlan.getTrainingType()).isPresent()) {
             TrainingTypeEntity trainingType = trainingTypeRepository.findByBusinessId(
                 trainingPlan.getTrainingType().getName())
                 .orElseThrow(TrainingTypeException::trainingTypeNotFoundException);
@@ -122,7 +123,7 @@ public class TrainingPlanRepositoryService extends
         TrainingPlanEntity entity = repository.findByBusinessId(key)
             .orElseThrow(TrainingPlanException::trainingPlanNotFoundException);
         if (!entity.getAccounts().isEmpty()) {
-            throw TrainingPlanException.trainingPlanConflictException();
+            throw TrainingPlanException.inUseTrainingPlanConflictException();
         }
         repository.delete(entity);
     }

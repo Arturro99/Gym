@@ -119,7 +119,7 @@ public class AccountRepositoryService extends
             .findByBusinessId(trainingPlanNumber)
             .orElseThrow(TrainingPlanException::trainingPlanNotFoundException);
         if (account.getTrainingPlans().contains(trainingPlan)) {
-            throw TrainingPlanException.trainingPlanConflictException();
+            throw TrainingPlanException.possessedTrainingPlanConflictException();
         }
 
         account.getTrainingPlans().add(trainingPlan);
