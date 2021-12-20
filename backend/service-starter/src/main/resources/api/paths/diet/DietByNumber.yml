@@ -16,7 +16,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../../schemas/diet/DietResponse.yml#/components/schemas/DietResponse'
+            $ref: '../../schemas/diet/DietDetailsResponse.yml#/components/schemas/DietDetailsResponse'
 
 put:
   tags:
@@ -42,7 +42,7 @@ put:
       content:
         application/json:
           schema:
-            $ref: '../../schemas/diet/DietResponse.yml#/components/schemas/DietResponse'
+            $ref: '../../schemas/diet/DietDetailsResponse.yml#/components/schemas/DietDetailsResponse'
 
 delete:
   tags:

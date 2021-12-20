@@ -3,6 +3,7 @@ package pl.lodz.p.it.core.application.secondary.service;
 import static org.springframework.transaction.annotation.Isolation.READ_COMMITTED;
 import static org.springframework.transaction.annotation.Propagation.MANDATORY;
 
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
@@ -14,10 +15,8 @@ import pl.lodz.p.it.core.port.secondary.DietRepositoryPort;
 import pl.lodz.p.it.core.shared.exception.AccountException;
 import pl.lodz.p.it.core.shared.exception.DietException;
 import pl.lodz.p.it.core.shared.exception.DietTypeException;
-import pl.lodz.p.it.core.shared.exception.TrainingTypeException;
 import pl.lodz.p.it.repositoryhibernate.entity.DietEntity;
 import pl.lodz.p.it.repositoryhibernate.entity.DietTypeEntity;
-import pl.lodz.p.it.repositoryhibernate.entity.TrainingTypeEntity;
 import pl.lodz.p.it.repositoryhibernate.repository.DietRepository;
 import pl.lodz.p.it.repositoryhibernate.repository.DietTypeRepository;
 
@@ -71,7 +70,7 @@ public class DietRepositoryService extends BaseRepositoryService<DietEntity, Die
         DietEntity updated = mapper
             .toEntityModel(entity, diet);
 
-        if (diet.getDietType().getName() != null) {
+        if (Optional.ofNullable(diet.getDietType()).isPresent()) {
             DietTypeEntity dietType = dietTypeRepository.findByBusinessId(
                 diet.getDietType().getName())
                 .orElseThrow(DietTypeException::dietTypeNotFoundException);

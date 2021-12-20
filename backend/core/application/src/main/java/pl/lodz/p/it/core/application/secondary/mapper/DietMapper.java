@@ -13,7 +13,7 @@ import pl.lodz.p.it.repositoryhibernate.entity.DietEntity;
  * Interface responsible for mapping {@link Diet} objects and {@link DietEntity}
  */
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = IGNORE,
-    unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = DietTypeMapper.class)
+    unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {DietTypeMapper.class, AccountMapper.class})
 public interface DietMapper extends BaseMapper<DietEntity, Diet> {
 
     @Override
