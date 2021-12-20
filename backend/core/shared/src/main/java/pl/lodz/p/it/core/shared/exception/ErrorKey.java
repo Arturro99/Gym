@@ -8,6 +8,7 @@ public final class ErrorKey {
     public static final String NOT_FOUND_ERROR = "error.general.notFound";
     public static final String CONFLICT_ERROR = "error.general.conflict";
     public static final String CONSTRAINT_VIOLATION = "error.general.constraintViolation";
+    public static final String INTERNAL_SERVER_ERROR = "error.general.internalServerError";
 
     public static final String ACCESS_LEVEL_NOT_FOUND_ERROR = "error.accessLevel.notFound";
     public static final String ACCESS_LEVEL_BAD_REQUEST_ERROR = "error.accessLevel.badRequest";

@@ -20,6 +20,7 @@ import pl.lodz.p.it.core.port.primary.BookingServicePort;
 import pl.lodz.p.it.core.port.secondary.AccountRepositoryPort;
 import pl.lodz.p.it.core.port.secondary.ActivityRepositoryPort;
 import pl.lodz.p.it.core.port.secondary.BookingRepositoryPort;
+import pl.lodz.p.it.core.shared.exception.BookingAvoidableException;
 import pl.lodz.p.it.core.shared.exception.BookingException;
 
 /**
@@ -75,16 +76,12 @@ public class BookingService extends BaseService<Booking> implements
     public Booking save(Booking booking) {
         Activity activity = activityRepositoryPort.find(booking.getActivity().getNumber());
         Account account = accountRepositoryPort.find(booking.getAccount().getLogin());
+        Optional<Booking> existingBooking;
 
-        Optional<Booking> existingBooking = bookingRepositoryPort
-            .findByClientAndActivity(account.getLogin(), activity.getNumber());
-        if (existingBooking.isPresent() && !existingBooking.get().getActive()) {
-            existingBooking.get().setActive(true);
-            if (orderFactorService.isActivityFull(activity)) {
-                algorithm.applyPreference(activity, existingBooking.get());
-            }
-            return repository.update(existingBooking.get().getNumber(), existingBooking.get());
-        } else {
+        try {
+            existingBooking = bookingRepositoryPort
+                .findByClientAndActivity(account.getLogin(), activity.getNumber());
+        } catch (BookingAvoidableException ex) {
             booking.setActivity(activity);
             booking.setAccount(account);
             booking.setActive(true);
@@ -97,5 +94,14 @@ public class BookingService extends BaseService<Booking> implements
             }
             return repository.save(booking);
         }
+        if (!existingBooking.get().getActive()) {
+            existingBooking.get().setActive(true);
+            if (orderFactorService.isActivityFull(activity)) {
+                algorithm.applyPreference(activity, existingBooking.get());
+            }
+        } else {
+            throw BookingException.bookingConflictException();
+        }
+        return repository.update(existingBooking.get().getNumber(), existingBooking.get());
     }
 }

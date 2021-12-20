@@ -21,6 +21,6 @@ public class BookingException extends BaseException {
     public static BookingException bookingConflictException() {
         return new BookingException(
             ConflictException
-                .conflict("Booking already exists!", ErrorKey.BOOKING_CONFLICT_ERROR));
+                .conflict("Booking already exists and is active!", ErrorKey.BOOKING_CONFLICT_ERROR));
     }
 }

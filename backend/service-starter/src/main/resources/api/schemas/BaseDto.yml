@@ -21,3 +21,7 @@ components:
         modificationDate:
           type: string
           format: date-time
+        createdBy:
+          $ref: 'account/AccountGeneralResponse.yml#/components/schemas/AccountGeneralResponse'
+        modifiedBy:
+          $ref: 'account/AccountGeneralResponse.yml#/components/schemas/AccountGeneralResponse'

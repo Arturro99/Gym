@@ -17,7 +17,7 @@ bookingNumber:
         content:
           application/json:
             schema:
-              $ref: '../../schemas/booking/BookingResponse.yml#/components/schemas/BookingResponse'
+              $ref: '../../schemas/booking/BookingDetailsResponse.yml#/components/schemas/BookingDetailsResponse'
 
   put:
     tags:
@@ -43,7 +43,7 @@ bookingNumber:
         content:
           application/json:
             schema:
-              $ref: '../../schemas/booking/BookingResponse.yml#/components/schemas/BookingResponse'
+              $ref: '../../schemas/booking/BookingDetailsResponse.yml#/components/schemas/BookingDetailsResponse'
 
 clientLogin:
   get:

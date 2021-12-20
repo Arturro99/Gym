@@ -69,4 +69,10 @@ public class RestExceptionAdvice {
     public ErrorResponse constraintViolation(ConstraintViolationException e) {
         return ErrorResponse.error(ErrorKey.CONSTRAINT_VIOLATION, e.getMessage());
     }
+
+    @ExceptionHandler(NullPointerException.class)
+    @ResponseStatus(INTERNAL_SERVER_ERROR)
+    public ErrorResponse nullPointerException(NullPointerException e) {
+        return ErrorResponse.error(ErrorKey.INTERNAL_SERVER_ERROR, e.getMessage());
+    }
 }

@@ -1,5 +1,7 @@
 package pl.lodz.p.it.repositoryhibernate.entity;
 
+import static javax.persistence.FetchType.EAGER;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
@@ -28,12 +30,12 @@ import org.springframework.data.annotation.LastModifiedBy;
 )
 public class BookingEntity extends BaseEntity {
 
-    @ManyToOne
+    @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "account", referencedColumnName = "id", updatable = false)
     @NotNull
     private AccountEntity account;
 
-    @ManyToOne
+    @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "activity", referencedColumnName = "id", updatable = false)
     @NotNull
     private ActivityEntity activity;
