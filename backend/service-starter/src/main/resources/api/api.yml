@@ -31,7 +31,10 @@ paths:
     $ref: './paths/accessLevel/AccessLevel.yml'
 
   /accessLevels/{login}/{level}:
-    $ref: './paths/accessLevel/AccessLevelByNumber.yml'
+    $ref: './paths/accessLevel/AccessLevelByNumber.yml#/LoginAndLevel'
+
+  /accessLevels/{login}:
+    $ref: './paths/accessLevel/AccessLevelByNumber.yml#/Login'
 
   /accounts:
     $ref: './paths/account/Account.yml'
