@@ -1,24 +1,46 @@
-delete:
-  tags:
-    - accessLevel
-  summary: Remove accessLevel
-  description: Remove accessLevel with the given user's login and level
-  operationId: deleteAccessLevel
-  parameters:
-    - in: path
-      name: login
-      schema:
-        type: string
-      required: true
-    - in: path
-      name: level
-      schema:
-        type: string
-        enum:
-          - CLIENT
-          - ADMIN
-          - TRAINER
-      required: true
-  responses:
-    200:
-      description: Operation successful
+LoginAndLevel:
+  delete:
+    tags:
+      - accessLevel
+    summary: Remove accessLevel
+    description: Remove accessLevel with the given user's login and level
+    operationId: deleteAccessLevel
+    parameters:
+      - in: path
+        name: login
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+          enum:
+            - CLIENT
+            - ADMIN
+            - TRAINER
+        required: true
+    responses:
+      200:
+        description: Operation successful
+
+Login:
+  get:
+    tags:
+      - accessLevel
+    summary: Get access levels
+    description: Find access levels for the user with provided login
+    operationId: getAccessLevelsByClientLogin
+    parameters:
+      - in: path
+        name: login
+        schema:
+          type: string
+        required: true
+    responses:
+      200:
+        description: Operation successful
+        content:
+          application/json:
+            schema:
+              $ref: '../../schemas/accessLevel/AccessLevelResponseList.yml#/components/schemas/AccessLevelResponseList'
