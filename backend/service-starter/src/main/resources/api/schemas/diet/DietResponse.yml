@@ -11,10 +11,10 @@ components:
       properties:
         number:
           type: string
-        name:
+        title:
           type: string
         dietType:
-          $ref: '../diet/DietType.yml#/components/schemas/DietType'
+          type: string
         calories:
           type: integer
         mealsNumber:

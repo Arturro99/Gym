@@ -13,5 +13,7 @@ public interface DietRequestPostMapper extends BaseRequestMapper<DietRequestPost
 
     @Override
     @Mapping(target = "dietType.name", source = "dietType.value")
+    @Mapping(source = "title", target = "name")
+    @Mapping(source = "dietNumber", target = "number")
     Diet toDomainModel(DietRequestPost dtoModel);
 }

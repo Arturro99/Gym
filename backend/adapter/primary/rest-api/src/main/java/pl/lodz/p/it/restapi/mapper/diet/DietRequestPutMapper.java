@@ -13,5 +13,6 @@ public interface DietRequestPutMapper extends BaseRequestMapper<DietRequestPut, 
 
     @Override
     @Mapping(target = "dietType.name", source = "dietType.value")
+    @Mapping(source = "title", target = "name")
     Diet toDomainModel(DietRequestPut dtoModel);
 }
