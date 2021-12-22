@@ -21,10 +21,12 @@ import BookingsComponent from "./bookings/BookingsComponent";
 import MyBookingsComponent from "./bookings/MyBookingsComponent";
 import ActivityDetails from "./activities/ActivityDetails";
 import AccessLevelModal from "./accounts/AccessLevelModal";
-import { Modal } from "bootstrap";
 import BookingDetails from "./bookings/BookingDetails";
 import MyAccountComponent from "./accounts/MyAccountDetails";
 import MyAccountDetails from "./accounts/MyAccountDetails";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
+import { Modal } from "bootstrap";
 //DO NOT REMOVE THIS -> MODAL WON'T WORK WITHOUT IT
 
 class MainComponent extends Component {
@@ -67,6 +69,7 @@ class MainComponent extends Component {
                          onChangeRoleClick={this.handleChangeRoleClick}
                          onSignOutClick={this.handleSignOutClick}/>
           <LoginForm/>
+          <ToastContainer />
           <AccessLevelModal accessLevels={data.roles}/>
           <main className="container">
             <Switch>

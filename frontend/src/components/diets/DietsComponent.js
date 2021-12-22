@@ -1,9 +1,9 @@
 import { withTranslation } from "react-i18next";
 import '../../locales/i18n';
 import { Link } from "react-router-dom";
-import { Diet } from "../../model/Diet";
 import { Component } from "react";
 import DietsTable from "./DietsTable";
+import { deleteDiet, getDiets } from "../../services/DietService";
 
 class DietsComponent extends Component {
 
@@ -16,39 +16,24 @@ class DietsComponent extends Component {
 
   paginatedDiets = {};
 
-  componentDidMount() {
-    const die1 = new Diet(
-        'DIE001',
-        'Niskoweglowodanowa',
-        'Low-carbohydrate',
-        1500,
-        3,
-        1100
-    )
-    const die2 = new Diet(
-        'DIE002',
-        'Wysokobiałkowa',
-        'High-protein',
-        3200,
-        4,
-        1800
-    )
+  async componentDidMount() {
+    const diets = await getDiets();
     this.setState({
-      diets: [die1, die2]
+      diets: diets
     })
   }
 
-  handleDelete = diet => {
+  handleDelete = async diet => {
     const originalDiets = this.state.diets;
     const currentDiets = originalDiets.filter(
         die => die.number !== diet.number);
     this.setState({ diets: currentDiets });
 
-    //TODO implement deletion
-  }
-
-  handleUpdate = diet => {
-    //TODO implement diet update
+    try {
+      await deleteDiet(diet.number);
+    } catch (ex) {
+      this.setState({ movies: originalDiets });
+    }
   }
 
   handleApply = diet => {

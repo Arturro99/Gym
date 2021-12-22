@@ -1,8 +1,8 @@
-export function Diet(number, _name, dietType, calories, mealsNumber, price,
+export function Diet(number, title, dietType, calories, mealsNumber, price,
     modifiedBy, createdBy, modificationDate, creationDate) {
 
   this.number = number;
-  this._name = _name;
+  this.title = title;
   this.dietType = dietType;
   this.calories = calories;
   this.mealsNumber = mealsNumber;

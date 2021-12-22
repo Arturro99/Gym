@@ -94,6 +94,9 @@ export const TRANSLATIONS_EN = {
   error_price_number_base: 'Price required',
   error_price_number_min: 'Price must be at least 1',
 
+  diet_number_conflict: 'Diet with such number exists',
+  diet_update_success: 'Diet updated successfully',
+
   //Training plans
   noTrainingPlans: 'No available training plans. Try again later...',
   noIndividualTrainingPlans: 'You have no assigned training plans. It is high time you tried something new!',

@@ -10,7 +10,7 @@ class DietsTable extends Component {
       path: 'number', label: 'number'
     },
     {
-      path: '_name', label: 'name'
+      path: 'title', label: 'name'
     },
     {
       path: 'dietType', label: 'dietType'
@@ -34,13 +34,6 @@ class DietsTable extends Component {
               {this.props.myTable ?
                   this.props.t('cancel') : this.props.t('delete')}
             </button>
-            {this.props.myTable ? null :
-                <button
-                    className="btn btn-outline-info col-3 ms-2 d-flex justify-content-center text-center"
-                    onClick={() => this.props.onUpdate(diet)}>{this.props.t(
-                    'update')}
-                </button>
-            }
             {this.props.myTable ? null :
                 <button
                     className="btn btn-outline-success col-3 ms-2 d-flex justify-content-center text-center"
