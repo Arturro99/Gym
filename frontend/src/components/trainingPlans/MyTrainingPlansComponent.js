@@ -1,8 +1,13 @@
 import { withTranslation } from "react-i18next";
 import '../../locales/i18n';
 import TrainingPlansTable from "../trainingPlans/TrainingPlansTable";
-import { TrainingPlan } from "../../model/TrainingPlan";
 import { Component } from "react";
+import { getCurrentUser } from "../../services/AuthenticationService";
+import {
+  getOwnTrainingPlans,
+  removeTrainingPlan
+} from "../../services/AccountService";
+import keys from "../../errorKeys.json";
 
 class MyTrainingPlansComponent extends Component {
 
@@ -15,22 +20,30 @@ class MyTrainingPlansComponent extends Component {
 
   paginatedTrainingPlans = {};
 
-  componentDidMount() {
-    const pathParam = this.props.match.params.login;
+  async componentDidMount() {
+    const login = getCurrentUser();
+    const trainingPlans = await getOwnTrainingPlans(login);
     this.setState({
-      trainingPlans: [new TrainingPlan('TRA007', 'Zdobyty', 'Strength', 5,
-          'trener', 2800)]
-    });
-    //TODO fetch training plans
+      trainingPlans: trainingPlans
+    })
   }
 
-  handleDelete = trainingPlan => {
-    const originalTrainingPlans = this.state.trainingPlans;
-    const currentTrainingPlans = originalTrainingPlans.filter(
-        tra => tra.number !== trainingPlan.number);
-    this.setState({ trainingPlans: currentTrainingPlans });
-
-    //TODO implement deletion
+  handleDelete = async trainingPlan => {
+    const { t } = this.props;
+    const login = getCurrentUser();
+    await removeTrainingPlan(trainingPlan.number, login, t).then(resp => {
+      if (resp && resp.status === 200) {
+        const originalTrainingPlans = this.state.trainingPlans;
+        const currentTrainingPlans = originalTrainingPlans.filter(
+            tra => tra.number !== trainingPlan.number);
+        this.setState({ trainingPlans: currentTrainingPlans });
+      }
+    }).catch(async ex => {
+      if (ex && ex.response.data.error.errorKey === keys.DIET_NOT_FOUND_ERROR) {
+        const currentTrainingPlans = await getOwnTrainingPlans(login);
+        this.setState({ trainingPlans: currentTrainingPlans });
+      }
+    });
   }
 
   handleSort = sortColumn => {

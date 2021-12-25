@@ -4,6 +4,8 @@ import { Diet } from "../../model/Diet";
 import UpdateDietModal from "./UpdateDietModal";
 import { getDiet } from "../../services/DietService";
 import { parseFromOffsetDateTimeToLegibleFormat } from "../../services/DateParser";
+import { getCurrentRole } from "../../services/AuthenticationService";
+import config from "../../config.json";
 
 class DietDetails extends Details {
 
@@ -49,7 +51,8 @@ class DietDetails extends Details {
                            updateDetails={this.updateDetails}/>
           <div className="card-header">
             <h1>{t('dietDetails')}</h1>
-            {this.renderUpdateButton('updateDietModal', t('update'))}
+            {getCurrentRole() === config.TRAINER ?
+                this.renderUpdateButton('updateDietModal', t('update')) : ''}
           </div>
           {this.renderField('number', t('number'),
               this.state.data.diet)}

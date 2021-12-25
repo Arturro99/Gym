@@ -70,6 +70,35 @@ export async function getOwnDiets(login) {
   return diets;
 }
 
+export async function applyForTrainingPlan(number, login, t) {
+  return await http.post(`${accountUrl(login)}/trainingPlans`,
+      JSON.stringify({ number: number })).catch(ex => {
+    if (ex.response.data.error.errorKey === keys.TRAINING_PLAN_CONFLICT_ERROR) {
+      toast.error(t('trainingPlan_possessing_conflict'));
+    } else if (ex.response.data.error.errorKey === keys.TRAINING_PLAN_CONFLICT_TRAINER_ERROR) {
+      toast.error(t('trainingPlan_trainer_conflict'));
+    }
+  }).then(response => {
+    if (response && response.status === 200) {
+      toast.success(t('trainingPlan_add_success'));
+    }
+  });
+}
+
+export async function removeTrainingPlan(number, login, t) {
+  return await http.delete(`${accountUrl(login)}/trainingPlans/${number}`).catch(ex => {
+    if (ex.response.data.error.errorKey === keys.TRAINING_PLAN_NOT_FOUND_ERROR) {
+      toast.error(t('trainingPlan_notFound'));
+    }
+    throw ex;
+  }).then(response => {
+    if (response && response.status === 200) {
+      toast.success(t('trainingPlan_remove_success'));
+    }
+    return response;
+  });
+}
+
 export async function getOwnTrainingPlans(login) {
   const { data: trainingPlans } = await http.get(
       `${config.apiUrl}/accounts/${login}/trainingPlans`, {

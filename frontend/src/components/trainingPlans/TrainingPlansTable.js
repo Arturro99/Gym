@@ -2,6 +2,8 @@ import { Component } from "react";
 import { withTranslation } from "react-i18next";
 import Table from "../common/Table";
 import { Link } from "react-router-dom";
+import { getCurrentRole } from "../../services/AuthenticationService";
+import config from "../../config.json";
 
 class TrainingPlansTable extends Component {
 
@@ -10,7 +12,7 @@ class TrainingPlansTable extends Component {
       path: 'number', label: 'number'
     },
     {
-      path: '_name', label: 'name'
+      path: 'title', label: 'name'
     },
     {
       path: 'trainingType', label: 'trainingType'
@@ -32,24 +34,29 @@ class TrainingPlansTable extends Component {
       key: 'utils', label: 'actions',
       content: trainingPlan =>
           <div className="row justify-content-md-center">
-            <button
-                className="btn btn-outline-danger col-3 ms-2 d-flex justify-content-center text-center"
-                onClick={() => this.props.onDelete(trainingPlan)}>
-              {this.props.myTable ?
-                  this.props.t('cancel') : this.props.t('delete')}
-            </button>
-            {this.props.myTable ? null :
+            {!this.props.myTable && getCurrentRole() !== config.CLIENT ?
                 <button
-                    className="btn btn-outline-info col-3 ms-2 d-flex justify-content-center text-center"
-                    onClick={() => this.props.onUpdate(
-                        trainingPlan)}>{this.props.t(
-                    'update')}
+                    className="btn btn-outline-danger col-3 ms-2 d-flex justify-content-center text-center"
+                    onClick={() => this.props.onDelete(trainingPlan)}>
+                  {this.props.t('delete')}
+                </button> : ''
+            }
+            {this.props.myTable ?
+                <button
+                    className="btn btn-outline-danger col-3 ms-2 d-flex justify-content-center text-center"
+                    onClick={() => this.props.onDelete(trainingPlan)}>
+                  {this.props.t('cancel')}
+                </button> :
+                <button
+                    className="btn btn-outline-success col-3 ms-2 d-flex justify-content-center text-center"
+                    onClick={() => this.props.onApply(trainingPlan)}>
+                  {this.props.t('apply')}
                 </button>
             }
             <Link
                 className="btn btn-outline-success col-3 ms-2 d-flex justify-content-center text-center"
-                to={`/trainingPlans/${trainingPlan.number}`}>{this.props.t(
-                'details')}
+                to={`/trainingPlans/${trainingPlan.number}`}>
+              {this.props.t('details')}
             </Link>
           </div>
     }

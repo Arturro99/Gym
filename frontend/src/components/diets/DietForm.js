@@ -63,7 +63,7 @@ class DietForm extends Form {
       price
     } = this.state.data;
 
-   const response = await createDiet({
+    await createDiet({
       dietNumber: dietNumber,
       title: title,
       dietType: dietType.toUpperCase(),
@@ -95,8 +95,7 @@ class DietForm extends Form {
                       itemName={t('dietType')}
                       propertyName='title'
                       buttonLabel={this.state.data.dietType}
-                      onChangeBtn={this.handleDietTypeChange}
-                      style={{ right: 0 }}/>
+                      onChangeBtn={this.handleDietTypeChange}/>
             {this.renderInput("calories", t("calories"), 'number')}
             {this.renderInput("mealsNumber", t("mealsNumber"), 'number')}
             {this.renderInput("price", t("price"), 'number')}

@@ -30,7 +30,7 @@ export const TRANSLATIONS_EN = {
   yes: 'Yes',
   no: 'No',
 
-  error__name_string_empty: 'Name required',
+  error_title_string_empty: 'Name required',
   error_trainer_string_empty: 'Trainer required',
 
   //Registration form
@@ -116,6 +116,16 @@ export const TRANSLATIONS_EN = {
   error_personalTrainingsNumber_number_base: 'Number of personal trainings required',
   error_personalTrainingsNumber_number_min: 'Number of personal trainings must be positive',
 
+
+  trainingPlan_number_conflict: 'Training plan with such number exists',
+  trainingPlan_trainer_conflict: 'You run this training plan',
+  trainingPlan_possessing_conflict: 'You already own this training plan',
+  trainingPlan_remove_conflict: 'Training plan is being used',
+  trainingPlan_notFound: 'Training plan already removed',
+  trainingPlan_update_success: 'Training plan updated successfully',
+  trainingPlan_add_success: 'Training plan added successfully',
+  trainingPlan_remove_success: 'Training plan removed successfully',
+
   //Account
   accounts: 'Accounts',
   myAccount: 'My account',
@@ -138,6 +148,7 @@ export const TRANSLATIONS_EN = {
 
   account_login_conflict: 'Login with such email or login exists',
   account_update_success: 'Account updated successfully',
+  account_notFound: 'Can\'t find provided account',
 
   //Booking
   bookings: 'Bookings',
@@ -149,5 +160,7 @@ export const TRANSLATIONS_EN = {
 
   //Access levels
   assignAccessLevels: 'Assign access levels',
+
+  accessLevel_inappropriate_trainer: 'Provided user should have a trainer role',
 
 };

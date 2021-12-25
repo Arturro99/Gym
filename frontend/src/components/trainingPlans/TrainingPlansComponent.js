@@ -2,8 +2,14 @@ import { withTranslation } from "react-i18next";
 import '../../locales/i18n';
 import { Link } from "react-router-dom";
 import TrainingPlansTable from "../trainingPlans/TrainingPlansTable";
-import { TrainingPlan } from "../../model/TrainingPlan";
 import { Component } from "react";
+import {
+  deleteTrainingPlan,
+  getTrainingPlans
+} from "../../services/TrainingPlanService";
+import keys from "../../errorKeys.json";
+import { applyForTrainingPlan } from "../../services/AccountService";
+import { getCurrentUser } from "../../services/AuthenticationService";
 
 class TrainingPlansComponent extends Component {
 
@@ -16,43 +22,34 @@ class TrainingPlansComponent extends Component {
 
   paginatedTrainingPlans = {};
 
-  componentDidMount() {
-    const tra1 = new TrainingPlan(
-        'TRA001',
-        'Wydolnosciowy',
-        'Circuit',
-        3,
-        'trener',
-        1200
-    )
-    const tra2 = new TrainingPlan(
-        'TRA002',
-        'Silowy',
-        'Strength',
-        4,
-        'trener',
-        1500
-    )
+  async componentDidMount() {
+    const trainingPlans = await getTrainingPlans();
     this.setState({
-      trainingPlans: [tra1, tra2]
+      trainingPlans: trainingPlans
     })
   }
 
-  handleDelete = trainingPlan => {
-    const originalTrainingPlans = this.state.trainingPlans;
-    const currentTrainingPlans = originalTrainingPlans.filter(
-        tra => tra.number !== trainingPlan.number);
-    this.setState({ trainingPlans: currentTrainingPlans });
-
-    //TODO implement deletion
+  handleDelete = async trainingPlan => {
+    const { t } = this.props;
+    await deleteTrainingPlan(trainingPlan.number, t).then(resp => {
+      if (resp && resp.status === 200) {
+        const originalTrainingPlans = this.state.trainingPlans;
+        const currentTrainingPlans = originalTrainingPlans.filter(
+            tra => tra.number !== trainingPlan.number);
+        this.setState({ trainingPlans: currentTrainingPlans });
+      }
+    }).catch(async ex => {
+      if (ex && ex.response.data.error.errorKey
+          === keys.TRAINING_PLAN_NOT_FOUND_ERROR) {
+        const currentTrainingPlans = await getTrainingPlans();
+        this.setState({ trainingPlans: currentTrainingPlans });
+      }
+    });
   }
 
-  handleUpdate = trainingPlan => {
-    //TODO implement trainingPlan update
-  }
-
-  handleApply = trainingPlan => {
-    //TODO implement appliance for trainingPlan
+  handleApply = async trainingPlan => {
+    const { t } = this.props;
+    await applyForTrainingPlan(trainingPlan.number, getCurrentUser(), t);
   }
 
   handleSort = sortColumn => {

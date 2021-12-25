@@ -45,14 +45,14 @@ class DietsTable extends Component {
                 </button> :
                 <button
                     className="btn btn-outline-success col-3 ms-2 d-flex justify-content-center text-center"
-                    onClick={() => this.props.onApply(diet)}>{this.props.t(
-                    'apply')}
+                    onClick={() => this.props.onApply(diet)}>
+                  {this.props.t('apply')}
                 </button>
             }
             <Link
                 className="btn btn-outline-success col-3 ms-2 d-flex justify-content-center text-center"
-                to={`/diets/${diet.number}`}>{this.props.t(
-                'details')}
+                to={`/diets/${diet.number}`}>
+              {this.props.t('details')}
             </Link>
           </div>
     }

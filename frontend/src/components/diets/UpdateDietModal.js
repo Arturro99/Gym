@@ -58,7 +58,14 @@ class UpdateDietModal extends Form {
   }
 
   continueSubmitting = async () => {
-    const { title, calories, mealsNumber, price, dietType, number } = this.props.diet;
+    const {
+      title,
+      calories,
+      mealsNumber,
+      price,
+      dietType,
+      number
+    } = this.props.diet;
     const { t } = this.props;
     let newTitle, newCalories, newMealsNumber, newPrice, newDietType = null;
     if (title !== this.state.data.title) {
@@ -84,7 +91,7 @@ class UpdateDietModal extends Form {
       calories: newCalories,
       mealsNumber: newMealsNumber,
       price: newPrice
-    }, t);
+    }, t)
   }
 
   async resetData() {

@@ -53,6 +53,7 @@ class MainComponent extends Component {
   }
 
   componentDidMount() {
+    this.resetData();
     const myModalEl = document.getElementById('loginModal')
     myModalEl.addEventListener('hidden.bs.modal', () => {
       console.log(getCurrentUser())
