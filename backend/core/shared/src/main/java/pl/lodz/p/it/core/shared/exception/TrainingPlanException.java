@@ -36,4 +36,11 @@ public class TrainingPlanException extends BaseException {
                 .conflict("User already possesses the training plan!",
                     ErrorKey.TRAINING_PLAN_CONFLICT_ERROR));
     }
+
+    public static TrainingPlanException trainerTrainingPlanConflictException() {
+        return new TrainingPlanException(
+            ConflictException
+                .conflict("The trainer runs provided training plan!",
+                    ErrorKey.TRAINING_PLAN_CONFLICT_TRAINER_ERROR));
+    }
 }

@@ -6,6 +6,7 @@ import lombok.ToString;
 import lombok.ToString.Exclude;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import pl.lodz.p.it.core.shared.validation.RegexPattern;
 
 import javax.persistence.*;
@@ -27,6 +28,7 @@ import java.util.Set;
                 @AttributeOverride(name = "modificationDate", column = @Column(name = "modification_date", table = "account_details"))}
 )
 @ToString
+@EntityListeners(AuditingEntityListener.class)
 public class AccountEntity extends BaseEntity {
 
     @Column(name = "email", nullable = false, unique = true)

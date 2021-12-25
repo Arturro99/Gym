@@ -6,6 +6,7 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -17,6 +18,7 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
  * Class responsible for keeping an entity model of the activity object.
@@ -30,6 +32,7 @@ import org.springframework.data.annotation.LastModifiedBy;
         @AttributeOverride(name = "creationDate", column = @Column(name = "creation_date", nullable = false)),
         @AttributeOverride(name = "modificationDate", column = @Column(name = "modification_date"))}
 )
+@EntityListeners(AuditingEntityListener.class)
 public class ActivityEntity extends BaseEntity {
 
     @Column(name = "name", nullable = false)

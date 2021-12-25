@@ -57,7 +57,7 @@ public class DietEntity extends BaseEntity {
     @Range(min = 1)
     private Double price;
 
-    @ManyToMany(mappedBy = "diets", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "diets", fetch = FetchType.LAZY)
     private Set<AccountEntity> accounts;
 
     @ManyToOne(cascade = CascadeType.REFRESH)

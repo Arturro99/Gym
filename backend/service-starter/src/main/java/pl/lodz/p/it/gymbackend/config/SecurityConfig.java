@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final static String ADMIN = Level.ADMIN.name();
     private final static String CLIENT = Level.CLIENT.name();
-    private final static String TRAINER = Level.CLIENT.name();
+    private final static String TRAINER = Level.TRAINER.name();
     private final JWTRequestFilter jwtRequestFilter;
     private final ExceptionHandlerFilter exceptionHandlerFilter;
     @Resource
@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .antMatchers("/").permitAll()
             .antMatchers(HttpMethod.GET, "/accounts").hasAuthority(ADMIN)
-            .antMatchers(HttpMethod.GET, "/accounts/**").hasAuthority(ADMIN)
+//            .antMatchers(HttpMethod.GET, "/accounts/**").hasAuthority(ADMIN)
             .antMatchers(HttpMethod.GET, "/trainingPlans/**").hasAnyAuthority(CLIENT, TRAINER)
             .and()
             .sessionManagement()

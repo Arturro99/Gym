@@ -6,6 +6,7 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -18,6 +19,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
  * Class responsible for keeping an entity model of the training plan object.
@@ -31,6 +33,7 @@ import org.springframework.data.annotation.LastModifiedBy;
         @AttributeOverride(name = "creationDate", column = @Column(name = "creation_date", nullable = false)),
         @AttributeOverride(name = "modificationDate", column = @Column(name = "modification_date"))}
 )
+@EntityListeners(AuditingEntityListener.class)
 public class TrainingPlanEntity extends BaseEntity {
 
     @Column(name = "name", nullable = false)

@@ -135,6 +135,9 @@ public class AccountRepositoryService extends
         if (account.getTrainingPlans().contains(trainingPlan)) {
             throw TrainingPlanException.possessedTrainingPlanConflictException();
         }
+        if (trainingPlan.getTrainer().getBusinessId().equals(login)) {
+            throw TrainingPlanException.trainerTrainingPlanConflictException();
+        }
 
         account.getTrainingPlans().add(trainingPlan);
         account.setLoyaltyFactor(loyaltyFactor);

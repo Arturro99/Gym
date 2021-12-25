@@ -1,5 +1,6 @@
 package pl.lodz.p.it.restapi.controllerImplementation;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -57,7 +58,9 @@ public class TrainingPlanController implements TrainingPlansApiDelegate {
         TrainingPlan trainingPlan = trainingPlanRequestPostMapper
             .toDomainModel(trainingPlanRequestPost);
         TrainingPlan saved = trainingPlanServicePort.save(trainingPlan);
-        return ResponseEntity.ok(trainingPlanDetailsResponseMapper.toDtoModel(saved));
+        URI location = URI.create(String.format("/trainingPlans/%s", saved.getNumber()));
+        return ResponseEntity.created(location)
+            .body(trainingPlanDetailsResponseMapper.toDtoModel(saved));
     }
 
     @Override

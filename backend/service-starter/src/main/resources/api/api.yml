@@ -54,9 +54,6 @@ paths:
   /accounts/{login}/diets/{number}:
     $ref: './paths/account/AccountByLogin.yml#/diet/remove'
 
-  /accounts/{login}/bookings:
-    $ref: './paths/account/AccountByLogin.yml#/booking'
-
   /authenticate:
     $ref: './paths/account/Authenticate.yml'
 

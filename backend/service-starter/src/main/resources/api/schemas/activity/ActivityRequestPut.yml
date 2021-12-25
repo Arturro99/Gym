@@ -9,7 +9,7 @@ components:
   schemas:
     ActivityRequestPut:
       properties:
-        name:
+        title:
           type: string
         startDate:
           type: string

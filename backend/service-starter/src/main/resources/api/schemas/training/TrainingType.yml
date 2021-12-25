@@ -9,5 +9,5 @@ components:
   schemas:
     TrainingType:
       properties:
-        name:
+        title:
           type: string

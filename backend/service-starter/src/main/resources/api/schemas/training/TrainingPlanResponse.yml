@@ -11,7 +11,7 @@ components:
       properties:
         number:
           type: string
-        name:
+        title:
           type: string
         trainingType:
           type: string

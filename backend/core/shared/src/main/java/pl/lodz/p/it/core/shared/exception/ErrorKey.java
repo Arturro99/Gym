@@ -32,6 +32,7 @@ public final class ErrorKey {
 
     public static final String TRAINING_PLAN_NOT_FOUND_ERROR = "error.trainingPlan.notFound";
     public static final String TRAINING_PLAN_CONFLICT_ERROR = "error.trainingPlan.conflict";
+    public static final String TRAINING_PLAN_CONFLICT_TRAINER_ERROR = "error.trainingPlan.trainer.conflict";
 
     public static final String TRAINING_TYPE_NOT_FOUND_ERROR = "error.trainingType.notFound";
 
