@@ -2,6 +2,7 @@ import { withTranslation } from "react-i18next";
 import React from "react";
 import Joi from "joi";
 import Form from "./common/Form";
+import { signIn } from "../services/AuthenticationService";
 
 class LoginForm extends Form {
 
@@ -29,8 +30,10 @@ class LoginForm extends Form {
     this.setState({ data });
   }
 
-  continueSubmitting = () => {
-    console.log(`User: ${this.state.data.login} logged in`)
+  continueSubmitting = async () => {
+    const { login, password } = this.state.data;
+    await signIn(login, password);
+    this.props.resetData();
   }
 
   componentDidMount() {

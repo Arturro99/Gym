@@ -33,8 +33,8 @@ class DietDetails extends Details {
         fetched.calories,
         fetched.mealsNumber,
         fetched.price,
-        fetched.modifiedBy.login,
-        fetched.createdBy.login,
+        fetched.modifiedBy,
+        fetched.createdBy,
         parseFromOffsetDateTimeToLegibleFormat(fetched.creationDate),
         parseFromOffsetDateTimeToLegibleFormat(fetched.modificationDate)
     );

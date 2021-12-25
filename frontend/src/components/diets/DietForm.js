@@ -63,17 +63,18 @@ class DietForm extends Form {
       price
     } = this.state.data;
 
-    const response = await createDiet({
+   const response = await createDiet({
       dietNumber: dietNumber,
       title: title,
       dietType: dietType.toUpperCase(),
       calories: parseInt(calories),
       mealsNumber: parseInt(mealsNumber),
       price: parseFloat(price)
-    }, t);
-    if (response) {
-      this.props.history.push('/diets');
-    }
+    }, t).then(resp => {
+      if (resp && resp.status === 201) {
+        this.props.history.push('/diets');
+      }
+   });
   }
 
   handleDietTypeChange = (type) => {

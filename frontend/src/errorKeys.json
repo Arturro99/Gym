@@ -1,3 +1,5 @@
 {
-  "DIET_CONFLICT_ERROR": "error.diet.conflict"
+  "DIET_CONFLICT_ERROR": "error.diet.conflict",
+  "DIET_NOT_FOUND_ERROR": "error.diet.notFound",
+  "ACCOUNT_CONFLICT_ERROR": "error.account.conflict"
 }

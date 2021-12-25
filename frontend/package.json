@@ -17,6 +17,7 @@
     "joi-i18n": "^13.1.4",
     "joi-phone-number": "^5.0.1",
     "jquery": "^3.6.0",
+    "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "momentjs": "^2.0.0",

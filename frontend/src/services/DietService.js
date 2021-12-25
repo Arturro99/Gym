@@ -24,6 +24,11 @@ export async function createDiet(diet, t) {
     if (ex.response.data.error.errorKey === keys.DIET_CONFLICT_ERROR) {
       toast.error(t('diet_number_conflict'));
     }
+  }).then(response => {
+    if (response && response.status === 201) {
+      toast.success(t('diet_add_success'));
+    }
+    return response;
   });
 }
 
@@ -35,6 +40,18 @@ export async function updateDiet(diet, t) {
   });
 }
 
-export async function deleteDiet(id) {
-  return await http.delete(dietUrl(id));
+export async function deleteDiet(number, t) {
+  return await http.delete(dietUrl(number)).catch(ex => {
+    if (ex.response.data.error.errorKey === keys.DIET_CONFLICT_ERROR) {
+      toast.error(t('diet_remove_conflict'));
+    } else if (ex.response.data.error.errorKey === keys.DIET_NOT_FOUND_ERROR) {
+      toast.error(t('diet_notFound'));
+    }
+    throw ex;
+  }).then(response => {
+    if (response && response.status === 200) {
+      toast.success(t('diet_remove_success'));
+    }
+    return response;
+  });
 }

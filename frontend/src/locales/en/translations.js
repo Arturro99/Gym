@@ -95,7 +95,12 @@ export const TRANSLATIONS_EN = {
   error_price_number_min: 'Price must be at least 1',
 
   diet_number_conflict: 'Diet with such number exists',
+  diet_possessing_conflict: 'You already own this diet',
+  diet_remove_conflict: 'Diet is being used',
+  diet_notFound: 'Diet already removed',
   diet_update_success: 'Diet updated successfully',
+  diet_add_success: 'Diet added successfully',
+  diet_remove_success: 'Diet removed successfully',
 
   //Training plans
   noTrainingPlans: 'No available training plans. Try again later...',
@@ -130,6 +135,9 @@ export const TRANSLATIONS_EN = {
   lastKnownBadLogin: 'Last known bad login',
   lastKnownBadLoginIp: 'Last known bad login IP',
   badLoginsCounter: 'Number of bad logins',
+
+  account_login_conflict: 'Login with such email or login exists',
+  account_update_success: 'Account updated successfully',
 
   //Booking
   bookings: 'Bookings',
