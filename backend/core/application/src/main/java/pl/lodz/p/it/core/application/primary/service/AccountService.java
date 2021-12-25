@@ -3,6 +3,8 @@ package pl.lodz.p.it.core.application.primary.service;
 import static org.springframework.transaction.annotation.Isolation.READ_COMMITTED;
 import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
 
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.core.application.primary.service.algorithm.GoodsFactorService;
 import pl.lodz.p.it.core.domain.Account;
+import pl.lodz.p.it.core.domain.Diet;
+import pl.lodz.p.it.core.domain.TrainingPlan;
 import pl.lodz.p.it.core.port.primary.AccountServicePort;
 import pl.lodz.p.it.core.port.secondary.AccountRepositoryPort;
 
@@ -60,5 +64,15 @@ public class AccountService extends BaseService<Account> implements
         float loyaltyFactor = goodsFactorService
             .getDecreasedDietPossessingFactor(accountRepositoryPort.find(login));
         accountRepositoryPort.removeDiet(login, dietNumber, loyaltyFactor);
+    }
+
+    @Override
+    public List<Diet> getDietsByAccountLogin(String login) {
+        return new ArrayList<>(accountRepositoryPort.getDiets(login));
+    }
+
+    @Override
+    public List<TrainingPlan> getTrainingPlansByAccountLogin(String login) {
+        return new ArrayList<>(accountRepositoryPort.getTrainingPlans(login));
     }
 }

@@ -20,13 +20,22 @@ public interface ActivityMapper extends BaseMapper<ActivityEntity, Activity> {
 
     @Override
     @Mapping(source = "businessId", target = "number")
+    @Mapping(source = "modifiedBy.businessId", target = "modifiedBy")
+    @Mapping(source = "createdBy.businessId", target = "createdBy")
+    @Mapping(source = "trainer.businessId", target = "trainer")
     Activity toDomainModel(ActivityEntity entityModel);
 
     @Override
     @Mapping(source = "number", target = "businessId")
+    @Mapping(source = "modifiedBy", target = "modifiedBy.businessId")
+    @Mapping(source = "createdBy", target = "createdBy.businessId")
+    @Mapping(source = "trainer", target = "trainer.businessId")
     ActivityEntity toEntityModel(Activity domainModel);
 
     @Override
     @Mapping(source = "number", target = "businessId")
+    @Mapping(source = "modifiedBy", target = "modifiedBy.businessId")
+    @Mapping(source = "createdBy", target = "createdBy.businessId")
+    @Mapping(source = "trainer", target = "trainer.businessId")
     ActivityEntity toEntityModel(@MappingTarget ActivityEntity entityModel, Activity domainModel);
 }

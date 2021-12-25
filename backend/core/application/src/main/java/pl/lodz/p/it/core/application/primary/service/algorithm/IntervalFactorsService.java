@@ -15,8 +15,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.core.domain.Account;
+import pl.lodz.p.it.core.domain.Activity;
 import pl.lodz.p.it.core.domain.Booking;
 import pl.lodz.p.it.core.port.secondary.AccountRepositoryPort;
+import pl.lodz.p.it.core.port.secondary.ActivityRepositoryPort;
 import pl.lodz.p.it.core.port.secondary.BookingRepositoryPort;
 
 /**
@@ -32,6 +34,8 @@ public class IntervalFactorsService {
 
     final BookingRepositoryPort bookingRepositoryPort;
 
+    final ActivityRepositoryPort activityRepositoryPort;
+
     @Value("${algorithm.activity.absence}")
     float absenceFactor;
 
@@ -43,10 +47,12 @@ public class IntervalFactorsService {
 
     @Autowired
     public IntervalFactorsService(AccountRepositoryPort accountRepositoryPort,
-        BookingRepositoryPort bookingRepositoryPort) {
+        BookingRepositoryPort bookingRepositoryPort,
+        ActivityRepositoryPort activityRepositoryPort) {
 
         this.accountRepositoryPort = accountRepositoryPort;
         this.bookingRepositoryPort = bookingRepositoryPort;
+        this.activityRepositoryPort = activityRepositoryPort;
     }
 
     /**
@@ -82,15 +88,21 @@ public class IntervalFactorsService {
         List<Booking> activeAndNotCompletedBookings = bookingRepositoryPort
             .findAllByActiveTrueAndCompletedFalse();
 
-        List<Booking> bookingsWithAbsence = activeAndNotCompletedBookings.stream()
-            .filter(booking -> booking.getActivity().getStartDate()
-                .plus(booking.getActivity().getDuration(), ChronoUnit.MINUTES)
+        List<Activity> activitiesWithAbsence = activeAndNotCompletedBookings.stream()
+            .map(booking -> activityRepositoryPort.find(booking.getActivity()))
+            .filter(activity -> activity.getStartDate()
+                .plus(activity.getDuration(), ChronoUnit.MINUTES)
                 .isBefore(OffsetDateTime.now()))
+            .collect(Collectors.toList());
+
+        List<Booking> bookingsWithAbsence = activitiesWithAbsence.stream()
+            .map(activity -> bookingRepositoryPort.find(activity.getNumber()))
             .filter(booking -> !booking.getPending())
             .collect(Collectors.toList());
 
         List<Account> accountsToPunish = bookingsWithAbsence.stream()
             .map(Booking::getAccount)
+            .map(accountRepositoryPort::find)
             .collect(Collectors.toList());
 
         accountsToPunish.forEach(account -> {
@@ -112,6 +124,7 @@ public class IntervalFactorsService {
 
         List<Account> accountsToReward = activeAndCompletedBookings.stream()
             .map(Booking::getAccount)
+            .map(accountRepositoryPort::find)
             .collect(Collectors.toList());
 
         accountsToReward.forEach(account -> {

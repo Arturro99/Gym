@@ -19,10 +19,26 @@ public interface TrainingPlanMapper extends BaseMapper<TrainingPlanEntity, Train
 
     @Override
     @Mapping(source = "businessId", target = "number")
+    @Mapping(source = "modifiedBy.businessId", target = "modifiedBy")
+    @Mapping(source = "createdBy.businessId", target = "createdBy")
+    @Mapping(source = "trainer.businessId", target = "trainer")
+    @Mapping(source = "trainingType.businessId", target = "trainingType")
     TrainingPlan toDomainModel(TrainingPlanEntity entityModel);
 
     @Override
     @Mapping(source = "domainModel.number", target = "businessId")
+    @Mapping(source = "modifiedBy", target = "modifiedBy.businessId")
+    @Mapping(source = "createdBy", target = "createdBy.businessId")
+    @Mapping(source = "trainer", target = "trainer.businessId")
+    @Mapping(source = "trainingType", target = "trainingType.businessId")
+    TrainingPlanEntity toEntityModel(TrainingPlan domainModel);
+
+    @Override
+    @Mapping(source = "domainModel.number", target = "businessId")
+    @Mapping(source = "modifiedBy", target = "modifiedBy.businessId")
+    @Mapping(source = "createdBy", target = "createdBy.businessId")
+    @Mapping(source = "trainer", target = "trainer.businessId")
+    @Mapping(source = "trainingType", target = "trainingType.businessId")
     TrainingPlanEntity toEntityModel(@MappingTarget TrainingPlanEntity entityModel,
         TrainingPlan domainModel);
 }

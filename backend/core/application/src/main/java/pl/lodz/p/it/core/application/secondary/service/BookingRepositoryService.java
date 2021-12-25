@@ -114,14 +114,14 @@ public class BookingRepositoryService extends
     @Override
     public Booking save(Booking booking) {
         AccountEntity account = accountRepository.findByBusinessId(
-            booking.getAccount().getLogin())
+            booking.getAccount())
             .orElseThrow(AccountException::accountNotFoundException);
         if (!hasClientRole(account)) {
             throw AccessLevelException.illegalAccessLevel();
         }
 
         ActivityEntity activity = activityRepository
-            .findByBusinessId(booking.getActivity().getNumber())
+            .findByBusinessId(booking.getActivity())
             .orElseThrow(ActivityException::activityNotFoundException);
         if (isActivityCompleted(activity)) {
             throw ActivityException.activityExpiredException();

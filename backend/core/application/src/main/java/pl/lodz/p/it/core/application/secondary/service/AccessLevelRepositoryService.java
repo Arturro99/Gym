@@ -74,7 +74,7 @@ public class AccessLevelRepositoryService extends
     @Override
     public AccessLevel save(AccessLevel accessLevel) {
         AccountEntity account = accountRepository.findByBusinessId(
-            accessLevel.getAccount().getLogin())
+            accessLevel.getAccount())
             .orElseThrow(AccountException::accountNotFoundException);
 
         AccessLevelEntity accessLevelEntity = accessLevelRepository

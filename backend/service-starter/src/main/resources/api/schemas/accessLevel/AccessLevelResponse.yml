@@ -16,6 +16,6 @@ components:
         active:
           type: boolean
         createdBy:
-          $ref: '../account/AccountGeneralResponse.yml#/components/schemas/AccountGeneralResponse'
+          type: string
         modifiedBy:
-          $ref: '../account/AccountGeneralResponse.yml#/components/schemas/AccountGeneralResponse'
+          type: string

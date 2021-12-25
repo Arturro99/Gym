@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import pl.lodz.p.it.core.domain.Account;
 import pl.lodz.p.it.core.domain.Activity;
 import pl.lodz.p.it.core.domain.Booking;
+import pl.lodz.p.it.core.port.secondary.AccountRepositoryPort;
 import pl.lodz.p.it.core.port.secondary.BookingRepositoryPort;
 import pl.lodz.p.it.core.shared.exception.BookingException;
 
@@ -24,6 +25,8 @@ import pl.lodz.p.it.core.shared.exception.BookingException;
 public class PreferentialAlgorithmService {
 
     final BookingRepositoryPort bookingRepositoryPort;
+
+    final AccountRepositoryPort accountRepositoryPort;
 
     /**
      * Method responsible for applying the preference to the users that signed up for the activity
@@ -62,10 +65,11 @@ public class PreferentialAlgorithmService {
         allBookings.add(booking);
 
         return allBookings.stream()
-            .filter(b -> b.getActivity().getNumber().equals(activity.getNumber()))
+            .filter(b -> b.getActivity().equals(activity.getNumber()))
             .filter(Booking::getActive)
             .filter(b -> !b.getCompleted())
             .map(Booking::getAccount)
+            .map(accountRepositoryPort::find)
             .collect(Collectors.toList());
     }
 
@@ -81,8 +85,8 @@ public class PreferentialAlgorithmService {
     private void applyPreference(Account account, Activity activity, boolean preferred,
         Booking booking) {
         Booking consideredBooking;
-        if (booking.getAccount().getLogin().equals(account.getLogin()) &&
-            booking.getActivity().getNumber().equals(activity.getNumber())) {
+        if (booking.getAccount().equals(account.getLogin()) &&
+            booking.getActivity().equals(activity.getNumber())) {
             consideredBooking = booking;
             consideredBooking.setActive(preferred);
             booking.setPending(!preferred);

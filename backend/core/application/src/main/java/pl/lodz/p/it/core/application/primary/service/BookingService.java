@@ -74,16 +74,16 @@ public class BookingService extends BaseService<Booking> implements
 
     @Override
     public Booking save(Booking booking) {
-        Activity activity = activityRepositoryPort.find(booking.getActivity().getNumber());
-        Account account = accountRepositoryPort.find(booking.getAccount().getLogin());
+        Activity activity = activityRepositoryPort.find(booking.getActivity());
+        Account account = accountRepositoryPort.find(booking.getAccount());
         Optional<Booking> existingBooking;
 
         try {
             existingBooking = bookingRepositoryPort
                 .findByClientAndActivity(account.getLogin(), activity.getNumber());
         } catch (BookingAvoidableException ex) {
-            booking.setActivity(activity);
-            booking.setAccount(account);
+            booking.setActivity(activity.getNumber());
+            booking.setAccount(account.getLogin());
             booking.setActive(true);
             booking.setCompleted(false);
             booking.setPending(false);

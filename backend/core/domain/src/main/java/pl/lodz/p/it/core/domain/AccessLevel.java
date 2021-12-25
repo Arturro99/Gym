@@ -15,11 +15,11 @@ public class AccessLevel extends BaseModel {
     @AccessLevels(enumClass = Level.class)
     private String level;
 
-    private Account account;
+    private String account;
 
     private Boolean active;
 
-    private Account modifiedBy;
+    private String modifiedBy;
 
-    private Account createdBy;
+    private String createdBy;
 }

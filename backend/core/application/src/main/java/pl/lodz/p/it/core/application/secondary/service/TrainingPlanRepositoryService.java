@@ -73,13 +73,13 @@ public class TrainingPlanRepositoryService extends
         entity = mapper.toEntityModel(entity, trainingPlan);
 
         AccountEntity trainer = accountRepository.findByBusinessId(
-            trainingPlan.getTrainer().getLogin())
+            trainingPlan.getTrainer())
             .orElseThrow(AccountException::accountNotFoundException);
         if (!hasTrainerRole(trainer)) {
             throw AccessLevelException.illegalAccessLevel();
         }
         TrainingTypeEntity trainingType = trainingTypeRepository.findByBusinessId(
-            trainingPlan.getTrainingType().getName())
+            trainingPlan.getTrainingType())
             .orElseThrow(TrainingTypeException::trainingTypeNotFoundException);
         entity.setCreationDate(OffsetDateTime.now());
         entity.setTrainer(trainer);
@@ -99,7 +99,7 @@ public class TrainingPlanRepositoryService extends
 
         if (Optional.ofNullable(trainingPlan.getTrainer()).isPresent()) {
             AccountEntity accountEntity = accountRepository.findByBusinessId(
-                trainingPlan.getTrainer().getLogin())
+                trainingPlan.getTrainer())
                 .orElseThrow(AccountException::accountNotFoundException);
             if (!hasTrainerRole(accountEntity)) {
                 throw AccessLevelException.illegalAccessLevel();
@@ -109,7 +109,7 @@ public class TrainingPlanRepositoryService extends
 
         if (Optional.ofNullable(trainingPlan.getTrainingType()).isPresent()) {
             TrainingTypeEntity trainingType = trainingTypeRepository.findByBusinessId(
-                trainingPlan.getTrainingType().getName())
+                trainingPlan.getTrainingType())
                 .orElseThrow(TrainingTypeException::trainingTypeNotFoundException);
             updated.setTrainingType(trainingType);
         }

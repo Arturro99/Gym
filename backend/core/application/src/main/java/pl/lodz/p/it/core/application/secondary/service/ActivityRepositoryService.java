@@ -86,7 +86,7 @@ public class ActivityRepositoryService extends
         entity = mapper.toEntityModel(entity, activity);
 
         AccountEntity accountEntity = accountRepository.findByBusinessId(
-            activity.getTrainer().getLogin())
+            activity.getTrainer())
             .orElseThrow(AccountException::accountNotFoundException);
         if (!hasTrainerRole(accountEntity)) {
             throw AccessLevelException.illegalAccessLevel();
@@ -110,7 +110,7 @@ public class ActivityRepositoryService extends
 
         if (Optional.ofNullable(activity.getTrainer()).isPresent()) {
             AccountEntity accountEntity = accountRepository.findByBusinessId(
-                activity.getTrainer().getLogin())
+                activity.getTrainer())
                 .orElseThrow(AccountException::accountNotFoundException);
             if (!hasTrainerRole(accountEntity)) {
                 throw AccessLevelException.illegalAccessLevel();

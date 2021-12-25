@@ -18,9 +18,9 @@ public class Booking extends BaseModel {
     @BookingNumber
     private String number;
 
-    private Account account;
+    private String account;
 
-    private Activity activity;
+    private String activity;
 
     private Boolean active;
 
@@ -28,7 +28,7 @@ public class Booking extends BaseModel {
 
     private Boolean pending;
 
-    private Account modifiedBy;
+    private String modifiedBy;
 
-    private Account createdBy;
+    private String createdBy;
 }

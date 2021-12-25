@@ -18,13 +18,22 @@ public interface DietMapper extends BaseMapper<DietEntity, Diet> {
 
     @Override
     @Mapping(source = "businessId", target = "number")
+    @Mapping(source = "modifiedBy.businessId", target = "modifiedBy")
+    @Mapping(source = "createdBy.businessId", target = "createdBy")
+    @Mapping(source = "dietType.businessId", target = "dietType")
     Diet toDomainModel(DietEntity entityModel);
 
     @Override
     @Mapping(source = "number", target = "businessId")
+    @Mapping(source = "modifiedBy", target = "modifiedBy.businessId")
+    @Mapping(source = "createdBy", target = "createdBy.businessId")
+    @Mapping(source = "dietType", target = "dietType.businessId")
     DietEntity toEntityModel(Diet domainModel);
 
     @Override
     @Mapping(source = "number", target = "businessId")
+    @Mapping(source = "modifiedBy", target = "modifiedBy.businessId")
+    @Mapping(source = "createdBy", target = "createdBy.businessId")
+    @Mapping(source = "dietType", target = "dietType.businessId")
     DietEntity toEntityModel(@MappingTarget DietEntity entityModel, Diet domainModel);
 }

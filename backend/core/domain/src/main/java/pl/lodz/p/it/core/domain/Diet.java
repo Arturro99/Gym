@@ -17,7 +17,7 @@ public class Diet extends BaseModel {
 
     private String name;
 
-    private DietType dietType;
+    private String dietType;
 
     @Range(min = 1)
     private Integer calories;
@@ -28,7 +28,7 @@ public class Diet extends BaseModel {
     @Range(min = 1)
     private Double price;
 
-    private Account modifiedBy;
+    private String modifiedBy;
 
-    private Account createdBy;
+    private String createdBy;
 }

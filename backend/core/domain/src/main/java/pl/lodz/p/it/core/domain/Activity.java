@@ -27,14 +27,14 @@ public class Activity extends BaseModel {
 
     private OffsetDateTime startDate;
 
-    private Account trainer;
+    private String trainer;
 
     private Boolean active;
 
     @Range(min = 1)
     private Integer capacity;
 
-    private Account modifiedBy;
+    private String modifiedBy;
 
-    private Account createdBy;
+    private String createdBy;
 }

@@ -18,14 +18,23 @@ public interface AccessLevelMapper extends BaseMapper<AccessLevelEntity, AccessL
 
     @Override
     @Mapping(source = "businessId", target = "level")
+    @Mapping(source = "modifiedBy.businessId", target = "modifiedBy")
+    @Mapping(source = "createdBy.businessId", target = "createdBy")
+    @Mapping(source = "account.businessId", target = "account")
     AccessLevel toDomainModel(AccessLevelEntity entityModel);
 
     @Override
     @Mapping(source = "level", target = "businessId")
+    @Mapping(source = "modifiedBy", target = "modifiedBy.businessId")
+    @Mapping(source = "createdBy", target = "createdBy.businessId")
+    @Mapping(source = "account", target = "account.businessId")
     AccessLevelEntity toEntityModel(AccessLevel domainModel);
 
     @Override
     @Mapping(source = "level", target = "businessId")
+    @Mapping(source = "modifiedBy", target = "modifiedBy.businessId")
+    @Mapping(source = "createdBy", target = "createdBy.businessId")
+    @Mapping(source = "account", target = "account.businessId")
     AccessLevelEntity toEntityModel(@MappingTarget AccessLevelEntity accountEntity,
         AccessLevel domainModel);
 }

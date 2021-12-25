@@ -43,16 +43,19 @@ paths:
     $ref: './paths/account/AccountByLogin.yml'
 
   /accounts/{login}/trainingPlans:
-    $ref: './paths/account/AccountByLogin.yml#/trainingPlan/add'
+    $ref: './paths/account/AccountByLogin.yml#/trainingPlan/withoutParam'
 
   /accounts/{login}/trainingPlans/{number}:
     $ref: './paths/account/AccountByLogin.yml#/trainingPlan/remove'
 
   /accounts/{login}/diets:
-    $ref: './paths/account/AccountByLogin.yml#/diet/add'
+    $ref: './paths/account/AccountByLogin.yml#/diet/withoutParam'
 
   /accounts/{login}/diets/{number}:
     $ref: './paths/account/AccountByLogin.yml#/diet/remove'
+
+  /accounts/{login}/bookings:
+    $ref: './paths/account/AccountByLogin.yml#/booking'
 
   /authenticate:
     $ref: './paths/account/Authenticate.yml'

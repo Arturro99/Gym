@@ -10,7 +10,7 @@ components:
     AccessLevelRequestPost:
       required:
         - level
-        - accountLogin
+        - account
       properties:
         level:
           type: string
@@ -18,5 +18,5 @@ components:
             - CLIENT
             - ADMIN
             - TRAINER
-        accountLogin:
+        account:
           type: string

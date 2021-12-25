@@ -1,5 +1,6 @@
 package pl.lodz.p.it.restapi.controllerImplementation;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -48,7 +49,9 @@ public class DietController implements DietsApiDelegate {
     public ResponseEntity<DietDetailsResponse> createDiet(DietRequestPost dietRequestPost) {
         Diet diet = dietRequestPostMapper.toDomainModel(dietRequestPost);
         Diet saved = dietServicePort.save(diet);
-        return ResponseEntity.ok(dietDetailsResponseMapper.toDtoModel(saved));
+        URI location = URI.create(String.format("/diets/%s", saved.getNumber()));
+        return ResponseEntity.created(location)
+            .body(dietDetailsResponseMapper.toDtoModel(saved));
     }
 
     @Override

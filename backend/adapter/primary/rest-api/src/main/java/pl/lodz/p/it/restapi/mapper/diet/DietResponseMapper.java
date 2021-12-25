@@ -14,11 +14,9 @@ public interface DietResponseMapper extends BaseResponseMapper<DietResponse, Die
 
     @Override
     @Mapping(source = "name", target = "title")
-    @Mapping(source = "dietType.name", target = "dietType")
     DietResponse toDtoModel(Diet domainModel);
 
     @Override
     @Mapping(source = "name", target = "title")
-    @Mapping(source = "dietType.name", target = "dietType")
     DietResponse toDtoModel(@MappingTarget DietResponse dtoModel, Diet domainModel);
 }

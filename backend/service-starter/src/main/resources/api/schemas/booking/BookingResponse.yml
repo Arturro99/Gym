@@ -12,9 +12,9 @@ components:
         number:
           type: string
         account:
-          $ref: '../account/AccountGeneralResponse.yml#/components/schemas/AccountGeneralResponse'
+          type: string
         activity:
-          $ref: '../activity/ActivityResponse.yml#/components/schemas/ActivityResponse'
+          type: string
         active:
           type: boolean
         completed:

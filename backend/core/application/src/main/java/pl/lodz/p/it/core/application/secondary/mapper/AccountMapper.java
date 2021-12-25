@@ -21,13 +21,16 @@ public interface AccountMapper extends BaseMapper<AccountEntity, Account> {
 
     @Override
     @Mapping(source = "businessId", target = "login")
+    @Mapping(source = "modifiedBy.businessId", target = "modifiedBy")
     Account toDomainModel(AccountEntity entityModel);
 
     @Override
     @Mapping(source = "login", target = "businessId")
+    @Mapping(source = "modifiedBy", target = "modifiedBy.businessId")
     AccountEntity toEntityModel(Account domainModel);
 
     @Override
     @Mapping(source = "login", target = "businessId")
+    @Mapping(source = "modifiedBy", target = "modifiedBy.businessId")
     AccountEntity toEntityModel(@MappingTarget AccountEntity accountEntity, Account domainModel);
 }

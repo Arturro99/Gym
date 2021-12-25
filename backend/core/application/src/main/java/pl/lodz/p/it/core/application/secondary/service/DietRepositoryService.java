@@ -55,7 +55,7 @@ public class DietRepositoryService extends BaseRepositoryService<DietEntity, Die
         entity = mapper.toEntityModel(entity, diet);
 
         DietTypeEntity dietType = dietTypeRepository.findByBusinessId(
-            diet.getDietType().getName()).orElseThrow(DietTypeException::dietTypeNotFoundException);
+            diet.getDietType()).orElseThrow(DietTypeException::dietTypeNotFoundException);
         entity.setDietType(dietType);
 
         DietEntity saved = repository.save(entity);
@@ -72,7 +72,7 @@ public class DietRepositoryService extends BaseRepositoryService<DietEntity, Die
 
         if (Optional.ofNullable(diet.getDietType()).isPresent()) {
             DietTypeEntity dietType = dietTypeRepository.findByBusinessId(
-                diet.getDietType().getName())
+                diet.getDietType())
                 .orElseThrow(DietTypeException::dietTypeNotFoundException);
             updated.setDietType(dietType);
         }

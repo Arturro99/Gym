@@ -19,7 +19,7 @@ components:
         duration:
           type: integer
         trainer:
-          $ref: '../account/AccountGeneralResponse.yml#/components/schemas/AccountGeneralResponse'
+          type: string
         active:
           type: boolean
         capacity:

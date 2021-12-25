@@ -14,10 +14,10 @@ components:
         name:
           type: string
         trainingType:
-          $ref: '../training/TrainingType.yml#/components/schemas/TrainingType'
+          type: string
         personalTrainingsNumber:
           type: integer
         trainer:
-          $ref: '../account/AccountGeneralResponse.yml#/components/schemas/AccountGeneralResponse'
+          type: string
         price:
           type: number
