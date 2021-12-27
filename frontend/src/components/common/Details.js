@@ -12,14 +12,14 @@ export default class Details extends Component {
     )
   }
 
-  renderField(paramName, label, data, link = false) {
+  renderField(paramName, label, data, link = false, linkDestination = 'accounts') {
     return (
         <div className="row row-cols-2 justify-content-center">
           <label
               className="col-md-4 fw-bold text-uppercase my-2 text-start">{label}:</label>
           {link ?
               <Link className="col-md-4 my-2 text-start"
-                    to={`/accounts/${data[paramName]}`}>
+                    to={`/${linkDestination}/${data[paramName]}`}>
                 {data[paramName]}
               </Link>
               :

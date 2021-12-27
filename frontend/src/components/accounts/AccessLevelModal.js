@@ -14,12 +14,10 @@ class AccessLevelModal extends Component {
     const level = event.target.id
     if (event.target.checked) {
       if (!currentData.roles.includes(level)) {
-        console.log('Adding')
         currentData.roles.push(level);
       }
     } else {
       if (currentData.roles.includes(level)) {
-        console.log('Removing')
         currentData.roles = currentData.roles.filter(role => role !== level);
       }
     }

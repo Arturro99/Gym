@@ -6,15 +6,17 @@ import {
   parseFromOffsetDateTimeToLegibleFormat,
   parseFromTimePickerToOffsetDateTime
 } from "../../services/DateParser";
+import { getActivity, updateActivity } from "../../services/ActivityService";
+import { getDiet } from "../../services/DietService";
 
 class UpdateActivityModal extends Form {
 
   state = {
     data: {
-      _name: this.props.activity._name,
-      startDate: this.props.activity.startDate,
-      duration: this.props.activity.duration,
-      capacity: this.props.activity.capacity
+      title: '',
+      startDate: '',
+      duration: '',
+      capacity: ''
     },
     modalId: 'updateActivityModal',
     name: 'updateActivity',
@@ -22,14 +24,14 @@ class UpdateActivityModal extends Form {
   }
 
   fieldRestrictions = {
-    _name: Joi.string().required(),
+    title: Joi.string().required(),
     startDate: Joi.any().required(),
     duration: Joi.number().min(30).required(),
     capacity: Joi.number().min(1).required()
   }
 
   schema = Joi.object({
-    _name: this.fieldRestrictions._name,
+    title: this.fieldRestrictions.title,
     startDate: this.fieldRestrictions.startDate,
     duration: this.fieldRestrictions.duration,
     capacity: this.fieldRestrictions.capacity,
@@ -37,33 +39,51 @@ class UpdateActivityModal extends Form {
 
   componentDidMount() {
     const myModalEl = document.getElementById(this.state.modalId)
-    myModalEl.addEventListener('hidden.bs.modal', () => {
-      let currentData = { ...this.state.data };
-      currentData._name = this.props.activity._name;
-      currentData.startDate = this.props.activity.startDate;
-      currentData.duration = this.props.activity.duration;
-      currentData.capacity = this.props.activity.capacity;
-      this.setState({ data: currentData });
+    myModalEl.addEventListener('show.bs.modal', () => {
+      this.resetData();
     })
   }
 
-  continueSubmitting = (e) => {
-    const { _name, startDate, duration, capacity } = this.props.activity;
-    let updatedData = [];
-    if (_name !== this.state.data._name) {
-      updatedData.push(this.state.data._name)
+  continueSubmitting = async () => {
+    const {
+      title,
+      startDate,
+      duration,
+      capacity,
+      number
+    } = this.props.activity;
+    const { t } = this.props;
+    let newTitle, newStartDate, newDuration, newCapacity = null;
+    if (title !== this.state.data.title) {
+      newTitle = this.state.data.title;
     }
     if (startDate !== parseFromOffsetDateTimeToLegibleFormat(
         this.state.data.startDate)) {
-      updatedData.push(this.state.data.startDate)
+      newStartDate = this.state.data.startDate;
     }
     if (duration !== this.state.data.duration) {
-      updatedData.push(this.state.data.duration)
+      newDuration = this.state.data.duration;
     }
     if (capacity !== this.state.data.capacity) {
-      updatedData.push(this.state.data.capacity)
+      newCapacity = this.state.data.capacity;
     }
-    console.log('Changed fields: ' + updatedData)
+    await updateActivity({
+      number: number,
+      title: newTitle,
+      startDate: newStartDate,
+      duration: newDuration,
+      capacity: newCapacity
+    }, t)
+  }
+
+  async resetData() {
+    let currentData = { ...this.state.data };
+    const activity = await getActivity(this.props.activity.number);
+    currentData.title = activity.title;
+    currentData.startDate = activity.startDate;
+    currentData.duration = activity.duration;
+    currentData.capacity = activity.capacity;
+    this.setState({ data: currentData });
   }
 
   handleDateChange = (date) => {
@@ -76,7 +96,6 @@ class UpdateActivityModal extends Form {
   render() {
     const { modalId, name, data } = this.state;
     const { t } = this.props;
-    console.log(this.validate())
     return (
         <div className="modal fade" id={this.state.modalId} tabIndex="-1"
              role="dialog" aria-labelledby="exampleModalCenterTitle"
@@ -90,10 +109,10 @@ class UpdateActivityModal extends Form {
                         data-bs-dismiss="modal" aria-label="Close"/>
               </div>
               <div className="modal-body ms-4">
-                {this.renderInput('_name', t('name'), 'text',
+                {this.renderInput('title', t('name'), 'text',
                     'login-label',
                     'login-box position-relative start-50 translate-middle-x text-light',
-                    data._name)}
+                    data.title)}
               </div>
               <div className="modal-body ms-4">
                 <label>{t('startDate')}</label>
@@ -101,7 +120,7 @@ class UpdateActivityModal extends Form {
                     onChange={this.handleDateChange}
                     strictMode={true}
                     className="mt-2 fs-5"
-                    placeholder={data.startDate}
+                    placeholder={parseFromOffsetDateTimeToLegibleFormat(data.startDate)}
                     format="dd-MM-yyyy HH:mm"/>
               </div>
               <div className="modal-body ms-4">

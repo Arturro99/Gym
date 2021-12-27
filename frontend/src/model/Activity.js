@@ -1,8 +1,8 @@
-export function Activity(number, _name, startDate, duration, trainer, active,
+export function Activity(number, title, startDate, duration, trainer, active,
     capacity, modifiedBy, createdBy, modificationDate, creationDate) {
 
     this.number = number;
-    this._name = _name;
+    this.title = title;
     this.startDate = startDate;
     this.duration = duration;
     this.trainer = trainer;

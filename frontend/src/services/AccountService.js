@@ -106,11 +106,3 @@ export async function getOwnTrainingPlans(login) {
       });
   return trainingPlans;
 }
-
-export async function getOwnBookings(login) {
-  const { data: bookings } = await http.get(
-      `${config.apiUrl}/bookings/client/${login}`, {
-        method: 'GET'
-      });
-  return bookings;
-}

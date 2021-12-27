@@ -74,6 +74,14 @@ export const TRANSLATIONS_EN = {
   error_capacity_number_base: 'Capacity required',
   error_capacity_number_min: 'Capacity must be at least 1',
 
+  activity_number_conflict: 'Activity with such number exists',
+  activity_remove_conflict: 'Activity is being used',
+  activity_notFound: 'Activity already removed',
+  activity_update_success: 'Activity updated successfully',
+  activity_add_success: 'Activity added successfully',
+  activity_remove_success: 'Activity removed successfully',
+  activity_inappropriate_date: 'Date should be a value from future',
+
   //Diets
   noDiets: 'No available diets. Try again later...',
   noIndividualDiets: 'You have no assigned diets. It is high time you tried something new!',
@@ -157,10 +165,23 @@ export const TRANSLATIONS_EN = {
   completed: 'Completed',
   complete: 'Complete',
   incomplete: 'Incomplete',
+  state: 'State',
+  pending: 'Pending',
+  non_pending: 'Enrolled',
+  updateBooking: 'Update booking',
+
+  booking_add_success: 'A place for activity booked successfully',
+  booking_update_success: 'Booking updated successfully',
+  booking_cancel_success: 'Booking cancelled successfully',
+  booking_complete_success: 'Booking completed successfully',
+  booking_possessing_conflict: 'You have already booked a place for this activity',
+  booking_cancellation_deadline_conflict: 'You can no longer cancel this booking',
+  booking_completion_conflict: 'Cannot complete booking before the start of activity',
 
   //Access levels
   assignAccessLevels: 'Assign access levels',
 
   accessLevel_inappropriate_trainer: 'Provided user should have a trainer role',
+  accessLevel_inappropriate_client: 'Provided user should have a trainer role',
 
 };

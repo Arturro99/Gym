@@ -30,7 +30,7 @@ class BookingsTable extends Component {
       path: 'completed', label: 'completed',
     },
     {
-      path: 'pending', label: 'pending'
+      path: 'pending', label: 'state'
     },
     {
       key: 'utils', label: 'actions',
@@ -40,14 +40,20 @@ class BookingsTable extends Component {
                 className="btn btn-outline-danger col-3 ms-2 d-flex justify-content-center text-center"
                 onClick={() => this.props.onDelete(booking)}>
               {this.props.myTable ?
-                  this.props.t('cancel') : this.props.t('delete')}
+                  this.props.t('cancel') :
+                  booking.active === this.props.t('active') ?
+                      this.props.t('deactivate') : this.props.t('activate')}
             </button>
             {this.props.myTable ? null :
                 <button
-                    className="btn btn-outline-warning col-3 ms-2 d-flex justify-content-center text-center"
-                    onClick={() => this.props.onComplete(
-                        booking)}>{booking.completed === this.props.t('completed')
-                    ? this.props.t('incomplete') : this.props.t('complete')}
+                    className={booking.completed === this.props.t('completed') ?
+                        "btn btn-outline-dark col-3 ms-2 d-flex justify-content-center text-center"
+                        :
+                        "btn btn-outline-warning col-3 ms-2 d-flex justify-content-center text-center"}
+                    disabled={booking.completed === this.props.t('completed')}
+                    onClick={() => this.props.onComplete(booking)}>
+                  {booking.completed === this.props.t('completed') ?
+                      this.props.t('completed') : this.props.t('complete')}
                 </button>
             }
             <Link
