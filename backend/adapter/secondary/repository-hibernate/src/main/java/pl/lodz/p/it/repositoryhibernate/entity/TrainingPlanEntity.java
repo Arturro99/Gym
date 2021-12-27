@@ -70,4 +70,11 @@ public class TrainingPlanEntity extends BaseEntity {
     @CreatedBy
     @JoinColumn(name = "created_by", referencedColumnName = "id")
     private AccountEntity createdBy;
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (this.getBusinessId() != null ? this.getBusinessId().hashCode() : 0);
+        return hash;
+    }
 }

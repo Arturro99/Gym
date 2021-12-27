@@ -1,33 +1,46 @@
 package pl.lodz.p.it.repositoryhibernate.entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import java.time.OffsetDateTime;
+import java.util.Set;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.SecondaryTable;
+import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString.Exclude;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import pl.lodz.p.it.core.shared.validation.RegexPattern;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
-import java.time.OffsetDateTime;
-import java.util.Set;
-
 /**
  * Class responsible for keeping an entity model of the account object.
  */
-@EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "account")
 @SecondaryTable(name = "account_details")
 @AttributeOverrides(
-        {@AttributeOverride(name = "businessId", column = @Column(name = "login", nullable = false, updatable = false, unique = true)),
-                @AttributeOverride(name = "creationDate", column = @Column(name = "creation_date", nullable = false, table = "account_details")),
-                @AttributeOverride(name = "modificationDate", column = @Column(name = "modification_date", table = "account_details"))}
+    {@AttributeOverride(name = "businessId", column = @Column(name = "login", nullable = false, updatable = false, unique = true)),
+        @AttributeOverride(name = "creationDate", column = @Column(name = "creation_date", nullable = false, table = "account_details")),
+        @AttributeOverride(name = "modificationDate", column = @Column(name = "modification_date", table = "account_details"))}
 )
-@ToString
 @EntityListeners(AuditingEntityListener.class)
 public class AccountEntity extends BaseEntity {
 
@@ -102,17 +115,24 @@ public class AccountEntity extends BaseEntity {
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinTable(
-            name = "account_training_plan",
-            joinColumns = {@JoinColumn(name = "account")},
-            inverseJoinColumns = {@JoinColumn(name = "training_plan")}
+        name = "account_training_plan",
+        joinColumns = {@JoinColumn(name = "account")},
+        inverseJoinColumns = {@JoinColumn(name = "training_plan")}
     )
     private Set<TrainingPlanEntity> trainingPlans;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinTable(
-            name = "account_diet",
-            joinColumns = {@JoinColumn(name = "account")},
-            inverseJoinColumns = {@JoinColumn(name = "diet")}
+        name = "account_diet",
+        joinColumns = {@JoinColumn(name = "account")},
+        inverseJoinColumns = {@JoinColumn(name = "diet")}
     )
     private Set<DietEntity> diets;
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (this.getBusinessId() != null ? this.getBusinessId().hashCode() : 0);
+        return hash;
+    }
 }

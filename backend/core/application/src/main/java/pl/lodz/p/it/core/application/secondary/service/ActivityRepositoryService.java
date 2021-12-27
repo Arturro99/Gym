@@ -7,6 +7,7 @@ import static org.springframework.transaction.annotation.Propagation.MANDATORY;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.validation.ConstraintViolationException;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.retry.annotation.Backoff;
@@ -34,7 +35,8 @@ import pl.lodz.p.it.repositoryhibernate.repository.BookingRepository;
  */
 @Service
 @Transactional(propagation = MANDATORY, isolation = READ_COMMITTED, timeout = 3)
-@Retryable(exclude = {ActivityException.class, AccountException.class},
+@Retryable(exclude = {ActivityException.class, AccountException.class,
+    ConstraintViolationException.class},
     maxAttemptsExpression = "${retry.maxAttempts}",
     backoff = @Backoff(delayExpression = "${retry.maxDelay}"))
 @FieldDefaults(level = PRIVATE, makeFinal = true)

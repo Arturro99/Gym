@@ -1,5 +1,6 @@
 package pl.lodz.p.it.restapi.controllerImplementation;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -49,7 +50,9 @@ public class ActivityController implements ActivitiesApiDelegate {
         ActivityRequestPost activityRequestPost) {
         Activity activity = activityRequestPostMapper.toDomainModel(activityRequestPost);
         Activity saved = activityServicePort.save(activity);
-        return ResponseEntity.ok(activityDetailsResponseMapper.toDtoModel(saved));
+        URI location = URI.create(String.format("/activities/%s", saved.getNumber()));
+        return ResponseEntity.created(location)
+            .body(activityDetailsResponseMapper.toDtoModel(saved));
     }
 
     @Override

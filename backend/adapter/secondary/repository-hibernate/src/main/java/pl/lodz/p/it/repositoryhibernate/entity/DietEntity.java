@@ -24,8 +24,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 /**
  * Class responsible for keeping an entity model of the diet object.
  */
-@Setter
 @Getter
+@Setter
 @Entity
 @Table(name = "diet")
 @AttributeOverrides(
@@ -57,7 +57,7 @@ public class DietEntity extends BaseEntity {
     @Range(min = 1)
     private Double price;
 
-    @ManyToMany(mappedBy = "diets", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "diets", fetch = FetchType.EAGER)
     private Set<AccountEntity> accounts;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
@@ -69,4 +69,11 @@ public class DietEntity extends BaseEntity {
     @CreatedBy
     @JoinColumn(name = "created_by", referencedColumnName = "id")
     private AccountEntity createdBy;
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (this.getBusinessId() != null ? this.getBusinessId().hashCode() : 0);
+        return hash;
+    }
 }

@@ -81,15 +81,11 @@ public class OrderFactorService {
      * @return True if activity is full, false otherwise.
      */
     public boolean isActivityFull(Activity activity) {
-        List<Booking> allBookings = bookingRepositoryPort.findAll();
+        List<Booking> allBookings = bookingRepositoryPort.findAllByActiveTrueAndCompletedFalse();
         int capacity = activity.getCapacity();
         long bookingsNumber = allBookings.stream()
-            .filter(Booking::getActive)
-            .filter(b -> !b.getCompleted())
             .map(Booking::getActivity)
             .map(activityRepositoryPort::find)
-            .map(Activity::getNumber)
-            .filter(number -> number.equals(activity.getNumber()))
             .count();
 
         return bookingsNumber >= capacity;
@@ -112,7 +108,28 @@ public class OrderFactorService {
                     loyaltyFactor * (firstOneToBookFactor
                         - differenceBetweenNextOnesToBookFactor * (positionOnTheList)));
 
-            accountRepositoryPort.update(account.getLogin(), account);
+            Account updatedAccount = Account.builder()
+                .loyaltyFactor(account.getLoyaltyFactor())
+                .build();
+            accountRepositoryPort.update(account.getLogin(), updatedAccount);
+        }
+    }
+
+    public void recalculateBookingOrderFactorAfterCancellation(Booking booking) {
+        Account account = accountRepositoryPort.find(booking.getAccount());
+        float loyaltyFactor = account.getLoyaltyFactor();
+        long positionOnTheList = getPositionOnTheList(booking);
+        if (positionOnTheList <= 5) {
+            account.setLoyaltyFactor(
+                positionOnTheList == 0 ?
+                    loyaltyFactor * (1 / firstOneToBookFactor) :
+                    loyaltyFactor * (1 / (firstOneToBookFactor
+                        - differenceBetweenNextOnesToBookFactor * (positionOnTheList))));
+
+            Account updatedAccount = Account.builder()
+                .loyaltyFactor(account.getLoyaltyFactor())
+                .build();
+            accountRepositoryPort.update(account.getLogin(), updatedAccount);
         }
     }
 

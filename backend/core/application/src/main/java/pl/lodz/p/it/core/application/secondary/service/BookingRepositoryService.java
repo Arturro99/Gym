@@ -147,6 +147,37 @@ public class BookingRepositoryService extends
         return mapper.toDomainModel(response);
     }
 
+    @Override
+    public Booking cancelBooking(String number) {
+        BookingEntity entity = repository.findByBusinessId(number).orElseThrow(
+            BookingException::bookingNotFoundException);
+        Booking booking = Booking.builder()
+            .active(false)
+            .build();
+
+        BookingEntity updated = mapper
+            .toEntityModel(entity, booking);
+        BookingEntity response = repository.save(updated);
+
+        return mapper.toDomainModel(response);
+    }
+
+    @Override
+    public Booking completeBooking(String number) {
+        BookingEntity entity = repository.findByBusinessId(number).orElseThrow(
+            BookingException::bookingNotFoundException);
+        Booking booking = Booking.builder()
+            .completed(true)
+            .active(false)
+            .build();
+
+        BookingEntity updated = mapper
+            .toEntityModel(entity, booking);
+        BookingEntity response = repository.save(updated);
+
+        return mapper.toDomainModel(response);
+    }
+
     private boolean hasClientRole(AccountEntity accountEntity) {
         return accessLevelRepository.findByAccount(accountEntity).stream()
             .map(AccessLevelEntity::getBusinessId)

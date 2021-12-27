@@ -4,15 +4,18 @@ import static org.springframework.transaction.annotation.Isolation.READ_COMMITTE
 import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
 
 import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.core.application.primary.service.algorithm.OrderFactorService;
 import pl.lodz.p.it.core.application.primary.service.algorithm.PreferentialAlgorithmService;
+import pl.lodz.p.it.core.application.primary.service.algorithm.ThirdPartyFactorsService;
 import pl.lodz.p.it.core.domain.Account;
 import pl.lodz.p.it.core.domain.Activity;
 import pl.lodz.p.it.core.domain.Booking;
@@ -42,18 +45,25 @@ public class BookingService extends BaseService<Booking> implements
 
     final ActivityRepositoryPort activityRepositoryPort;
 
+    final ThirdPartyFactorsService thirdPartyFactorsService;
+
+    @Value("${algorithm.activity.cancellation.deadline}")
+    long cancellationTime;
+
     @Autowired
     public BookingService(BookingRepositoryPort bookingRepositoryPort,
         AccountRepositoryPort accountRepositoryPort,
         OrderFactorService orderFactorService,
         PreferentialAlgorithmService algorithm,
-        ActivityRepositoryPort activityRepositoryPort) {
+        ActivityRepositoryPort activityRepositoryPort,
+        ThirdPartyFactorsService thirdPartyFactorsService) {
         super(bookingRepositoryPort);
         this.bookingRepositoryPort = bookingRepositoryPort;
         this.accountRepositoryPort = accountRepositoryPort;
         this.orderFactorService = orderFactorService;
         this.algorithm = algorithm;
         this.activityRepositoryPort = activityRepositoryPort;
+        this.thirdPartyFactorsService = thirdPartyFactorsService;
     }
 
     @Override
@@ -75,15 +85,14 @@ public class BookingService extends BaseService<Booking> implements
     @Override
     public Booking save(Booking booking) {
         Activity activity = activityRepositoryPort.find(booking.getActivity());
-        Account account = accountRepositoryPort.find(booking.getAccount());
         Optional<Booking> existingBooking;
 
         try {
             existingBooking = bookingRepositoryPort
-                .findByClientAndActivity(account.getLogin(), activity.getNumber());
+                .findByClientAndActivity(booking.getAccount(), activity.getNumber());
         } catch (BookingAvoidableException ex) {
             booking.setActivity(activity.getNumber());
-            booking.setAccount(account.getLogin());
+            booking.setAccount(booking.getAccount());
             booking.setActive(true);
             booking.setCompleted(false);
             booking.setPending(false);
@@ -100,8 +109,36 @@ public class BookingService extends BaseService<Booking> implements
                 algorithm.applyPreference(activity, existingBooking.get());
             }
         } else {
-            throw BookingException.bookingConflictException();
+            throw BookingException.possessedBookingConflictException();
         }
         return repository.update(existingBooking.get().getNumber(), existingBooking.get());
+    }
+
+    @Override
+    public Booking cancelBooking(String number) {
+        Booking booking = bookingRepositoryPort.find(number);
+        Activity activity = activityRepositoryPort.find(booking.getActivity());
+
+        if (activity.getStartDate().minus(cancellationTime, ChronoUnit.MINUTES)
+            .isBefore(OffsetDateTime.now())) {
+            throw BookingException.bookingCancellationDeadlineException();
+        }
+
+        orderFactorService.recalculateBookingOrderFactorAfterCancellation(booking);
+        return bookingRepositoryPort.cancelBooking(number);
+    }
+
+    @Override
+    public Booking completeBooking(String number) {
+        Booking booking = bookingRepositoryPort.find(number);
+        Activity activity = activityRepositoryPort.find(booking.getActivity());
+        Account account = accountRepositoryPort.find(booking.getAccount());
+
+        if (activity.getStartDate().isAfter(OffsetDateTime.now())) {
+            throw BookingException.bookingCompletionException();
+        }
+
+        thirdPartyFactorsService.rewardAccount(account);
+        return bookingRepositoryPort.completeBooking(number);
     }
 }

@@ -22,8 +22,8 @@ import pl.lodz.p.it.core.port.secondary.ActivityRepositoryPort;
 import pl.lodz.p.it.core.port.secondary.BookingRepositoryPort;
 
 /**
- * Service responsible for handling interval-side algorithm's factors like presence/absence at
- * particular activities and gym membership.
+ * Service responsible for handling interval-side algorithm's factors like absence at particular
+ * activities, gym membership and third party-side like presence at activities.
  */
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -38,9 +38,6 @@ public class IntervalFactorsService {
 
     @Value("${algorithm.activity.absence}")
     float absenceFactor;
-
-    @Value("${algorithm.activity.presence}")
-    float presenceFactor;
 
     @Value("${algorithm.membership}")
     float membershipFactor;
@@ -79,7 +76,7 @@ public class IntervalFactorsService {
     @Scheduled(cron = "${algorithm.cron.presence}")
     public void scheduleActivityPresenceVerification() {
         punishAccounts();
-        rewardAccounts();
+//        rewardAccounts();
     }
 
     //Method responsible for decreasing loyalty factor for accounts that have active and not completed
@@ -111,28 +108,6 @@ public class IntervalFactorsService {
             }
         );
         bookingsWithAbsence.forEach(booking -> {
-            booking.setActive(false);
-            bookingRepositoryPort.update(booking.getNumber(), booking);
-        });
-    }
-
-    //Method responsible for increasing loyalty factor for accounts that have active and completed
-    //bookings.
-    private void rewardAccounts() {
-        List<Booking> activeAndCompletedBookings = bookingRepositoryPort
-            .findAllByActiveTrueAndCompletedTrue();
-
-        List<Account> accountsToReward = activeAndCompletedBookings.stream()
-            .map(Booking::getAccount)
-            .map(accountRepositoryPort::find)
-            .collect(Collectors.toList());
-
-        accountsToReward.forEach(account -> {
-                account.setLoyaltyFactor(account.getLoyaltyFactor() * presenceFactor);
-                accountRepositoryPort.update(account.getLogin(), account);
-            }
-        );
-        activeAndCompletedBookings.forEach(booking -> {
             booking.setActive(false);
             bookingRepositoryPort.update(booking.getNumber(), booking);
         });

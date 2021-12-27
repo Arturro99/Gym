@@ -10,11 +10,9 @@ import pl.lodz.p.it.core.port.primary.BookingServicePort;
 import pl.lodz.p.it.restapi.controller.BookingsApiDelegate;
 import pl.lodz.p.it.restapi.dto.BookingDetailsResponse;
 import pl.lodz.p.it.restapi.dto.BookingRequestPost;
-import pl.lodz.p.it.restapi.dto.BookingRequestPut;
 import pl.lodz.p.it.restapi.dto.BookingResponse;
 import pl.lodz.p.it.restapi.mapper.booking.BookingDetailsResponseMapper;
 import pl.lodz.p.it.restapi.mapper.booking.BookingRequestPostMapper;
-import pl.lodz.p.it.restapi.mapper.booking.BookingRequestPutMapper;
 import pl.lodz.p.it.restapi.mapper.booking.BookingResponseMapper;
 
 @RestController
@@ -28,8 +26,6 @@ public class BookingController implements BookingsApiDelegate {
     private final BookingDetailsResponseMapper bookingDetailsResponseMapper;
 
     private final BookingRequestPostMapper bookingRequestPostMapper;
-
-    private final BookingRequestPutMapper bookingRequestPutMapper;
 
     @Override
     public ResponseEntity<BookingDetailsResponse> getBooking(String number) {
@@ -67,10 +63,14 @@ public class BookingController implements BookingsApiDelegate {
     }
 
     @Override
-    public ResponseEntity<BookingDetailsResponse> updateBooking(String number,
-        BookingRequestPut bookingRequestPut) {
-        Booking booking = bookingRequestPutMapper.toDomainModel(bookingRequestPut);
-        Booking updated = bookingServicePort.update(number, booking);
+    public ResponseEntity<BookingDetailsResponse> cancelBooking(String number) {
+        Booking updated = bookingServicePort.cancelBooking(number);
+        return ResponseEntity.ok(bookingDetailsResponseMapper.toDtoModel(updated));
+    }
+
+    @Override
+    public ResponseEntity<BookingDetailsResponse> completeBooking(String number) {
+        Booking updated = bookingServicePort.completeBooking(number);
         return ResponseEntity.ok(bookingDetailsResponseMapper.toDtoModel(updated));
     }
 }

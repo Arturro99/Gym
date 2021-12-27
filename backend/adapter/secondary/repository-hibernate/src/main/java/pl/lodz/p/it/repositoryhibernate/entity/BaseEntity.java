@@ -13,7 +13,8 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass
-@Data
+@Getter
+@Setter
 public abstract class BaseEntity {
 
     @Id

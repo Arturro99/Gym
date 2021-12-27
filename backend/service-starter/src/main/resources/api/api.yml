@@ -87,6 +87,12 @@ paths:
   /bookings/{number}:
     $ref: './paths/booking/BookingByNumber.yml#/bookingNumber'
 
+  /bookings/{number}/cancel:
+    $ref: './paths/booking/BookingByNumber.yml#/cancel'
+
+  /bookings/{number}/complete:
+    $ref: './paths/booking/BookingByNumber.yml#/complete'
+
   /bookings/client/{login}:
     $ref: './paths/booking/BookingByNumber.yml#/clientLogin'
 
@@ -158,9 +164,6 @@ components:
 
     BookingRequestPost:
       $ref: './schemas/booking/BookingRequestPost.yml#/components/schemas/BookingRequestPost'
-
-    BookingRequestPut:
-      $ref: './schemas/booking/BookingRequestPut.yml#/components/schemas/BookingRequestPut'
 
     BookingResponse:
       $ref: './schemas/booking/BookingResponse.yml#/components/schemas/BookingResponse'
