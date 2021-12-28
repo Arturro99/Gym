@@ -34,13 +34,14 @@ public class BookingException extends BaseException {
     public static BookingException bookingCancellationDeadlineException() {
         return new BookingException(
             ConflictException
-                .conflict("Booking can no longer be cancelled!", ErrorKey.BOOKING_CONFLICT_ERROR));
+                .conflict("Booking can no longer be cancelled!",
+                    ErrorKey.BOOKING_CONFLICT_CANCELLATION_ERROR));
     }
 
     public static BookingException bookingCompletionException() {
         return new BookingException(
             ConflictException
                 .conflict("Cannot complete booking before the start of activity!",
-                    ErrorKey.BOOKING_CONFLICT_ERROR));
+                    ErrorKey.BOOKING_CONFLICT_COMPLETION_ERROR));
     }
 }

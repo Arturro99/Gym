@@ -40,15 +40,19 @@ public class PreferentialAlgorithmService {
         List<Account> usersOrderedByPreference = sortUsersByLoyaltyFactor(activity, booking);
 
         usersOrderedByPreference
-            .subList(0, activity.getCapacity())
+            .subList(0,
+                activity.getCapacity() < usersOrderedByPreference.size() ? activity.getCapacity()
+                    : usersOrderedByPreference.size())
             .forEach(account -> applyPreference(account, activity, true, booking));
 
-        usersOrderedByPreference
-            .subList(activity.getCapacity(), usersOrderedByPreference.size())
-            .forEach(account -> {
-                applyPreference(account, activity, false, booking);
-                sendNotification(account, activity);
-            });
+        if (activity.getCapacity() < usersOrderedByPreference.size()) {
+            usersOrderedByPreference
+                .subList(activity.getCapacity(), usersOrderedByPreference.size())
+                .forEach(account -> {
+                    applyPreference(account, activity, false, booking);
+                    sendNotification(account, activity);
+                });
+        }
     }
 
     //Method responsible for sorting users by their loyalty factor
@@ -61,13 +65,14 @@ public class PreferentialAlgorithmService {
 
     // Method retrieving all users signed up for the provided activity (including newly added booking).
     private List<Account> getAllUsersSignedUpForActivity(Activity activity, Booking booking) {
-        List<Booking> allBookings = bookingRepositoryPort.findAll();
-        allBookings.add(booking);
+        List<Booking> allBookingsByActivity = bookingRepositoryPort
+            .findByActivity(activity.getNumber());
+        List<Booking> activeAndIncompleteBookings = bookingRepositoryPort
+            .findAllByActiveTrueAndCompletedFalse();
+        allBookingsByActivity.retainAll(activeAndIncompleteBookings);
+        allBookingsByActivity.add(booking);
 
-        return allBookings.stream()
-            .filter(b -> b.getActivity().equals(activity.getNumber()))
-            .filter(Booking::getActive)
-            .filter(b -> !b.getCompleted())
+        return allBookingsByActivity.stream()
             .map(Booking::getAccount)
             .map(accountRepositoryPort::find)
             .collect(Collectors.toList());

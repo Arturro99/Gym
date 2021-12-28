@@ -103,12 +103,14 @@ public class BookingService extends BaseService<Booking> implements
             }
             return repository.save(booking);
         }
-        if (!existingBooking.get().getActive()) {
+        if (!existingBooking.get().getActive() && !existingBooking.get().getCompleted()) {
             existingBooking.get().setActive(true);
             if (orderFactorService.isActivityFull(activity)) {
                 algorithm.applyPreference(activity, existingBooking.get());
             }
-        } else {
+        } else if (existingBooking.get().getCompleted()) {
+            throw BookingException.bookingCancellationDeadlineException();
+        } else if (existingBooking.get().getActive()) {
             throw BookingException.possessedBookingConflictException();
         }
         return repository.update(existingBooking.get().getNumber(), existingBooking.get());

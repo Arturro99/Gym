@@ -21,6 +21,8 @@ public final class ErrorKey {
 
     public static final String BOOKING_NOT_FOUND_ERROR = "error.booking.notFound";
     public static final String BOOKING_CONFLICT_ERROR = "error.booking.conflict";
+    public static final String BOOKING_CONFLICT_CANCELLATION_ERROR = "error.booking.cancellation.conflict";
+    public static final String BOOKING_CONFLICT_COMPLETION_ERROR = "error.booking.completion.conflict";
 
     public static final String DIET_NOT_FOUND_ERROR = "error.diet.notFound";
     public static final String DIET_CONFLICT_ERROR = "error.diet.conflict";
