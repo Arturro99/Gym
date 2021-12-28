@@ -3,8 +3,11 @@ import '../../locales/i18n';
 import BookingsTable from "../bookings/BookingsTable";
 import { Component } from "react";
 import { getCurrentUser } from "../../services/AuthenticationService";
-import keys from "../../errorKeys.json";
-import { cancelBooking, getOwnBookings } from "../../services/BookingService";
+import {
+  cancelBooking,
+  createBooking,
+  getOwnBookings
+} from "../../services/BookingService";
 
 class MyBookingsComponent extends Component {
 
@@ -26,16 +29,14 @@ class MyBookingsComponent extends Component {
   handleCancel = async booking => {
     const login = getCurrentUser();
     const { t } = this.props;
-    await cancelBooking(booking.number, t).catch(async ex => {
-      if (ex && ex.response.data.error.errorKey
-          === keys.BOOKING_CONFLICT_ERROR) {
-        this.resetBookings(login, t);
-      }
-    }).then(resp => {
-      if (resp && resp.status === 200) {
-        this.resetBookings(login, t)
-      }
-    });
+    if (booking.active === t('active')) {
+      await cancelBooking(booking.number, t)
+      .catch(() => this.resetBookings(login, t))
+      .then(() => this.resetBookings(login, t));
+    } else {
+      await createBooking(booking.activity, booking.account, t)
+      .then(() => this.resetBookings(login, t));
+    }
   }
 
   resetBookings = async (login, t) => {

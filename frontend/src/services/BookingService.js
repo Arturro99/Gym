@@ -43,6 +43,9 @@ export async function createBooking(activityNumber, login, t) {
         } else if (ex.response.data.error.errorKey
             === keys.ACCESS_LEVEL_INAPPROPRIATE) {
           toast.error(t('accessLevel_inappropriate_client'));
+        } else if (ex.response.data.error.errorKey
+            === keys.BOOKING_CONFLICT_CANCELLATION_ERROR) {
+          toast.error(t('booking_completion_cancellation_conflict'));
         }
       }).then(response => {
     if (response && response.status === 200) {
@@ -62,8 +65,11 @@ export async function getOwnBookings(login) {
 export async function cancelBooking(number, t) {
   return await http.put(`${bookingUrl(number)}/cancel`).catch(ex => {
     if (ex.response.data.error.errorKey
-        === keys.BOOKING_CONFLICT_ERROR) {
+        === keys.BOOKING_CONFLICT_CANCELLATION_ERROR) {
       toast.error(t('booking_cancellation_deadline_conflict'));
+    } else if (ex.response.data.error.errorKey
+        === keys.BOOKING_CONFLICT_COMPLETION_ERROR) {
+      toast.error(t('booking_completion_cancellation_conflict'));
     }
     throw ex;
   }).then(response => {
@@ -77,7 +83,7 @@ export async function cancelBooking(number, t) {
 export async function completeBooking(number, t) {
   return await http.put(`${bookingUrl(number)}/complete`).catch(ex => {
     if (ex.response.data.error.errorKey
-        === keys.BOOKING_CONFLICT_ERROR) {
+        === keys.BOOKING_CONFLICT_COMPLETION_ERROR) {
       toast.error(t('booking_completion_conflict'));
     }
     throw ex;

@@ -124,7 +124,6 @@ export const TRANSLATIONS_EN = {
   error_personalTrainingsNumber_number_base: 'Number of personal trainings required',
   error_personalTrainingsNumber_number_min: 'Number of personal trainings must be positive',
 
-
   trainingPlan_number_conflict: 'Training plan with such number exists',
   trainingPlan_trainer_conflict: 'You run this training plan',
   trainingPlan_possessing_conflict: 'You already own this training plan',
@@ -176,6 +175,7 @@ export const TRANSLATIONS_EN = {
   booking_complete_success: 'Booking completed successfully',
   booking_possessing_conflict: 'You have already booked a place for this activity',
   booking_cancellation_deadline_conflict: 'You can no longer cancel this booking',
+  booking_completion_cancellation_conflict: 'Cannot manage booking\'s activity after its completion',
   booking_completion_conflict: 'Cannot complete booking before the start of activity',
 
   //Access levels

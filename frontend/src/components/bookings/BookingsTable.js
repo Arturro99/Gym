@@ -40,7 +40,8 @@ class BookingsTable extends Component {
                 className="btn btn-outline-danger col-3 ms-2 d-flex justify-content-center text-center"
                 onClick={() => this.props.onDelete(booking)}>
               {this.props.myTable ?
-                  this.props.t('cancel') :
+                  (booking.active === this.props.t('active') ? this.props.t('cancel') : this.props.t(
+                      'apply')) :
                   booking.active === this.props.t('active') ?
                       this.props.t('deactivate') : this.props.t('activate')}
             </button>

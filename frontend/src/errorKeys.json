@@ -14,6 +14,8 @@
   "ACTIVITY_NOT_FOUND_ERROR": "error.activity.notFound",
 
   "BOOKING_CONFLICT_ERROR": "error.booking.conflict",
+  "BOOKING_CONFLICT_CANCELLATION_ERROR": "error.booking.cancellation.conflict",
+  "BOOKING_CONFLICT_COMPLETION_ERROR": "error.booking.completion.conflict",
 
 
   "CONSTRAINT_VIOLATION": "error.general.constraintViolation"

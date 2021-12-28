@@ -27,13 +27,13 @@ class BookingsComponent extends Component {
   }
 
   handleCancel = async booking => {
-    const { t } = this.props;
-    if (booking.active) {
+    const { t } = this.props
+    if (booking.active === t('active')) {
       await cancelBooking(booking.number, t)
       .catch(() => this.resetBookings(t))
       .then(() => this.resetBookings(t));
     } else {
-      await createBooking(booking.activity, getCurrentUser(), t)
+      await createBooking(booking.activity, booking.account, t)
       .then(() => this.resetBookings(t));
     }
   }
