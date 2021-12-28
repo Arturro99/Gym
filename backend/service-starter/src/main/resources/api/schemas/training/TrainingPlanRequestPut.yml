@@ -10,13 +10,11 @@ components:
     TrainingPlanRequestPut:
       type: object
       properties:
-        name:
+        title:
           type: string
         personalTrainingsNumber:
           type: integer
           minimum: 0
-        trainer:
-          type: string
         price:
           type: number
           minimum: 1

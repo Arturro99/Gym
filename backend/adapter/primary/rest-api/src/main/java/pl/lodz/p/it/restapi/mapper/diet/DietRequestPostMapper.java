@@ -12,6 +12,8 @@ import pl.lodz.p.it.restapi.mapper.BaseRequestMapper;
 public interface DietRequestPostMapper extends BaseRequestMapper<DietRequestPost, Diet> {
 
     @Override
-    @Mapping(target = "dietType.name", source = "dietType.value")
+    @Mapping(target = "dietType", source = "dietType.value")
+    @Mapping(source = "title", target = "name")
+    @Mapping(source = "dietNumber", target = "number")
     Diet toDomainModel(DietRequestPost dtoModel);
 }

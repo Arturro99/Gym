@@ -3,6 +3,7 @@ package pl.lodz.p.it.core.application.secondary.service;
 import static org.springframework.transaction.annotation.Isolation.READ_COMMITTED;
 import static org.springframework.transaction.annotation.Propagation.MANDATORY;
 
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
@@ -48,13 +49,13 @@ public class DietRepositoryService extends BaseRepositoryService<DietEntity, Die
     @Override
     public Diet save(Diet diet) {
         if (repository.findByBusinessId(diet.getNumber()).isPresent()) {
-            throw DietException.dietConflictException();
+            throw DietException.existingDietConflictException();
         }
         DietEntity entity = repository.instantiate();
         entity = mapper.toEntityModel(entity, diet);
 
         DietTypeEntity dietType = dietTypeRepository.findByBusinessId(
-            diet.getDietType().getName()).orElseThrow(DietTypeException::dietTypeNotFoundException);
+            diet.getDietType()).orElseThrow(DietTypeException::dietTypeNotFoundException);
         entity.setDietType(dietType);
 
         DietEntity saved = repository.save(entity);
@@ -69,6 +70,13 @@ public class DietRepositoryService extends BaseRepositoryService<DietEntity, Die
         DietEntity updated = mapper
             .toEntityModel(entity, diet);
 
+        if (Optional.ofNullable(diet.getDietType()).isPresent()) {
+            DietTypeEntity dietType = dietTypeRepository.findByBusinessId(
+                diet.getDietType())
+                .orElseThrow(DietTypeException::dietTypeNotFoundException);
+            updated.setDietType(dietType);
+        }
+
         DietEntity response = repository.save(updated);
         return mapper.toDomainModel(response);
     }
@@ -78,7 +86,7 @@ public class DietRepositoryService extends BaseRepositoryService<DietEntity, Die
         DietEntity entity = repository.findByBusinessId(key)
             .orElseThrow(DietException::dietNotFoundException);
         if (!entity.getAccounts().isEmpty()) {
-            throw DietException.dietConflictException();
+            throw DietException.inUseDietConflictException();
         }
         repository.delete(entity);
     }

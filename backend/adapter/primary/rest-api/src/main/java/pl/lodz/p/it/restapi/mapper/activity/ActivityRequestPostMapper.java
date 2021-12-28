@@ -15,6 +15,7 @@ public interface ActivityRequestPostMapper extends
     BaseRequestMapper<ActivityRequestPost, Activity> {
 
     @Override
-    @Mapping(target = "trainer.login", source = "dtoModel.trainer")
+    @Mapping(source = "title", target = "name")
+    @Mapping(source = "activityNumber", target = "number")
     Activity toDomainModel(ActivityRequestPost dtoModel);
 }

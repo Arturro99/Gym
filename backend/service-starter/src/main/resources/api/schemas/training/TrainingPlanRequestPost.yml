@@ -9,11 +9,18 @@ components:
   schemas:
     TrainingPlanRequestPost:
       type: object
+      required:
+        - trainingPlanNumber
+        - title
+        - trainingType
+        - personalTrainingsNumber
+        - trainer
+        - price
       properties:
-        number:
+        trainingPlanNumber:
           type: string
           pattern: "^TRA[0-9]{3}$"
-        name:
+        title:
           type: string
         trainingType:
           type: string

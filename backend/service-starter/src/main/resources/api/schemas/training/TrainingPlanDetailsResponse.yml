@@ -1,0 +1,13 @@
+openapi: 3.0.0
+info:
+  description: TrainingPlanDetailsResponse model
+  title: TrainingPlanDetailsResponse model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    TrainingPlanDetailsResponse:
+      allOf:
+        - $ref: '../BaseDto.yml#/components/schemas/BaseDto'
+        - $ref: 'TrainingPlanResponse.yml#/components/schemas/TrainingPlanResponse'

@@ -1,4 +1,7 @@
-﻿id,version,email,login,password,active,confirmed
-99999991,0,NonExisting2137@wp.pl,admin,$2a$10$dULYjM/AKl8SCNfKwpFkqeozpARcY09lvb7qB.fTUmQ0dvY5r2Wee,true,true
-99999992,0,art.daj@wp.pl,arturro,$2a$10$ScBTqQ89yQk62NHnoEanLO.ApN6nz0SrIBhWKWoo7orDXfbHd4LaW,true,true
-99999993,0,art.daj1@wp.pl,trener,$2a$10$.OQXBuWJSpafir7M9lVrHOEFvKiPEXyWtpvcbqbIDt4PHUdBX/cw.,true,true
+﻿id,version,email,password,active,confirmed,login
+99999991,0,NonExisting1@nonexisting.com,$2a$10$dULYjM/AKl8SCNfKwpFkqeozpARcY09lvb7qB.fTUmQ0dvY5r2Wee,true,true,admin
+99999992,0,art.daj@wp.pl,$2a$10$pbz0wMbtpmbAJRjvdzWZquAt4VSoqVqpf9cofqE1CSYs2aKg5rilS,true,true,client
+99999993,0,art.daj1@wp.pl,$2a$10$nwJTtVh9.X80ew55f1rOzuNvy6PPYr1MHMUTytyCCadsKrUo7.gOS,true,true,trainer
+99999994,0,NonExisting5@nonexisting.com,$2a$10$6i9qg5tiIZvJFRIW5Vy9tON71xj6PixRMNu3UITyB3BbqZrHT7jI6,true,true,tHeBeSt
+99999995,0,NonExisting3@nonexisting.com,$2a$10$TpBIGIZgLmXx4uHUGLOyGe5bVXBG6VkBPs0VRwr3ebpD4dKkC5Uwa,true,true,clienttrainer
+99999996,0,NonExisting4@nonexisting.com,$2a$10$rFB2W7I39bJHqdtXPOEn4O7NltmzAO2XrJ0Hg22uGM3JAwToddtOS,true,true,noName

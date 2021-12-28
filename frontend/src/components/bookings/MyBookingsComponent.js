@@ -1,8 +1,13 @@
 import { withTranslation } from "react-i18next";
 import '../../locales/i18n';
 import BookingsTable from "../bookings/BookingsTable";
-import { Booking } from "../../model/Booking";
 import { Component } from "react";
+import { getCurrentUser } from "../../services/AuthenticationService";
+import {
+  cancelBooking,
+  createBooking,
+  getOwnBookings
+} from "../../services/BookingService";
 
 class MyBookingsComponent extends Component {
 
@@ -15,40 +20,35 @@ class MyBookingsComponent extends Component {
 
   paginatedBookings = {};
 
-  componentDidMount() {
-    const boo1 = new Booking(
-        'BOO001',
-        'arturro',
-        'ACT001',
-        'Active',
-        'Completed',
-        'Pending',
-        'arturro'
-    )
-    const boo2 = new Booking(
-        'BOO002',
-        'arturro',
-        'ACT002',
-        'Inactive',
-        'Incomplete',
-        'Enrolled',
-        'arturro'
-    )
-    this.setState({
-      bookings: [boo1, boo2]
-    })
+  async componentDidMount() {
+    const login = getCurrentUser();
+    const { t } = this.props;
+    this.resetBookings(login, t);
   }
 
-  handleCancel = booking => {
-    const bookings = this.state.bookings;
-    const index = bookings.findIndex(
-        boo => boo.number === booking.number);
-    bookings[index].active = (bookings[index].active === this.props.t('active'))
-        ? this.props.t('inactive')
-        : this.props.t('active');
-    this.setState({ bookings: bookings });
+  handleCancel = async booking => {
+    const login = getCurrentUser();
+    const { t } = this.props;
+    if (booking.active === t('active')) {
+      await cancelBooking(booking.number, t)
+      .catch(() => this.resetBookings(login, t))
+      .then(() => this.resetBookings(login, t));
+    } else {
+      await createBooking(booking.activity, booking.account, t)
+      .then(() => this.resetBookings(login, t));
+    }
+  }
 
-    //TODO implement cancellation
+  resetBookings = async (login, t) => {
+    const bookings = await getOwnBookings(login);
+    bookings.forEach(booking => {
+      booking.active = booking.active ? t('active') : t('inactive');
+      booking.completed = booking.completed ? t('completed') : t('incomplete');
+      booking.pending = booking.pending ? t('pending') : t('non_pending');
+    })
+    this.setState({
+      bookings: bookings
+    });
   }
 
   handleSort = sortColumn => {

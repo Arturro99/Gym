@@ -13,7 +13,7 @@ public interface TrainingPlanRequestPostMapper extends
     BaseRequestMapper<TrainingPlanRequestPost, TrainingPlan> {
 
     @Override
-    @Mapping(target = "trainer.login", source = "trainer")
-    @Mapping(target = "trainingType.name", source = "trainingType")
+    @Mapping(source = "title", target = "name")
+    @Mapping(source = "trainingPlanNumber", target = "number")
     TrainingPlan toDomainModel(TrainingPlanRequestPost dtoModel);
 }

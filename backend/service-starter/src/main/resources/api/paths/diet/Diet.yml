@@ -30,4 +30,4 @@ post:
       content:
         application/json:
           schema:
-            $ref: '../../schemas/diet/DietResponse.yml#/components/schemas/DietResponse'
+            $ref: '../../schemas/diet/DietDetailsResponse.yml#/components/schemas/DietDetailsResponse'

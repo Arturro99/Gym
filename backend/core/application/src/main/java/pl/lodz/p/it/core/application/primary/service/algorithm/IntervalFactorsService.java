@@ -15,13 +15,15 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.core.domain.Account;
+import pl.lodz.p.it.core.domain.Activity;
 import pl.lodz.p.it.core.domain.Booking;
 import pl.lodz.p.it.core.port.secondary.AccountRepositoryPort;
+import pl.lodz.p.it.core.port.secondary.ActivityRepositoryPort;
 import pl.lodz.p.it.core.port.secondary.BookingRepositoryPort;
 
 /**
- * Service responsible for handling interval-side algorithm's factors like presence/absence at
- * particular activities and gym membership.
+ * Service responsible for handling interval-side algorithm's factors like absence at particular
+ * activities, gym membership and third party-side like presence at activities.
  */
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -32,21 +34,22 @@ public class IntervalFactorsService {
 
     final BookingRepositoryPort bookingRepositoryPort;
 
+    final ActivityRepositoryPort activityRepositoryPort;
+
     @Value("${algorithm.activity.absence}")
     float absenceFactor;
-
-    @Value("${algorithm.activity.presence}")
-    float presenceFactor;
 
     @Value("${algorithm.membership}")
     float membershipFactor;
 
     @Autowired
     public IntervalFactorsService(AccountRepositoryPort accountRepositoryPort,
-        BookingRepositoryPort bookingRepositoryPort) {
+        BookingRepositoryPort bookingRepositoryPort,
+        ActivityRepositoryPort activityRepositoryPort) {
 
         this.accountRepositoryPort = accountRepositoryPort;
         this.bookingRepositoryPort = bookingRepositoryPort;
+        this.activityRepositoryPort = activityRepositoryPort;
     }
 
     /**
@@ -73,7 +76,7 @@ public class IntervalFactorsService {
     @Scheduled(cron = "${algorithm.cron.presence}")
     public void scheduleActivityPresenceVerification() {
         punishAccounts();
-        rewardAccounts();
+//        rewardAccounts();
     }
 
     //Method responsible for decreasing loyalty factor for accounts that have active and not completed
@@ -82,15 +85,21 @@ public class IntervalFactorsService {
         List<Booking> activeAndNotCompletedBookings = bookingRepositoryPort
             .findAllByActiveTrueAndCompletedFalse();
 
-        List<Booking> bookingsWithAbsence = activeAndNotCompletedBookings.stream()
-            .filter(booking -> booking.getActivity().getStartDate()
-                .plus(booking.getActivity().getDuration(), ChronoUnit.MINUTES)
+        List<Activity> activitiesWithAbsence = activeAndNotCompletedBookings.stream()
+            .map(booking -> activityRepositoryPort.find(booking.getActivity()))
+            .filter(activity -> activity.getStartDate()
+                .plus(activity.getDuration(), ChronoUnit.MINUTES)
                 .isBefore(OffsetDateTime.now()))
+            .collect(Collectors.toList());
+
+        List<Booking> bookingsWithAbsence = activitiesWithAbsence.stream()
+            .map(activity -> bookingRepositoryPort.find(activity.getNumber()))
             .filter(booking -> !booking.getPending())
             .collect(Collectors.toList());
 
         List<Account> accountsToPunish = bookingsWithAbsence.stream()
             .map(Booking::getAccount)
+            .map(accountRepositoryPort::find)
             .collect(Collectors.toList());
 
         accountsToPunish.forEach(account -> {
@@ -99,27 +108,6 @@ public class IntervalFactorsService {
             }
         );
         bookingsWithAbsence.forEach(booking -> {
-            booking.setActive(false);
-            bookingRepositoryPort.update(booking.getNumber(), booking);
-        });
-    }
-
-    //Method responsible for increasing loyalty factor for accounts that have active and completed
-    //bookings.
-    private void rewardAccounts() {
-        List<Booking> activeAndCompletedBookings = bookingRepositoryPort
-            .findAllByActiveTrueAndCompletedTrue();
-
-        List<Account> accountsToReward = activeAndCompletedBookings.stream()
-            .map(Booking::getAccount)
-            .collect(Collectors.toList());
-
-        accountsToReward.forEach(account -> {
-                account.setLoyaltyFactor(account.getLoyaltyFactor() * presenceFactor);
-                accountRepositoryPort.update(account.getLogin(), account);
-            }
-        );
-        activeAndCompletedBookings.forEach(booking -> {
             booking.setActive(false);
             bookingRepositoryPort.update(booking.getNumber(), booking);
         });

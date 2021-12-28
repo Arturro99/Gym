@@ -9,7 +9,7 @@ components:
   schemas:
     ActivityRequestPut:
       properties:
-        name:
+        title:
           type: string
         startDate:
           type: string
@@ -17,8 +17,6 @@ components:
         duration:
           type: integer
           minimum: 1
-        trainer:
-          type: string
         active:
           type: boolean
         capacity:

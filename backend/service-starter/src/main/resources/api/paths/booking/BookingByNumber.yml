@@ -17,33 +17,49 @@ bookingNumber:
         content:
           application/json:
             schema:
-              $ref: '../../schemas/booking/BookingResponse.yml#/components/schemas/BookingResponse'
+              $ref: '../../schemas/booking/BookingDetailsResponse.yml#/components/schemas/BookingDetailsResponse'
 
+cancel:
   put:
     tags:
       - booking
-    summary: Update booking
-    description: Update existing booking with given number
-    operationId: updateBooking
+    summary: Cancel booking
+    description: Cancel the particular booking
+    operationId: cancelBooking
     parameters:
       - in: path
         name: number
         schema:
           type: string
         required: true
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '../../schemas/booking/BookingRequestPut.yml#/components/schemas/BookingRequestPut'
     responses:
       200:
         description: Operation successful
         content:
           application/json:
             schema:
-              $ref: '../../schemas/booking/BookingResponse.yml#/components/schemas/BookingResponse'
+              $ref: '../../schemas/booking/BookingDetailsResponse.yml#/components/schemas/BookingDetailsResponse'
+
+complete:
+  put:
+    tags:
+      - booking
+    summary: Complete booking
+    description: Complete the particular booking when activity is finished. Should be invoked by the third party service.
+    operationId: completeBooking
+    parameters:
+      - in: path
+        name: number
+        schema:
+          type: string
+        required: true
+    responses:
+      200:
+        description: Operation successful
+        content:
+          application/json:
+            schema:
+              $ref: '../../schemas/booking/BookingDetailsResponse.yml#/components/schemas/BookingDetailsResponse'
 
 clientLogin:
   get:

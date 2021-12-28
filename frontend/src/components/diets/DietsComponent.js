@@ -1,9 +1,12 @@
 import { withTranslation } from "react-i18next";
 import '../../locales/i18n';
 import { Link } from "react-router-dom";
-import { Diet } from "../../model/Diet";
 import { Component } from "react";
 import DietsTable from "./DietsTable";
+import { deleteDiet, getDiets } from "../../services/DietService";
+import { applyForDiet } from "../../services/AccountService";
+import { getCurrentUser } from "../../services/AuthenticationService";
+import keys from "../../errorKeys.json";
 
 class DietsComponent extends Component {
 
@@ -16,43 +19,33 @@ class DietsComponent extends Component {
 
   paginatedDiets = {};
 
-  componentDidMount() {
-    const die1 = new Diet(
-        'DIE001',
-        'Niskoweglowodanowa',
-        'Low-carbohydrate',
-        1500,
-        3,
-        1100
-    )
-    const die2 = new Diet(
-        'DIE002',
-        'Wysokobiałkowa',
-        'High-protein',
-        3200,
-        4,
-        1800
-    )
+  async componentDidMount() {
+    const diets = await getDiets();
     this.setState({
-      diets: [die1, die2]
+      diets: diets
     })
   }
 
-  handleDelete = diet => {
-    const originalDiets = this.state.diets;
-    const currentDiets = originalDiets.filter(
-        die => die.number !== diet.number);
-    this.setState({ diets: currentDiets });
-
-    //TODO implement deletion
+  handleDelete = async diet => {
+    const { t } = this.props;
+    await deleteDiet(diet.number, t).then(resp => {
+      if (resp && resp.status === 200) {
+        const originalDiets = this.state.diets;
+        const currentDiets = originalDiets.filter(
+            die => die.number !== diet.number);
+        this.setState({ diets: currentDiets });
+      }
+    }).catch(async ex => {
+      if (ex && ex.response.data.error.errorKey === keys.DIET_NOT_FOUND_ERROR) {
+        const currentDiets = await getDiets();
+        this.setState({ diets: currentDiets });
+      }
+    });
   }
 
-  handleUpdate = diet => {
-    //TODO implement diet update
-  }
-
-  handleApply = diet => {
-    //TODO implement appliance for diet
+  handleApply = async diet => {
+    const { t } = this.props;
+    await applyForDiet(diet.number, getCurrentUser(), t);
   }
 
   handleSort = sortColumn => {

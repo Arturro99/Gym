@@ -21,10 +21,16 @@ import BookingsComponent from "./bookings/BookingsComponent";
 import MyBookingsComponent from "./bookings/MyBookingsComponent";
 import ActivityDetails from "./activities/ActivityDetails";
 import AccessLevelModal from "./accounts/AccessLevelModal";
-import { Modal } from "bootstrap";
 import BookingDetails from "./bookings/BookingDetails";
 import MyAccountComponent from "./accounts/MyAccountDetails";
 import MyAccountDetails from "./accounts/MyAccountDetails";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
+import { Modal } from "bootstrap";
+import {
+  getCurrentRole,
+  getCurrentUser, getRoles, signOut, switchCurrentRole
+} from "../services/AuthenticationService";
 //DO NOT REMOVE THIS -> MODAL WON'T WORK WITHOUT IT
 
 class MainComponent extends Component {
@@ -40,22 +46,39 @@ class MainComponent extends Component {
       { path: "/register", value: `${this.props.t('register')}` }
     ],
     data: {
-      login: 'halo',
-      roles: ['trainer', 'client', 'admin'],
-      currentRole: 'admin'
+      login: '',
+      roles: [],
+      currentRole: '',
     }
   }
 
+  componentDidMount() {
+    this.resetData();
+    const myModalEl = document.getElementById('loginModal')
+    myModalEl.addEventListener('hidden.bs.modal', () => {
+      console.log(getCurrentUser())
+      if (getCurrentUser()) {
+        this.resetData();
+      }
+    })
+  }
+
   handleChangeRoleClick = role => {
-    let newData = { ...this.state.data };
-    newData.currentRole = role;
-    this.setState({ data: newData });
+    switchCurrentRole(role);
+    this.resetData();
   }
 
   handleSignOutClick = () => {
-    let newData = { ...this.state.data };
-    newData.login = '';
-    this.setState({ data: newData });
+    signOut();
+    this.resetData();
+  }
+
+  resetData = () => {
+    let currentData = { ...this.state.data };
+    currentData.login = getCurrentUser()
+    currentData.roles = getRoles()
+    currentData.currentRole = getCurrentRole()
+    this.setState({ data: currentData });
   }
 
   render() {
@@ -66,7 +89,8 @@ class MainComponent extends Component {
                          data={data}
                          onChangeRoleClick={this.handleChangeRoleClick}
                          onSignOutClick={this.handleSignOutClick}/>
-          <LoginForm/>
+          <LoginForm resetData={this.resetData}/>
+          <ToastContainer />
           <AccessLevelModal accessLevels={data.roles}/>
           <main className="container">
             <Switch>

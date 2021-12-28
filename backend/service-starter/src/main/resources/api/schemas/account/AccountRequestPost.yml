@@ -15,7 +15,6 @@ components:
         - firstName
         - lastName
         - language
-        - gymMember
       properties:
         login:
           type: string
@@ -31,8 +30,6 @@ components:
         language:
           type: string
           maxLength: 5
-        gymMember:
-          type: boolean
         phoneNumber:
           type: number
-          pattern: "^[0-9]{9}$"
+          pattern: "^[0-9]{9,12}$"

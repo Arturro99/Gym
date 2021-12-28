@@ -1,0 +1,13 @@
+openapi: 3.0.0
+info:
+  description: BookingDetailsResponse model
+  title: BookingDetailsResponse model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    BookingDetailsResponse:
+      allOf:
+        - $ref: '../BaseDto.yml#/components/schemas/BaseDto'
+        - $ref: 'BookingResponse.yml#/components/schemas/BookingResponse'

@@ -18,6 +18,7 @@ import pl.lodz.p.it.core.shared.constant.Level;
 import pl.lodz.p.it.core.shared.exception.AccessLevelException;
 import pl.lodz.p.it.core.shared.exception.AccountException;
 import pl.lodz.p.it.core.shared.exception.ActivityException;
+import pl.lodz.p.it.core.shared.exception.BookingAvoidableException;
 import pl.lodz.p.it.core.shared.exception.BookingException;
 import pl.lodz.p.it.repositoryhibernate.entity.AccessLevelEntity;
 import pl.lodz.p.it.repositoryhibernate.entity.AccountEntity;
@@ -32,7 +33,8 @@ import pl.lodz.p.it.repositoryhibernate.repository.BookingRepository;
  * Service class responsible for operating on booking repository.
  */
 @Service
-@Transactional(propagation = MANDATORY, isolation = READ_COMMITTED, timeout = 3)
+@Transactional(propagation = MANDATORY, isolation = READ_COMMITTED, timeout = 3,
+    noRollbackFor = BookingAvoidableException.class)
 @Retryable(exclude = {BookingException.class, AccountException.class},
     maxAttemptsExpression = "${retry.maxAttempts}",
     backoff = @Backoff(delayExpression = "${retry.maxDelay}"))
@@ -85,7 +87,7 @@ public class BookingRepositoryService extends
             .orElseThrow(ActivityException::activityNotFoundException);
         return Optional
             .of(mapper.toDomainModel(bookingRepository.findByAccountAndActivity(client, activity)
-                .orElseThrow(BookingException::bookingNotFoundException)));
+                .orElseThrow(BookingAvoidableException::bookingNotFoundException)));
     }
 
     @Override
@@ -112,26 +114,24 @@ public class BookingRepositoryService extends
     @Override
     public Booking save(Booking booking) {
         AccountEntity account = accountRepository.findByBusinessId(
-            booking.getAccount().getLogin())
+            booking.getAccount())
             .orElseThrow(AccountException::accountNotFoundException);
         if (!hasClientRole(account)) {
             throw AccessLevelException.illegalAccessLevel();
         }
 
         ActivityEntity activity = activityRepository
-            .findByBusinessId(booking.getActivity().getNumber())
+            .findByBusinessId(booking.getActivity())
             .orElseThrow(ActivityException::activityNotFoundException);
         if (isActivityCompleted(activity)) {
             throw ActivityException.activityExpiredException();
         }
 
-        if (bookingRepository.findByAccountAndActivity(account, activity).isPresent()) {
-            throw BookingException.bookingConflictException();
-        }
-
         BookingEntity entity = repository.instantiate();
         entity = mapper.toEntityModel(entity, booking);
         entity.setBusinessId(generateNumber());
+        entity.setAccount(account);
+        entity.setActivity(activity);
 
         BookingEntity savedEntity = repository.save(entity);
         return mapper.toDomainModel(savedEntity);
@@ -144,6 +144,37 @@ public class BookingRepositoryService extends
         BookingEntity updated = mapper
             .toEntityModel(entity, booking);
         BookingEntity response = repository.save(updated);
+        return mapper.toDomainModel(response);
+    }
+
+    @Override
+    public Booking cancelBooking(String number) {
+        BookingEntity entity = repository.findByBusinessId(number).orElseThrow(
+            BookingException::bookingNotFoundException);
+        Booking booking = Booking.builder()
+            .active(false)
+            .build();
+
+        BookingEntity updated = mapper
+            .toEntityModel(entity, booking);
+        BookingEntity response = repository.save(updated);
+
+        return mapper.toDomainModel(response);
+    }
+
+    @Override
+    public Booking completeBooking(String number) {
+        BookingEntity entity = repository.findByBusinessId(number).orElseThrow(
+            BookingException::bookingNotFoundException);
+        Booking booking = Booking.builder()
+            .completed(true)
+            .active(false)
+            .build();
+
+        BookingEntity updated = mapper
+            .toEntityModel(entity, booking);
+        BookingEntity response = repository.save(updated);
+
         return mapper.toDomainModel(response);
     }
 

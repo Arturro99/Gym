@@ -21,13 +21,25 @@ public interface BookingMapper extends BaseMapper<BookingEntity, Booking> {
 
     @Override
     @Mapping(source = "businessId", target = "number")
+    @Mapping(source = "modifiedBy.businessId", target = "modifiedBy")
+    @Mapping(source = "createdBy.businessId", target = "createdBy")
+    @Mapping(source = "account.businessId", target = "account")
+    @Mapping(source = "activity.businessId", target = "activity")
     Booking toDomainModel(BookingEntity entityModel);
 
     @Override
     @Mapping(source = "number", target = "businessId")
+    @Mapping(source = "modifiedBy", target = "modifiedBy.businessId")
+    @Mapping(source = "createdBy", target = "createdBy.businessId")
+    @Mapping(source = "account", target = "account.businessId")
+    @Mapping(source = "activity", target = "activity.businessId")
     BookingEntity toEntityModel(Booking domainModel);
 
     @Override
     @Mapping(source = "number", target = "businessId")
+    @Mapping(source = "modifiedBy", target = "modifiedBy.businessId")
+    @Mapping(source = "createdBy", target = "createdBy.businessId")
+    @Mapping(source = "account", target = "account.businessId")
+    @Mapping(source = "activity", target = "activity.businessId")
     BookingEntity toEntityModel(@MappingTarget BookingEntity entityModel, Booking domainModel);
 }

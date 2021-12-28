@@ -20,4 +20,10 @@
   <include file="../data/accessLevelData.xml" relativeToChangelogFile="true"/>
   <include file="../data/dietTypeData.xml" relativeToChangelogFile="true"/>
   <include file="../data/trainingTypeData.xml" relativeToChangelogFile="true"/>
+  <include file="../data/dietData.xml" relativeToChangelogFile="true"/>
+  <include file="../data/trainingPlanData.xml" relativeToChangelogFile="true"/>
+  <include file="../data/activityData.xml" relativeToChangelogFile="true"/>
+  <include file="../data/bookingData.xml" relativeToChangelogFile="true"/>
+  <include file="../data/accountDietData.xml" relativeToChangelogFile="true"/>
+  <include file="../data/accountTrainingPlanData.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

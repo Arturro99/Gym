@@ -1,27 +1,41 @@
 import { Link, NavLink } from 'react-router-dom'
 import React from "react";
 import { withTranslation } from "react-i18next";
+import {
+  getCurrentRole,
+  getCurrentUser,
+  getRoles
+} from "../../services/AuthenticationService";
+import config from '../../config.json'
 
 const NavigationBar = (props) => {
 
   const { headers, data, onChangeRoleClick, onSignOutClick, t } = props;
   const mainHeaders = headers.filter(
       header => header.path !== '/login' && header.path !== '/register');
+  const trainerHeaders = mainHeaders.filter(
+      header => header.path !== '/accounts');
+  const clientHeaders = trainerHeaders.filter(
+      header => header.path !== '/bookings');
   const loginHeader = headers.filter(header => header.path === '/login');
   const registerHeader = headers.filter(header => header.path === '/register');
 
+  const renderedHeaders = getCurrentRole() === config.ADMIN ? mainHeaders :
+      getCurrentRole() === config.TRAINER ? trainerHeaders :
+          getCurrentRole() === config.CLIENT ? clientHeaders : '';
   return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <Link className="navbar-brand" to="/">GymManiac</Link>
-        <ul className="navbar-nav ms-sm-5">
-          {mainHeaders.map(header =>
-              <li className="nav-item mx-lg-5">
-                <NavLink to={header.path}
-                         className="nav-link">{header.value}</NavLink>
-              </li>
-          )}
-        </ul>
-        {data.login === '' ?
+        {getCurrentRole() ?
+            <ul className="navbar-nav ms-sm-5">
+              {renderedHeaders.map(header =>
+                  <li className="nav-item mx-lg-5">
+                    <NavLink to={header.path}
+                             className="nav-link">{header.value}</NavLink>
+                  </li>
+              )}
+            </ul> : ''}
+        {getCurrentUser() === '' ?
             <ul className="navbar-nav ms-auto me-5">
               {registerHeader.map(header =>
                   <li className="nav-item mx-lg-2">
@@ -42,8 +56,8 @@ const NavigationBar = (props) => {
                 <ul className="navbar-nav">
                   <li className="nav-item dropdown">
                     <li className="nav-link dropdown-toggle"
-                       id="navbarDarkDropdownMenuLink" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
+                        id="navbarDarkDropdownMenuLink" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
                       {data.currentRole}
                     </li>
                     <ul className="dropdown-menu dropdown-menu-dark dropdown-menu-end text"

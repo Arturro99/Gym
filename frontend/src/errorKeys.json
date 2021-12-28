@@ -1,0 +1,22 @@
+{
+  "DIET_CONFLICT_ERROR": "error.diet.conflict",
+  "DIET_NOT_FOUND_ERROR": "error.diet.notFound",
+  "TRAINING_PLAN_CONFLICT_ERROR": "error.trainingPlan.conflict",
+  "TRAINING_PLAN_CONFLICT_TRAINER_ERROR": "error.trainingPlan.trainer.conflict",
+  "TRAINING_PLAN_NOT_FOUND_ERROR": "error.diet.notFound",
+
+  "ACCOUNT_CONFLICT_ERROR": "error.account.conflict",
+  "ACCOUNT_NOT_FOUND_ERROR": "error.account.notFound",
+
+  "ACCESS_LEVEL_INAPPROPRIATE": "error.accessLevel.badRequest",
+
+  "ACTIVITY_CONFLICT_ERROR": "error.activity.conflict",
+  "ACTIVITY_NOT_FOUND_ERROR": "error.activity.notFound",
+
+  "BOOKING_CONFLICT_ERROR": "error.booking.conflict",
+  "BOOKING_CONFLICT_CANCELLATION_ERROR": "error.booking.cancellation.conflict",
+  "BOOKING_CONFLICT_COMPLETION_ERROR": "error.booking.completion.conflict",
+
+
+  "CONSTRAINT_VIOLATION": "error.general.constraintViolation"
+}

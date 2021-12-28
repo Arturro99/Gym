@@ -9,17 +9,17 @@ components:
   schemas:
     ActivityRequestPost:
       required:
-        - number
-        - name
+        - activityNumber
+        - title
         - startDate
         - duration
         - trainer
         - capacity
       properties:
-        number:
+        activityNumber:
           type: string
           pattern: "^ACT[0-9]{3}$"
-        name:
+        title:
           type: string
         startDate:
           type: string

@@ -1,0 +1,6 @@
+{
+  "apiUrl": "http://localhost:8080",
+  "ADMIN": "ADMIN",
+  "CLIENT": "CLIENT",
+  "TRAINER": "TRAINER"
+}

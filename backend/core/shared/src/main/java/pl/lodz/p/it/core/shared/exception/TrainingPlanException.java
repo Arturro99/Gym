@@ -18,9 +18,29 @@ public class TrainingPlanException extends BaseException {
             .notFound("Required training plan not found!", ErrorKey.TRAINING_PLAN_NOT_FOUND_ERROR));
     }
 
-    public static TrainingPlanException trainingPlanConflictException() {
+    public static TrainingPlanException existingTrainingPlanConflictException() {
         return new TrainingPlanException(
             ConflictException
-                .conflict("Training is being used!", ErrorKey.TRAINING_PLAN_CONFLICT_ERROR));
+                .conflict("Training plan already exists!", ErrorKey.TRAINING_PLAN_CONFLICT_ERROR));
+    }
+
+    public static TrainingPlanException inUseTrainingPlanConflictException() {
+        return new TrainingPlanException(
+            ConflictException
+                .conflict("Training plan is being used!", ErrorKey.TRAINING_PLAN_CONFLICT_ERROR));
+    }
+
+    public static TrainingPlanException possessedTrainingPlanConflictException() {
+        return new TrainingPlanException(
+            ConflictException
+                .conflict("User already possesses the training plan!",
+                    ErrorKey.TRAINING_PLAN_CONFLICT_ERROR));
+    }
+
+    public static TrainingPlanException trainerTrainingPlanConflictException() {
+        return new TrainingPlanException(
+            ConflictException
+                .conflict("The trainer runs provided training plan!",
+                    ErrorKey.TRAINING_PLAN_CONFLICT_TRAINER_ERROR));
     }
 }

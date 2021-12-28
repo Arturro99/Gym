@@ -1,0 +1,13 @@
+openapi: 3.0.0
+info:
+  description: DietDetailsResponse model
+  title: DietDetailsResponse model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    DietDetailsResponse:
+      allOf:
+        - $ref: '../BaseDto.yml#/components/schemas/BaseDto'
+        - $ref: 'DietResponse.yml#/components/schemas/DietResponse'

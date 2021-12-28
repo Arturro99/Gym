@@ -22,7 +22,7 @@ public class DisposableUrl extends BaseModel {
     @Size(min = 32, max = 32)
     private String url;
 
-    private Account account;
+    private String account;
 
     @NotBlank
     @UrlActions(enumClass = UrlAction.class)
@@ -34,7 +34,7 @@ public class DisposableUrl extends BaseModel {
     @Future
     private OffsetDateTime expireDate;
 
-    private Account modifiedBy;
+    private String modifiedBy;
 
-    private Account createdBy;
+    private String createdBy;
 }

@@ -13,7 +13,7 @@ public interface TrainingPlanRequestPutMapper extends
     BaseRequestMapper<TrainingPlanRequestPut, TrainingPlan> {
 
     @Override
-    @Mapping(target = "trainer.login", source = "trainer")
-    @Mapping(target = "trainingType.name", source = "trainingType")
+    @Mapping(source = "title", target = "name")
+    @Mapping(target = "trainingType", source = "trainingType.value")
     TrainingPlan toDomainModel(TrainingPlanRequestPut dtoModel);
 }

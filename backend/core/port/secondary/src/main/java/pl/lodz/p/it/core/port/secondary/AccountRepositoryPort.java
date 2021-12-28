@@ -1,6 +1,9 @@
 package pl.lodz.p.it.core.port.secondary;
 
+import java.util.Set;
 import pl.lodz.p.it.core.domain.Account;
+import pl.lodz.p.it.core.domain.Diet;
+import pl.lodz.p.it.core.domain.TrainingPlan;
 
 /**
  * Interface responsible for integrating account repository with services.
@@ -44,4 +47,20 @@ public interface AccountRepositoryPort extends BaseRepositoryPort<Account> {
      * @param loyaltyFactor The value of updated loyalty factor by adding a ne training plan
      */
     void removeDiet(String login, String dietNumber, float loyaltyFactor);
+
+    /**
+     * Method responsible for retrieving user's diets.
+     *
+     * @param login User's business identifier
+     * @return List of diets.
+     */
+    Set<Diet> getDiets(String login);
+
+    /**
+     * Method responsible for retrieving user's training plans.
+     *
+     * @param login User's business identifier
+     * @return List of training plans.
+     */
+    Set<TrainingPlan> getTrainingPlans(String login);
 }

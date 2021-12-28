@@ -8,6 +8,7 @@ public final class ErrorKey {
     public static final String NOT_FOUND_ERROR = "error.general.notFound";
     public static final String CONFLICT_ERROR = "error.general.conflict";
     public static final String CONSTRAINT_VIOLATION = "error.general.constraintViolation";
+    public static final String INTERNAL_SERVER_ERROR = "error.general.internalServerError";
 
     public static final String ACCESS_LEVEL_NOT_FOUND_ERROR = "error.accessLevel.notFound";
     public static final String ACCESS_LEVEL_BAD_REQUEST_ERROR = "error.accessLevel.badRequest";
@@ -20,6 +21,8 @@ public final class ErrorKey {
 
     public static final String BOOKING_NOT_FOUND_ERROR = "error.booking.notFound";
     public static final String BOOKING_CONFLICT_ERROR = "error.booking.conflict";
+    public static final String BOOKING_CONFLICT_CANCELLATION_ERROR = "error.booking.cancellation.conflict";
+    public static final String BOOKING_CONFLICT_COMPLETION_ERROR = "error.booking.completion.conflict";
 
     public static final String DIET_NOT_FOUND_ERROR = "error.diet.notFound";
     public static final String DIET_CONFLICT_ERROR = "error.diet.conflict";
@@ -31,9 +34,11 @@ public final class ErrorKey {
 
     public static final String TRAINING_PLAN_NOT_FOUND_ERROR = "error.trainingPlan.notFound";
     public static final String TRAINING_PLAN_CONFLICT_ERROR = "error.trainingPlan.conflict";
+    public static final String TRAINING_PLAN_CONFLICT_TRAINER_ERROR = "error.trainingPlan.trainer.conflict";
 
     public static final String TRAINING_TYPE_NOT_FOUND_ERROR = "error.trainingType.notFound";
 
     public static final String JWT_EXPIRED = "error.jwt.expired";
+    public static final String ACCOUNT_INACTIVE = "error.account.inactive";
 
 }

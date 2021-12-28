@@ -2,6 +2,10 @@ import Details from "../common/Details";
 import { withTranslation } from "react-i18next";
 import { Activity } from "../../model/Activity";
 import UpdateActivityModal from "./UpdateActivityModal";
+import { parseFromOffsetDateTimeToLegibleFormat } from "../../services/DateParser";
+import { getCurrentRole } from "../../services/AuthenticationService";
+import config from "../../config.json";
+import { getActivity } from "../../services/ActivityService";
 
 class ActivityDetails extends Details {
 
@@ -11,16 +15,34 @@ class ActivityDetails extends Details {
     }
   }
 
-  componentDidMount() {
-    const pathParam = this.props.match.params.number;
-    let currentState = { ...this.state };
-    currentState.data.activity.number = pathParam;
-    currentState.data.activity._name = 'Pobiegamy, poskaczemy';
-    currentState.data.activity.trainer = 'trener';
-    currentState.data.activity.startDate = '08-12-2021, 08:00';
-    this.setState({ currentState });
+  async componentDidMount() {
+    await this.updateDetails();
 
-    //TODO Populate details
+    const myModalEl = document.getElementById('updateActivityModal')
+    myModalEl.addEventListener('hidden.bs.modal', () => {
+      this.updateDetails();
+    })
+  }
+
+  async updateDetails() {
+    const pathParam = this.props.match.params.number;
+    const { t } = this.props;
+    let currentState = { ...this.state };
+    const fetched = await getActivity(pathParam);
+    currentState.data.activity = new Activity(
+        fetched.number,
+        fetched.title,
+        parseFromOffsetDateTimeToLegibleFormat(fetched.startDate),
+        fetched.duration,
+        fetched.trainer,
+        fetched.active ? t('active') : t('inactive'),
+        fetched.capacity,
+        fetched.modifiedBy,
+        fetched.createdBy,
+        parseFromOffsetDateTimeToLegibleFormat(fetched.creationDate),
+        parseFromOffsetDateTimeToLegibleFormat(fetched.modificationDate)
+    );
+    this.setState({ currentState });
   }
 
   render() {
@@ -30,23 +52,26 @@ class ActivityDetails extends Details {
           <UpdateActivityModal activity={this.state.data.activity}/>
           <div className="card-header">
             <h1>{t('activityDetails')}</h1>
-            {this.renderUpdateButton('updateActivityModal', t('update'))}
+            {getCurrentRole() === config.TRAINER ?
+                this.renderUpdateButton('updateActivityModal', t('update'))
+                : ''}
           </div>
           {this.renderField('number', t('number'),
               this.state.data.activity)}
-          {this.renderField('_name', t('name'), this.state.data.activity)}
+          {this.renderField('title', t('name'), this.state.data.activity)}
           {this.renderField('startDate', t('startDate'),
               this.state.data.activity)}
           {this.renderField('duration',
               t('duration'), this.state.data.activity)}
           {this.renderField('trainer', t('trainer'),
-              this.state.data.activity)}
+              this.state.data.activity, true)}
           {this.renderField('active', t('active'), this.state.data.activity)}
-          {this.renderField('capacity', t('capacity'), this.state.data.activity)}
+          {this.renderField('capacity', t('capacity'),
+              this.state.data.activity)}
           {this.renderField('createdBy', t('createdBy'),
-              this.state.data.activity)}
+              this.state.data.activity, true)}
           {this.renderField('modifiedBy', t('modifiedBy'),
-              this.state.data.activity)}
+              this.state.data.activity, true)}
           {this.renderField('creationDate', t('creationDate'),
               this.state.data.activity)}
           {this.renderField('modificationDate', t('modificationDate'),

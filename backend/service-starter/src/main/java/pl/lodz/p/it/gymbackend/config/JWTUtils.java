@@ -8,6 +8,7 @@ import pl.lodz.p.it.core.shared.SecurityConstants;
 
 import java.util.Date;
 import java.util.function.Function;
+import pl.lodz.p.it.core.shared.exception.SecurityException;
 
 @Component
 public class JWTUtils {
@@ -21,6 +22,9 @@ public class JWTUtils {
     }
 
     public boolean validateToken(String token, UserDetails userDetails) {
+        if (!userDetails.isAccountNonLocked()) {
+            throw SecurityException.accountInactiveException();
+        }
         String login = extractUsername(token);
         return (login.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }

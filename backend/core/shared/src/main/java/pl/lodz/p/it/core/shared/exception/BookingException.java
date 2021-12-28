@@ -21,6 +21,27 @@ public class BookingException extends BaseException {
     public static BookingException bookingConflictException() {
         return new BookingException(
             ConflictException
-                .conflict("Booking already exists!", ErrorKey.BOOKING_CONFLICT_ERROR));
+                .conflict("Booking already exists and is active!",
+                    ErrorKey.BOOKING_CONFLICT_ERROR));
+    }
+
+    public static BookingException possessedBookingConflictException() {
+        return new BookingException(
+            ConflictException
+                .conflict("User already possesses the booking!", ErrorKey.BOOKING_CONFLICT_ERROR));
+    }
+
+    public static BookingException bookingCancellationDeadlineException() {
+        return new BookingException(
+            ConflictException
+                .conflict("Booking can no longer be cancelled!",
+                    ErrorKey.BOOKING_CONFLICT_CANCELLATION_ERROR));
+    }
+
+    public static BookingException bookingCompletionException() {
+        return new BookingException(
+            ConflictException
+                .conflict("Cannot complete booking before the start of activity!",
+                    ErrorKey.BOOKING_CONFLICT_COMPLETION_ERROR));
     }
 }

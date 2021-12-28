@@ -5,7 +5,9 @@ import static org.springframework.transaction.annotation.Isolation.READ_COMMITTE
 import static org.springframework.transaction.annotation.Propagation.MANDATORY;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.validation.ConstraintViolationException;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.retry.annotation.Backoff;
@@ -33,7 +35,8 @@ import pl.lodz.p.it.repositoryhibernate.repository.BookingRepository;
  */
 @Service
 @Transactional(propagation = MANDATORY, isolation = READ_COMMITTED, timeout = 3)
-@Retryable(exclude = {ActivityException.class, AccountException.class},
+@Retryable(exclude = {ActivityException.class, AccountException.class,
+    ConstraintViolationException.class},
     maxAttemptsExpression = "${retry.maxAttempts}",
     backoff = @Backoff(delayExpression = "${retry.maxDelay}"))
 @FieldDefaults(level = PRIVATE, makeFinal = true)
@@ -79,13 +82,13 @@ public class ActivityRepositoryService extends
     @Override
     public Activity save(Activity activity) {
         if (activityRepository.findByBusinessId(activity.getNumber()).isPresent()) {
-            throw ActivityException.activityConflictException();
+            throw ActivityException.existingActivityConflictException();
         }
         ActivityEntity entity = repository.instantiate();
         entity = mapper.toEntityModel(entity, activity);
 
         AccountEntity accountEntity = accountRepository.findByBusinessId(
-            activity.getTrainer().getLogin())
+            activity.getTrainer())
             .orElseThrow(AccountException::accountNotFoundException);
         if (!hasTrainerRole(accountEntity)) {
             throw AccessLevelException.illegalAccessLevel();
@@ -102,14 +105,14 @@ public class ActivityRepositoryService extends
             ActivityException::activityNotFoundException);
         if (bookingRepository.findAllByActivity(entity).stream()
             .anyMatch(BookingEntity::getActive) && activity.getCapacity() != null) {
-            throw ActivityException.activityConflictException();
+            throw ActivityException.inUseActivityConflictException();
         }
         ActivityEntity updated = mapper
             .toEntityModel(entity, activity);
 
-        if (activity.getTrainer().getLogin() != null) {
+        if (Optional.ofNullable(activity.getTrainer()).isPresent()) {
             AccountEntity accountEntity = accountRepository.findByBusinessId(
-                activity.getTrainer().getLogin())
+                activity.getTrainer())
                 .orElseThrow(AccountException::accountNotFoundException);
             if (!hasTrainerRole(accountEntity)) {
                 throw AccessLevelException.illegalAccessLevel();
@@ -126,7 +129,7 @@ public class ActivityRepositoryService extends
         ActivityEntity entity = repository.findByBusinessId(key)
             .orElseThrow(ActivityException::activityNotFoundException);
         if (entity.getActive()) {
-            throw ActivityException.activityConflictException();
+            throw ActivityException.activeActivityConflictException();
         }
         repository.delete(entity);
     }

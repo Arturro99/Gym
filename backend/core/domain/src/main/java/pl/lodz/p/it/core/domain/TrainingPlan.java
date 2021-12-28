@@ -17,17 +17,17 @@ public class TrainingPlan extends BaseModel {
 
     private String name;
 
-    private TrainingType trainingType;
+    private String trainingType;
 
     @Range(min = 0)
     private Integer personalTrainingsNumber;
 
-    private Account trainer;
+    private String trainer;
 
     @Range(min = 1)
     private Double price;
 
-    private Account modifiedBy;
+    private String modifiedBy;
 
-    private Account createdBy;
+    private String createdBy;
 }

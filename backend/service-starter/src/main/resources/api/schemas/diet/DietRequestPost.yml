@@ -9,17 +9,17 @@ components:
   schemas:
     DietRequestPost:
       required:
-        - number
-        - name
+        - dietNumber
+        - title
         - dietType
         - calories
         - meals_number
         - price
       properties:
-        number:
+        dietNumber:
           type: string
           pattern: "^DIE[0-9]{3}$"
-        name:
+        title:
           type: string
         dietType:
           type: string

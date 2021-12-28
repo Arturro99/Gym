@@ -3,15 +3,19 @@ import { withTranslation } from "react-i18next";
 import Dropdown from "../common/Dropdown";
 import Joi from "joi";
 import { TrainingType } from "../../model/TrainingType";
+import {
+  getTrainingPlan,
+  updateTrainingPlan
+} from "../../services/TrainingPlanService";
 
 class UpdateTrainingPlanModal extends Form {
 
   state = {
     data: {
-      _name: this.props.trainingPlan._name,
-      trainingType: this.props.trainingPlan.trainingType,
-      personalTrainingsNumber: this.props.trainingPlan.personalTrainingsNumber,
-      price: this.props.trainingPlan.price
+      title: '',
+      trainingType: '',
+      personalTrainingsNumber: '',
+      price: ''
     },
     trainingTypes: [],
     modalId: 'updateTrainingPlanModal',
@@ -20,14 +24,14 @@ class UpdateTrainingPlanModal extends Form {
   }
 
   fieldRestrictions = {
-    _name: Joi.string().required(),
+    title: Joi.string().required(),
     trainingType: Joi.any().required(),
     personalTrainingsNumber: Joi.number().min(0).required(),
     price: Joi.number().min(1).required()
   }
 
   schema = Joi.object({
-    _name: this.fieldRestrictions._name,
+    title: this.fieldRestrictions.title,
     trainingType: this.fieldRestrictions.trainingType,
     personalTrainingsNumber: this.fieldRestrictions.personalTrainingsNumber,
     price: this.fieldRestrictions.price
@@ -35,12 +39,8 @@ class UpdateTrainingPlanModal extends Form {
 
   componentDidMount() {
     const myModalEl = document.getElementById(this.state.modalId)
-    myModalEl.addEventListener('hidden.bs.modal', () => {
-      let currentData = { ...this.state.data };
-      currentData._name = this.props.trainingPlan._name;
-      currentData.personalTrainingsNumber = this.props.trainingPlan.personalTrainingsNumber;
-      currentData.price = this.props.trainingPlan.price;
-      this.setState({ data: currentData });
+    myModalEl.addEventListener('show.bs.modal', () => {
+      this.resetData();
     })
 
     const type1 = new TrainingType('Strength');
@@ -62,27 +62,47 @@ class UpdateTrainingPlanModal extends Form {
     this.setState({ state });
   }
 
-  continueSubmitting = (e) => {
+  continueSubmitting = async () => {
     const {
-      _name,
+      title,
       personalTrainingsNumber,
       price,
-      trainingType
+      trainingType,
+      number
     } = this.props.trainingPlan;
-    let updatedData = [];
-    if (_name !== this.state.data._name) {
-      updatedData.push(this.state.data._name)
+    const { t } = this.props;
+    let newTitle, newPersonalTrainingsNumber, newPrice, newTrainingType = null;
+
+    if (title !== this.state.data.title) {
+      newTitle = this.state.data.title;
     }
     if (trainingType !== this.state.data.trainingType) {
-      updatedData.push(this.state.data.trainingType)
+      newTrainingType = this.state.data.trainingType.toUpperCase();
     }
     if (personalTrainingsNumber !== this.state.data.personalTrainingsNumber) {
-      updatedData.push(this.state.data.personalTrainingsNumber)
+      newPersonalTrainingsNumber = this.state.data.personalTrainingsNumber;
     }
     if (price !== this.state.data.price) {
-      updatedData.push(this.state.data.price)
+      newPrice = this.state.data.price;
     }
-    console.log('Changed fields: ' + updatedData)
+
+    await updateTrainingPlan({
+      number: number,
+      title: newTitle,
+      trainingType: newTrainingType,
+      personalTrainingsNumber: newPersonalTrainingsNumber,
+      price: newPrice
+    }, t);
+  }
+
+  async resetData() {
+    let currentData = { ...this.state.data };
+    const trainingPlan = await getTrainingPlan(this.props.trainingPlan.number);
+    currentData.title = trainingPlan.title;
+    currentData.trainingType = trainingPlan.trainingType;
+    currentData.personalTrainingsNumber = trainingPlan.personalTrainingsNumber;
+    currentData.price = trainingPlan.price;
+    this.setState({ data: currentData });
   }
 
   render() {
@@ -101,10 +121,10 @@ class UpdateTrainingPlanModal extends Form {
                         data-bs-dismiss="modal" aria-label="Close"/>
               </div>
               <div className="modal-body ms-4">
-                {this.renderInput('_name', t('name'), 'text',
+                {this.renderInput('title', t('name'), 'text',
                     'login-label',
                     'login-box position-relative start-50 translate-middle-x text-light',
-                    data._name)}
+                    data.title)}
               </div>
               <Dropdown items={this.state.trainingTypes}
                         itemName={t('trainingType')}

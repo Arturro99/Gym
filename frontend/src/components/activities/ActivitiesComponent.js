@@ -1,9 +1,13 @@
 import { withTranslation } from "react-i18next";
 import '../../locales/i18n';
 import { Component } from "react";
-import { Activity } from "../../model/Activity";
 import { Link } from "react-router-dom";
 import ActivitiesTable from "./ActivitiesTable";
+import { deleteActivity, getActivities } from "../../services/ActivityService";
+import keys from "../../errorKeys.json";
+import { getCurrentUser } from "../../services/AuthenticationService";
+import { createBooking } from "../../services/BookingService";
+import { parseFromOffsetDateTimeToLegibleFormat } from "../../services/DateParser";
 
 class ActivitiesComponent extends Component {
 
@@ -16,45 +20,40 @@ class ActivitiesComponent extends Component {
 
   paginatedActivities = {};
 
-  componentDidMount() {
-    const act1 = new Activity(
-        'ACT001',
-        'Rozciaganie',
-        '12.12.2022',
-        60,
-        'trener',
-        'true',
-        '2'
-    )
-    const act2 = new Activity(
-        'ACT002',
-        'Bieganie',
-        '12.03.2022',
-        90,
-        'trener',
-        'true',
-        '5'
-    )
+  async componentDidMount() {
+    const { t } = this.props;
+    const activities = await getActivities();
+    activities.forEach(activity => {
+      activity.startDate = parseFromOffsetDateTimeToLegibleFormat(
+          activity.startDate);
+      activity.active = activity.active ? t('active') : t('inactive');
+    });
     this.setState({
-      activities: [act1, act2]
+      activities: activities
     })
   }
 
-  handleDelete = activity => {
-    const originalActivities = this.state.activities;
-    const currentActivities = originalActivities.filter(
-        act => act.number !== activity.number);
-    this.setState({ activities: currentActivities });
-
-    //TODO implement deletion
+  handleDelete = async activity => {
+    const { t } = this.props;
+    await deleteActivity(activity.number, t).then(resp => {
+      if (resp && resp.status === 200) {
+        const originalActivities = this.state.activities;
+        const currentActivities = originalActivities.filter(
+            act => act.number !== activity.number);
+        this.setState({ activities: currentActivities });
+      }
+    }).catch(async ex => {
+      if (ex && ex.response.data.error.errorKey
+          === keys.ACTIVITY_NOT_FOUND_ERROR) {
+        const currentActivities = await getActivities();
+        this.setState({ activities: currentActivities });
+      }
+    });
   }
 
-  handleUpdate = activity => {
-    //TODO implement activity update
-  }
-
-  handleApply = activity => {
-    //TODO implement appliance for activity
+  handleApply = async activity => {
+    const { t } = this.props;
+    await createBooking(activity.number, getCurrentUser(), t);
   }
 
   handleSort = sortColumn => {

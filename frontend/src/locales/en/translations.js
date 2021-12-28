@@ -30,7 +30,7 @@ export const TRANSLATIONS_EN = {
   yes: 'Yes',
   no: 'No',
 
-  error__name_string_empty: 'Name required',
+  error_title_string_empty: 'Name required',
   error_trainer_string_empty: 'Trainer required',
 
   //Registration form
@@ -74,6 +74,14 @@ export const TRANSLATIONS_EN = {
   error_capacity_number_base: 'Capacity required',
   error_capacity_number_min: 'Capacity must be at least 1',
 
+  activity_number_conflict: 'Activity with such number exists',
+  activity_remove_conflict: 'Activity is being used',
+  activity_notFound: 'Activity already removed',
+  activity_update_success: 'Activity updated successfully',
+  activity_add_success: 'Activity added successfully',
+  activity_remove_success: 'Activity removed successfully',
+  activity_inappropriate_date: 'Date should be a value from future',
+
   //Diets
   noDiets: 'No available diets. Try again later...',
   noIndividualDiets: 'You have no assigned diets. It is high time you tried something new!',
@@ -94,6 +102,14 @@ export const TRANSLATIONS_EN = {
   error_price_number_base: 'Price required',
   error_price_number_min: 'Price must be at least 1',
 
+  diet_number_conflict: 'Diet with such number exists',
+  diet_possessing_conflict: 'You already own this diet',
+  diet_remove_conflict: 'Diet is being used',
+  diet_notFound: 'Diet already removed',
+  diet_update_success: 'Diet updated successfully',
+  diet_add_success: 'Diet added successfully',
+  diet_remove_success: 'Diet removed successfully',
+
   //Training plans
   noTrainingPlans: 'No available training plans. Try again later...',
   noIndividualTrainingPlans: 'You have no assigned training plans. It is high time you tried something new!',
@@ -107,6 +123,15 @@ export const TRANSLATIONS_EN = {
   error_trainingPlanNumber_string_empty: 'Number required',
   error_personalTrainingsNumber_number_base: 'Number of personal trainings required',
   error_personalTrainingsNumber_number_min: 'Number of personal trainings must be positive',
+
+  trainingPlan_number_conflict: 'Training plan with such number exists',
+  trainingPlan_trainer_conflict: 'You run this training plan',
+  trainingPlan_possessing_conflict: 'You already own this training plan',
+  trainingPlan_remove_conflict: 'Training plan is being used',
+  trainingPlan_notFound: 'Training plan already removed',
+  trainingPlan_update_success: 'Training plan updated successfully',
+  trainingPlan_add_success: 'Training plan added successfully',
+  trainingPlan_remove_success: 'Training plan removed successfully',
 
   //Account
   accounts: 'Accounts',
@@ -128,6 +153,10 @@ export const TRANSLATIONS_EN = {
   lastKnownBadLoginIp: 'Last known bad login IP',
   badLoginsCounter: 'Number of bad logins',
 
+  account_login_conflict: 'Login with such email or login exists',
+  account_update_success: 'Account updated successfully',
+  account_notFound: 'Can\'t find provided account',
+
   //Booking
   bookings: 'Bookings',
   bookingDetails: 'Booking details',
@@ -135,8 +164,24 @@ export const TRANSLATIONS_EN = {
   completed: 'Completed',
   complete: 'Complete',
   incomplete: 'Incomplete',
+  state: 'State',
+  pending: 'Pending',
+  non_pending: 'Enrolled',
+  updateBooking: 'Update booking',
+
+  booking_add_success: 'A place for activity booked successfully',
+  booking_update_success: 'Booking updated successfully',
+  booking_cancel_success: 'Booking cancelled successfully',
+  booking_complete_success: 'Booking completed successfully',
+  booking_possessing_conflict: 'You have already booked a place for this activity',
+  booking_cancellation_deadline_conflict: 'You can no longer cancel this booking',
+  booking_completion_cancellation_conflict: 'Cannot manage booking\'s activity after its completion',
+  booking_completion_conflict: 'Cannot complete booking before the start of activity',
 
   //Access levels
   assignAccessLevels: 'Assign access levels',
+
+  accessLevel_inappropriate_trainer: 'Provided user should have a trainer role',
+  accessLevel_inappropriate_client: 'Provided user should have a trainer role',
 
 };

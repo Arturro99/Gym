@@ -3,16 +3,17 @@ import { withTranslation } from "react-i18next";
 import { DietType } from "../../model/DietType";
 import Dropdown from "../common/Dropdown";
 import Joi from "joi";
+import { getDiet, updateDiet } from "../../services/DietService";
 
 class UpdateDietModal extends Form {
 
   state = {
     data: {
-      _name: this.props.diet._name,
-      dietType: this.props.diet.dietType,
-      calories: this.props.diet.calories,
-      mealsNumber: this.props.diet.mealsNumber,
-      price: this.props.diet.price
+      title: '',
+      dietType: '',
+      calories: '',
+      mealsNumber: '',
+      price: ''
     },
     dietTypes: [],
     modalId: 'updateDietModal',
@@ -21,7 +22,7 @@ class UpdateDietModal extends Form {
   }
 
   fieldRestrictions = {
-    _name: Joi.string().required(),
+    title: Joi.string().required(),
     dietType: Joi.any().required(),
     calories: Joi.number().min(100).required(),
     mealsNumber: Joi.number().min(1).required(),
@@ -29,7 +30,7 @@ class UpdateDietModal extends Form {
   }
 
   schema = Joi.object({
-    _name: this.fieldRestrictions._name,
+    title: this.fieldRestrictions.title,
     dietType: this.fieldRestrictions.dietType,
     calories: this.fieldRestrictions.calories,
     mealsNumber: this.fieldRestrictions.mealsNumber,
@@ -38,23 +39,14 @@ class UpdateDietModal extends Form {
 
   componentDidMount() {
     const myModalEl = document.getElementById(this.state.modalId)
-    myModalEl.addEventListener('hidden.bs.modal', () => {
-      let currentData = { ...this.state.data };
-      currentData._name = this.props.diet._name;
-      currentData.calories = this.props.diet.calories;
-      currentData.mealsNumber = this.props.diet.mealsNumber;
-      currentData.price = this.props.diet.price;
-      this.setState({ data: currentData });
+    myModalEl.addEventListener('show.bs.modal', () => {
+      this.resetData();
     })
 
     const type1 = new DietType('Low-Calorie');
     const type2 = new DietType('High-protein');
     const type3 = new DietType('Vege');
-
-    let mockedData = this.state.data;
-    mockedData.dietType = 'High-protein';
     this.setState({
-      data: mockedData,
       dietTypes: [type1, type2, type3]
     });
   }
@@ -65,25 +57,52 @@ class UpdateDietModal extends Form {
     this.setState({ state });
   }
 
-  continueSubmitting = (e) => {
-    const { _name, calories, mealsNumber, price, dietType } = this.props.diet;
-    let updatedData = [];
-    if (_name !== this.state.data._name) {
-      updatedData.push(this.state.data._name)
+  continueSubmitting = async () => {
+    const {
+      title,
+      calories,
+      mealsNumber,
+      price,
+      dietType,
+      number
+    } = this.props.diet;
+    const { t } = this.props;
+    let newTitle, newCalories, newMealsNumber, newPrice, newDietType = null;
+    if (title !== this.state.data.title) {
+      newTitle = this.state.data.title;
     }
     if (dietType !== this.state.data.dietType) {
-      updatedData.push(this.state.data.dietType)
+      newDietType = this.state.data.dietType.toUpperCase();
     }
     if (calories !== this.state.data.calories) {
-      updatedData.push(this.state.data.calories)
+      newCalories = this.state.data.calories;
     }
     if (mealsNumber !== this.state.data.mealsNumber) {
-      updatedData.push(this.state.data.mealsNumber)
+      newMealsNumber = this.state.data.mealsNumber;
     }
     if (price !== this.state.data.price) {
-      updatedData.push(this.state.data.price)
+      newPrice = this.state.data.price;
     }
-    console.log('Changed fields: ' + updatedData)
+
+    await updateDiet({
+      number: number,
+      title: newTitle,
+      dietType: newDietType,
+      calories: newCalories,
+      mealsNumber: newMealsNumber,
+      price: newPrice
+    }, t)
+  }
+
+  async resetData() {
+    let currentData = { ...this.state.data };
+    const diet = await getDiet(this.props.diet.number);
+    currentData.title = diet.title;
+    currentData.dietType = diet.dietType;
+    currentData.calories = diet.calories;
+    currentData.mealsNumber = diet.mealsNumber;
+    currentData.price = diet.price;
+    this.setState({ data: currentData });
   }
 
   render() {
@@ -102,10 +121,10 @@ class UpdateDietModal extends Form {
                         data-bs-dismiss="modal" aria-label="Close"/>
               </div>
               <div className="modal-body ms-4">
-                {this.renderInput('_name', t('name'), 'text',
+                {this.renderInput('title', t('name'), 'text',
                     'login-label',
                     'login-box position-relative start-50 translate-middle-x text-light',
-                    data._name)}
+                    data.title)}
               </div>
               <Dropdown items={this.state.dietTypes}
                         itemName={t('dietType')}

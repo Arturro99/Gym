@@ -21,3 +21,7 @@ components:
         modificationDate:
           type: string
           format: date-time
+        createdBy:
+          type: string
+        modifiedBy:
+          type: string

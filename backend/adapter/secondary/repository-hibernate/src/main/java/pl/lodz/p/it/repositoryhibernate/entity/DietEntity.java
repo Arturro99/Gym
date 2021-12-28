@@ -6,6 +6,8 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -17,12 +19,13 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
  * Class responsible for keeping an entity model of the diet object.
  */
-@Setter
 @Getter
+@Setter
 @Entity
 @Table(name = "diet")
 @AttributeOverrides(
@@ -30,6 +33,7 @@ import org.springframework.data.annotation.LastModifiedBy;
         @AttributeOverride(name = "creationDate", column = @Column(name = "creation_date", nullable = false)),
         @AttributeOverride(name = "modificationDate", column = @Column(name = "modification_date"))}
 )
+@EntityListeners(AuditingEntityListener.class)
 public class DietEntity extends BaseEntity {
 
     @Column(name = "name", nullable = false)
@@ -53,7 +57,7 @@ public class DietEntity extends BaseEntity {
     @Range(min = 1)
     private Double price;
 
-    @ManyToMany(mappedBy = "diets")
+    @ManyToMany(mappedBy = "diets", fetch = FetchType.EAGER)
     private Set<AccountEntity> accounts;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
@@ -65,4 +69,11 @@ public class DietEntity extends BaseEntity {
     @CreatedBy
     @JoinColumn(name = "created_by", referencedColumnName = "id")
     private AccountEntity createdBy;
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (this.getBusinessId() != null ? this.getBusinessId().hashCode() : 0);
+        return hash;
+    }
 }

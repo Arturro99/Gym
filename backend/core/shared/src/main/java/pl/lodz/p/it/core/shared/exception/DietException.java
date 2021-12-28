@@ -18,9 +18,21 @@ public class DietException extends BaseException {
             .notFound("Required diet not found!", ErrorKey.DIET_NOT_FOUND_ERROR));
     }
 
-    public static DietException dietConflictException() {
+    public static DietException existingDietConflictException() {
+        return new DietException(
+            ConflictException
+                .conflict("Diet already exists!", ErrorKey.DIET_CONFLICT_ERROR));
+    }
+
+    public static DietException inUseDietConflictException() {
         return new DietException(
             ConflictException
                 .conflict("Diet is being used!", ErrorKey.DIET_CONFLICT_ERROR));
+    }
+
+    public static DietException possessedDietConflictException() {
+        return new DietException(
+            ConflictException
+                .conflict("User already possesses the diet!", ErrorKey.DIET_CONFLICT_ERROR));
     }
 }

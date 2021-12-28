@@ -43,7 +43,7 @@ public class Account extends BaseModel {
     @Size(max = 5)
     private String language;
 
-    private Account modifiedBy;
+    private String modifiedBy;
 
     private OffsetDateTime lastKnownGoodLogin;
 

@@ -2,6 +2,8 @@ import { Component } from "react";
 import Table from "../common/Table";
 import { withTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { getCurrentRole } from "../../services/AuthenticationService";
+import config from '../../config.json'
 
 class DietsTable extends Component {
 
@@ -10,7 +12,7 @@ class DietsTable extends Component {
       path: 'number', label: 'number'
     },
     {
-      path: '_name', label: 'name'
+      path: 'title', label: 'name'
     },
     {
       path: 'dietType', label: 'dietType'
@@ -28,30 +30,29 @@ class DietsTable extends Component {
       key: 'utils', label: 'actions',
       content: diet =>
           <div className="row justify-content-md-center">
-            <button
-                className="btn btn-outline-danger col-3 ms-2 d-flex justify-content-center text-center"
-                onClick={() => this.props.onDelete(diet)}>
-              {this.props.myTable ?
-                  this.props.t('cancel') : this.props.t('delete')}
-            </button>
-            {this.props.myTable ? null :
+            {!this.props.myTable && getCurrentRole() !== config.CLIENT ?
                 <button
-                    className="btn btn-outline-info col-3 ms-2 d-flex justify-content-center text-center"
-                    onClick={() => this.props.onUpdate(diet)}>{this.props.t(
-                    'update')}
-                </button>
+                    className="btn btn-outline-danger col-3 ms-2 d-flex justify-content-center text-center"
+                    onClick={() => this.props.onDelete(diet)}>
+                  {this.props.t('delete')}
+                </button> : ''
             }
-            {this.props.myTable ? null :
+            {this.props.myTable ?
+                <button
+                    className="btn btn-outline-danger col-3 ms-2 d-flex justify-content-center text-center"
+                    onClick={() => this.props.onDelete(diet)}>
+                  {this.props.t('cancel')}
+                </button> :
                 <button
                     className="btn btn-outline-success col-3 ms-2 d-flex justify-content-center text-center"
-                    onClick={() => this.props.onApply(diet)}>{this.props.t(
-                    'apply')}
+                    onClick={() => this.props.onApply(diet)}>
+                  {this.props.t('apply')}
                 </button>
             }
             <Link
                 className="btn btn-outline-success col-3 ms-2 d-flex justify-content-center text-center"
-                to={`/diets/${diet.number}`}>{this.props.t(
-                'details')}
+                to={`/diets/${diet.number}`}>
+              {this.props.t('details')}
             </Link>
           </div>
     }

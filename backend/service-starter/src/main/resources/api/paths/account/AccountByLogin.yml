@@ -47,7 +47,26 @@ put:
             $ref: '../../schemas/account/AccountDetailsResponse.yml#/components/schemas/AccountDetailsResponse'
 
 trainingPlan:
-  add:
+  withoutParam:
+    get:
+      tags:
+        - account
+      summary: Get training plans
+      description: Find training plans for client with given login
+      operationId: getTrainingPlansByAccountLogin
+      parameters:
+        - in: path
+          name: login
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '../../schemas/training/TrainingPlanResponseList.yml#/components/schemas/TrainingPlanResponseList'
     post:
       tags:
         - account
@@ -98,7 +117,26 @@ trainingPlan:
           description: Operation successful
 
 diet:
-  add:
+  withoutParam:
+    get:
+      tags:
+        - account
+      summary: Get diets
+      description: Find diets for client with given login
+      operationId: getDietsByAccountLogin
+      parameters:
+        - in: path
+          name: login
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '../../schemas/diet/DietResponseList.yml#/components/schemas/DietResponseList'
     post:
       tags:
         - account

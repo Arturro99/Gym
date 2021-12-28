@@ -8,15 +8,13 @@ paths:
 components:
   schemas:
     DietResponse:
-      allOf:
-        - $ref: '../BaseDto.yml#/components/schemas/BaseDto'
       properties:
         number:
           type: string
-        name:
+        title:
           type: string
         dietType:
-          $ref: '../diet/DietType.yml#/components/schemas/DietType'
+          type: string
         calories:
           type: integer
         mealsNumber:

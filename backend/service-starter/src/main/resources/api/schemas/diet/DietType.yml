@@ -9,5 +9,5 @@ components:
   schemas:
     DietType:
       properties:
-        name:
+        title:
           type: string

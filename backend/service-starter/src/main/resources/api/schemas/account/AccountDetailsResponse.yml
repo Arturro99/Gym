@@ -10,6 +10,7 @@ components:
     AccountDetailsResponse:
       allOf:
         - $ref: '../account/AccountGeneralResponse.yml#/components/schemas/AccountGeneralResponse'
+        - $ref: '../BaseDto.yml#/components/schemas/BaseDto'
       properties:
         confirmed:
           type: boolean
@@ -33,10 +34,6 @@ components:
           type: number
         gymMember:
           type: boolean
-        createdBy:
-          $ref: '../account/AccountGeneralResponse.yml#/components/schemas/AccountGeneralResponse'
-        modifiedBy:
-          $ref: '../account/AccountGeneralResponse.yml#/components/schemas/AccountGeneralResponse'
         trainingPlans:
           $ref: '../training/TrainingPlanResponseList.yml#/components/schemas/TrainingPlanResponseList'
         diets:
