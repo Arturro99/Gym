@@ -55,6 +55,7 @@ public class AccessLevelRepositoryService extends
         AccountEntity accountEntity = accountRepository.findByBusinessId(
             account.getLogin()).orElseThrow(AccountException::accountNotFoundException);
         return accessLevelRepository.findByAccount(accountEntity).stream()
+            .filter(AccessLevelEntity::getActive)
             .map(accessLevelMapper::toDomainModel)
             .collect(Collectors.toList());
     }

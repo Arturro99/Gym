@@ -17,13 +17,13 @@
             <column name="version" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="url" type="char(32)">
+            <column name="url" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
             <column name="account" type="bigint">
                 <constraints nullable="false" foreignKeyName="fk_account" references="account(id)"/>
             </column>
-            <column name="action_type" type="varchar(10)">
+            <column name="action_type" type="varchar(20)">
                 <constraints nullable="false"/>
             </column>
             <column name="new_email" type="varchar(70)">

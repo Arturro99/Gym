@@ -31,6 +31,7 @@ public final class ErrorKey {
 
     public static final String URL_NOT_FOUND_ERROR = "error.url.notFound";
     public static final String URL_CONFLICT_ERROR = "error.url.conflict";
+    public static final String URL_EXPIRED_ERROR = "error.url.gone";
 
     public static final String TRAINING_PLAN_NOT_FOUND_ERROR = "error.trainingPlan.notFound";
     public static final String TRAINING_PLAN_CONFLICT_ERROR = "error.trainingPlan.conflict";

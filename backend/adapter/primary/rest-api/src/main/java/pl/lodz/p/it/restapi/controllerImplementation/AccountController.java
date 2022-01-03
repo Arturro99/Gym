@@ -1,13 +1,19 @@
 package pl.lodz.p.it.restapi.controllerImplementation;
 
+import static org.springframework.transaction.annotation.Isolation.READ_COMMITTED;
+import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 import pl.lodz.p.it.core.domain.Account;
 import pl.lodz.p.it.core.port.primary.AccountServicePort;
+import pl.lodz.p.it.core.port.primary.mailing.OnRegistrationCompleteEvent;
 import pl.lodz.p.it.restapi.controller.AccountsApiDelegate;
 import pl.lodz.p.it.restapi.dto.AccountDetailsResponse;
 import pl.lodz.p.it.restapi.dto.AccountGeneralResponse;
@@ -43,6 +49,8 @@ public class AccountController implements AccountsApiDelegate {
 
     private final TrainingPlanResponseMapper trainingPlanResponseMapper;
 
+    private final ApplicationEventPublisher eventPublisher;
+
     @Override
     public ResponseEntity<AccountDetailsResponse> getAccount(String login) {
         return ResponseEntity.ok(
@@ -59,10 +67,13 @@ public class AccountController implements AccountsApiDelegate {
     }
 
     @Override
+    @Transactional(propagation = REQUIRES_NEW, isolation = READ_COMMITTED)
     public ResponseEntity<AccountGeneralResponse> createAccount(AccountRequestPost accountRequest) {
         accountRequest.setPassword(passwordEncoder.encode(accountRequest.getPassword()));
         Account account = accountRequestPostMapper.toDomainModel(accountRequest);
         Account saved = accountServicePort.save(account);
+
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(saved));
         return ResponseEntity.ok(accountGeneralResponseMapper.toDtoModel(saved));
     }
 

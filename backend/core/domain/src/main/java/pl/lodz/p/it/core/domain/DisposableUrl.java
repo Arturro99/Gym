@@ -1,5 +1,6 @@
 package pl.lodz.p.it.core.domain;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import pl.lodz.p.it.core.shared.constant.UrlAction;
@@ -17,9 +18,9 @@ import java.time.OffsetDateTime;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Builder
 public class DisposableUrl extends BaseModel {
 
-    @Size(min = 32, max = 32)
     private String url;
 
     private String account;
@@ -31,7 +32,6 @@ public class DisposableUrl extends BaseModel {
     @Email(message = "Email is not valid")
     private String newEmail;
 
-    @Future
     private OffsetDateTime expireDate;
 
     private String modifiedBy;

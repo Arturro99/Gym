@@ -6,18 +6,19 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import pl.lodz.p.it.core.shared.constant.UrlAction;
 import pl.lodz.p.it.core.shared.validation.UrlActions;
 
@@ -35,6 +36,7 @@ import pl.lodz.p.it.core.shared.validation.UrlActions;
         @AttributeOverride(name = "creationDate", column = @Column(name = "creation_date", nullable = false)),
         @AttributeOverride(name = "modificationDate", column = @Column(name = "modification_date"))}
 )
+@EntityListeners(AuditingEntityListener.class)
 public class DisposableUrlEntity extends BaseEntity {
 
     @ManyToOne(optional = false)
@@ -52,7 +54,6 @@ public class DisposableUrlEntity extends BaseEntity {
     private String newEmail;
 
     @Column(name = "expiration_date", nullable = false)
-    @Future
     private OffsetDateTime expireDate;
 
     @ManyToOne(cascade = CascadeType.REFRESH)

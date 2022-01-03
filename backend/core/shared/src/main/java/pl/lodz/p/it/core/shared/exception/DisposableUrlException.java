@@ -2,6 +2,7 @@ package pl.lodz.p.it.core.shared.exception;
 
 import pl.lodz.p.it.core.shared.exception.core.BaseException;
 import pl.lodz.p.it.core.shared.exception.core.ConflictException;
+import pl.lodz.p.it.core.shared.exception.core.ExpiredException;
 import pl.lodz.p.it.core.shared.exception.core.NotFoundException;
 
 /**
@@ -18,9 +19,14 @@ public class DisposableUrlException extends BaseException {
             .notFound("Required url not found!", ErrorKey.URL_NOT_FOUND_ERROR));
     }
 
+    public static DisposableUrlException urlExpiredException() {
+        return new DisposableUrlException(ExpiredException
+            .expired("Url expired!", ErrorKey.URL_EXPIRED_ERROR));
+    }
+
     public static DisposableUrlException urlConflictException() {
         return new DisposableUrlException(
             ConflictException
-                .conflict("Url already exists!", ErrorKey.URL_CONFLICT_ERROR));
+                .conflict("Url already exists! and is valid", ErrorKey.URL_CONFLICT_ERROR));
     }
 }

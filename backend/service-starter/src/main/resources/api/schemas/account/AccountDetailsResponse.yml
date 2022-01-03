@@ -12,6 +12,8 @@ components:
         - $ref: '../account/AccountGeneralResponse.yml#/components/schemas/AccountGeneralResponse'
         - $ref: '../BaseDto.yml#/components/schemas/BaseDto'
       properties:
+        email:
+          type: string
         confirmed:
           type: boolean
         phoneNumber:
