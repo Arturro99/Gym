@@ -1,15 +1,16 @@
 import Form from "../common/Form";
 import { withTranslation } from "react-i18next";
 import Joi from "joi";
+import { getAccount, updateAccount } from "../../services/AccountService";
 
 class UpdateAccountModal extends Form {
 
   state = {
     data: {
-      firstName: this.props.account.firstName,
-      lastName: this.props.account.lastName,
-      phoneNumber: this.props.account.phoneNumber,
-      gymMember: this.props.account.gymMember
+      firstName: '',
+      lastName: '',
+      phoneNumber: '',
+      gymMember: ''
     },
     modalId: 'updateAccountModal',
     name: 'updateAccount',
@@ -32,42 +33,56 @@ class UpdateAccountModal extends Form {
 
   componentDidMount() {
     const myModalEl = document.getElementById(this.state.modalId)
-    myModalEl.addEventListener('hidden.bs.modal', () => {
-      let currentData = { ...this.state.data };
-      currentData.firstName = this.props.account.firstName;
-      currentData.lastName = this.props.account.lastName;
-      currentData.phoneNumber = this.props.account.phoneNumber;
-      currentData.gymMember = this.props.account.gymMember;
-      this.setState({ data: currentData });
+    myModalEl.addEventListener('show.bs.modal', () => {
+      this.resetData();
     })
   }
 
-  continueSubmitting = (e) => {
-    const { firstName, lastName, phoneNumber, gymMember } = this.props.account;
-    let updatedData = [];
+  continueSubmitting = async () => {
+    const {
+      firstName,
+      lastName,
+      phoneNumber,
+      gymMember,
+      login
+    } = this.props.account;
+    const { t } = this.props;
+    let newFirstName, newLastName, newPhoneNumber, newGyMember = null;
     if (firstName !== this.state.data.firstName) {
-      updatedData.push(this.state.data.firstName)
+      newFirstName = this.state.data.firstName;
     }
     if (lastName !== this.state.data.lastName) {
-      updatedData.push(this.state.data.lastName)
+      newLastName = this.state.data.lastName;
     }
     if (phoneNumber !== this.state.data.phoneNumber) {
-      updatedData.push(this.state.data.phoneNumber)
+      newPhoneNumber = this.state.data.phoneNumber;
     }
     if (gymMember !== this.state.data.gymMember) {
-      updatedData.push(this.state.data.gymMember)
+      newGyMember = this.state.data.gymMember;
     }
-    console.log('Changed fields: ' + updatedData)
+
+    await updateAccount({
+      login: login,
+      firstName: newFirstName,
+      lastName: newLastName,
+      phoneNumber: newPhoneNumber,
+      gymMember: newGyMember
+    }, t)
+  }
+
+  async resetData() {
+    let currentData = { ...this.state.data };
+    const account = await getAccount(this.props.account.login);
+    currentData.firstName = account.firstName;
+    currentData.lastName = account.lastName;
+    currentData.phoneNumber = account.phoneNumber;
+    currentData.gymMember = account.gymMember;
+    this.setState({ data: currentData });
   }
 
   handleCheck = (event) => {
     let currentData = { ...this.state.data };
-    const { t } = this.props;
-    if (event.target.checked) {
-      currentData.gymMember = t('yes');
-    } else {
-      currentData.gymMember = t('no');
-    }
+    currentData.gymMember = !!event.target.checked;
     this.setState({ data: currentData });
   }
 
@@ -108,7 +123,7 @@ class UpdateAccountModal extends Form {
                 {this.renderInput('gymMember', t('gymMember'), 'checkbox',
                     'login-label',
                     'login-box position-relative start-50 translate-middle-x text-light',
-                    data.gymMember, this.state.data.gymMember === t('yes'),
+                    data.gymMember, this.state.data.gymMember,
                     this.handleCheck)}
               </div>
               <div className="modal-footer">
