@@ -20,17 +20,19 @@ import DietDetails from "./diets/DietDetails";
 import BookingsComponent from "./bookings/BookingsComponent";
 import MyBookingsComponent from "./bookings/MyBookingsComponent";
 import ActivityDetails from "./activities/ActivityDetails";
-import AccessLevelModal from "./accounts/AccessLevelModal";
 import BookingDetails from "./bookings/BookingDetails";
-import MyAccountComponent from "./accounts/MyAccountDetails";
 import MyAccountDetails from "./accounts/MyAccountDetails";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
-import { Modal } from "bootstrap";
 import {
   getCurrentRole,
-  getCurrentUser, getRoles, signOut, switchCurrentRole
+  getCurrentUser,
+  getRoles,
+  signOut,
+  switchCurrentRole
 } from "../services/AuthenticationService";
+import ConfirmRegistrationComponent from "./ConfirmRegistrationComponent";
+
 //DO NOT REMOVE THIS -> MODAL WON'T WORK WITHOUT IT
 
 class MainComponent extends Component {
@@ -56,7 +58,6 @@ class MainComponent extends Component {
     this.resetData();
     const myModalEl = document.getElementById('loginModal')
     myModalEl.addEventListener('hidden.bs.modal', () => {
-      console.log(getCurrentUser())
       if (getCurrentUser()) {
         this.resetData();
       }
@@ -90,8 +91,7 @@ class MainComponent extends Component {
                          onChangeRoleClick={this.handleChangeRoleClick}
                          onSignOutClick={this.handleSignOutClick}/>
           <LoginForm resetData={this.resetData}/>
-          <ToastContainer />
-          <AccessLevelModal accessLevels={data.roles}/>
+          <ToastContainer/>
           <main className="container">
             <Switch>
               <Route exact path={'/activities'}
@@ -126,6 +126,9 @@ class MainComponent extends Component {
                      render={(props) => <MyBookingsComponent {...props}/>}/>
               <Route path="/bookings/:number"
                      render={(props) => <BookingDetails {...props}/>}/>
+              <Route exact path={'/confirmRegistration/:token'}
+                     render={(props) =>
+                         <ConfirmRegistrationComponent {...props} />}/>
             </Switch>
           </main>
         </React.Fragment>

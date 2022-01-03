@@ -1,6 +1,8 @@
 import http from './HttpService'
 import config from '../config.json';
 import jwt from 'jwt-decode'
+import keys from "../errorKeys.json";
+import { toast } from "react-toastify";
 
 export async function signIn(login, password) {
   return http.post(`${config.apiUrl}/authenticate`, {
@@ -47,4 +49,20 @@ export function switchCurrentRole(role) {
 
 export function attachToken() {
   return localStorage.getItem('token');
+}
+
+export function confirmRegistration(token, t) {
+  console.log(token)
+  return http.get(`${config.apiUrl}/confirmRegistration/${token}`).catch(ex => {
+    if (ex.response.data.error.errorKey === keys.URL_NOT_FOUND_ERROR) {
+      toast.error(t('url_notFound'));
+    } else if (ex.response.data.error.errorKey === keys.URL_GONE_ERROR) {
+      toast.error(t('url_gone'));
+    }
+    throw ex;
+  }).then(response => {
+    if (response.status === 200) {
+      toast.success(t('account_confirmation_success'))
+    }
+  })
 }
