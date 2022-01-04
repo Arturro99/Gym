@@ -9,6 +9,7 @@
   "ACCOUNT_NOT_FOUND_ERROR": "error.account.notFound",
 
   "ACCESS_LEVEL_INAPPROPRIATE": "error.accessLevel.badRequest",
+  "ACCESS_LEVEL_NOT_FOUND_ERROR": "error.accessLevel.notFound",
 
   "ACTIVITY_CONFLICT_ERROR": "error.activity.conflict",
   "ACTIVITY_NOT_FOUND_ERROR": "error.activity.notFound",
@@ -17,6 +18,8 @@
   "BOOKING_CONFLICT_CANCELLATION_ERROR": "error.booking.cancellation.conflict",
   "BOOKING_CONFLICT_COMPLETION_ERROR": "error.booking.completion.conflict",
 
+  "URL_NOT_FOUND_ERROR": "error.url.notFound",
+  "URL_GONE_ERROR": "error.url.gone",
 
   "CONSTRAINT_VIOLATION": "error.general.constraintViolation"
 }

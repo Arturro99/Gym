@@ -55,6 +55,7 @@ export const TRANSLATIONS_EN = {
   error_repeatedPassword_string_empty: 'You need to repeat your password',
   error_firstName_string_empty: 'First name required',
   error_lastName_string_empty: 'Last name required',
+  incorrect_repeated_password: 'Repeated password does not match password',
 
   //Activities
   noActivities: 'No available activities. Try again later...',
@@ -153,9 +154,12 @@ export const TRANSLATIONS_EN = {
   lastKnownBadLoginIp: 'Last known bad login IP',
   badLoginsCounter: 'Number of bad logins',
 
-  account_login_conflict: 'Login with such email or login exists',
+  account_login_conflict: 'Account with such email or login exists',
   account_update_success: 'Account updated successfully',
+  account_block_success: 'Account blocked successfully',
+  account_unblock_success: 'Account unblocked successfully',
   account_notFound: 'Can\'t find provided account',
+  registration_completed_successfully: 'A confirmation link has been sent to the provided email',
 
   //Booking
   bookings: 'Bookings',
@@ -183,5 +187,13 @@ export const TRANSLATIONS_EN = {
 
   accessLevel_inappropriate_trainer: 'Provided user should have a trainer role',
   accessLevel_inappropriate_client: 'Provided user should have a trainer role',
+  accessLevel_add_success: 'Access level added successfully',
+  accessLevel_remove_success: 'Access level removed successfully',
+  accessLevel_notFound: 'Provided access level not found',
 
+  //URLs
+  url_notFound: 'Provided link not found',
+  url_gone: 'Link expired',
+
+  account_confirmation_success: 'Account confirmed successfully',
 };

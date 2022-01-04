@@ -1,12 +1,11 @@
 import Joi from "joi";
 import Form from "../common/Form";
 import { withTranslation } from "react-i18next";
+import { toast } from "react-toastify";
+import { register } from "../../services/AccountService";
+import { Account } from "../../model/Account";
 
 class RegisterForm extends Form {
-
-  constructor(props) {
-    super(props);
-  }
 
   state = {
     data: {
@@ -44,12 +43,33 @@ class RegisterForm extends Form {
     phoneNumber: this.fieldRestrictions.phoneNumber,
   });
 
-  continueSubmitting = () => {
+  continueSubmitting = async () => {
+    const { t } = this.props;
+    const {
+      login,
+      email,
+      password,
+      firstName,
+      lastName,
+      phoneNumber
+    } = this.state.data;
     if (this.state.data.password !== this.state.data.repeatedPassword) {
-      alert("DIPA")
+      toast.error(t('incorrect_repeated_password'))
       return
     }
-    console.log("Registered user: {}", this.state.data);
+
+    let account = new Account();
+    account.login = login;
+    account.email = email;
+    account.password = password;
+    account.firstName = firstName;
+    account.lastName = lastName;
+    account.phoneNumber = phoneNumber;
+    await register(account, t).then(resp => {
+      if (resp && resp.status === 200) {
+        this.props.history.push("/");
+      }
+    });
   }
 
   render() {
@@ -61,7 +81,8 @@ class RegisterForm extends Form {
             {this.renderInput("login", t("login"))}
             {this.renderInput("email", t("email"), "email")}
             {this.renderInput("password", t("password"), "password")}
-            {this.renderInput("repeatedPassword", t("repeatedPassword"), "password")}
+            {this.renderInput("repeatedPassword", t("repeatedPassword"),
+                "password")}
             {this.renderInput("firstName", t("firstName"))}
             {this.renderInput("lastName", t("lastName"))}
             {this.renderInput("phoneNumber", t("phoneNumber"), "number")}

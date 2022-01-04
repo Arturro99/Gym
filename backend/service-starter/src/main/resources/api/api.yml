@@ -55,7 +55,10 @@ paths:
     $ref: './paths/account/AccountByLogin.yml#/diet/remove'
 
   /authenticate:
-    $ref: './paths/account/Authenticate.yml'
+    $ref: './paths/account/Authenticate.yml#/authenticate'
+
+  /confirmRegistration/{token}:
+    $ref: './paths/account/Authenticate.yml#/confirm'
 
   /trainingPlans:
     $ref: './paths/training/TrainingPlan.yml'

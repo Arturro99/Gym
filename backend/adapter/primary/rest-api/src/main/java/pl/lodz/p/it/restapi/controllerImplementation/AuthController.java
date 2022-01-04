@@ -7,10 +7,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.lodz.p.it.core.domain.AccessLevel;
 import pl.lodz.p.it.core.port.primary.AccessLevelServicePort;
 import pl.lodz.p.it.core.port.primary.AccountServicePort;
+import pl.lodz.p.it.core.port.primary.DisposableUrlServicePort;
 import pl.lodz.p.it.core.shared.SecurityConstants;
 import pl.lodz.p.it.restapi.controller.AuthenticateApiDelegate;
 import pl.lodz.p.it.restapi.dto.CredentialsRequest;
@@ -28,12 +31,17 @@ public class AuthController implements AuthenticateApiDelegate {
 
     private final AccountServicePort accountServicePort;
 
+    private final DisposableUrlServicePort disposableUrlServicePort;
+
     @Autowired
-    public AuthController(AuthenticationManager authenticationManager, AccessLevelServicePort accessLevelServicePort,
-                          AccountServicePort accountServicePort) {
+    public AuthController(AuthenticationManager authenticationManager,
+        AccessLevelServicePort accessLevelServicePort,
+        AccountServicePort accountServicePort,
+        DisposableUrlServicePort disposableUrlServicePort) {
         this.authenticationManager = authenticationManager;
         this.accessLevelServicePort = accessLevelServicePort;
         this.accountServicePort = accountServicePort;
+        this.disposableUrlServicePort = disposableUrlServicePort;
     }
 
     @CrossOrigin
@@ -59,4 +67,6 @@ public class AuthController implements AuthenticateApiDelegate {
                 .signWith(SignatureAlgorithm.HS256, SecurityConstants.AUTH_SECRET)
                 .compact();
     }
+
+
 }

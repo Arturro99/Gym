@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import pl.lodz.p.it.core.shared.exception.ErrorKey;
 import pl.lodz.p.it.core.shared.exception.core.BadRequestException;
 import pl.lodz.p.it.core.shared.exception.core.ConflictException;
+import pl.lodz.p.it.core.shared.exception.core.ExpiredException;
 import pl.lodz.p.it.core.shared.exception.core.NotFoundException;
 import pl.lodz.p.it.restapi.dto.ErrorResponse;
 
@@ -35,6 +36,12 @@ public class RestExceptionAdvice {
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(BAD_REQUEST)
     public ErrorResponse badRequest(BadRequestException e) {
+        return ErrorResponse.error(e.getErrorKey(), e.getMessage());
+    }
+
+    @ExceptionHandler(ExpiredException.class)
+    @ResponseStatus(GONE)
+    public ErrorResponse expiredException(ExpiredException e) {
         return ErrorResponse.error(e.getErrorKey(), e.getMessage());
     }
 

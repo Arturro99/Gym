@@ -96,8 +96,13 @@ public class AccountRepositoryService extends
 
     @Override
     public Account save(Account account) {
+        if (accountRepository.findByBusinessId(account.getLogin()).isPresent() ||
+        accountRepository.findByEmail(account.getEmail()).isPresent()) {
+            throw AccountException.accountConflictException();
+        }
         AccountEntity accountEntity = repository.instantiate();
         accountEntity = mapper.toEntityModel(accountEntity, account);
+        accountEntity.setModifiedBy(null);
         AccountEntity savedEntity = repository.save(accountEntity);
 
         AccessLevelEntity accessLevelEntity = accessLevelRepository.instantiate();

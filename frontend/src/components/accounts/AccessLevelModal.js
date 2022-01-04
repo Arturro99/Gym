@@ -1,12 +1,21 @@
 import { withTranslation } from "react-i18next";
 import { Component } from "react";
+import {
+  addAccessLevel,
+  getAccessLevelsByAccount,
+  removeAccessLevel
+} from "../../services/AccessLevelService";
+
+import config from '../../config.json'
 
 class AccessLevelModal extends Component {
 
   state = {
     data: {
-      roles: this.props.accessLevels
-    }
+      roles: ''
+    },
+    modalId: 'accessLevelModal',
+    name: 'assignAccessLevels',
   }
 
   handleCheck = (event) => {
@@ -24,25 +33,37 @@ class AccessLevelModal extends Component {
     this.setState({ data: currentData });
   }
 
-  handleCancelClick = () => {
-    let currentData = { ...this.state.data };
-    currentData.roles = this.props.accessLevels;
-    this.setState({ data: currentData });
-    console.log(this.props.accessLevels)
-  }
-
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
-    //TODO refresh token
+    const { t, account } = this.props;
+    const { roles } = this.state.data;
+    const addedRoles = roles.filter(
+        role => !this.props.accessLevels.includes(role));
+    const removedRoles = this.props.accessLevels.filter(
+        role => !roles.includes(role));
+
+    addedRoles.forEach(role => {
+      addAccessLevel(role, account.login, t);
+    })
+    removedRoles.forEach(role => {
+      removeAccessLevel(role, account.login, t);
+    })
   }
 
   componentDidMount() {
-    const myModalEl = document.getElementById('accessLevelModal')
-    myModalEl.addEventListener('hidden.bs.modal', () => {
-      let currentData = { ...this.state.data };
-      currentData.roles = this.props.accessLevels;
-      this.setState({ data: currentData });
+    console.log(this.props.accessLevels)
+    const myModalEl = document.getElementById(this.state.modalId)
+    myModalEl.addEventListener('show.bs.modal', () => {
+      this.resetData();
     })
+  }
+
+  async resetData() {
+    let currentData = { ...this.state.data };
+    const accessLevels = await getAccessLevelsByAccount(this.props.account.login);
+    const levels = accessLevels.map(acc => acc.level);
+    currentData.roles = levels;
+    this.setState({ data: currentData });
   }
 
   render() {
@@ -64,10 +85,10 @@ class AccessLevelModal extends Component {
                 <div className="form-check">
                   <input className="form-check-input fs-4" type="checkbox"
                          value=""
-                         id="admin"
+                         id={config.ADMIN}
                          onChange={this.handleCheck}
-                         defaultChecked={roles.includes(
-                             'admin')}/>
+                         checked={roles.includes(
+                             config.ADMIN)}/>
                   <label className="form-check-label text-light fs-4"
                          htmlFor="admin">
                     {t('admin')}
@@ -76,10 +97,10 @@ class AccessLevelModal extends Component {
                 <div className="form-check">
                   <input className="form-check-input fs-4" type="checkbox"
                          value=""
-                         id="trainer"
+                         id={config.TRAINER}
                          onChange={this.handleCheck}
-                         defaultChecked={roles.includes(
-                             'trainer')}/>
+                         checked={roles.includes(
+                             config.TRAINER)}/>
                   <label className="form-check-label text-light fs-4"
                          htmlFor="trainer">
                     {t('trainer')}
@@ -88,10 +109,10 @@ class AccessLevelModal extends Component {
                 <div className="form-check">
                   <input className="form-check-input fs-4" type="checkbox"
                          value=""
-                         id="client"
+                         id={config.CLIENT}
                          onChange={this.handleCheck}
-                         defaultChecked={roles.includes(
-                             'client')}/>
+                         checked={roles.includes(
+                             config.CLIENT)}/>
                   <label className="form-check-label text-light fs-4"
                          htmlFor="client">
                     {t('client')}
@@ -106,8 +127,7 @@ class AccessLevelModal extends Component {
                   {t('save')}</button>
                 <button type="button" className="btn btn-secondary"
                         data-bs-toggle='modal'
-                        data-bs-target='#accessLevelModal'
-                        onClick={this.handleCancelClick}>
+                        data-bs-target='#accessLevelModal'>
                   {t('cancel')}</button>
               </div>
             </div>

@@ -1,77 +1,113 @@
 import Details from "../common/Details";
-import { withTranslation } from "react-i18next";
 import { Account } from "../../model/Account";
 import UpdateAccountForm from "./UpdateAccountModal";
+import { parseFromOffsetDateTimeToLegibleFormat } from "../../services/DateParser";
+import { getAccount } from "../../services/AccountService";
+import { withTranslation } from "react-i18next";
+import AccessLevelModal from "./AccessLevelModal";
+import React from "react";
+import { getAccessLevelsByAccount } from "../../services/AccessLevelService";
 
 class AccountDetails extends Details {
 
   state = {
     data: {
-      account: Account
+      account: Account,
+      roles: []
     }
   }
 
-  componentDidMount() {
-    const pathParam = this.props.match.params.login;
-    let currentState = { ...this.state };
-    currentState.data.account.login = pathParam;
-    currentState.data.account.firstName = 'Karol';
-    currentState.data.account.lastName = 'Karolewski';
-    currentState.data.account.email = 'Karol@karoleasdsadasdasddwski.mmm.pl';
-    currentState.data.account.gymMember = 'Yes';
-    this.setState({ currentState });
-    //TODO Populate details
+  async componentDidMount() {
+    await this.updateDetails();
+    await this.updateAccessLevels();
+
+    const updateModal = document.getElementById('updateAccountModal')
+    updateModal.addEventListener('hidden.bs.modal', () => {
+      this.updateDetails();
+    })
+
+    const accessLevelModal = document.getElementById('accessLevelModal')
+    accessLevelModal.addEventListener('hidden.bs.modal', () => {
+      this.updateAccessLevels();
+    })
   }
 
-  handleUpdate = () => {
-    console.log('Updated')
+  async updateDetails() {
+    const pathParam = this.props.match.params.login;
+    const { t } = this.props;
+    let currentState = { ...this.state };
+    const fetched = await getAccount(pathParam);
+    currentState.data.account = new Account(
+        fetched.login,
+        fetched.email,
+        fetched.active ? t('active') : t('inactive'),
+        fetched.confirmed ? t('confirmed') : t('unconfirmed'),
+        fetched.firstName,
+        fetched.lastName,
+        fetched.phoneNumber,
+        fetched.language,
+        fetched.loyaltyFactor,
+        fetched.gymMember ? t('yes') : t('no'),
+        fetched.badLoginsCounter,
+        fetched.modifiedBy,
+        parseFromOffsetDateTimeToLegibleFormat(fetched.creationDate),
+        fetched.modificationDate ? parseFromOffsetDateTimeToLegibleFormat(
+            fetched.modificationDate) : ''
+    );
+    this.setState({ currentState });
+  }
+
+  async updateAccessLevels() {
+    const currentState = { ...this.state };
+    currentState.data.roles = await getAccessLevelsByAccount(
+        currentState.data.account.login).then(resp => {
+      return resp.map(level => level.level);
+    });
+    this.setState ({ currentState });
   }
 
   render() {
     const { t } = this.props;
-    //TODO render some fields depending on current access level
-    const fields = ['firstName', 'lastName', 'phoneNumber']
+    const { account, roles } = this.state.data;
     return (
         <div className="card text-center shadow-lg mt-3 w-75 mx-auto">
-          <UpdateAccountForm account={this.state.data.account}/>
+          <UpdateAccountForm account={account}/>
+          <AccessLevelModal account={account}
+                            accessLevels={roles}/>
 
           <div className="card-header">
             <h1>{t('accountDetails')}</h1>
             {this.renderUpdateButton('updateAccountModal', t('update'))}
+            <button className="btn btn-outline-warning float-end me-3"
+                    data-bs-toggle='modal' data-bs-target='#accessLevelModal'>
+              {t('accessLevels')}
+            </button>
           </div>
-          {this.renderField('login', t('login'), this.state.data.account)}
-          {this.renderField('email', t('email'), this.state.data.account)}
+          {this.renderField('login', t('login'), account)}
+          {this.renderField('email', t('email'), account)}
           {this.renderField('firstName', t('firstName'),
-              this.state.data.account)}
+              account)}
           {this.renderField('lastName', t('lastName'),
-              this.state.data.account)}
+              account)}
           {this.renderField('phoneNumber', t('phoneNumber'),
-              this.state.data.account)}
+              account)}
           {this.renderField('language', t('language'),
-              this.state.data.account)}
+              account)}
           {this.renderField('loyaltyFactor', t('loyaltyFactor'),
-              this.state.data.account)}
+              account)}
           {this.renderField('gymMember', t('gymMember'),
-              this.state.data.account)}
-          {this.renderField('active', t('active'), this.state.data.account)}
+              account)}
+          {this.renderField('active', t('active'), account)}
           {this.renderField('confirmed', t('confirmed'),
-              this.state.data.account)}
-          {this.renderField('lastKnownGoodLogin', t('lastKnownGoodLogin'),
-              this.state.data.account)}
-          {this.renderField('lastKnownGoodLoginIp', t('lastKnownGoodLoginIp'),
-              this.state.data.account)}
-          {this.renderField('lastKnownBadLogin', t('lastKnownBadLogin'),
-              this.state.data.account)}
-          {this.renderField('lastKnownBadLoginIp', t('lastKnownBadLoginIp'),
-              this.state.data.account)}
+              account)}
           {this.renderField('badLoginsCounter', t('badLoginsCounter'),
-              this.state.data.account)}
+              account)}
           {this.renderField('modifiedBy', t('modifiedBy'),
-              this.state.data.account)}
+              account, true)}
           {this.renderField('creationDate', t('creationDate'),
-              this.state.data.account)}
+              account)}
           {this.renderField('modificationDate', t('modificationDate'),
-              this.state.data.account)}
+              account)}
         </div>
     );
   }
