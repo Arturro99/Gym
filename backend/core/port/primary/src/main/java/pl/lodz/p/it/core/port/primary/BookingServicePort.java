@@ -15,6 +15,17 @@ public interface BookingServicePort extends BaseServicePort<Booking> {
 
     Booking findByClientAndActivity(String login, String number);
 
+    Booking findByClientAndNumber(String login, String number);
+
+    /**
+     * Method responsible for cancelling a particular booking with given user's login.
+     *
+     * @param number Booking's number
+     * @param login User's login
+     * @return Updated booking
+     */
+    Booking cancelBooking(String number, String login);
+
     /**
      * Method responsible for cancelling a particular booking.
      *

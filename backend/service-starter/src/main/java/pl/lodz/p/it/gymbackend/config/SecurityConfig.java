@@ -47,9 +47,41 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable()
             .authorizeRequests()
             .antMatchers("/").permitAll()
+            //ACCOUNTS
             .antMatchers(HttpMethod.GET, "/accounts").hasAuthority(ADMIN)
-//            .antMatchers(HttpMethod.GET, "/accounts/**").hasAuthority(ADMIN)
+            .antMatchers(HttpMethod.GET, "/accounts/own/*").authenticated()
+            .antMatchers(HttpMethod.PUT, "/accounts/own").authenticated()
+            .antMatchers(HttpMethod.DELETE, "/accounts/own/*").authenticated()
+            .antMatchers(HttpMethod.POST, "/accounts/own/*").authenticated()
+            .antMatchers(HttpMethod.GET, "/accounts/**").hasAuthority(ADMIN)
+            .antMatchers(HttpMethod.PUT, "/accounts/**").hasAuthority(ADMIN)
+            //TRAINING PLANS
             .antMatchers(HttpMethod.GET, "/trainingPlans/**").hasAnyAuthority(CLIENT, TRAINER)
+            .antMatchers(HttpMethod.POST, "/trainingPlans").hasAuthority(TRAINER)
+            .antMatchers(HttpMethod.PUT, "/trainingPlans/*").hasAuthority(TRAINER)
+            .antMatchers(HttpMethod.DELETE, "/trainingPlans/*").hasAuthority(TRAINER)
+            //DIETS
+            .antMatchers(HttpMethod.GET, "/diets/**").hasAnyAuthority(CLIENT, TRAINER)
+            .antMatchers(HttpMethod.POST, "/diets").hasAuthority(TRAINER)
+            .antMatchers(HttpMethod.PUT, "/diets/*").hasAuthority(TRAINER)
+            .antMatchers(HttpMethod.DELETE, "/diets/*").hasAuthority(TRAINER)
+            //ACTIVITIES
+            .antMatchers(HttpMethod.GET, "/activities/**").hasAnyAuthority(CLIENT, TRAINER)
+            .antMatchers(HttpMethod.POST, "/activities").hasAuthority(TRAINER)
+            .antMatchers(HttpMethod.PUT, "/activities/*").hasAuthority(TRAINER)
+            .antMatchers(HttpMethod.DELETE, "/activities/*").hasAuthority(TRAINER)
+            //BOOKINGS
+            .antMatchers(HttpMethod.GET, "/bookings/own").hasAuthority(CLIENT)
+            .antMatchers(HttpMethod.GET, "/bookings/own/*").hasAuthority(CLIENT)
+            .antMatchers(HttpMethod.POST, "/bookings").hasAuthority(CLIENT)
+            .antMatchers(HttpMethod.PUT, "/bookings/own/**").hasAuthority(CLIENT)
+            .antMatchers(HttpMethod.GET, "/bookings/**").hasAuthority(TRAINER)
+            .antMatchers(HttpMethod.PUT, "/bookings/**").hasAuthority(TRAINER)
+            //ACCESS LEVELS
+            .antMatchers(HttpMethod.POST, "/accessLevels").hasAuthority(ADMIN)
+            .antMatchers(HttpMethod.GET, "/accessLevels").hasAuthority(ADMIN)
+            .antMatchers(HttpMethod.GET, "/accessLevels/*").hasAuthority(ADMIN)
+            .antMatchers(HttpMethod.DELETE, "/accessLevels/**").hasAuthority(ADMIN)
             .and()
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

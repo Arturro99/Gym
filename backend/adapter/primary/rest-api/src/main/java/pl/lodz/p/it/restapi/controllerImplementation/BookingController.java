@@ -1,9 +1,13 @@
 package pl.lodz.p.it.restapi.controllerImplementation;
 
+import static lombok.AccessLevel.PRIVATE;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 import pl.lodz.p.it.core.domain.Booking;
 import pl.lodz.p.it.core.port.primary.BookingServicePort;
@@ -17,15 +21,16 @@ import pl.lodz.p.it.restapi.mapper.booking.BookingResponseMapper;
 
 @RestController
 @AllArgsConstructor
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 public class BookingController implements BookingsApiDelegate {
 
-    private final BookingServicePort bookingServicePort;
+    BookingServicePort bookingServicePort;
 
-    private final BookingResponseMapper bookingResponseMapper;
+    BookingResponseMapper bookingResponseMapper;
 
-    private final BookingDetailsResponseMapper bookingDetailsResponseMapper;
+    BookingDetailsResponseMapper bookingDetailsResponseMapper;
 
-    private final BookingRequestPostMapper bookingRequestPostMapper;
+    BookingRequestPostMapper bookingRequestPostMapper;
 
     @Override
     public ResponseEntity<BookingDetailsResponse> getBooking(String number) {
@@ -41,23 +46,11 @@ public class BookingController implements BookingsApiDelegate {
     }
 
     @Override
-    public ResponseEntity<List<BookingResponse>> getBookingsByActivity(String number) {
-        return ResponseEntity.ok(bookingServicePort.findByActivity(number).stream()
-            .map(bookingResponseMapper::toDtoModel)
-            .collect(Collectors.toList()));
-    }
-
-    @Override
-    public ResponseEntity<List<BookingResponse>> getBookingsByClient(String login) {
-        return ResponseEntity.ok(bookingServicePort.findByClient(login).stream()
-            .map(bookingResponseMapper::toDtoModel)
-            .collect(Collectors.toList()));
-    }
-
-    @Override
-    public ResponseEntity<BookingDetailsResponse> createBooking(
+    public ResponseEntity<BookingDetailsResponse> createOwnBooking(
         BookingRequestPost bookingRequestPost) {
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
         Booking booking = bookingRequestPostMapper.toDomainModel(bookingRequestPost);
+        booking.setAccount(login);
         Booking saved = bookingServicePort.save(booking);
         return ResponseEntity.ok(bookingDetailsResponseMapper.toDtoModel(saved));
     }
@@ -72,5 +65,28 @@ public class BookingController implements BookingsApiDelegate {
     public ResponseEntity<BookingDetailsResponse> completeBooking(String number) {
         Booking updated = bookingServicePort.completeBooking(number);
         return ResponseEntity.ok(bookingDetailsResponseMapper.toDtoModel(updated));
+    }
+
+    @Override
+    public ResponseEntity<BookingDetailsResponse> cancelOwnBooking(String number) {
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        Booking updated = bookingServicePort.cancelBooking(number, login);
+        return ResponseEntity.ok(bookingDetailsResponseMapper.toDtoModel(updated));
+    }
+
+    @Override
+    public ResponseEntity<BookingDetailsResponse> getOwnBooking(String number) {
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity
+            .ok(bookingDetailsResponseMapper
+                .toDtoModel(bookingServicePort.findByClientAndNumber(login, number)));
+    }
+
+    @Override
+    public ResponseEntity<List<BookingResponse>> getOwnBookings() {
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(bookingServicePort.findByClient(login).stream()
+            .map(bookingResponseMapper::toDtoModel)
+            .collect(Collectors.toList()));
     }
 }

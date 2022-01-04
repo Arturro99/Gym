@@ -1,8 +1,11 @@
 package pl.lodz.p.it.restapi.controllerImplementation;
 
+import static lombok.AccessLevel.PRIVATE;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import pl.lodz.p.it.core.domain.AccessLevel;
@@ -17,15 +20,16 @@ import pl.lodz.p.it.restapi.mapper.accessLevel.AccessLevelResponseMapper;
 
 @RestController
 @AllArgsConstructor
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 public class AccessLevelController implements AccessLevelsApiDelegate {
 
-    private final AccessLevelServicePort accessLevelServicePort;
+    AccessLevelServicePort accessLevelServicePort;
 
-    private final AccessLevelResponseMapper accessLevelResponseMapper;
+    AccessLevelResponseMapper accessLevelResponseMapper;
 
-    private final AccessLevelRequestPostMapper accessLevelRequestPostMapper;
+    AccessLevelRequestPostMapper accessLevelRequestPostMapper;
 
-    private final AccountServicePort accountServicePort;
+    AccountServicePort accountServicePort;
 
     @Override
     public ResponseEntity<List<AccessLevelResponse>> getAccessLevels() {

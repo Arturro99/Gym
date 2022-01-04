@@ -1,104 +1,106 @@
-bookingNumber:
+own:
+  cancel:
+    put:
+      tags:
+        - booking
+      summary: Cancel booking
+      description: Cancel booking for own account
+      operationId: cancelOwnBooking
+      parameters:
+        - in: path
+          name: number
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '../../schemas/booking/BookingDetailsResponse.yml#/components/schemas/BookingDetailsResponse'
+
   get:
-    tags:
-      - booking
-    summary: Get booking
-    description: Find booking with given number
-    operationId: getBooking
-    parameters:
-      - in: path
-        name: number
-        schema:
-          type: string
-        required: true
-    responses:
-      200:
-        description: Operation successful
-        content:
-          application/json:
-            schema:
-              $ref: '../../schemas/booking/BookingDetailsResponse.yml#/components/schemas/BookingDetailsResponse'
+    get:
+      tags:
+        - booking
+      summary: Get own booking
+      description: Find own booking with given number
+      operationId: getOwnBooking
+      parameters:
+        - in: path
+          name: number
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '../../schemas/booking/BookingDetailsResponse.yml#/components/schemas/BookingDetailsResponse'
 
-cancel:
-  put:
-    tags:
-      - booking
-    summary: Cancel booking
-    description: Cancel the particular booking
-    operationId: cancelBooking
-    parameters:
-      - in: path
-        name: number
-        schema:
-          type: string
-        required: true
-    responses:
-      200:
-        description: Operation successful
-        content:
-          application/json:
-            schema:
-              $ref: '../../schemas/booking/BookingDetailsResponse.yml#/components/schemas/BookingDetailsResponse'
-
-complete:
-  put:
-    tags:
-      - booking
-    summary: Complete booking
-    description: Complete the particular booking when activity is finished. Should be invoked by the third party service.
-    operationId: completeBooking
-    parameters:
-      - in: path
-        name: number
-        schema:
-          type: string
-        required: true
-    responses:
-      200:
-        description: Operation successful
-        content:
-          application/json:
-            schema:
-              $ref: '../../schemas/booking/BookingDetailsResponse.yml#/components/schemas/BookingDetailsResponse'
-
-clientLogin:
+all:
   get:
-    tags:
-      - booking
-    summary: Get bookings by client login
-    description: Find all bookings that are assigned to the client with provided login
-    operationId: getBookingsByClient
-    parameters:
-      - in: path
-        name: login
-        schema:
-          type: string
-        required: true
-    responses:
-      200:
-        description: Operation successful
-        content:
-          application/json:
-            schema:
-              $ref: '../../schemas/booking/BookingResponseList.yml#/components/schemas/BookingResponseList'
+    get:
+      tags:
+        - booking
+      summary: Get booking
+      description: Find booking with given number
+      operationId: getBooking
+      parameters:
+        - in: path
+          name: number
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '../../schemas/booking/BookingDetailsResponse.yml#/components/schemas/BookingDetailsResponse'
 
-activityNumber:
-  get:
-    tags:
-      - booking
-    summary: Get booking by activity number
-    description: Find all bookings that are assigned to the activity with provided number
-    operationId: getBookingsByActivity
-    parameters:
-      - in: path
-        name: number
-        schema:
-          type: string
-        required: true
-    responses:
-      200:
-        description: Operation successful
-        content:
-          application/json:
-            schema:
-              $ref: '../../schemas/booking/BookingResponseList.yml#/components/schemas/BookingResponseList'
+  cancel:
+    put:
+      tags:
+        - booking
+      summary: Cancel booking
+      description: Cancel the particular booking
+      operationId: cancelBooking
+      parameters:
+        - in: path
+          name: number
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '../../schemas/booking/BookingDetailsResponse.yml#/components/schemas/BookingDetailsResponse'
+
+  complete:
+    put:
+      tags:
+        - booking
+      summary: Complete booking
+      description: Complete the particular booking when activity is finished. Should be invoked by the third party service.
+      operationId: completeBooking
+      parameters:
+        - in: path
+          name: number
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '../../schemas/booking/BookingDetailsResponse.yml#/components/schemas/BookingDetailsResponse'

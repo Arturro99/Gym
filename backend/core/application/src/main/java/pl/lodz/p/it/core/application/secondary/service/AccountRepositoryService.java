@@ -122,20 +122,25 @@ public class AccountRepositoryService extends
         AccountEntity updated = mapper
             .toEntityModel(entity, account);
 
-        Set<DietEntity> diets = account.getDiets().stream()
-            .map(Diet::getNumber)
-            .map(dietRepository::findByBusinessId)
-            .map(Optional::get)
-            .collect(Collectors.toSet());
+        if (Optional.ofNullable(account.getDiets()).isPresent()) {
+            Set<DietEntity> diets = account.getDiets().stream()
+                .map(Diet::getNumber)
+                .map(dietRepository::findByBusinessId)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
 
-        Set<TrainingPlanEntity> trainingPlans = account.getTrainingPlans().stream()
-            .map(TrainingPlan::getNumber)
-            .map(trainingPlanRepository::findByBusinessId)
-            .map(Optional::get)
-            .collect(Collectors.toSet());
+            entity.setDiets(diets);
+        }
+        if (Optional.ofNullable(account.getTrainingPlans()).isPresent()) {
+            Set<TrainingPlanEntity> trainingPlans = account.getTrainingPlans().stream()
+                .map(TrainingPlan::getNumber)
+                .map(trainingPlanRepository::findByBusinessId)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
 
-        entity.setDiets(diets);
-        entity.setTrainingPlans(trainingPlans);
+            entity.setTrainingPlans(trainingPlans);
+        }
+
 
         AccountEntity response = repository.save(updated);
         return mapper.toDomainModel(response);

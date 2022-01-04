@@ -83,6 +83,11 @@ public class BookingService extends BaseService<Booking> implements
     }
 
     @Override
+    public Booking findByClientAndNumber(String login, String number) {
+        return bookingRepositoryPort.findByClientAndNumber(login, number);
+    }
+
+    @Override
     public Booking save(Booking booking) {
         Activity activity = activityRepositoryPort.find(booking.getActivity());
         Optional<Booking> existingBooking;
@@ -114,6 +119,20 @@ public class BookingService extends BaseService<Booking> implements
             throw BookingException.possessedBookingConflictException();
         }
         return repository.update(existingBooking.get().getNumber(), existingBooking.get());
+    }
+
+    @Override
+    public Booking cancelBooking(String number, String login) {
+        Booking booking = bookingRepositoryPort.findByClientAndNumber(login, number);
+        Activity activity = activityRepositoryPort.find(booking.getActivity());
+
+        if (activity.getStartDate().minus(cancellationTime, ChronoUnit.MINUTES)
+            .isBefore(OffsetDateTime.now())) {
+            throw BookingException.bookingCancellationDeadlineException();
+        }
+
+        orderFactorService.recalculateBookingOrderFactorAfterCancellation(booking);
+        return bookingRepositoryPort.cancelBooking(number);
     }
 
     @Override
