@@ -3,6 +3,7 @@ import React from "react";
 import Joi from "joi";
 import Form from "./common/Form";
 import { signIn } from "../services/AuthenticationService";
+import { Link } from "react-router-dom";
 
 class LoginForm extends Form {
 
@@ -31,8 +32,9 @@ class LoginForm extends Form {
   }
 
   continueSubmitting = async () => {
+    const { t } = this.props;
     const { login, password } = this.state.data;
-    await signIn(login, password);
+    await signIn(login, password, t);
     this.props.resetData();
   }
 
@@ -69,12 +71,14 @@ class LoginForm extends Form {
                     'login-box position-relative start-50 translate-middle-x text-light')}
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-primary"
-                        onClick={this.handleSubmit}
-                        disabled={this.validate()}
-                        data-bs-toggle='modal'
-                        data-bs-target='#loginModal'>
-                  {t('signIn')}</button>
+                <Link to={'/'}>
+                  <button type="button" className="btn btn-primary"
+                          onClick={this.handleSubmit}
+                          disabled={this.validate()}
+                          data-bs-toggle='modal'
+                          data-bs-target='#loginModal'>
+                    {t('signIn')}</button>
+                </Link>
                 <button type="button" className="btn btn-secondary"
                         data-bs-toggle='modal'
                         data-bs-target='#loginModal'>

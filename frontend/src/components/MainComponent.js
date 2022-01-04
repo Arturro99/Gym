@@ -32,6 +32,7 @@ import {
   switchCurrentRole
 } from "../services/AuthenticationService";
 import ConfirmRegistrationComponent from "./ConfirmRegistrationComponent";
+import MainWindowComponent from "./MainWindowComponent";
 
 //DO NOT REMOVE THIS -> MODAL WON'T WORK WITHOUT IT
 
@@ -129,6 +130,8 @@ class MainComponent extends Component {
               <Route exact path={'/confirmRegistration/:token'}
                      render={(props) =>
                          <ConfirmRegistrationComponent {...props} />}/>
+              <Route exact path={'/'}
+                     component={MainWindowComponent}/>
             </Switch>
           </main>
         </React.Fragment>

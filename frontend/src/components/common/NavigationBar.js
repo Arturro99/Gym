@@ -1,12 +1,11 @@
 import { Link, NavLink } from 'react-router-dom'
 import React from "react";
-import { withTranslation } from "react-i18next";
 import {
   getCurrentRole,
-  getCurrentUser,
-  getRoles
+  getCurrentUser
 } from "../../services/AuthenticationService";
-import config from '../../config.json'
+import config from '../../config.json';
+import { withTranslation } from "react-i18next";
 
 const NavigationBar = (props) => {
 
@@ -94,9 +93,11 @@ const NavigationBar = (props) => {
                       <Link className="dropdown-item"
                             to={`/diets/own/${data.login}`}
                             type="button">{t('myDiets')}</Link>
-                      <button className="dropdown-item"
-                              onClick={onSignOutClick}
-                              type="button">{t('signOut')}</button>
+                      <Link to={'/'} style={{ textDecoration: 'none' }}>
+                        <button className="dropdown-item"
+                                onClick={onSignOutClick}
+                                type="button">{t('signOut')}</button>
+                      </Link>
                     </ul>
                   </li>
                 </ul>

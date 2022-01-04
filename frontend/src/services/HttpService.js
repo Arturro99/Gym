@@ -22,14 +22,16 @@ axios.interceptors.request.use(config => {
   return config;
 });
 axios.interceptors.response.use(config => {
-  const token = config.headers["refresh-token"];
-  if (token) {
-    const values = jwt(token)
-    localStorage.setItem('token', token);
-    localStorage.setItem('userName', values.sub);
-    localStorage.setItem('exp', values.exp);
-    localStorage.setItem('roles', values.auth);
-    localStorage.setItem('currentRole', values.auth.split(',')[0]);
+  if (localStorage.token) {
+    const token = config.headers["refresh-token"];
+    if (token) {
+      const values = jwt(token)
+      localStorage.setItem('token', token);
+      localStorage.setItem('userName', values.sub);
+      localStorage.setItem('exp', values.exp);
+      localStorage.setItem('roles', values.auth);
+      localStorage.setItem('currentRole', values.auth.split(',')[0]);
+    }
   }
   return config;
 })

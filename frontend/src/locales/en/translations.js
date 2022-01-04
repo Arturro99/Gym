@@ -30,8 +30,12 @@ export const TRANSLATIONS_EN = {
   yes: 'Yes',
   no: 'No',
 
+  signIn_success: 'Welcome, ',
+
   error_title_string_empty: 'Name required',
   error_trainer_string_empty: 'Trainer required',
+  error_invalid_credentials: 'Invalid credentials',
+  error_account_inactive: 'Account has been blocked',
 
   //Registration form
   login: 'Login',
