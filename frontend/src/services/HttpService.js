@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { toast } from 'react-toastify'
-import { attachToken } from "./AuthenticationService";
+import { attachToken, signOut } from "./AuthenticationService";
 import jwt from "jwt-decode";
 
 axios.interceptors.response.use(null, error => {
@@ -30,10 +30,21 @@ axios.interceptors.response.use(config => {
       localStorage.setItem('userName', values.sub);
       localStorage.setItem('exp', values.exp);
       localStorage.setItem('roles', values.auth);
-      localStorage.setItem('currentRole', values.auth.split(',')[0]);
     }
   }
   return config;
+}, ex => {
+  if (ex.response.data.status === 403) {
+    window.location.replace('/error403');
+  } else if (ex.response.data.status === 404 || ex.response.status === 404) {
+    window.location.replace('/error404');
+  } else if (ex.response.data.status === 410 || ex.response.status === 410) {
+    toast.error(`${localStorage.getItem('i18nextLng') === 'pl' ? "Sesja wygasła"
+        : "Session expired"}`)
+    signOut();
+    window.location.replace('/');
+  }
+  throw ex;
 })
 
 export default {

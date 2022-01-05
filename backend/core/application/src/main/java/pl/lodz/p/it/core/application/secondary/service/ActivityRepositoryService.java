@@ -4,6 +4,7 @@ import static lombok.AccessLevel.PRIVATE;
 import static org.springframework.transaction.annotation.Isolation.READ_COMMITTED;
 import static org.springframework.transaction.annotation.Propagation.MANDATORY;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -103,6 +104,12 @@ public class ActivityRepositoryService extends
     public Activity update(String key, Activity activity) {
         ActivityEntity entity = repository.findByBusinessId(key).orElseThrow(
             ActivityException::activityNotFoundException);
+        if (!entity.getActive()) {
+            throw ActivityException.inactiveActivityConflictException();
+        }
+        if (entity.getStartDate().isBefore(OffsetDateTime.now())) {
+            throw ActivityException.activityExpiredException();
+        }
         if (bookingRepository.findAllByActivity(entity).stream()
             .anyMatch(BookingEntity::getActive) && activity.getCapacity() != null) {
             throw ActivityException.inUseActivityConflictException();
@@ -125,13 +132,18 @@ public class ActivityRepositoryService extends
     }
 
     @Override
-    public void delete(String key) {
-        ActivityEntity entity = repository.findByBusinessId(key)
+    public void deactivate(String number) {
+        ActivityEntity activityEntity = activityRepository.findByBusinessId(number)
             .orElseThrow(ActivityException::activityNotFoundException);
-        if (entity.getActive()) {
-            throw ActivityException.activeActivityConflictException();
+
+        if (activityEntity.getStartDate().isBefore(OffsetDateTime.now())) {
+            throw ActivityException.activityExpiredException();
         }
-        repository.delete(entity);
+
+
+        activityEntity.setActive(false);
+
+        activityRepository.save(activityEntity);
     }
 
     private boolean hasTrainerRole(AccountEntity accountEntity) {

@@ -5,7 +5,7 @@ import Details from "../common/Details";
 import UpdateAccountForm from "./UpdateAccountModal";
 import { getCurrentRole } from "../../services/AuthenticationService";
 import config from "../../config.json";
-import { getAccount } from "../../services/AccountService";
+import { getOwnAccount } from "../../services/AccountService";
 import { parseFromOffsetDateTimeToLegibleFormat } from "../../services/DateParser";
 
 class MyAccountDetails extends Details {
@@ -20,13 +20,16 @@ class MyAccountDetails extends Details {
 
   componentDidMount() {
     this.updateDetails();
+    const myModalEl = document.getElementById('updateAccountModal')
+    myModalEl.addEventListener('hidden.bs.modal', () => {
+      this.updateDetails();
+    })
   }
 
   updateDetails = async () => {
-    const pathParam = this.props.match.params.login;
     const { t } = this.props;
     let currentState = { ...this.state };
-    const fetched = await getAccount(pathParam);
+    const fetched = await getOwnAccount();
     currentState.data.account = new Account(
         fetched.login,
         fetched.email,
@@ -52,7 +55,8 @@ class MyAccountDetails extends Details {
     const { account } = this.state.data;
     return (
         <div className="card text-center shadow-lg mt-3 w-75 mx-auto">
-          <UpdateAccountForm account={this.state.data.account}/>
+          <UpdateAccountForm account={this.state.data.account}
+                             own={true}/>
           <div className="card-header">
             <h1>{t('myAccount')}</h1>
             {this.renderUpdateButton('updateAccountModal', t('update'))}

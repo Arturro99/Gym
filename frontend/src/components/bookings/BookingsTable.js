@@ -40,7 +40,8 @@ class BookingsTable extends Component {
                 className="btn btn-outline-danger col-3 ms-2 d-flex justify-content-center text-center"
                 onClick={() => this.props.onDelete(booking)}>
               {this.props.myTable ?
-                  (booking.active === this.props.t('active') ? this.props.t('cancel') : this.props.t(
+                  (booking.active === this.props.t('active') ? this.props.t(
+                      'cancel') : this.props.t(
                       'apply')) :
                   booking.active === this.props.t('active') ?
                       this.props.t('deactivate') : this.props.t('activate')}
@@ -59,7 +60,8 @@ class BookingsTable extends Component {
             }
             <Link
                 className="btn btn-outline-success col-3 ms-2 d-flex justify-content-center text-center"
-                to={`/bookings/${booking.number}`}>{this.props.t(
+                to={`/bookings/${this.props.own ? "own/"
+                    : ""}${booking.number}`}>{this.props.t(
                 'details')}
             </Link>
           </div>
@@ -67,8 +69,10 @@ class BookingsTable extends Component {
   ];
 
   render() {
-    const { bookings, onSort, sortColumn, t } = this.props;
-
+    const { bookings, onSort, own, sortColumn, t } = this.props;
+    if (own) {
+      this.columns = this.columns.filter(column => column.path !== 'account');
+    }
     return (
         <div className="card-header">
           {this.props.myTable ?

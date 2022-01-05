@@ -39,14 +39,22 @@ class ActivitiesTable extends Component {
           <div className="row justify-content-md-center">
             {getCurrentRole() === config.TRAINER ?
                 <button
-                    className="btn btn-outline-danger col-3 ms-2 d-flex justify-content-center text-center"
+                    className={activity.active === this.props.t('inactive') ?
+                        "btn btn-outline-dark col-4 ms-2 d-flex justify-content-center text-center"
+                        :
+                        "btn btn-outline-danger col-4 ms-2 d-flex justify-content-center text-center"}
+                    disabled={activity.active === this.props.t('inactive')}
                     onClick={() => this.props.onDelete(activity)}>{this.props.t(
-                    'delete')}
+                    'deactivate')}
                 </button> : ''
             }
             {getCurrentRole() === config.CLIENT ?
                 <button
-                    className="btn btn-outline-success col-3 ms-2 d-flex justify-content-center text-center"
+                    className={activity.active === this.props.t('inactive') ?
+                        "btn btn-outline-dark col-3 ms-2 d-flex justify-content-center text-center"
+                        :
+                        "btn btn-outline-success col-3 ms-2 d-flex justify-content-center text-center"}
+                    disabled={activity.active === this.props.t('inactive')}
                     onClick={() => this.props.onApply(activity)}>{this.props.t(
                     'apply')}
                 </button> : ''

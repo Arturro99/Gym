@@ -1,7 +1,12 @@
 import Form from "../common/Form";
 import { withTranslation } from "react-i18next";
 import Joi from "joi";
-import { getAccount, updateAccount } from "../../services/AccountService";
+import {
+  getAccount,
+  getOwnAccount,
+  updateAccount,
+  updateOwnAccount
+} from "../../services/AccountService";
 
 class UpdateAccountModal extends Form {
 
@@ -61,18 +66,26 @@ class UpdateAccountModal extends Form {
       newGyMember = this.state.data.gymMember;
     }
 
-    await updateAccount({
-      login: login,
-      firstName: newFirstName,
-      lastName: newLastName,
-      phoneNumber: newPhoneNumber,
-      gymMember: newGyMember
-    }, t)
+    if (this.props.own) {
+      await updateOwnAccount({
+        firstName: newFirstName,
+        lastName: newLastName,
+        phoneNumber: newPhoneNumber,
+      }, t)
+    } else {
+      await updateAccount({
+        login: login,
+        firstName: newFirstName,
+        lastName: newLastName,
+        phoneNumber: newPhoneNumber,
+        gymMember: newGyMember
+      }, t)
+    }
   }
 
   async resetData() {
     let currentData = { ...this.state.data };
-    const account = await getAccount(this.props.account.login);
+    const { account } = this.props;
     currentData.firstName = account.firstName;
     currentData.lastName = account.lastName;
     currentData.phoneNumber = account.phoneNumber;
@@ -119,13 +132,15 @@ class UpdateAccountModal extends Form {
                     'login-box position-relative start-50 translate-middle-x text-light',
                     data.phoneNumber)}
               </div>
-              <div className="modal-body ms-4">
-                {this.renderInput('gymMember', t('gymMember'), 'checkbox',
-                    'login-label',
-                    'login-box position-relative start-50 translate-middle-x text-light',
-                    data.gymMember, this.state.data.gymMember,
-                    this.handleCheck)}
-              </div>
+              {this.props.own ? '' :
+                  <div className="modal-body ms-4">
+                    {this.renderInput('gymMember', t('gymMember'), 'checkbox',
+                        'login-label',
+                        'login-box position-relative start-50 translate-middle-x text-light',
+                        data.gymMember, this.state.data.gymMember,
+                        this.handleCheck)}
+                  </div>
+              }
               <div className="modal-footer">
                 <button type="button" className="btn btn-primary"
                         data-bs-toggle='modal'

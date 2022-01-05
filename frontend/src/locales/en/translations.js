@@ -37,6 +37,9 @@ export const TRANSLATIONS_EN = {
   error_invalid_credentials: 'Invalid credentials',
   error_account_inactive: 'Account has been blocked',
 
+  access_forbidden: 'You cannot access this page as it\'s forbidden',
+  not_found: 'Resource not found',
+
   //Registration form
   login: 'Login',
   email: 'E-mail',
@@ -80,11 +83,14 @@ export const TRANSLATIONS_EN = {
   error_capacity_number_min: 'Capacity must be at least 1',
 
   activity_number_conflict: 'Activity with such number exists',
-  activity_remove_conflict: 'Activity is being used',
+  activity_deactivate_conflict: 'Activity is already finished',
+  activity_expired_conflict: 'Activity is already finished',
+  activity_inUse_conflict: 'Activity is being used',
+  activity_inactive_conflict: 'Activity is already inactive',
   activity_notFound: 'Activity already removed',
   activity_update_success: 'Activity updated successfully',
   activity_add_success: 'Activity added successfully',
-  activity_remove_success: 'Activity removed successfully',
+  activity_deactivate_success: 'Activity deactivated successfully',
   activity_inappropriate_date: 'Date should be a value from future',
 
   //Diets
@@ -185,6 +191,7 @@ export const TRANSLATIONS_EN = {
   booking_cancellation_deadline_conflict: 'You can no longer cancel this booking',
   booking_completion_cancellation_conflict: 'Cannot manage booking\'s activity after its completion',
   booking_completion_conflict: 'Cannot complete booking before the start of activity',
+  booking_completion_clientTrainer_conflict: 'Cannot apply for activity that you run',
 
   //Access levels
   assignAccessLevels: 'Assign access levels',

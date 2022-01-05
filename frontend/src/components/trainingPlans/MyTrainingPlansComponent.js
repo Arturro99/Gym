@@ -51,18 +51,12 @@ class MyTrainingPlansComponent extends Component {
   }
 
   render() {
-    const { length: count } = this.state.trainingPlans;
     const {
       pageSize,
       currentPage,
       sortColumn,
       trainingPlans
     } = this.state;
-    const { t } = this.props;
-
-    if (count === 0) {
-      return <h1>{t('noIndividualTrainingPlans')}</h1>;
-    }
 
     return (
         <div className="row mt-5">

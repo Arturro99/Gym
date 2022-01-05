@@ -12,11 +12,15 @@
   "ACCESS_LEVEL_NOT_FOUND_ERROR": "error.accessLevel.notFound",
 
   "ACTIVITY_CONFLICT_ERROR": "error.activity.conflict",
+  "ACTIVITY_CONFLICT_IN_USE_ERROR": "error.activity.inUse.conflict",
+  "ACTIVITY_CONFLICT_INACTIVE_ERROR": "error.activity.inactive.conflict",
   "ACTIVITY_NOT_FOUND_ERROR": "error.activity.notFound",
 
   "BOOKING_CONFLICT_ERROR": "error.booking.conflict",
   "BOOKING_CONFLICT_CANCELLATION_ERROR": "error.booking.cancellation.conflict",
   "BOOKING_CONFLICT_COMPLETION_ERROR": "error.booking.completion.conflict",
+  "BOOKING_CONFLICT_CLIENT_TRAINER_ERROR": "error.booking.clientTrainer.conflict",
+  "BOOKING_CONFLICT_ACTIVITY_INACTIVE_ERROR": "error.booking.activityInactive.conflict",
 
   "URL_NOT_FOUND_ERROR": "error.url.notFound",
   "URL_GONE_ERROR": "error.url.gone",

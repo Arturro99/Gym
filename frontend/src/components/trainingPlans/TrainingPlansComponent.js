@@ -49,7 +49,7 @@ class TrainingPlansComponent extends Component {
 
   handleApply = async trainingPlan => {
     const { t } = this.props;
-    await applyForTrainingPlan(trainingPlan.number, getCurrentUser(), t);
+    await applyForTrainingPlan(trainingPlan.number, t);
   }
 
   handleSort = sortColumn => {
@@ -57,7 +57,6 @@ class TrainingPlansComponent extends Component {
   }
 
   render() {
-    const { length: count } = this.state.trainingPlans;
     const {
       pageSize,
       currentPage,
@@ -65,10 +64,6 @@ class TrainingPlansComponent extends Component {
       trainingPlans
     } = this.state;
     const { t } = this.props;
-
-    if (count === 0) {
-      return <h1>{t('noTrainingPlans')}</h1>;
-    }
 
     return (
         <div className="row mt-5">

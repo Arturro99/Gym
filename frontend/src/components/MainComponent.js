@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Switch } from 'react-router'
+import { Redirect, Route, Switch } from 'react-router'
 import '../locales/i18n';
 import ActivitiesComponent from "./activities/ActivitiesComponent";
 import DietsComponent from "./diets/DietsComponent";
@@ -33,8 +33,7 @@ import {
 } from "../services/AuthenticationService";
 import ConfirmRegistrationComponent from "./ConfirmRegistrationComponent";
 import MainWindowComponent from "./MainWindowComponent";
-
-//DO NOT REMOVE THIS -> MODAL WON'T WORK WITHOUT IT
+import ErrorComponent from "./errors/ErrorComponent";
 
 class MainComponent extends Component {
 
@@ -102,8 +101,7 @@ class MainComponent extends Component {
                      component={TrainingPlansComponent}/>
               <Route exact path={'/accounts'}
                      component={AccountsComponent}/>
-              <Route exact path={'/accounts/own/:login'}
-                     component={MyAccountDetails}/>
+              <Route exact path={'/accounts/own'} component={MyAccountDetails}/>
               <Route exact path={'/accounts/:login'}
                      render={(props) => <AccountDetails {...props}/>}/>
               <Route exact path={'/register'} component={RegisterForm}/>
@@ -111,27 +109,37 @@ class MainComponent extends Component {
               <Route path="/activities/:number"
                      render={(props) => <ActivityDetails {...props}/>}/>
               <Route path="/diets/new" component={DietForm}/>
-              <Route path="/diets/own/:login"
-                     render={(props) => <MyDietsComponent {...props}/>}/>
+              <Route exact path="/diets/own" component={MyDietsComponent}/>
               <Route path="/diets/:number"
                      render={(props) => <DietDetails {...props}/>}/>
-              <Route path="/trainingPlans/own/:login"
-                     render={(props) =>
-                         <MyTrainingPlansComponent {...props}/>}/>
+              <Route exact path="/trainingPlans/own"
+                     component={MyTrainingPlansComponent}/>
               <Route path="/trainingPlans/new" component={TrainingPlanForm}/>
               <Route path="/trainingPlans/:number"
                      render={(props) => <TrainingPlanDetails {...props}/>}/>
               <Route exact path={'/bookings'}
                      component={BookingsComponent}/>
-              <Route path="/bookings/own/:login"
-                     render={(props) => <MyBookingsComponent {...props}/>}/>
-              <Route path="/bookings/:number"
+              <Route exact path="/bookings/own"
+                     component={MyBookingsComponent}/>
+              <Route exact path="/bookings/own/:number"
+                     render={(props) => <BookingDetails {...props}
+                                                        own={true}/>}/>
+              <Route exact path="/bookings/:number"
                      render={(props) => <BookingDetails {...props}/>}/>
               <Route exact path={'/confirmRegistration/:token'}
                      render={(props) =>
                          <ConfirmRegistrationComponent {...props} />}/>
               <Route exact path={'/'}
                      component={MainWindowComponent}/>
+              <Route exact path={'/error403'}
+                     render={() =>
+                         <ErrorComponent title="access_forbidden"
+                                         code="403"/>}/>
+              <Route exact path='/error404'
+                     render={() =>
+                         <ErrorComponent title="not_found"
+                                         code="404"/>}/>
+              <Redirect from='*' to='/error404'/>
             </Switch>
           </main>
         </React.Fragment>

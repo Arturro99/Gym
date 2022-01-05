@@ -7,6 +7,10 @@ function accountUrl(id) {
   return `${config.apiUrl}/accounts/${id}`;
 }
 
+function ownAccountUrl() {
+  return `${config.apiUrl}/accounts/own`;
+}
+
 export async function getAccounts() {
   const { data: accounts } = await http.get(`${config.apiUrl}/accounts`, {
     method: 'GET'
@@ -16,6 +20,11 @@ export async function getAccounts() {
 
 export async function getAccount(id) {
   const { data: account } = await http.get(`${accountUrl(id)}`);
+  return account;
+}
+
+export async function getOwnAccount() {
+  const { data: account } = await http.get(`${ownAccountUrl()}`);
   return account;
 }
 
@@ -36,6 +45,14 @@ export async function register(account, t) {
 
 export async function updateAccount(account, t) {
   return await http.put(accountUrl(account.login), account).then(response => {
+    if (response.status === 200) {
+      toast.success(t('account_update_success'));
+    }
+  });
+}
+
+export async function updateOwnAccount(account, t) {
+  return await http.put(ownAccountUrl(), account).then(response => {
     if (response.status === 200) {
       toast.success(t('account_update_success'));
     }
@@ -74,8 +91,8 @@ export async function unblockAccount(account, t) {
   })
 }
 
-export async function applyForDiet(number, login, t) {
-  return await http.post(`${accountUrl(login)}/diets`,
+export async function applyForDiet(number, t) {
+  return await http.post(`${ownAccountUrl()}/diets`,
       JSON.stringify({ number: number })).catch(ex => {
     if (ex.response.data.error.errorKey === keys.DIET_CONFLICT_ERROR) {
       toast.error(t('diet_possessing_conflict'));
@@ -87,8 +104,8 @@ export async function applyForDiet(number, login, t) {
   });
 }
 
-export async function removeDiet(number, login, t) {
-  return await http.delete(`${accountUrl(login)}/diets/${number}`).catch(ex => {
+export async function removeDiet(number, t) {
+  return await http.delete(`${ownAccountUrl()}/diets/${number}`).catch(ex => {
     if (ex.response.data.error.errorKey === keys.DIET_NOT_FOUND_ERROR) {
       toast.error(t('diet_notFound'));
     }
@@ -101,16 +118,16 @@ export async function removeDiet(number, login, t) {
   });
 }
 
-export async function getOwnDiets(login) {
+export async function getOwnDiets() {
   const { data: diets } = await http.get(
-      `${config.apiUrl}/accounts/${login}/diets`, {
+      `${config.apiUrl}/accounts/own/diets`, {
         method: 'GET'
       });
   return diets;
 }
 
-export async function applyForTrainingPlan(number, login, t) {
-  return await http.post(`${accountUrl(login)}/trainingPlans`,
+export async function applyForTrainingPlan(number, t) {
+  return await http.post(`${ownAccountUrl()}/trainingPlans`,
       JSON.stringify({ number: number })).catch(ex => {
     if (ex.response.data.error.errorKey === keys.TRAINING_PLAN_CONFLICT_ERROR) {
       toast.error(t('trainingPlan_possessing_conflict'));
@@ -125,9 +142,9 @@ export async function applyForTrainingPlan(number, login, t) {
   });
 }
 
-export async function removeTrainingPlan(number, login, t) {
+export async function removeTrainingPlan(number, t) {
   return await http.delete(
-      `${accountUrl(login)}/trainingPlans/${number}`).catch(ex => {
+      `${ownAccountUrl()}/trainingPlans/${number}`).catch(ex => {
     if (ex.response.data.error.errorKey
         === keys.TRAINING_PLAN_NOT_FOUND_ERROR) {
       toast.error(t('trainingPlan_notFound'));
@@ -141,9 +158,9 @@ export async function removeTrainingPlan(number, login, t) {
   });
 }
 
-export async function getOwnTrainingPlans(login) {
+export async function getOwnTrainingPlans() {
   const { data: trainingPlans } = await http.get(
-      `${config.apiUrl}/accounts/${login}/trainingPlans`, {
+      `${config.apiUrl}/accounts/own/trainingPlans`, {
         method: 'GET'
       });
   return trainingPlans;

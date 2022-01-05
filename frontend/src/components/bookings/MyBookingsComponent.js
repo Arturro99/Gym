@@ -2,9 +2,8 @@ import { withTranslation } from "react-i18next";
 import '../../locales/i18n';
 import BookingsTable from "../bookings/BookingsTable";
 import { Component } from "react";
-import { getCurrentUser } from "../../services/AuthenticationService";
 import {
-  cancelBooking,
+  cancelBooking, cancelOwnBooking,
   createBooking,
   getOwnBookings
 } from "../../services/BookingService";
@@ -21,26 +20,24 @@ class MyBookingsComponent extends Component {
   paginatedBookings = {};
 
   async componentDidMount() {
-    const login = getCurrentUser();
     const { t } = this.props;
-    this.resetBookings(login, t);
+    this.resetBookings(t);
   }
 
   handleCancel = async booking => {
-    const login = getCurrentUser();
     const { t } = this.props;
     if (booking.active === t('active')) {
-      await cancelBooking(booking.number, t)
-      .catch(() => this.resetBookings(login, t))
-      .then(() => this.resetBookings(login, t));
+      await cancelOwnBooking(booking.number, t)
+      .catch(() => this.resetBookings(t))
+      .then(() => this.resetBookings(t));
     } else {
       await createBooking(booking.activity, booking.account, t)
-      .then(() => this.resetBookings(login, t));
+      .then(() => this.resetBookings(t));
     }
   }
 
-  resetBookings = async (login, t) => {
-    const bookings = await getOwnBookings(login);
+  resetBookings = async (t) => {
+    const bookings = await getOwnBookings();
     bookings.forEach(booking => {
       booking.active = booking.active ? t('active') : t('inactive');
       booking.completed = booking.completed ? t('completed') : t('incomplete');
@@ -80,7 +77,8 @@ class MyBookingsComponent extends Component {
                            onDelete={this.handleCancel}
                            onUpdate={this.handleUpdate}
                            onApply={this.handleApply}
-                           onSort={this.handleSort}/>
+                           onSort={this.handleSort}
+                           own={true}/>
             {/*<Pagination*/}
             {/*    itemsCount={totalCount}*/}
             {/*    pageSize={pageSize}*/}

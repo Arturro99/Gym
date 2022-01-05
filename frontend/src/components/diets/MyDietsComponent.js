@@ -48,18 +48,12 @@ class MyDietsComponent extends Component {
   }
 
   render() {
-    const { length: count } = this.state.diets;
     const {
       pageSize,
       currentPage,
       sortColumn,
       diets
     } = this.state;
-    const { t } = this.props;
-
-    if (count === 0) {
-      return <h1>{t('noIndividualDiets')}</h1>;
-    }
 
     return (
         <div className="row mt-5">

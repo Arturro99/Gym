@@ -82,17 +82,20 @@ const NavigationBar = (props) => {
                     <ul className="dropdown-menu dropdown-menu-dark dropdown-menu-end text"
                         aria-labelledby="navbarDarkDropdownMenuLink">
                       <Link className="dropdown-item"
-                            to={`/accounts/own/${data.login}`}
+                            to={`/accounts/own`}
                             type="button">{t('accountDetails')}</Link>
-                      <Link className="dropdown-item"
-                            to={`/bookings/own/${data.login}`}
-                            type="button">{t('myBookings')}</Link>
-                      <Link className="dropdown-item"
-                            to={`/trainingPlans/own/${data.login}`}
-                            type="button">{t('myTrainingPlans')}</Link>
-                      <Link className="dropdown-item"
-                            to={`/diets/own/${data.login}`}
-                            type="button">{t('myDiets')}</Link>
+                      {getCurrentRole() === config.CLIENT ? <div>
+                        <Link className="dropdown-item"
+                              to={`/bookings/own`}
+                              type="button">{t('myBookings')}</Link>
+                        <Link className="dropdown-item"
+                              to={`/trainingPlans/own`}
+                              type="button">{t('myTrainingPlans')}</Link>
+                        <Link className="dropdown-item"
+                              to={`/diets/own`}
+                              type="button">{t('myDiets')}</Link>
+                      </div> : ''
+                      }
                       <Link to={'/'} style={{ textDecoration: 'none' }}>
                         <button className="dropdown-item"
                                 onClick={onSignOutClick}
