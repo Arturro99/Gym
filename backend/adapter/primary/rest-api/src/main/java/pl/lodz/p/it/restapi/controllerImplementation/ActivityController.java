@@ -68,8 +68,9 @@ public class ActivityController implements ActivitiesApiDelegate {
     }
 
     @Override
-    public ResponseEntity<Void> deleteActivity(String number) {
-        activityServicePort.delete(number);
+    public ResponseEntity<Void> deactivateActivity(String number) {
+        activityServicePort.deactivate(number);
+
         return ResponseEntity.ok().build();
     }
 

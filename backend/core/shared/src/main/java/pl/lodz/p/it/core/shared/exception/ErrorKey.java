@@ -19,11 +19,15 @@ public final class ErrorKey {
 
     public static final String ACTIVITY_NOT_FOUND_ERROR = "error.activity.notFound";
     public static final String ACTIVITY_CONFLICT_ERROR = "error.activity.conflict";
+    public static final String ACTIVITY_CONFLICT_INACTIVE_ERROR = "error.activity.inactive.conflict";
+    public static final String ACTIVITY_CONFLICT_IN_USE_ERROR = "error.activity.inUse.conflict";
 
     public static final String BOOKING_NOT_FOUND_ERROR = "error.booking.notFound";
     public static final String BOOKING_CONFLICT_ERROR = "error.booking.conflict";
     public static final String BOOKING_CONFLICT_CANCELLATION_ERROR = "error.booking.cancellation.conflict";
     public static final String BOOKING_CONFLICT_COMPLETION_ERROR = "error.booking.completion.conflict";
+    public static final String BOOKING_CONFLICT_CLIENT_TRAINER_ERROR = "error.booking.clientTrainer.conflict";
+    public static final String BOOKING_CONFLICT_ACTIVITY_INACTIVE_ERROR = "error.booking.activityInactive.conflict";
 
     public static final String DIET_NOT_FOUND_ERROR = "error.diet.notFound";
     public static final String DIET_CONFLICT_ERROR = "error.diet.conflict";

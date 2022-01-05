@@ -90,6 +90,12 @@ public class BookingService extends BaseService<Booking> implements
     @Override
     public Booking save(Booking booking) {
         Activity activity = activityRepositoryPort.find(booking.getActivity());
+        if (activity.getTrainer().equals(booking.getAccount())) {
+            throw BookingException.bookingClientTrainerConflictException();
+        }
+        if (!activity.getActive()) {
+            throw BookingException.bookingActivityInactiveConflictException();
+        }
         Optional<Booking> existingBooking;
 
         try {

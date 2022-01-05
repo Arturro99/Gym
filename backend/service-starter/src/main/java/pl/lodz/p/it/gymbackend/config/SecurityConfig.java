@@ -33,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final static String TRAINER = Level.TRAINER.name();
     private final JWTRequestFilter jwtRequestFilter;
     private final ExceptionHandlerFilter exceptionHandlerFilter;
+
     @Resource
     private UserDetailsService userDetailsService;
 
@@ -43,12 +44,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and()
+        http
+            .cors().and()
             .csrf().disable()
             .authorizeRequests()
             .antMatchers("/").permitAll()
             //ACCOUNTS
             .antMatchers(HttpMethod.GET, "/accounts").hasAuthority(ADMIN)
+            .antMatchers(HttpMethod.GET, "/accounts/own").authenticated()
             .antMatchers(HttpMethod.GET, "/accounts/own/*").authenticated()
             .antMatchers(HttpMethod.PUT, "/accounts/own").authenticated()
             .antMatchers(HttpMethod.DELETE, "/accounts/own/*").authenticated()

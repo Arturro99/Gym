@@ -32,4 +32,9 @@ public class ActivityService extends BaseService<Activity> implements
     public List<Activity> findByTrainer(String login) {
         return activityRepositoryPort.findByTrainer(login);
     }
+
+    @Override
+    public void deactivate(String number) {
+        activityRepositoryPort.deactivate(number);
+    }
 }
