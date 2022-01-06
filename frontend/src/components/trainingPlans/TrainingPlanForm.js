@@ -3,7 +3,10 @@ import Joi from "joi";
 import Dropdown from "../common/Dropdown";
 import { TrainingType } from "../../model/TrainingType"
 import { withTranslation } from "react-i18next";
-import { createTrainingPlan } from "../../services/TrainingPlanService";
+import {
+  createTrainingPlan,
+  getTrainingTypes
+} from "../../services/TrainingPlanService";
 
 class TrainingPlanForm extends Form {
 
@@ -39,16 +42,13 @@ class TrainingPlanForm extends Form {
   })
 
   async componentDidMount() {
-    const type1 = new TrainingType('Strength');
-    const type2 = new TrainingType('Cardio');
-    const type3 = new TrainingType('Calisthenics');
-    const type4 = new TrainingType('Crossfit');
-
-    let mockedData = this.state.data;
-    mockedData.trainingType = 'Strength';
+    let trainingTypes = await getTrainingTypes();
+    trainingTypes = trainingTypes.map(type => new TrainingType(type.title));
+    let data = this.state.data;
+    data.trainingType = trainingTypes[0].name;
     this.setState({
-      data: mockedData,
-      trainingTypes: [type1, type2, type3, type4]
+      data: data,
+      trainingTypes: trainingTypes
     });
   }
 

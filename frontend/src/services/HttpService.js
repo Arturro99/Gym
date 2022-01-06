@@ -35,14 +35,14 @@ axios.interceptors.response.use(config => {
   return config;
 }, ex => {
   if (ex.response.data.status === 403) {
-    window.location.replace('/error403');
+    // window.location.replace('/error403');
   } else if (ex.response.data.status === 404 || ex.response.status === 404) {
-    window.location.replace('/error404');
+    // window.location.replace('/error404');
   } else if (ex.response.data.status === 410 || ex.response.status === 410) {
+    window.location.replace('/');
+    signOut();
     toast.error(`${localStorage.getItem('i18nextLng') === 'pl' ? "Sesja wygasła"
         : "Session expired"}`)
-    signOut();
-    window.location.replace('/');
   }
   throw ex;
 })

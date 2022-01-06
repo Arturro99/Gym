@@ -15,6 +15,14 @@ export async function getTrainingPlans() {
   return trainingPlans;
 }
 
+export async function getTrainingTypes() {
+  const { data: trainingPlans } = await http.get(
+      `${config.apiUrl}/trainingTypes`, {
+        method: 'GET'
+      });
+  return trainingPlans;
+}
+
 export async function getTrainingPlan(id) {
   const { data: trainingPlan } = await http.get(`${trainingPlanUrl(id)}`);
   return trainingPlan;

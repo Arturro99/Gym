@@ -5,6 +5,7 @@ import Joi from "joi";
 import { TrainingType } from "../../model/TrainingType";
 import {
   getTrainingPlan,
+  getTrainingTypes,
   updateTrainingPlan
 } from "../../services/TrainingPlanService";
 
@@ -37,22 +38,19 @@ class UpdateTrainingPlanModal extends Form {
     price: this.fieldRestrictions.price
   })
 
-  componentDidMount() {
+  async componentDidMount() {
     const myModalEl = document.getElementById(this.state.modalId)
     myModalEl.addEventListener('show.bs.modal', () => {
       this.resetData();
     })
 
-    const type1 = new TrainingType('Strength');
-    const type2 = new TrainingType('Cardio');
-    const type3 = new TrainingType('Calisthenics');
-    const type4 = new TrainingType('Crossfit');
-
-    let mockedData = this.state.data;
-    mockedData.trainingType = 'Strength';
+    let trainingTypes = await getTrainingTypes();
+    trainingTypes = trainingTypes.map(type => new TrainingType(type.title));
+    let data = this.state.data;
+    data.trainingType = trainingTypes[0].name;
     this.setState({
-      data: mockedData,
-      trainingTypes: [type1, type2, type3, type4]
+      data: data,
+      trainingTypes: trainingTypes
     });
   }
 

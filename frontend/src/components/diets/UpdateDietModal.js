@@ -3,7 +3,7 @@ import { withTranslation } from "react-i18next";
 import { DietType } from "../../model/DietType";
 import Dropdown from "../common/Dropdown";
 import Joi from "joi";
-import { getDiet, updateDiet } from "../../services/DietService";
+import { getDiet, getDietTypes, updateDiet } from "../../services/DietService";
 
 class UpdateDietModal extends Form {
 
@@ -37,17 +37,19 @@ class UpdateDietModal extends Form {
     price: this.fieldRestrictions.price
   })
 
-  componentDidMount() {
+  async componentDidMount() {
     const myModalEl = document.getElementById(this.state.modalId)
     myModalEl.addEventListener('show.bs.modal', () => {
       this.resetData();
     })
 
-    const type1 = new DietType('Low-Calorie');
-    const type2 = new DietType('High-protein');
-    const type3 = new DietType('Vege');
+    let dietTypes = await getDietTypes();
+    dietTypes = dietTypes.map(type => new DietType(type.title));
+    let data = this.state.data;
+    data.dietType = dietTypes[0].name;
     this.setState({
-      dietTypes: [type1, type2, type3]
+      data: data,
+      dietTypes: dietTypes
     });
   }
 

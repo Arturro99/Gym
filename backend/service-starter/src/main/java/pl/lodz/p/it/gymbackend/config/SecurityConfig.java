@@ -1,11 +1,15 @@
 package pl.lodz.p.it.gymbackend.config;
 
+import static org.springframework.http.HttpMethod.DELETE;
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.PUT;
+
 import java.util.List;
 import javax.annotation.Resource;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -50,41 +54,44 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .antMatchers("/").permitAll()
             //ACCOUNTS
-            .antMatchers(HttpMethod.GET, "/accounts").hasAuthority(ADMIN)
-            .antMatchers(HttpMethod.GET, "/accounts/own").authenticated()
-            .antMatchers(HttpMethod.GET, "/accounts/own/*").authenticated()
-            .antMatchers(HttpMethod.PUT, "/accounts/own").authenticated()
-            .antMatchers(HttpMethod.DELETE, "/accounts/own/*").authenticated()
-            .antMatchers(HttpMethod.POST, "/accounts/own/*").authenticated()
-            .antMatchers(HttpMethod.GET, "/accounts/**").hasAuthority(ADMIN)
-            .antMatchers(HttpMethod.PUT, "/accounts/**").hasAuthority(ADMIN)
+            .antMatchers(GET, "/accounts").hasAuthority(ADMIN)
+            .antMatchers(GET, "/accounts/own").authenticated()
+            .antMatchers(GET, "/accounts/own/*").authenticated()
+            .antMatchers(PUT, "/accounts/own").authenticated()
+            .antMatchers(DELETE, "/accounts/own/*").authenticated()
+            .antMatchers(POST, "/accounts/own/*").authenticated()
+            .antMatchers(GET, "/accounts/**").hasAuthority(ADMIN)
+            .antMatchers(PUT, "/accounts/**").hasAuthority(ADMIN)
             //TRAINING PLANS
-            .antMatchers(HttpMethod.GET, "/trainingPlans/**").hasAnyAuthority(CLIENT, TRAINER)
-            .antMatchers(HttpMethod.POST, "/trainingPlans").hasAuthority(TRAINER)
-            .antMatchers(HttpMethod.PUT, "/trainingPlans/*").hasAuthority(TRAINER)
-            .antMatchers(HttpMethod.DELETE, "/trainingPlans/*").hasAuthority(TRAINER)
+            .antMatchers(GET, "/trainingPlans/**").hasAnyAuthority(CLIENT, TRAINER)
+            .antMatchers(POST, "/trainingPlans").hasAuthority(TRAINER)
+            .antMatchers(PUT, "/trainingPlans/*").hasAuthority(TRAINER)
+            .antMatchers(DELETE, "/trainingPlans/*").hasAuthority(TRAINER)
             //DIETS
-            .antMatchers(HttpMethod.GET, "/diets/**").hasAnyAuthority(CLIENT, TRAINER)
-            .antMatchers(HttpMethod.POST, "/diets").hasAuthority(TRAINER)
-            .antMatchers(HttpMethod.PUT, "/diets/*").hasAuthority(TRAINER)
-            .antMatchers(HttpMethod.DELETE, "/diets/*").hasAuthority(TRAINER)
+            .antMatchers(GET, "/diets/**").hasAnyAuthority(CLIENT, TRAINER)
+            .antMatchers(POST, "/diets").hasAuthority(TRAINER)
+            .antMatchers(PUT, "/diets/*").hasAuthority(TRAINER)
+            .antMatchers(DELETE, "/diets/*").hasAuthority(TRAINER)
             //ACTIVITIES
-            .antMatchers(HttpMethod.GET, "/activities/**").hasAnyAuthority(CLIENT, TRAINER)
-            .antMatchers(HttpMethod.POST, "/activities").hasAuthority(TRAINER)
-            .antMatchers(HttpMethod.PUT, "/activities/*").hasAuthority(TRAINER)
-            .antMatchers(HttpMethod.DELETE, "/activities/*").hasAuthority(TRAINER)
+            .antMatchers(GET, "/activities/**").hasAnyAuthority(CLIENT, TRAINER)
+            .antMatchers(POST, "/activities").hasAuthority(TRAINER)
+            .antMatchers(PUT, "/activities/*").hasAuthority(TRAINER)
+            .antMatchers(DELETE, "/activities/*").hasAuthority(TRAINER)
             //BOOKINGS
-            .antMatchers(HttpMethod.GET, "/bookings/own").hasAuthority(CLIENT)
-            .antMatchers(HttpMethod.GET, "/bookings/own/*").hasAuthority(CLIENT)
-            .antMatchers(HttpMethod.POST, "/bookings").hasAuthority(CLIENT)
-            .antMatchers(HttpMethod.PUT, "/bookings/own/**").hasAuthority(CLIENT)
-            .antMatchers(HttpMethod.GET, "/bookings/**").hasAuthority(TRAINER)
-            .antMatchers(HttpMethod.PUT, "/bookings/**").hasAuthority(TRAINER)
+            .antMatchers(GET, "/bookings/own").hasAuthority(CLIENT)
+            .antMatchers(GET, "/bookings/own/*").hasAuthority(CLIENT)
+            .antMatchers(POST, "/bookings").hasAuthority(CLIENT)
+            .antMatchers(PUT, "/bookings/own/**").hasAuthority(CLIENT)
+            .antMatchers(GET, "/bookings/**").hasAuthority(TRAINER)
+            .antMatchers(PUT, "/bookings/**").hasAuthority(TRAINER)
             //ACCESS LEVELS
-            .antMatchers(HttpMethod.POST, "/accessLevels").hasAuthority(ADMIN)
-            .antMatchers(HttpMethod.GET, "/accessLevels").hasAuthority(ADMIN)
-            .antMatchers(HttpMethod.GET, "/accessLevels/*").hasAuthority(ADMIN)
-            .antMatchers(HttpMethod.DELETE, "/accessLevels/**").hasAuthority(ADMIN)
+            .antMatchers(POST, "/accessLevels").hasAuthority(ADMIN)
+            .antMatchers(GET, "/accessLevels").hasAuthority(ADMIN)
+            .antMatchers(GET, "/accessLevels/*").hasAuthority(ADMIN)
+            .antMatchers(DELETE, "/accessLevels/**").hasAuthority(ADMIN)
+            //DIET TYPES
+            .antMatchers(GET, "/dietTypes").authenticated()
+            .antMatchers(GET, "/trainingTypes").authenticated()
             .and()
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

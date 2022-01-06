@@ -114,6 +114,12 @@ paths:
   /bookings/{number}/complete:
     $ref: './paths/booking/BookingByNumber.yml#/all/complete'
 
+  /dietTypes:
+    $ref: './paths/dietType/DietType.yml'
+
+  /trainingTypes:
+    $ref: './paths/trainingType/TrainingType.yml'
+
 components:
   schemas:
 
@@ -162,8 +168,8 @@ components:
     DietRequestPost:
       $ref: './schemas/diet/DietRequestPost.yml#/components/schemas/DietRequestPost'
 
-    DietType:
-      $ref:  './schemas/diet/DietType.yml#/components/schemas/DietType'
+    DietTypeResponse:
+      $ref:  './schemas/dietType/DietTypeResponse.yml#/components/schemas/DietTypeResponse'
 
     ActivityRequestPost:
       $ref: './schemas/activity/ActivityRequestPost.yml#/components/schemas/ActivityRequestPost'
@@ -198,5 +204,5 @@ components:
     TrainingPlanResponseList:
       $ref: './schemas/training/TrainingPlanResponseList.yml#/components/schemas/TrainingPlanResponseList'
 
-    TrainingType:
-      $ref:  './schemas/training/TrainingType.yml#/components/schemas/TrainingType'
+    TrainingTypeResponse:
+      $ref:  './schemas/trainingType/TrainingTypeResponse.yml#/components/schemas/TrainingTypeResponse'

@@ -4,7 +4,7 @@ import 'bootstrap/dist/js/bootstrap';
 import Dropdown from "../common/Dropdown";
 import { DietType } from "../../model/DietType";
 import { withTranslation } from "react-i18next";
-import { createDiet } from "../../services/DietService";
+import { createDiet, getDietTypes } from "../../services/DietService";
 
 class DietForm extends Form {
 
@@ -39,18 +39,17 @@ class DietForm extends Form {
     price: this.fieldRestrictions.price
   })
 
-  componentDidMount() {
-    const type1 = new DietType('Low-Calorie');
-    const type2 = new DietType('High-protein');
-    const type3 = new DietType('Vege');
-
-    let mockedData = this.state.data;
-    mockedData.dietType = 'High-protein';
+  async componentDidMount() {
+    let dietTypes = await getDietTypes();
+    dietTypes = dietTypes.map(type => new DietType(type.title));
+    let data = this.state.data;
+    data.dietType = dietTypes[0].name;
     this.setState({
-      data: mockedData,
-      dietTypes: [type1, type2, type3]
+      data: data,
+      dietTypes: dietTypes
     });
   }
+
 
   continueSubmitting = async () => {
     const { t } = this.props;
@@ -93,7 +92,7 @@ class DietForm extends Form {
             {this.renderInput("title", t("name"))}
             <Dropdown items={this.state.dietTypes}
                       itemName={t('dietType')}
-                      propertyName='title'
+                      propertyName='name'
                       buttonLabel={this.state.data.dietType}
                       onChangeBtn={this.handleDietTypeChange}/>
             {this.renderInput("calories", t("calories"), 'number')}

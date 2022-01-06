@@ -1,0 +1,13 @@
+get:
+  tags:
+    - diet
+  summary: Get diet types
+  description: Display all diet types
+  operationId: getDietTypes
+  responses:
+    200:
+      description: Operation successful
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/dietType/DietTypeResponseList.yml#/components/schemas/DietTypeResponseList'
