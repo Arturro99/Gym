@@ -3,7 +3,6 @@ import { withTranslation } from "react-i18next";
 import { Booking } from "../../model/Booking";
 import { parseFromOffsetDateTimeToLegibleFormat } from "../../services/DateParser";
 import { getBooking, getOwnBooking } from "../../services/BookingService";
-import UpdateBookingModal from "./UpdateBookingModal";
 import config from "../../config.json";
 import { getCurrentRole } from "../../services/AuthenticationService";
 
@@ -19,7 +18,7 @@ class BookingDetails extends Details {
     await this.updateDetails();
   }
 
-  async updateDetails() {
+  updateDetails = async () => {
     const pathParam = this.props.match.params.number;
     const { t, own } = this.props;
     let currentState = { ...this.state };
@@ -50,6 +49,7 @@ class BookingDetails extends Details {
         <div className="card text-center shadow-lg mt-3 w-75 mx-auto">
           <div className="card-header">
             <h1>{t('bookingDetails')}</h1>
+            {this.renderRefreshButton(this.updateDetails, t)}
             {getCurrentRole() === config.TRAINER ?
                 this.renderUpdateButton('updateBookingModal', t('update')) : ''}
           </div>

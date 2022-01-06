@@ -5,8 +5,9 @@ import { Component } from "react";
 import DietsTable from "./DietsTable";
 import { deleteDiet, getDiets } from "../../services/DietService";
 import { applyForDiet } from "../../services/AccountService";
-import { getCurrentUser } from "../../services/AuthenticationService";
+import { getCurrentRole } from "../../services/AuthenticationService";
 import keys from "../../errorKeys.json";
+import config from "../../config.json";
 
 class DietsComponent extends Component {
 
@@ -20,10 +21,7 @@ class DietsComponent extends Component {
   paginatedDiets = {};
 
   async componentDidMount() {
-    const diets = await getDiets();
-    this.setState({
-      diets: diets
-    })
+    await this.resetDiets()
   }
 
   handleDelete = async diet => {
@@ -37,10 +35,16 @@ class DietsComponent extends Component {
       }
     }).catch(async ex => {
       if (ex && ex.response.data.error.errorKey === keys.DIET_NOT_FOUND_ERROR) {
-        const currentDiets = await getDiets();
-        this.setState({ diets: currentDiets });
+        await this.resetDiets();
       }
     });
+  }
+
+  resetDiets = async () => {
+    const diets = await getDiets();
+    this.setState({
+      diets: diets
+    })
   }
 
   handleApply = async diet => {
@@ -71,11 +75,13 @@ class DietsComponent extends Component {
                         onDelete={this.handleDelete}
                         onUpdate={this.handleUpdate}
                         onApply={this.handleApply}
-                        onSort={this.handleSort}/>
-            <Link to="/diets/new"
-                  className="btn btn-primary btn-lg mt-3 float-end"
-                  style={{ marginBottom: 20 }}>{t('newDiet')}
-            </Link>
+                        onSort={this.handleSort}
+                        onRefresh={this.resetDiets}/>
+            {getCurrentRole() === config.TRAINER ?
+                <Link to="/diets/new"
+                      className="btn btn-primary btn-lg mt-3 float-end"
+                      style={{ marginBottom: 20 }}>{t('newDiet')}
+                </Link> : ''}
             {/*<Pagination*/}
             {/*    itemsCount={totalCount}*/}
             {/*    pageSize={pageSize}*/}

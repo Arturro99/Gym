@@ -24,7 +24,7 @@ class DietDetails extends Details {
     })
   }
 
-  async updateDetails() {
+  updateDetails = async () => {
     const pathParam = this.props.match.params.number;
     let currentState = { ...this.state };
     const fetched = await getDiet(pathParam);
@@ -51,6 +51,7 @@ class DietDetails extends Details {
                            updateDetails={this.updateDetails}/>
           <div className="card-header">
             <h1>{t('dietDetails')}</h1>
+            {this.renderRefreshButton(this.updateDetails, t)}
             {getCurrentRole() === config.TRAINER ?
                 this.renderUpdateButton('updateDietModal', t('update')) : ''}
           </div>

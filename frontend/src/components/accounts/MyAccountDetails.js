@@ -59,6 +59,7 @@ class MyAccountDetails extends Details {
                              own={true}/>
           <div className="card-header">
             <h1>{t('myAccount')}</h1>
+            {this.renderRefreshButton(this.updateDetails, t)}
             {this.renderUpdateButton('updateAccountModal', t('update'))}
           </div>
           {this.renderField('login', t('login'), account)}

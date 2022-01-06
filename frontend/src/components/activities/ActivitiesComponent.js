@@ -3,11 +3,18 @@ import '../../locales/i18n';
 import { Component } from "react";
 import { Link } from "react-router-dom";
 import ActivitiesTable from "./ActivitiesTable";
-import { deactivateActivity, getActivities } from "../../services/ActivityService";
+import {
+  deactivateActivity,
+  getActivities
+} from "../../services/ActivityService";
 import keys from "../../errorKeys.json";
-import { getCurrentUser } from "../../services/AuthenticationService";
-import { createBooking, getBookings } from "../../services/BookingService";
+import {
+  getCurrentRole,
+  getCurrentUser
+} from "../../services/AuthenticationService";
+import { createBooking } from "../../services/BookingService";
 import { parseFromOffsetDateTimeToLegibleFormat } from "../../services/DateParser";
+import config from "../../config.json";
 
 class ActivitiesComponent extends Component {
 
@@ -22,22 +29,23 @@ class ActivitiesComponent extends Component {
 
   async componentDidMount() {
     const { t } = this.props;
-    await this.resetActivities(t);
+    await this.resetActivities();
   }
 
   handleDelete = async activity => {
     const { t } = this.props;
     await deactivateActivity(activity.number, t).then(() => {
-      this.resetActivities(t);
+      this.resetActivities();
     }).catch(async ex => {
       if (ex && ex.response.data.error.errorKey
           === keys.ACTIVITY_NOT_FOUND_ERROR) {
-        await this.resetActivities(t);
+        await this.resetActivities();
       }
     });
   }
 
-  resetActivities = async (t) => {
+  resetActivities = async () => {
+    const { t } = this.props;
     const activities = await getActivities();
     activities.forEach(activity => {
       activity.startDate = parseFromOffsetDateTimeToLegibleFormat(
@@ -82,11 +90,13 @@ class ActivitiesComponent extends Component {
                              onDelete={this.handleDelete}
                              onUpdate={this.handleUpdate}
                              onApply={this.handleApply}
-                             onSort={this.handleSort}/>
-            <Link to="/activities/new"
-                  className="btn btn-primary btn-lg mt-3 float-end"
-                  style={{ marginBottom: 20 }}>{t('newActivity')}
-            </Link>
+                             onSort={this.handleSort}
+                             onRefresh={this.resetActivities}/>
+            {getCurrentRole() === config.TRAINER ?
+                <Link to="/activities/new"
+                      className="btn btn-primary btn-lg mt-3 float-end"
+                      style={{ marginBottom: 20 }}>{t('newActivity')}
+                </Link> : ''}
             {/*<Pagination*/}
             {/*    itemsCount={totalCount}*/}
             {/*    pageSize={pageSize}*/}

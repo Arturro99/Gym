@@ -7,7 +7,6 @@ import {
   getAccounts,
   unblockAccount
 } from "../../services/AccountService";
-import AccessLevelModal from "./AccessLevelModal";
 
 class AccountsComponent extends Component {
 
@@ -29,19 +28,16 @@ class AccountsComponent extends Component {
     const { t } = this.props
     if (account.active === t('active')) {
       await blockAccount(account.login, t)
-      .catch(() => this.resetAccounts(t))
-      .then(() => this.resetAccounts(t));
+      .catch(() => this.resetAccounts())
+      .then(() => this.resetAccounts());
     } else {
       await unblockAccount(account.login, t)
-      .then(() => this.resetAccounts(t));
+      .then(() => this.resetAccounts());
     }
   }
 
-  handleAccessLevels = account => {
-    //TODO add modal with pointers for access levels
-  }
-
-  resetAccounts = async (t) => {
+  resetAccounts = async () => {
+    const { t } = this.props;
     const accounts = await getAccounts();
     accounts.forEach(account => {
       account.active = account.active ? t('active') : t('inactive');
@@ -80,7 +76,8 @@ class AccountsComponent extends Component {
                            onActivate={this.handleActivate}
                            onAccessLevels={this.handleAccessLevels}
                            onUpdate={this.handleUpdate}
-                           onSort={this.handleSort}/>
+                           onSort={this.handleSort}
+                           onRefresh={this.resetAccounts}/>
             {/*<Pagination*/}
             {/*    itemsCount={totalCount}*/}
             {/*    pageSize={pageSize}*/}

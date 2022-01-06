@@ -21,17 +21,12 @@ class MyTrainingPlansComponent extends Component {
   paginatedTrainingPlans = {};
 
   async componentDidMount() {
-    const login = getCurrentUser();
-    const trainingPlans = await getOwnTrainingPlans(login);
-    this.setState({
-      trainingPlans: trainingPlans
-    })
+    await this.resetTrainingPlans();
   }
 
   handleDelete = async trainingPlan => {
     const { t } = this.props;
-    const login = getCurrentUser();
-    await removeTrainingPlan(trainingPlan.number, login, t).then(resp => {
+    await removeTrainingPlan(trainingPlan.number, t).then(resp => {
       if (resp && resp.status === 200) {
         const originalTrainingPlans = this.state.trainingPlans;
         const currentTrainingPlans = originalTrainingPlans.filter(
@@ -40,9 +35,16 @@ class MyTrainingPlansComponent extends Component {
       }
     }).catch(async ex => {
       if (ex && ex.response.data.error.errorKey === keys.DIET_NOT_FOUND_ERROR) {
-        const currentTrainingPlans = await getOwnTrainingPlans(login);
-        this.setState({ trainingPlans: currentTrainingPlans });
+        await this.resetTrainingPlans();
       }
+    });
+  }
+
+  resetTrainingPlans = async () => {
+    const login = getCurrentUser();
+    const trainingPlans = await getOwnTrainingPlans(login);
+    this.setState({
+      trainingPlans: trainingPlans
     });
   }
 
@@ -67,7 +69,8 @@ class MyTrainingPlansComponent extends Component {
                                 onDelete={this.handleDelete}
                                 onUpdate={this.handleUpdate}
                                 onApply={this.handleApply}
-                                onSort={this.handleSort}/>
+                                onSort={this.handleSort}
+                                onRefresh={this.resetTrainingPlans}/>
           </div>
         </div>
     );

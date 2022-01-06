@@ -3,7 +3,7 @@ import '../../locales/i18n';
 import BookingsTable from "../bookings/BookingsTable";
 import { Component } from "react";
 import {
-  cancelBooking, cancelOwnBooking,
+  cancelOwnBooking,
   createBooking,
   getOwnBookings
 } from "../../services/BookingService";
@@ -20,23 +20,23 @@ class MyBookingsComponent extends Component {
   paginatedBookings = {};
 
   async componentDidMount() {
-    const { t } = this.props;
-    this.resetBookings(t);
+    this.resetBookings();
   }
 
   handleCancel = async booking => {
     const { t } = this.props;
     if (booking.active === t('active')) {
       await cancelOwnBooking(booking.number, t)
-      .catch(() => this.resetBookings(t))
-      .then(() => this.resetBookings(t));
+      .catch(() => this.resetBookings())
+      .then(() => this.resetBookings());
     } else {
       await createBooking(booking.activity, booking.account, t)
-      .then(() => this.resetBookings(t));
+      .then(() => this.resetBookings());
     }
   }
 
-  resetBookings = async (t) => {
+  resetBookings = async () => {
+    const { t } = this.props;
     const bookings = await getOwnBookings();
     bookings.forEach(booking => {
       booking.active = booking.active ? t('active') : t('inactive');
@@ -78,7 +78,8 @@ class MyBookingsComponent extends Component {
                            onUpdate={this.handleUpdate}
                            onApply={this.handleApply}
                            onSort={this.handleSort}
-                           own={true}/>
+                           own={true}
+                           onRefresh={this.resetBookings}/>
             {/*<Pagination*/}
             {/*    itemsCount={totalCount}*/}
             {/*    pageSize={pageSize}*/}

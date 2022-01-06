@@ -9,7 +9,8 @@ import {
 } from "../../services/TrainingPlanService";
 import keys from "../../errorKeys.json";
 import { applyForTrainingPlan } from "../../services/AccountService";
-import { getCurrentUser } from "../../services/AuthenticationService";
+import config from '../../config.json'
+import { getCurrentRole } from "../../services/AuthenticationService";
 
 class TrainingPlansComponent extends Component {
 
@@ -23,10 +24,7 @@ class TrainingPlansComponent extends Component {
   paginatedTrainingPlans = {};
 
   async componentDidMount() {
-    const trainingPlans = await getTrainingPlans();
-    this.setState({
-      trainingPlans: trainingPlans
-    })
+    await this.resetTrainingPlans();
   }
 
   handleDelete = async trainingPlan => {
@@ -41,9 +39,15 @@ class TrainingPlansComponent extends Component {
     }).catch(async ex => {
       if (ex && ex.response.data.error.errorKey
           === keys.TRAINING_PLAN_NOT_FOUND_ERROR) {
-        const currentTrainingPlans = await getTrainingPlans();
-        this.setState({ trainingPlans: currentTrainingPlans });
+        await this.resetTrainingPlans();
       }
+    });
+  }
+
+  resetTrainingPlans = async () => {
+    const trainingPlans = await getTrainingPlans();
+    this.setState({
+      trainingPlans: trainingPlans
     });
   }
 
@@ -75,11 +79,13 @@ class TrainingPlansComponent extends Component {
                                 onDelete={this.handleDelete}
                                 onUpdate={this.handleUpdate}
                                 onApply={this.handleApply}
-                                onSort={this.handleSort}/>
-            <Link to="/trainingPlans/new"
-                  className="btn btn-primary btn-lg mt-3 float-end"
-                  style={{ marginBottom: 20 }}>{t('newTrainingPlan')}
-            </Link>
+                                onSort={this.handleSort}
+                                onRefresh={this.resetTrainingPlans}/>
+            {getCurrentRole() === config.TRAINER ?
+                <Link to="/trainingPlans/new"
+                      className="btn btn-primary btn-lg mt-3 float-end"
+                      style={{ marginBottom: 20 }}>{t('newTrainingPlan')}
+                </Link> : ''}
             {/*<Pagination*/}
             {/*    itemsCount={totalCount}*/}
             {/*    pageSize={pageSize}*/}

@@ -12,6 +12,9 @@ const NavigationBar = (props) => {
   const { headers, data, onChangeRoleClick, onSignOutClick, t } = props;
   const mainHeaders = headers.filter(
       header => header.path !== '/login' && header.path !== '/register');
+  const adminHeaders = mainHeaders.filter(
+      header => header.path !== '/bookings' && header.path !== '/diets'
+          && header.path !== '/activities' && header.path !== '/trainingPlans');
   const trainerHeaders = mainHeaders.filter(
       header => header.path !== '/accounts');
   const clientHeaders = trainerHeaders.filter(
@@ -19,12 +22,12 @@ const NavigationBar = (props) => {
   const loginHeader = headers.filter(header => header.path === '/login');
   const registerHeader = headers.filter(header => header.path === '/register');
 
-  const renderedHeaders = getCurrentRole() === config.ADMIN ? mainHeaders :
+  const renderedHeaders = getCurrentRole() === config.ADMIN ? adminHeaders :
       getCurrentRole() === config.TRAINER ? trainerHeaders :
           getCurrentRole() === config.CLIENT ? clientHeaders : '';
   return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <Link className="navbar-brand" to="/">GymManiac</Link>
+        <Link className="navbar-brand" to="/">Gym&Style</Link>
         {getCurrentRole() ?
             <ul className="navbar-nav ms-sm-5">
               {renderedHeaders.map(header =>

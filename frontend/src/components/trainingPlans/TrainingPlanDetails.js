@@ -24,7 +24,7 @@ class TrainingPlanDetails extends Details {
     })
   }
 
-  async updateDetails() {
+  updateDetails = async () => {
     const pathParam = this.props.match.params.number;
     let currentState = { ...this.state };
     const fetched = await getTrainingPlan(pathParam);
@@ -50,6 +50,7 @@ class TrainingPlanDetails extends Details {
           <UpdateTrainingPlanModal trainingPlan={this.state.data.trainingPlan}/>
           <div className="card-header">
             <h1>{t('trainingPlanDetails')}</h1>
+            {this.renderRefreshButton(this.updateDetails, t)}
             {getCurrentRole() === config.TRAINER ?
                 this.renderUpdateButton('updateTrainingPlanModal', t('update'))
                 : ''}

@@ -8,7 +8,6 @@ import {
   createBooking,
   getBookings
 } from "../../services/BookingService";
-import { getCurrentUser } from "../../services/AuthenticationService";
 
 class BookingsComponent extends Component {
 
@@ -22,23 +21,23 @@ class BookingsComponent extends Component {
   paginatedBookings = {};
 
   async componentDidMount() {
-    const { t } = this.props;
-    await this.resetBookings(t);
+    await this.resetBookings();
   }
 
   handleCancel = async booking => {
     const { t } = this.props
     if (booking.active === t('active')) {
       await cancelBooking(booking.number, t)
-      .catch(() => this.resetBookings(t))
-      .then(() => this.resetBookings(t));
+      .catch(() => this.resetBookings())
+      .then(() => this.resetBookings());
     } else {
       await createBooking(booking.activity, booking.account, t)
-      .then(() => this.resetBookings(t));
+      .then(() => this.resetBookings());
     }
   }
 
-  resetBookings = async (t) => {
+  resetBookings = async () => {
+    const { t } = this.props;
     const bookings = await getBookings();
     bookings.forEach(booking => {
       booking.active = booking.active ? t('active') : t('inactive');
@@ -53,8 +52,8 @@ class BookingsComponent extends Component {
   handleComplete = async booking => {
     const { t } = this.props;
     await completeBooking(booking.number, t)
-    .catch(() => this.resetBookings(t))
-    .then(() => this.resetBookings(t));
+    .catch(() => this.resetBookings())
+    .then(() => this.resetBookings());
   }
 
   handleSort = sortColumn => {
@@ -85,7 +84,8 @@ class BookingsComponent extends Component {
                            onDelete={this.handleCancel}
                            onComplete={this.handleComplete}
                            onApply={this.handleApply}
-                           onSort={this.handleSort}/>
+                           onSort={this.handleSort}
+                           onRefresh={this.resetBookings}/>
             {/*<Pagination*/}
             {/*    itemsCount={totalCount}*/}
             {/*    pageSize={pageSize}*/}

@@ -34,7 +34,7 @@ axios.interceptors.response.use(config => {
   }
   return config;
 }, ex => {
-  if (ex.response.data.status === 403) {
+  if (ex.response.data.status === 403 || ex.response.status === 403) {
     // window.location.replace('/error403');
   } else if (ex.response.data.status === 404 || ex.response.status === 404) {
     // window.location.replace('/error404');

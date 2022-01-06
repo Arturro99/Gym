@@ -29,6 +29,7 @@ export const TRANSLATIONS_EN = {
   save: 'Save',
   yes: 'Yes',
   no: 'No',
+  refresh: 'Refresh',
 
   signIn_success: 'Welcome, ',
 
@@ -62,6 +63,7 @@ export const TRANSLATIONS_EN = {
   error_repeatedPassword_string_empty: 'You need to repeat your password',
   error_firstName_string_empty: 'First name required',
   error_lastName_string_empty: 'Last name required',
+  error_phoneNumber_string_empty: 'Phone number required',
   incorrect_repeated_password: 'Repeated password does not match password',
 
   //Activities
@@ -207,4 +209,31 @@ export const TRANSLATIONS_EN = {
   url_gone: 'Link expired',
 
   account_confirmation_success: 'Account confirmed successfully',
+
+  //CONFIRMS
+  confirm_block_message: 'Are you sure you want to block user',
+  confirm_unblock_message: 'Are you sure you want to unblock user',
+  confirm_block_title: 'Confirm blocking',
+
+  confirm_activity_deactivation_message: 'You won\'t be able to undo the action.\nAre you sure you want to deactivate activity',
+  confirm_activity_deactivation_title: 'Confirm deactivating',
+
+  confirm_diet_deletion_message: 'You won\'t be able to undo the action.\nAre you sure you want to delete diet',
+  confirm_diet_deletion_title: 'Confirm deletion',
+  confirm_diet_cancellation_message: 'Are you sure you want to cancel diet',
+  confirm_diet_cancellation_title: 'Confirm cancellation',
+
+  confirm_trainingPlan_deletion_message: 'You won\'t be able to undo the action.\nAre you sure you want to delete training plan',
+  confirm_trainingPlan_deletion_title: 'Confirm deletion',
+  confirm_trainingPlan_cancellation_message: 'Are you sure you want to cancel training plan',
+  confirm_trainingPlan_cancellation_title: 'Confirm cancellation',
+
+  confirm_booking_deactivation_message: 'Are you sure you want to deactivate booking',
+  confirm_booking_deactivation_title: 'Confirm deactivating',
+  confirm_booking_activation_message: 'Are you sure you want to re-activate booking',
+  confirm_booking_activation_title: 'Confirm re-activating',
+  confirm_booking_cancellation_message: 'Are you sure you want to cancel booking',
+  confirm_booking_cancellation_title: 'Confirm cancellation',
+  confirm_booking_completion_message: 'You won\'t be able to undo the action.\nAre you sure you want to complete booking',
+  confirm_booking_completion_title: 'Confirm completion',
 };

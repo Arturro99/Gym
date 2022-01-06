@@ -18,17 +18,12 @@ class MyDietsComponent extends Component {
   paginatedDiets = {};
 
   async componentDidMount() {
-    const login = getCurrentUser();
-    const diets = await getOwnDiets(login);
-    this.setState({
-      diets: diets
-    })
+    await this.resetDiets();
   }
 
   handleDelete = async diet => {
     const { t } = this.props;
-    const login = getCurrentUser();
-    await removeDiet(diet.number, login, t).then(resp => {
+    await removeDiet(diet.number, t).then(resp => {
       if (resp && resp.status === 200) {
         const originalDiets = this.state.diets;
         const currentDiets = originalDiets.filter(
@@ -36,11 +31,19 @@ class MyDietsComponent extends Component {
         this.setState({ diets: currentDiets });
       }
     }).catch(async ex => {
+      console.log(ex)
       if (ex && ex.response.data.error.errorKey === keys.DIET_NOT_FOUND_ERROR) {
-        const currentDiets = await getOwnDiets(login);
-        this.setState({ diets: currentDiets });
+        await this.resetDiets();
       }
     });
+  }
+
+  resetDiets = async () => {
+    const login = getCurrentUser();
+    const diets = await getOwnDiets(login);
+    this.setState({
+      diets: diets
+    })
   }
 
   handleSort = sortColumn => {
@@ -64,7 +67,8 @@ class MyDietsComponent extends Component {
                         onDelete={this.handleDelete}
                         onUpdate={this.handleUpdate}
                         onApply={this.handleApply}
-                        onSort={this.handleSort}/>
+                        onSort={this.handleSort}
+                        onRefresh={this.resetDiets}/>
           </div>
         </div>
     );
