@@ -6,6 +6,7 @@ import static org.springframework.transaction.annotation.Propagation.REQUIRES_NE
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -71,12 +72,11 @@ public class IntervalFactorsService {
 
     /**
      * Scheduled method responsible for checking whether user participated in assigned to his
-     * bookings activities and punishing/rewarding him by decreasing/increasing his loyalty factor.
+     * bookings activities and eventually punishing him by decreasing his loyalty factor.
      */
-    @Scheduled(cron = "${algorithm.cron.presence}")
-    public void scheduleActivityPresenceVerification() {
+    @Scheduled(cron = "${algorithm.cron.absence}")
+    public void scheduleActivityAbsenceVerification() {
         punishAccounts();
-//        rewardAccounts();
     }
 
     //Method responsible for decreasing loyalty factor for accounts that have active and not completed
@@ -92,9 +92,12 @@ public class IntervalFactorsService {
                 .isBefore(OffsetDateTime.now()))
             .collect(Collectors.toList());
 
-        List<Booking> bookingsWithAbsence = activitiesWithAbsence.stream()
-            .map(activity -> bookingRepositoryPort.find(activity.getNumber()))
-            .filter(booking -> !booking.getPending())
+        List<Booking> bookingsWithAbsence = activeAndNotCompletedBookings.stream()
+            .filter(booking -> activitiesWithAbsence.stream()
+                .map(Activity::getNumber)
+                .collect(Collectors.toList())
+                .contains(booking.getActivity()))
+            .filter(Predicate.not(Booking::getPending))
             .collect(Collectors.toList());
 
         List<Account> accountsToPunish = bookingsWithAbsence.stream()

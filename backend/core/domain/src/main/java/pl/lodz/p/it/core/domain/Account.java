@@ -4,6 +4,7 @@ import java.time.OffsetDateTime;
 import java.util.HashSet;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -58,7 +59,7 @@ public class Account extends BaseModel {
     @Range(min = 0)
     private Integer badLoginsCounter;
 
-    @Range(min = 1)
+    @Positive
     private Float loyaltyFactor;
 
     private Boolean gymMember;

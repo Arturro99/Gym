@@ -19,6 +19,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -106,7 +107,7 @@ public class AccountEntity extends BaseEntity {
     private Integer badLoginsCounter = 0;
 
     @Column(name = "loyalty_factor", nullable = false, table = "account_details")
-    @Range(min = 0)
+    @Positive
     private Float loyaltyFactor = 1F;
 
     @Column(name = "gym_member", nullable = false, table = "account_details")

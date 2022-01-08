@@ -54,9 +54,6 @@ export async function createBooking(activityNumber, login, t) {
         if (ex.response.data.error.errorKey === keys.BOOKING_CONFLICT_ERROR) {
           toast.error(t('booking_possessing_conflict'));
         } else if (ex.response.data.error.errorKey
-            === keys.BOOKING_CONFLICT_TRAINER_ERROR) {
-          toast.error(t('booking_trainer_conflict'));
-        } else if (ex.response.data.error.errorKey
             === keys.ACCESS_LEVEL_INAPPROPRIATE) {
           toast.error(t('accessLevel_inappropriate_client'));
         } else if (ex.response.data.error.errorKey

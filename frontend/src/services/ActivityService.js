@@ -53,6 +53,9 @@ export async function updateActivity(activity, t) {
       toast.error(t('activity_expired_conflict'));
     } else if (ex.response.data.error.errorKey === keys.ACTIVITY_CONFLICT_IN_USE_ERROR) {
       toast.error(t('activity_inUse_conflict'));
+    } else if (ex.response.data.error.errorKey
+      === keys.CONSTRAINT_VIOLATION) {
+      toast.error(t('activity_inappropriate_date'));
     }
   });
 }

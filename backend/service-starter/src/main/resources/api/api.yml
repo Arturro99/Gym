@@ -111,6 +111,9 @@ paths:
   /bookings/{number}/cancel:
     $ref: './paths/booking/BookingByNumber.yml#/all/cancel'
 
+  /bookings/{number}/activate:
+    $ref: './paths/booking/BookingByNumber.yml#/activateBookingForAccount'
+
   /bookings/{number}/complete:
     $ref: './paths/booking/BookingByNumber.yml#/all/complete'
 

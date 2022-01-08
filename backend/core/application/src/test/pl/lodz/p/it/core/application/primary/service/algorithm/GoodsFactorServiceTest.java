@@ -49,23 +49,32 @@ public class GoodsFactorServiceTest {
     }
 
     @Test
-    void shouldProperlySetLoyaltyFactorWhenIncreaseDietOrIncreaseTrainingPlanPossessingFactorCalled() {
+    void shouldReturnProperLoyaltyFactorWhenIncreaseDietOrIncreaseTrainingPlanPossessingFactorCalled() {
+        //given
+        Float dietFactor;
+        Float trainingPlanFactor;
+
         //when
-        goodsFactorService.increaseDietPossessingFactor(account);
-        goodsFactorService.increaseTrainingPlanPossessingFactor(account);
+        dietFactor = goodsFactorService.getIncreasedDietPossessingFactor(account);
+        trainingPlanFactor = goodsFactorService.getIncreasedTrainingPlanPossessingFactor(account);
 
         //then
-        assertEquals(loyaltyFactor * (float) Math.pow(addingFactor, 2), account.getLoyaltyFactor());
+        assertEquals(loyaltyFactor * addingFactor, dietFactor);
+        assertEquals(loyaltyFactor * addingFactor, trainingPlanFactor);
     }
 
     @Test
     void shouldProperlySetLoyaltyFactorWhenDecreaseDietOrIncreaseTrainingPlanPossessingFactorCalled() {
+        //given
+        Float dietFactor;
+        Float trainingPlanFactor;
+
         //when
-        goodsFactorService.decreaseDietPossessingFactor(account);
-        goodsFactorService.decreaseTrainingPlanPossessingFactor(account);
+        dietFactor = goodsFactorService.getDecreasedDietPossessingFactor(account);
+        trainingPlanFactor = goodsFactorService.getDecreasedTrainingPlanPossessingFactor(account);
 
         //then
-        assertEquals(loyaltyFactor * (float) Math.pow(removingFactor, 2),
-            account.getLoyaltyFactor());
+        assertEquals(loyaltyFactor * removingFactor, dietFactor);
+        assertEquals(loyaltyFactor * removingFactor, trainingPlanFactor);
     }
 }

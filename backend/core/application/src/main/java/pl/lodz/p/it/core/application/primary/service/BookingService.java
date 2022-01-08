@@ -110,14 +110,16 @@ public class BookingService extends BaseService<Booking> implements
             booking.setCreationDate(OffsetDateTime.now());
             orderFactorService.calculateBookingOrderFactor(booking);
             if (orderFactorService.isActivityFull(activity, booking)) {
-                algorithm.applyPreference(activity, booking);
+                algorithm.applyPreference(activity, booking, true);
             }
             return repository.save(booking);
         }
         if (!existingBooking.get().getActive() && !existingBooking.get().getCompleted()) {
+            existingBooking = Optional.of(bookingRepositoryPort.find(existingBooking.get().getNumber()));
             existingBooking.get().setActive(true);
+            orderFactorService.calculateBookingOrderFactor(existingBooking.get());
             if (orderFactorService.isActivityFull(activity)) {
-                algorithm.applyPreference(activity, existingBooking.get());
+                algorithm.applyPreference(activity, existingBooking.get(), true);
             }
         } else if (existingBooking.get().getCompleted()) {
             throw BookingException.bookingCancellationDeadlineException();
@@ -138,6 +140,7 @@ public class BookingService extends BaseService<Booking> implements
         }
 
         orderFactorService.recalculateBookingOrderFactorAfterCancellation(booking);
+        algorithm.applyPreference(activity, booking, false);
         return bookingRepositoryPort.cancelBooking(number);
     }
 

@@ -3,8 +3,6 @@ import { withTranslation } from "react-i18next";
 import { Booking } from "../../model/Booking";
 import { parseFromOffsetDateTimeToLegibleFormat } from "../../services/DateParser";
 import { getBooking, getOwnBooking } from "../../services/BookingService";
-import config from "../../config.json";
-import { getCurrentRole } from "../../services/AuthenticationService";
 
 class BookingDetails extends Details {
 
@@ -50,12 +48,11 @@ class BookingDetails extends Details {
           <div className="card-header">
             <h1>{t('bookingDetails')}</h1>
             {this.renderRefreshButton(this.updateDetails, t)}
-            {getCurrentRole() === config.TRAINER ?
-                this.renderUpdateButton('updateBookingModal', t('update')) : ''}
           </div>
           {this.renderField('number', t('number'),
               this.state.data.booking)}
-          {this.renderField('account', t('account'), this.state.data.booking, true)}
+          {this.renderField('account', t('account'), this.state.data.booking,
+              true)}
           {this.renderField('activity', t('activity'),
               this.state.data.booking, true, 'activities')}
           {this.renderField('active',

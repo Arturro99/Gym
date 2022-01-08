@@ -131,6 +131,7 @@ export const TRANSLATIONS_EN = {
   trainingPlans: 'Training plans',
   trainingType: 'Training type',
   trainingPlanDetails: 'Training plan details',
+  updateTrainingPlan: 'Update training plan',
 
   error_trainingPlanNumber_string_pattern_base: 'Number must match: \'TRAXXX\' where XXX are digits',
   error_trainingPlanNumber_string_empty: 'Number required',

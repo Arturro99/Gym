@@ -104,3 +104,24 @@ all:
             application/json:
               schema:
                 $ref: '../../schemas/booking/BookingDetailsResponse.yml#/components/schemas/BookingDetailsResponse'
+
+activateBookingForAccount:
+  post:
+    tags:
+      - booking
+    summary: Activate booking
+    description: Activate particular existing booking
+    operationId: activateClientsBooking
+    parameters:
+      - in: path
+        name: number
+        schema:
+          type: string
+        required: true
+    responses:
+      200:
+        description: Operation successful
+        content:
+          application/json:
+            schema:
+              $ref: '../../schemas/booking/BookingDetailsResponse.yml#/components/schemas/BookingDetailsResponse'
