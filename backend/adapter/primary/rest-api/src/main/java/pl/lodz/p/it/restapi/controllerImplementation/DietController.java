@@ -1,9 +1,12 @@
 package pl.lodz.p.it.restapi.controllerImplementation;
 
+import static lombok.AccessLevel.PRIVATE;
+
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import pl.lodz.p.it.core.domain.Diet;
@@ -20,17 +23,18 @@ import pl.lodz.p.it.restapi.mapper.diet.DietResponseMapper;
 
 @RestController
 @AllArgsConstructor
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 public class DietController implements DietsApiDelegate {
 
-    private final DietServicePort dietServicePort;
+    DietServicePort dietServicePort;
 
-    private final DietResponseMapper dietResponseMapper;
+    DietResponseMapper dietResponseMapper;
 
-    private final DietDetailsResponseMapper dietDetailsResponseMapper;
+    DietDetailsResponseMapper dietDetailsResponseMapper;
 
-    private final DietRequestPostMapper dietRequestPostMapper;
+    DietRequestPostMapper dietRequestPostMapper;
 
-    private final DietRequestPutMapper dietRequestPutMapper;
+    DietRequestPutMapper dietRequestPutMapper;
 
     @Override
     public ResponseEntity<DietDetailsResponse> getDiet(String number) {

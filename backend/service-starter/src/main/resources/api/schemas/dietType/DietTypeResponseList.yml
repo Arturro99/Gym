@@ -1,0 +1,13 @@
+openapi: 3.0.0
+info:
+  description: DietTypeResponseList model
+  title: DietTypeResponseList model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    DietTypeResponseList:
+      type: array
+      items:
+        $ref: '../dietType/DietTypeResponse.yml#/components/schemas/DietTypeResponse'

@@ -71,7 +71,7 @@ public class OrderFactorService {
             .filter(number -> number.equals(activity.getNumber()))
             .count();
 
-        return bookingsNumber >= capacity;
+        return bookingsNumber > capacity;
     }
 
     /**
@@ -115,6 +115,11 @@ public class OrderFactorService {
         }
     }
 
+    /**
+     * Method responsible for recalculating loyalty factor after booking cancellation.
+     *
+     * @param booking Cancelled booking
+     */
     public void recalculateBookingOrderFactorAfterCancellation(Booking booking) {
         Account account = accountRepositoryPort.find(booking.getAccount());
         float loyaltyFactor = account.getLoyaltyFactor();

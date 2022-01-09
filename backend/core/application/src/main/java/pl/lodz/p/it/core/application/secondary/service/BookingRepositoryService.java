@@ -91,6 +91,14 @@ public class BookingRepositoryService extends
     }
 
     @Override
+    public Booking findByClientAndNumber(String login, String number) {
+        AccountEntity client = accountRepository.findByBusinessId(login)
+            .orElseThrow(AccountException::accountNotFoundException);
+        return mapper.toDomainModel(bookingRepository.findByBusinessIdAndAccount(number, client)
+            .orElseThrow(BookingException::bookingNotFoundException));
+    }
+
+    @Override
     public List<Booking> findAllByActiveTrueAndCompletedFalse() {
         return bookingRepository.findAllByActiveTrueAndCompletedFalse().stream()
             .map(mapper::toDomainModel)

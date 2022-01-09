@@ -21,7 +21,10 @@ public class SystemLoggedInUserAuditorAware implements AuditorAware<AccountEntit
     @Override
     public Optional<AccountEntity> getCurrentAuditor() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        return accountRepository.findByBusinessId(currentPrincipalName);
+        if (Optional.ofNullable(authentication).isPresent()) {
+            String currentPrincipalName = authentication.getName();
+            return accountRepository.findByBusinessId(currentPrincipalName);
+        }
+        return Optional.empty();
     }
 }

@@ -2,10 +2,7 @@ import Details from "../common/Details";
 import { withTranslation } from "react-i18next";
 import { Booking } from "../../model/Booking";
 import { parseFromOffsetDateTimeToLegibleFormat } from "../../services/DateParser";
-import { getBooking } from "../../services/BookingService";
-import UpdateBookingModal from "./UpdateBookingModal";
-import { getCurrentRole } from "../../services/AuthenticationService";
-import config from "../../config.json";
+import { getBooking, getOwnBooking } from "../../services/BookingService";
 
 class BookingDetails extends Details {
 
@@ -17,18 +14,18 @@ class BookingDetails extends Details {
 
   async componentDidMount() {
     await this.updateDetails();
-
-    const myModalEl = document.getElementById('updateBookingModal')
-    myModalEl.addEventListener('hidden.bs.modal', () => {
-      this.updateDetails();
-    })
   }
 
-  async updateDetails() {
+  updateDetails = async () => {
     const pathParam = this.props.match.params.number;
-    const { t } = this.props;
+    const { t, own } = this.props;
     let currentState = { ...this.state };
-    const fetched = await getBooking(pathParam);
+    let fetched;
+    if (own) {
+      fetched = await getOwnBooking(pathParam);
+    } else {
+      fetched = await getBooking(pathParam);
+    }
     currentState.data.booking = new Booking(
         fetched.number,
         fetched.account,
@@ -48,16 +45,14 @@ class BookingDetails extends Details {
     const { t } = this.props;
     return (
         <div className="card text-center shadow-lg mt-3 w-75 mx-auto">
-          <UpdateBookingModal booking={this.state.data.booking}
-                              updateDetails={this.updateDetails}/>
           <div className="card-header">
             <h1>{t('bookingDetails')}</h1>
-            {getCurrentRole() === config.TRAINER ?
-                this.renderUpdateButton('updateBookingModal', t('update')) : ''}
+            {this.renderRefreshButton(this.updateDetails, t)}
           </div>
           {this.renderField('number', t('number'),
               this.state.data.booking)}
-          {this.renderField('account', t('account'), this.state.data.booking, true)}
+          {this.renderField('account', t('account'), this.state.data.booking,
+              true)}
           {this.renderField('activity', t('activity'),
               this.state.data.booking, true, 'activities')}
           {this.renderField('active',

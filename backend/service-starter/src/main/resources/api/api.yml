@@ -37,7 +37,22 @@ paths:
     $ref: './paths/accessLevel/AccessLevelByNumber.yml#/Login'
 
   /accounts:
-    $ref: './paths/account/Account.yml'
+    $ref: './paths/account/Account.yml#/general'
+
+  /accounts/own:
+    $ref: './paths/account/Account.yml#/own'
+
+  /accounts/own/trainingPlans:
+    $ref: './paths/account/Account.yml#/trainingPlan/withoutParam'
+
+  /accounts/own/trainingPlans/{number}:
+    $ref: './paths/account/Account.yml#/trainingPlan/remove'
+
+  /accounts/own/diets:
+    $ref: './paths/account/Account.yml#/diet/withoutParam'
+
+  /accounts/own/diets/{number}:
+    $ref: './paths/account/Account.yml#/diet/remove'
 
   /accounts/{login}:
     $ref: './paths/account/AccountByLogin.yml'
@@ -45,14 +60,8 @@ paths:
   /accounts/{login}/trainingPlans:
     $ref: './paths/account/AccountByLogin.yml#/trainingPlan/withoutParam'
 
-  /accounts/{login}/trainingPlans/{number}:
-    $ref: './paths/account/AccountByLogin.yml#/trainingPlan/remove'
-
   /accounts/{login}/diets:
     $ref: './paths/account/AccountByLogin.yml#/diet/withoutParam'
-
-  /accounts/{login}/diets/{number}:
-    $ref: './paths/account/AccountByLogin.yml#/diet/remove'
 
   /authenticate:
     $ref: './paths/account/Authenticate.yml#/authenticate'
@@ -85,22 +94,34 @@ paths:
     $ref: './paths/activity/ActivityByNumber.yml#/trainerLogin'
 
   /bookings:
-    $ref: './paths/booking/Booking.yml'
+    $ref: './paths/booking/Booking.yml#/all'
+
+  /bookings/own:
+    $ref: './paths/booking/Booking.yml#/own'
+
+  /bookings/own/{number}:
+    $ref: './paths/booking/BookingByNumber.yml#/own/get'
+
+  /bookings/own/{number}/cancel:
+    $ref: './paths/booking/BookingByNumber.yml#/own/cancel'
 
   /bookings/{number}:
-    $ref: './paths/booking/BookingByNumber.yml#/bookingNumber'
+    $ref: './paths/booking/BookingByNumber.yml#/all/get'
 
   /bookings/{number}/cancel:
-    $ref: './paths/booking/BookingByNumber.yml#/cancel'
+    $ref: './paths/booking/BookingByNumber.yml#/all/cancel'
+
+  /bookings/{number}/activate:
+    $ref: './paths/booking/BookingByNumber.yml#/activateBookingForAccount'
 
   /bookings/{number}/complete:
-    $ref: './paths/booking/BookingByNumber.yml#/complete'
+    $ref: './paths/booking/BookingByNumber.yml#/all/complete'
 
-  /bookings/client/{login}:
-    $ref: './paths/booking/BookingByNumber.yml#/clientLogin'
+  /dietTypes:
+    $ref: './paths/dietType/DietType.yml'
 
-  /bookings/activity/{number}:
-    $ref: './paths/booking/BookingByNumber.yml#/activityNumber'
+  /trainingTypes:
+    $ref: './paths/trainingType/TrainingType.yml'
 
 components:
   schemas:
@@ -150,8 +171,8 @@ components:
     DietRequestPost:
       $ref: './schemas/diet/DietRequestPost.yml#/components/schemas/DietRequestPost'
 
-    DietType:
-      $ref:  './schemas/diet/DietType.yml#/components/schemas/DietType'
+    DietTypeResponse:
+      $ref:  './schemas/dietType/DietTypeResponse.yml#/components/schemas/DietTypeResponse'
 
     ActivityRequestPost:
       $ref: './schemas/activity/ActivityRequestPost.yml#/components/schemas/ActivityRequestPost'
@@ -186,5 +207,5 @@ components:
     TrainingPlanResponseList:
       $ref: './schemas/training/TrainingPlanResponseList.yml#/components/schemas/TrainingPlanResponseList'
 
-    TrainingType:
-      $ref:  './schemas/training/TrainingType.yml#/components/schemas/TrainingType'
+    TrainingTypeResponse:
+      $ref:  './schemas/trainingType/TrainingTypeResponse.yml#/components/schemas/TrainingTypeResponse'

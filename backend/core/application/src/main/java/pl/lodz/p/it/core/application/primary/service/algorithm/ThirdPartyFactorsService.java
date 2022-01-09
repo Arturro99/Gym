@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.core.domain.Account;
-import pl.lodz.p.it.core.domain.Booking;
 import pl.lodz.p.it.core.port.secondary.AccountRepositoryPort;
-import pl.lodz.p.it.core.port.secondary.BookingRepositoryPort;
 
 /**
  * Service responsible for handling third party-side algorithm factor - presence at activities.
@@ -24,17 +22,13 @@ public class ThirdPartyFactorsService {
 
     final AccountRepositoryPort accountRepositoryPort;
 
-    final BookingRepositoryPort bookingRepositoryPort;
-
     @Value("${algorithm.activity.presence}")
     float presenceFactor;
 
     @Autowired
-    public ThirdPartyFactorsService(AccountRepositoryPort accountRepositoryPort,
-        BookingRepositoryPort bookingRepositoryPort) {
+    public ThirdPartyFactorsService(AccountRepositoryPort accountRepositoryPort) {
 
         this.accountRepositoryPort = accountRepositoryPort;
-        this.bookingRepositoryPort = bookingRepositoryPort;
     }
 
     /**

@@ -1,9 +1,12 @@
 package pl.lodz.p.it.restapi.controllerImplementation;
 
+import static lombok.AccessLevel.PRIVATE;
+
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import pl.lodz.p.it.core.domain.Activity;
@@ -20,17 +23,18 @@ import pl.lodz.p.it.restapi.mapper.activity.ActivityResponseMapper;
 
 @RestController
 @AllArgsConstructor
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 public class ActivityController implements ActivitiesApiDelegate {
 
-    private final ActivityServicePort activityServicePort;
+    ActivityServicePort activityServicePort;
 
-    private final ActivityResponseMapper activityResponseMapper;
+    ActivityResponseMapper activityResponseMapper;
 
-    private final ActivityDetailsResponseMapper activityDetailsResponseMapper;
+    ActivityDetailsResponseMapper activityDetailsResponseMapper;
 
-    private final ActivityRequestPostMapper activityRequestPostMapper;
+    ActivityRequestPostMapper activityRequestPostMapper;
 
-    private final ActivityRequestPutMapper activityRequestPutMapper;
+    ActivityRequestPutMapper activityRequestPutMapper;
 
     @Override
     public ResponseEntity<ActivityDetailsResponse> getActivity(String number) {
@@ -64,8 +68,9 @@ public class ActivityController implements ActivitiesApiDelegate {
     }
 
     @Override
-    public ResponseEntity<Void> deleteActivity(String number) {
-        activityServicePort.delete(number);
+    public ResponseEntity<Void> deactivateActivity(String number) {
+        activityServicePort.deactivate(number);
+
         return ResponseEntity.ok().build();
     }
 

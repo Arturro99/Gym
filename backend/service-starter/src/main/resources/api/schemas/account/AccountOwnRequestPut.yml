@@ -1,0 +1,18 @@
+openapi: 3.0.0
+info:
+  description: AccountOwnRequestPut model
+  title: AccountOwnRequestPut model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    AccountOwnRequestPut:
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phoneNumber:
+          type: string
+          pattern: "^[0-9]{9,12}$"

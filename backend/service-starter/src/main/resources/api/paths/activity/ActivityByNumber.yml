@@ -48,9 +48,9 @@ activityNumber:
   delete:
     tags:
       - activity
-    summary: Remove activity
-    description: Remove activity with the given number
-    operationId: deleteActivity
+    summary: Deactivate activity
+    description: Deactivate activity with the given number
+    operationId: deactivateActivity
     parameters:
       - in: path
         name: number

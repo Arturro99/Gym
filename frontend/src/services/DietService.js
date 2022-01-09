@@ -14,6 +14,13 @@ export async function getDiets() {
   return diets;
 }
 
+export async function getDietTypes() {
+  const { data: diets } = await http.get(`${config.apiUrl}/dietTypes`, {
+    method: 'GET'
+  });
+  return diets;
+}
+
 export async function getDiet(id) {
   const { data: diet } = await http.get(`${dietUrl(id)}`);
   return diet;

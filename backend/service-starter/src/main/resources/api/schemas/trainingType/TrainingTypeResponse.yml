@@ -1,13 +1,13 @@
 openapi: 3.0.0
 info:
-  description: DietType model
-  title: DietType model
+  description: TrainingTypeResponse model
+  title: TrainingTypeResponse model
   version: 1.0.0
 paths:
 
 components:
   schemas:
-    DietType:
+    TrainingTypeResponse:
       properties:
         title:
           type: string

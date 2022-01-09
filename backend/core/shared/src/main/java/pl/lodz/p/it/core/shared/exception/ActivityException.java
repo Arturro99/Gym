@@ -30,10 +30,16 @@ public class ActivityException extends BaseException {
                 ErrorKey.ACTIVITY_CONFLICT_ERROR));
     }
 
+    public static ActivityException inactiveActivityConflictException() {
+        return new ActivityException(
+            ConflictException.conflict("Activity is already inactive!",
+                ErrorKey.ACTIVITY_CONFLICT_INACTIVE_ERROR));
+    }
+
     public static ActivityException inUseActivityConflictException() {
         return new ActivityException(
             ConflictException.conflict("Activity is being used!",
-                ErrorKey.ACTIVITY_CONFLICT_ERROR));
+                ErrorKey.ACTIVITY_CONFLICT_IN_USE_ERROR));
     }
 
     public static ActivityException activityExpiredException() {

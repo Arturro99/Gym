@@ -1,11 +1,17 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import Table from "../common/Table";
 import { withTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { getCurrentRole } from "../../services/AuthenticationService";
 import config from "../../config.json";
+import ConfirmModal from "../common/ConfirmModal";
 
 class ActivitiesTable extends Component {
+
+  state = {
+    deactivateModalId: 'confirmActivityDeactivation',
+    activity: ''
+  }
 
   columns = [
     {
@@ -39,14 +45,24 @@ class ActivitiesTable extends Component {
           <div className="row justify-content-md-center">
             {getCurrentRole() === config.TRAINER ?
                 <button
-                    className="btn btn-outline-danger col-3 ms-2 d-flex justify-content-center text-center"
-                    onClick={() => this.props.onDelete(activity)}>{this.props.t(
-                    'delete')}
+                    className={activity.active === this.props.t('inactive') ?
+                        "btn btn-outline-dark col-4 ms-2 d-flex justify-content-center text-center"
+                        :
+                        "btn btn-outline-danger col-4 ms-2 d-flex justify-content-center text-center"}
+                    data-bs-toggle='modal'
+                    data-bs-target={`#${this.state.deactivateModalId}`}
+                    disabled={activity.active === this.props.t('inactive')}
+                    onClick={() => this.setState({ activity: activity })}>
+                  {this.props.t('deactivate')}
                 </button> : ''
             }
             {getCurrentRole() === config.CLIENT ?
                 <button
-                    className="btn btn-outline-success col-3 ms-2 d-flex justify-content-center text-center"
+                    className={activity.active === this.props.t('inactive') ?
+                        "btn btn-outline-dark col-3 ms-2 d-flex justify-content-center text-center"
+                        :
+                        "btn btn-outline-success col-3 ms-2 d-flex justify-content-center text-center"}
+                    disabled={activity.active === this.props.t('inactive')}
                     onClick={() => this.props.onApply(activity)}>{this.props.t(
                     'apply')}
                 </button> : ''
@@ -61,15 +77,31 @@ class ActivitiesTable extends Component {
   ];
 
   render() {
-    const { activities, onSort, sortColumn, t } = this.props;
+    const {
+      activities,
+      onSort,
+      sortColumn,
+      t,
+      onDelete,
+      onRefresh
+    } = this.props;
+    const { activity, deactivateModalId } = this.state;
 
     return (
         <div className="card-header">
+          <ConfirmModal title='confirm_activity_deactivation_title'
+                        message='confirm_activity_deactivation_message'
+                        modalId={`${deactivateModalId}`}
+                        onConfirm={onDelete}
+                        object={activity}
+                        objectBusinessId={activity.number}/>
           <h1 className="text-center">{t('activities')}</h1>
           <Table columns={this.columns}
                  data={activities}
                  sortColumn={sortColumn}
-                 onSort={onSort}/>
+                 onSort={onSort}
+                 onRefresh={onRefresh}
+                 t={t}/>
         </div>
     )
   }

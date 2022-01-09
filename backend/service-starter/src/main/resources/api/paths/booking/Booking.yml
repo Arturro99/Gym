@@ -1,33 +1,49 @@
-get:
-  tags:
-    - booking
-  summary: Get bookings
-  description: Display all bookings
-  operationId: getBookings
-  responses:
-    200:
-      description: Operation successful
-      content:
-        application/json:
-          schema:
-            $ref: '../../schemas/booking/BookingResponseList.yml#/components/schemas/BookingResponseList'
+own:
+  get:
+    tags:
+      - booking
+    summary: Get own bookings
+    description: Display all own bookings
+    operationId: getOwnBookings
+    responses:
+      200:
+        description: Operation successful
+        content:
+          application/json:
+            schema:
+              $ref: '../../schemas/booking/BookingResponseList.yml#/components/schemas/BookingResponseList'
 
-post:
-  tags:
-    - booking
-  summary: Add booking
-  description: Create a new booking
-  operationId: createBooking
-  requestBody:
-    required: true
-    content:
-      application/json:
-        schema:
-          $ref: '../../schemas/booking/BookingRequestPost.yml#/components/schemas/BookingRequestPost'
-  responses:
-    201:
-      description: Operation successful
+all:
+  get:
+    tags:
+      - booking
+    summary: Get bookings
+    description: Display all bookings
+    operationId: getBookings
+    responses:
+      200:
+        description: Operation successful
+        content:
+          application/json:
+            schema:
+              $ref: '../../schemas/booking/BookingResponseList.yml#/components/schemas/BookingResponseList'
+
+  post:
+    tags:
+      - booking
+    summary: Add booking
+    description: Create a new booking for own account
+    operationId: createOwnBooking
+    requestBody:
+      required: true
       content:
         application/json:
           schema:
-            $ref: '../../schemas/booking/BookingDetailsResponse.yml#/components/schemas/BookingDetailsResponse'
+            $ref: '../../schemas/booking/BookingRequestPost.yml#/components/schemas/BookingRequestPost'
+    responses:
+      201:
+        description: Operation successful
+        content:
+          application/json:
+            schema:
+              $ref: '../../schemas/booking/BookingDetailsResponse.yml#/components/schemas/BookingDetailsResponse'

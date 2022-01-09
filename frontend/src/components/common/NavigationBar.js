@@ -1,18 +1,20 @@
 import { Link, NavLink } from 'react-router-dom'
 import React from "react";
-import { withTranslation } from "react-i18next";
 import {
   getCurrentRole,
-  getCurrentUser,
-  getRoles
+  getCurrentUser
 } from "../../services/AuthenticationService";
-import config from '../../config.json'
+import config from '../../config.json';
+import { withTranslation } from "react-i18next";
 
 const NavigationBar = (props) => {
 
   const { headers, data, onChangeRoleClick, onSignOutClick, t } = props;
   const mainHeaders = headers.filter(
       header => header.path !== '/login' && header.path !== '/register');
+  const adminHeaders = mainHeaders.filter(
+      header => header.path !== '/bookings' && header.path !== '/diets'
+          && header.path !== '/activities' && header.path !== '/trainingPlans');
   const trainerHeaders = mainHeaders.filter(
       header => header.path !== '/accounts');
   const clientHeaders = trainerHeaders.filter(
@@ -20,12 +22,12 @@ const NavigationBar = (props) => {
   const loginHeader = headers.filter(header => header.path === '/login');
   const registerHeader = headers.filter(header => header.path === '/register');
 
-  const renderedHeaders = getCurrentRole() === config.ADMIN ? mainHeaders :
+  const renderedHeaders = getCurrentRole() === config.ADMIN ? adminHeaders :
       getCurrentRole() === config.TRAINER ? trainerHeaders :
           getCurrentRole() === config.CLIENT ? clientHeaders : '';
   return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <Link className="navbar-brand" to="/">GymManiac</Link>
+        <Link className="navbar-brand" to="/">Gym&Style</Link>
         {getCurrentRole() ?
             <ul className="navbar-nav ms-sm-5">
               {renderedHeaders.map(header =>
@@ -83,20 +85,25 @@ const NavigationBar = (props) => {
                     <ul className="dropdown-menu dropdown-menu-dark dropdown-menu-end text"
                         aria-labelledby="navbarDarkDropdownMenuLink">
                       <Link className="dropdown-item"
-                            to={`/accounts/own/${data.login}`}
+                            to={`/accounts/own`}
                             type="button">{t('accountDetails')}</Link>
-                      <Link className="dropdown-item"
-                            to={`/bookings/own/${data.login}`}
-                            type="button">{t('myBookings')}</Link>
-                      <Link className="dropdown-item"
-                            to={`/trainingPlans/own/${data.login}`}
-                            type="button">{t('myTrainingPlans')}</Link>
-                      <Link className="dropdown-item"
-                            to={`/diets/own/${data.login}`}
-                            type="button">{t('myDiets')}</Link>
-                      <button className="dropdown-item"
-                              onClick={onSignOutClick}
-                              type="button">{t('signOut')}</button>
+                      {getCurrentRole() === config.CLIENT ? <div>
+                        <Link className="dropdown-item"
+                              to={`/bookings/own`}
+                              type="button">{t('myBookings')}</Link>
+                        <Link className="dropdown-item"
+                              to={`/trainingPlans/own`}
+                              type="button">{t('myTrainingPlans')}</Link>
+                        <Link className="dropdown-item"
+                              to={`/diets/own`}
+                              type="button">{t('myDiets')}</Link>
+                      </div> : ''
+                      }
+                      <Link to={'/'} style={{ textDecoration: 'none' }}>
+                        <button className="dropdown-item"
+                                onClick={onSignOutClick}
+                                type="button">{t('signOut')}</button>
+                      </Link>
                     </ul>
                   </li>
                 </ul>

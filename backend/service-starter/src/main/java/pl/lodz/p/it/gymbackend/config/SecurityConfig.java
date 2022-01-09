@@ -1,11 +1,15 @@
 package pl.lodz.p.it.gymbackend.config;
 
+import static org.springframework.http.HttpMethod.DELETE;
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.PUT;
+
 import java.util.List;
 import javax.annotation.Resource;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -33,6 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final static String TRAINER = Level.TRAINER.name();
     private final JWTRequestFilter jwtRequestFilter;
     private final ExceptionHandlerFilter exceptionHandlerFilter;
+
     @Resource
     private UserDetailsService userDetailsService;
 
@@ -43,13 +48,50 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and()
+        http
+            .cors().and()
             .csrf().disable()
             .authorizeRequests()
             .antMatchers("/").permitAll()
-            .antMatchers(HttpMethod.GET, "/accounts").hasAuthority(ADMIN)
-//            .antMatchers(HttpMethod.GET, "/accounts/**").hasAuthority(ADMIN)
-            .antMatchers(HttpMethod.GET, "/trainingPlans/**").hasAnyAuthority(CLIENT, TRAINER)
+            //ACCOUNTS
+            .antMatchers(GET, "/accounts").hasAuthority(ADMIN)
+            .antMatchers(GET, "/accounts/own").authenticated()
+            .antMatchers(GET, "/accounts/own/*").authenticated()
+            .antMatchers(PUT, "/accounts/own").authenticated()
+            .antMatchers(DELETE, "/accounts/own/*").authenticated()
+            .antMatchers(POST, "/accounts/own/*").authenticated()
+            .antMatchers(GET, "/accounts/**").hasAuthority(ADMIN)
+            .antMatchers(PUT, "/accounts/**").hasAuthority(ADMIN)
+            //TRAINING PLANS
+            .antMatchers(GET, "/trainingPlans/**").hasAnyAuthority(CLIENT, TRAINER)
+            .antMatchers(POST, "/trainingPlans").hasAuthority(TRAINER)
+            .antMatchers(PUT, "/trainingPlans/*").hasAuthority(TRAINER)
+            .antMatchers(DELETE, "/trainingPlans/*").hasAuthority(TRAINER)
+            //DIETS
+            .antMatchers(GET, "/diets/**").hasAnyAuthority(CLIENT, TRAINER)
+            .antMatchers(POST, "/diets").hasAuthority(TRAINER)
+            .antMatchers(PUT, "/diets/*").hasAuthority(TRAINER)
+            .antMatchers(DELETE, "/diets/*").hasAuthority(TRAINER)
+            //ACTIVITIES
+            .antMatchers(GET, "/activities/**").hasAnyAuthority(CLIENT, TRAINER)
+            .antMatchers(POST, "/activities").hasAuthority(TRAINER)
+            .antMatchers(PUT, "/activities/*").hasAuthority(TRAINER)
+            .antMatchers(DELETE, "/activities/*").hasAuthority(TRAINER)
+            //BOOKINGS
+            .antMatchers(GET, "/bookings/own").hasAuthority(CLIENT)
+            .antMatchers(GET, "/bookings/own/*").hasAuthority(CLIENT)
+            .antMatchers(POST, "/bookings").hasAuthority(CLIENT)
+            .antMatchers(PUT, "/bookings/own/**").hasAuthority(CLIENT)
+            .antMatchers(GET, "/bookings/**").hasAuthority(TRAINER)
+            .antMatchers(PUT, "/bookings/**").hasAuthority(TRAINER)
+            //ACCESS LEVELS
+            .antMatchers(POST, "/accessLevels").hasAuthority(ADMIN)
+            .antMatchers(GET, "/accessLevels").hasAuthority(ADMIN)
+            .antMatchers(GET, "/accessLevels/*").hasAuthority(ADMIN)
+            .antMatchers(DELETE, "/accessLevels/**").hasAuthority(ADMIN)
+            //DIET TYPES
+            .antMatchers(GET, "/dietTypes").authenticated()
+            .antMatchers(GET, "/trainingTypes").authenticated()
             .and()
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

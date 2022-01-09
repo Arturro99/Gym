@@ -29,9 +29,17 @@ export const TRANSLATIONS_EN = {
   save: 'Save',
   yes: 'Yes',
   no: 'No',
+  refresh: 'Refresh',
+
+  signIn_success: 'Welcome, ',
 
   error_title_string_empty: 'Name required',
   error_trainer_string_empty: 'Trainer required',
+  error_invalid_credentials: 'Invalid credentials',
+  error_account_inactive: 'Account has been blocked',
+
+  access_forbidden: 'You cannot access this page as it\'s forbidden',
+  not_found: 'Resource not found',
 
   //Registration form
   login: 'Login',
@@ -55,6 +63,7 @@ export const TRANSLATIONS_EN = {
   error_repeatedPassword_string_empty: 'You need to repeat your password',
   error_firstName_string_empty: 'First name required',
   error_lastName_string_empty: 'Last name required',
+  error_phoneNumber_string_empty: 'Phone number required',
   incorrect_repeated_password: 'Repeated password does not match password',
 
   //Activities
@@ -76,11 +85,14 @@ export const TRANSLATIONS_EN = {
   error_capacity_number_min: 'Capacity must be at least 1',
 
   activity_number_conflict: 'Activity with such number exists',
-  activity_remove_conflict: 'Activity is being used',
+  activity_deactivate_conflict: 'Activity is already finished',
+  activity_expired_conflict: 'Activity is already finished',
+  activity_inUse_conflict: 'Activity is being used',
+  activity_inactive_conflict: 'Activity is already inactive',
   activity_notFound: 'Activity already removed',
   activity_update_success: 'Activity updated successfully',
   activity_add_success: 'Activity added successfully',
-  activity_remove_success: 'Activity removed successfully',
+  activity_deactivate_success: 'Activity deactivated successfully',
   activity_inappropriate_date: 'Date should be a value from future',
 
   //Diets
@@ -119,6 +131,7 @@ export const TRANSLATIONS_EN = {
   trainingPlans: 'Training plans',
   trainingType: 'Training type',
   trainingPlanDetails: 'Training plan details',
+  updateTrainingPlan: 'Update training plan',
 
   error_trainingPlanNumber_string_pattern_base: 'Number must match: \'TRAXXX\' where XXX are digits',
   error_trainingPlanNumber_string_empty: 'Number required',
@@ -181,6 +194,7 @@ export const TRANSLATIONS_EN = {
   booking_cancellation_deadline_conflict: 'You can no longer cancel this booking',
   booking_completion_cancellation_conflict: 'Cannot manage booking\'s activity after its completion',
   booking_completion_conflict: 'Cannot complete booking before the start of activity',
+  booking_completion_clientTrainer_conflict: 'Cannot apply for activity that you run',
 
   //Access levels
   assignAccessLevels: 'Assign access levels',
@@ -196,4 +210,31 @@ export const TRANSLATIONS_EN = {
   url_gone: 'Link expired',
 
   account_confirmation_success: 'Account confirmed successfully',
+
+  //CONFIRMS
+  confirm_block_message: 'Are you sure you want to block user',
+  confirm_unblock_message: 'Are you sure you want to unblock user',
+  confirm_block_title: 'Confirm blocking',
+
+  confirm_activity_deactivation_message: 'You won\'t be able to undo the action.\nAre you sure you want to deactivate activity',
+  confirm_activity_deactivation_title: 'Confirm deactivating',
+
+  confirm_diet_deletion_message: 'You won\'t be able to undo the action.\nAre you sure you want to delete diet',
+  confirm_diet_deletion_title: 'Confirm deletion',
+  confirm_diet_cancellation_message: 'Are you sure you want to cancel diet',
+  confirm_diet_cancellation_title: 'Confirm cancellation',
+
+  confirm_trainingPlan_deletion_message: 'You won\'t be able to undo the action.\nAre you sure you want to delete training plan',
+  confirm_trainingPlan_deletion_title: 'Confirm deletion',
+  confirm_trainingPlan_cancellation_message: 'Are you sure you want to cancel training plan',
+  confirm_trainingPlan_cancellation_title: 'Confirm cancellation',
+
+  confirm_booking_deactivation_message: 'Are you sure you want to deactivate booking',
+  confirm_booking_deactivation_title: 'Confirm deactivating',
+  confirm_booking_activation_message: 'Are you sure you want to re-activate booking',
+  confirm_booking_activation_title: 'Confirm re-activating',
+  confirm_booking_cancellation_message: 'Are you sure you want to cancel booking',
+  confirm_booking_cancellation_title: 'Confirm cancellation',
+  confirm_booking_completion_message: 'You won\'t be able to undo the action.\nAre you sure you want to complete booking',
+  confirm_booking_completion_title: 'Confirm completion',
 };

@@ -30,7 +30,7 @@ class RegisterForm extends Form {
     repeatedPassword: Joi.string().required(),
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
-    phoneNumber: Joi.string().min(9).max(11).optional().allow("")
+    phoneNumber: Joi.string().min(9).max(12).required().allow("")
   };
 
   schema = Joi.object({

@@ -34,7 +34,7 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set HTTPS=true&&react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -59,6 +59,7 @@
   },
   "devDependencies": {
     "@joi/date": "^2.1.0",
+    "history": "^5.2.0",
     "react-router-dom": "^5.2.1",
     "react-toastify": "^8.1.0"
   }

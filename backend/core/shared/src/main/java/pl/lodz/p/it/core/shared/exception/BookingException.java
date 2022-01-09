@@ -18,11 +18,11 @@ public class BookingException extends BaseException {
             .notFound("Required booking not found!", ErrorKey.BOOKING_NOT_FOUND_ERROR));
     }
 
-    public static BookingException bookingConflictException() {
+    public static BookingException bookingActivityInactiveConflictException() {
         return new BookingException(
             ConflictException
-                .conflict("Booking already exists and is active!",
-                    ErrorKey.BOOKING_CONFLICT_ERROR));
+                .conflict("Cannot book a place in an inactive activity!",
+                    ErrorKey.BOOKING_CONFLICT_ACTIVITY_INACTIVE_ERROR));
     }
 
     public static BookingException possessedBookingConflictException() {
@@ -43,5 +43,12 @@ public class BookingException extends BaseException {
             ConflictException
                 .conflict("Cannot complete booking before the start of activity!",
                     ErrorKey.BOOKING_CONFLICT_COMPLETION_ERROR));
+    }
+
+    public static BookingException bookingClientTrainerConflictException() {
+        return new BookingException(
+            ConflictException
+                .conflict("Client is also running this activity!",
+                    ErrorKey.BOOKING_CONFLICT_CLIENT_TRAINER_ERROR));
     }
 }

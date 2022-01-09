@@ -32,7 +32,7 @@ class AccountDetails extends Details {
     })
   }
 
-  async updateDetails() {
+  updateDetails = async () => {
     const pathParam = this.props.match.params.login;
     const { t } = this.props;
     let currentState = { ...this.state };
@@ -77,6 +77,7 @@ class AccountDetails extends Details {
 
           <div className="card-header">
             <h1>{t('accountDetails')}</h1>
+            {this.renderRefreshButton(this.updateDetails, t)}
             {this.renderUpdateButton('updateAccountModal', t('update'))}
             <button className="btn btn-outline-warning float-end me-3"
                     data-bs-toggle='modal' data-bs-target='#accessLevelModal'>

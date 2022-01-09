@@ -1,9 +1,12 @@
 package pl.lodz.p.it.restapi.controllerImplementation;
 
+import static lombok.AccessLevel.PRIVATE;
+
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import pl.lodz.p.it.core.domain.TrainingPlan;
@@ -20,17 +23,18 @@ import pl.lodz.p.it.restapi.mapper.training.TrainingPlanResponseMapper;
 
 @RestController
 @AllArgsConstructor
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 public class TrainingPlanController implements TrainingPlansApiDelegate {
 
-    private final TrainingPlanServicePort trainingPlanServicePort;
+    TrainingPlanServicePort trainingPlanServicePort;
 
-    private final TrainingPlanResponseMapper trainingPlanResponseMapper;
+    TrainingPlanResponseMapper trainingPlanResponseMapper;
 
-    private final TrainingPlanDetailsResponseMapper trainingPlanDetailsResponseMapper;
+    TrainingPlanDetailsResponseMapper trainingPlanDetailsResponseMapper;
 
-    private final TrainingPlanRequestPostMapper trainingPlanRequestPostMapper;
+    TrainingPlanRequestPostMapper trainingPlanRequestPostMapper;
 
-    private final TrainingPlanRequestPutMapper trainingPlanRequestPutMapper;
+    TrainingPlanRequestPutMapper trainingPlanRequestPutMapper;
 
     @Override
     public ResponseEntity<TrainingPlanDetailsResponse> getTrainingPlan(String number) {

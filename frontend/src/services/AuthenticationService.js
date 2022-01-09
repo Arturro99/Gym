@@ -4,10 +4,17 @@ import jwt from 'jwt-decode'
 import keys from "../errorKeys.json";
 import { toast } from "react-toastify";
 
-export async function signIn(login, password) {
+export async function signIn(login, password, t) {
   return http.post(`${config.apiUrl}/authenticate`, {
     login,
     password
+  }).catch(ex => {
+    if (ex.response.status === 401) {
+      toast.error(t('error_invalid_credentials'))
+    } else if (ex.response.status === 403) {
+      toast.error(t('error_account_inactive'))
+    }
+    throw ex;
   }).then(response => {
     if (response.data) {
       const values = jwt(response.data)
@@ -17,11 +24,13 @@ export async function signIn(login, password) {
       localStorage.setItem('roles', values.auth);
       localStorage.setItem('currentRole', values.auth.split(',')[0]);
     }
+    toast.success(t('signIn_success') + getCurrentUser())
     return response.data;
   })
 }
 
 export function signOut() {
+  localStorage.removeItem('token');
   localStorage.removeItem('userName');
   localStorage.removeItem('exp');
   localStorage.removeItem('roles');

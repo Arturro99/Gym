@@ -46,13 +46,24 @@ export async function updateActivity(activity, t) {
     if (response.status === 200) {
       toast.success(t('activity_update_success'));
     }
+  }).catch(ex => {
+    if (ex.response.data.error.errorKey === keys.ACTIVITY_CONFLICT_INACTIVE_ERROR) {
+      toast.error(t('activity_deactivate_conflict'));
+    } else if (ex.response.data.error.errorKey === keys.ACTIVITY_CONFLICT_ERROR) {
+      toast.error(t('activity_expired_conflict'));
+    } else if (ex.response.data.error.errorKey === keys.ACTIVITY_CONFLICT_IN_USE_ERROR) {
+      toast.error(t('activity_inUse_conflict'));
+    } else if (ex.response.data.error.errorKey
+      === keys.CONSTRAINT_VIOLATION) {
+      toast.error(t('activity_inappropriate_date'));
+    }
   });
 }
 
-export async function deleteActivity(number, t) {
+export async function deactivateActivity(number, t) {
   return await http.delete(activityUrl(number)).catch(ex => {
     if (ex.response.data.error.errorKey === keys.ACTIVITY_CONFLICT_ERROR) {
-      toast.error(t('activity_remove_conflict'));
+      toast.error(t('activity_deactivate_conflict'));
     } else if (ex.response.data.error.errorKey === keys.ACTIVITY_NOT_FOUND_ERROR) {
       toast.error(t('activity_notFound'));
     } else if (ex.response.data.error.errorKey
@@ -62,7 +73,7 @@ export async function deleteActivity(number, t) {
     throw ex;
   }).then(response => {
     if (response && response.status === 200) {
-      toast.success(t('activity_remove_success'));
+      toast.success(t('activity_deactivate_success'));
     }
     return response;
   });

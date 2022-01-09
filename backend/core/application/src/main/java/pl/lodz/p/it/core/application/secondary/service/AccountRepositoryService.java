@@ -4,12 +4,12 @@ import static org.springframework.transaction.annotation.Isolation.READ_COMMITTE
 import static org.springframework.transaction.annotation.Propagation.MANDATORY;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,6 +27,7 @@ import pl.lodz.p.it.core.domain.UserPrincipal;
 import pl.lodz.p.it.core.port.secondary.AccountRepositoryPort;
 import pl.lodz.p.it.core.shared.constant.Level;
 import pl.lodz.p.it.core.shared.exception.AccountException;
+import pl.lodz.p.it.core.shared.exception.BadCredentialsException;
 import pl.lodz.p.it.core.shared.exception.DietException;
 import pl.lodz.p.it.core.shared.exception.TrainingPlanException;
 import pl.lodz.p.it.repositoryhibernate.entity.AccessLevelEntity;
@@ -87,7 +88,7 @@ public class AccountRepositoryService extends
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         final AccountEntity account = accountRepository.findByBusinessId(username)
-            .orElseThrow(() -> new BadCredentialsException("Bad credentials"));
+            .orElseThrow(BadCredentialsException::badCredentials);
         final List<AccessLevelEntity> roles = accessLevelRepository.findByAccount(account);
         return new UserPrincipal(accountMapper.toDomainModel(account), roles.stream()
             .map(accessLevelMapper::toDomainModel)
@@ -97,7 +98,7 @@ public class AccountRepositoryService extends
     @Override
     public Account save(Account account) {
         if (accountRepository.findByBusinessId(account.getLogin()).isPresent() ||
-        accountRepository.findByEmail(account.getEmail()).isPresent()) {
+            accountRepository.findByEmail(account.getEmail()).isPresent()) {
             throw AccountException.accountConflictException();
         }
         AccountEntity accountEntity = repository.instantiate();
@@ -120,6 +121,27 @@ public class AccountRepositoryService extends
             AccountException::accountNotFoundException);
         AccountEntity updated = mapper
             .toEntityModel(entity, account);
+
+        if (Optional.ofNullable(account.getDiets()).isPresent()) {
+            Set<DietEntity> diets = account.getDiets().stream()
+                .map(Diet::getNumber)
+                .map(dietRepository::findByBusinessId)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
+
+            entity.setDiets(diets);
+        }
+        if (Optional.ofNullable(account.getTrainingPlans()).isPresent()) {
+            Set<TrainingPlanEntity> trainingPlans = account.getTrainingPlans().stream()
+                .map(TrainingPlan::getNumber)
+                .map(trainingPlanRepository::findByBusinessId)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
+
+            entity.setTrainingPlans(trainingPlans);
+        }
+
+
         AccountEntity response = repository.save(updated);
         return mapper.toDomainModel(response);
     }

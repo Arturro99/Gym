@@ -9,11 +9,8 @@ components:
   schemas:
     BookingRequestPost:
       required:
-        - account
         - activity
       properties:
-        account:
-          type: string
         activity:
           type: string
           pattern: "^ACT[0-9]{3}$"

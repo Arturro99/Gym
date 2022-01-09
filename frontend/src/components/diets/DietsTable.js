@@ -1,11 +1,17 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import Table from "../common/Table";
 import { withTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { getCurrentRole } from "../../services/AuthenticationService";
 import config from '../../config.json'
+import ConfirmModal from "../common/ConfirmModal";
 
 class DietsTable extends Component {
+
+  state = {
+    deleteModalId: 'confirmDietDeletion',
+    diet: ''
+  }
 
   columns = [
     {
@@ -33,14 +39,18 @@ class DietsTable extends Component {
             {!this.props.myTable && getCurrentRole() !== config.CLIENT ?
                 <button
                     className="btn btn-outline-danger col-3 ms-2 d-flex justify-content-center text-center"
-                    onClick={() => this.props.onDelete(diet)}>
+                    data-bs-toggle='modal'
+                    data-bs-target={`#${this.state.deleteModalId}`}
+                    onClick={() => this.setState({ diet: diet })}>
                   {this.props.t('delete')}
                 </button> : ''
             }
             {this.props.myTable ?
                 <button
                     className="btn btn-outline-danger col-3 ms-2 d-flex justify-content-center text-center"
-                    onClick={() => this.props.onDelete(diet)}>
+                    data-bs-toggle='modal'
+                    data-bs-target={`#${this.state.deleteModalId}`}
+                    onClick={() => this.setState({ diet: diet })}>
                   {this.props.t('cancel')}
                 </button> :
                 <button
@@ -59,16 +69,36 @@ class DietsTable extends Component {
   ];
 
   render() {
-    const { diets, onSort, sortColumn, t } = this.props;
+    const {
+      diets,
+      onSort,
+      sortColumn,
+      t,
+      onDelete,
+      myTable,
+      onRefresh
+    } = this.props;
+    const { diet, deleteModalId } = this.state;
+
     return (
         <div className="card-header">
+          <ConfirmModal title={myTable ? 'confirm_diet_cancellation_title'
+              : 'confirm_diet_cancellation_title'}
+                        message={myTable ? 'confirm_diet_cancellation_message'
+                            : 'confirm_diet_cancellation_message'}
+                        modalId={`${deleteModalId}`}
+                        onConfirm={onDelete}
+                        object={diet}
+                        objectBusinessId={diet.number}/>
           {this.props.myTable ?
               <h1 className="text-center">{t('myDiets')}</h1>
               : <h1 className="text-center">{t('diets')}</h1>}
           <Table columns={this.columns}
                  data={diets}
                  sortColumn={sortColumn}
-                 onSort={onSort}/>
+                 onSort={onSort}
+                 onRefresh={onRefresh}
+                 t={t}/>
         </div>
     )
   }

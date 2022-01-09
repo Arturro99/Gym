@@ -1,0 +1,13 @@
+openapi: 3.0.0
+info:
+  description: TrainingTypeResponseList model
+  title: TrainingTypeResponseList model
+  version: 1.0.0
+paths:
+
+components:
+  schemas:
+    TrainingTypeResponseList:
+      type: array
+      items:
+        $ref: '../trainingType/TrainingTypeResponse.yml#/components/schemas/TrainingTypeResponse'

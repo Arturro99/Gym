@@ -24,7 +24,7 @@ class ActivityDetails extends Details {
     })
   }
 
-  async updateDetails() {
+  updateDetails = async () => {
     const pathParam = this.props.match.params.number;
     const { t } = this.props;
     let currentState = { ...this.state };
@@ -52,6 +52,7 @@ class ActivityDetails extends Details {
           <UpdateActivityModal activity={this.state.data.activity}/>
           <div className="card-header">
             <h1>{t('activityDetails')}</h1>
+            {this.renderRefreshButton(this.updateDetails, t)}
             {getCurrentRole() === config.TRAINER ?
                 this.renderUpdateButton('updateActivityModal', t('update'))
                 : ''}

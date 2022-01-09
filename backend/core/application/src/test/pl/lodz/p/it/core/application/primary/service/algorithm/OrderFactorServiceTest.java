@@ -1,6 +1,5 @@
 package pl.lodz.p.it.core.application.primary.service.algorithm;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -9,14 +8,17 @@ import static org.mockito.Mockito.when;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -26,6 +28,7 @@ import pl.lodz.p.it.core.domain.Account;
 import pl.lodz.p.it.core.domain.Activity;
 import pl.lodz.p.it.core.domain.Booking;
 import pl.lodz.p.it.core.port.secondary.AccountRepositoryPort;
+import pl.lodz.p.it.core.port.secondary.ActivityRepositoryPort;
 import pl.lodz.p.it.core.port.secondary.BookingRepositoryPort;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -39,6 +42,8 @@ public class OrderFactorServiceTest {
     BookingRepositoryPort bookingRepositoryPort;
     @Mock
     AccountRepositoryPort accountRepositoryPort;
+    @Mock
+    ActivityRepositoryPort activityRepositoryPort;
     @InjectMocks
     OrderFactorService orderFactorService;
     Booking pendingBooking;
@@ -68,6 +73,13 @@ public class OrderFactorServiceTest {
         when(bookingRepositoryPort.findAll()).thenReturn(bookings);
         when(bookingRepositoryPort.findByActivity("ACT001")).thenReturn(bookings);
         when(accountRepositoryPort.save(any())).thenReturn(null);
+        when(activityRepositoryPort.find("ACT001")).thenReturn(fullyOccupiedActivity);
+        when(activityRepositoryPort.find("ACT002")).thenReturn(activityWithVacancies);
+
+        when(accountRepositoryPort.find("acc1")).thenReturn(accountWithPendingBooking);
+        when(accountRepositoryPort.find("acc2")).thenReturn(accountWithHighPreferenceBooking);
+        when(accountRepositoryPort.find("acc3")).thenReturn(accountWithMidPreferenceBooking);
+        when(accountRepositoryPort.find("acc4")).thenReturn(accountWithLowPreferenceBooking);
 
         ReflectionTestUtils
             .setField(orderFactorService, "firstOneToBookFactor", firstOneToBookFactor);
@@ -81,52 +93,58 @@ public class OrderFactorServiceTest {
     void shouldReturnFalseWhenIsActivityFullCalled(int numberOfBookings) {
         //given
         bookings = bookings.subList(0, numberOfBookings);
-        bookings.forEach(booking -> {
-            booking.setCompleted(false);
-            booking.setActive(true);
-            booking.setActivity(activityWithVacancies);
-        });
+        bookings.forEach(booking -> booking.setActivity(activityWithVacancies.getNumber()));
+        when(bookingRepositoryPort.findAllByActiveTrueAndCompletedFalse()).thenReturn(bookings);
         //then
         assertFalse(orderFactorService.isActivityFull(activityWithVacancies));
     }
 
-    @Test
-    void shouldReturnTrueWhenIsActivityFullCalled() {
+    @ParameterizedTest
+    @CsvSource(value = {
+        "BOO003 | 1.5 | 1.15",
+        "BOO004 | 10  | 1.25",
+        "BOO005 | 7.5 | 1.2",
+        "BOO006 | 4   | 1.3",
+        "BOO998 | 2   | 1.1",
+        "BOO999 | 4   | 1.05"
+    }, delimiter = '|')
+    void shouldProperlySetLoyaltyFactorsWhenCalculateBookingOrderFactorCalled(
+        String newBookingNumber, float currentLoyaltyFactor, float expectedMultiplier) {
         //given
-        bookings = bookings.subList(0, 3);
-        bookings.forEach(booking -> booking.setActivity(activityWithVacancies));
-        //then
-        assertTrue(orderFactorService.isActivityFull(activityWithVacancies));
-    }
-
-    @Test
-    void shouldProperlySetLoyaltyFactorsWhenCalculateBookingOrderFactorCalled() {
-        //given
-        Booking additionalBooking1 = Booking.builder().build();
-        Booking additionalBooking2 = Booking.builder().build();
-        bookings.addAll(List.of(additionalBooking1, additionalBooking2));
-
         Account additionalAccount1 = Account.builder()
             .login("acc5")
+            .loyaltyFactor(2.0f)
             .build();
         Account additionalAccount2 = Account.builder()
             .login("acc6")
+            .loyaltyFactor(4.0f)
             .build();
 
-        additionalAccount1.setLoyaltyFactor(2.0f);
-        additionalAccount2.setLoyaltyFactor(4.0f);
-
-        additionalBooking1.setActivity(fullyOccupiedActivity);
-        additionalBooking1.setAccount(additionalAccount1);
-        additionalBooking2.setActivity(fullyOccupiedActivity);
-        additionalBooking2.setAccount(additionalAccount2);
+        Booking additionalBooking1 = Booking.builder()
+            .number("BOO998")
+            .activity(fullyOccupiedActivity.getNumber())
+            .account(additionalAccount1.getLogin())
+            .creationDate(OffsetDateTime.now().plusDays(4))
+            .active(true)
+            .build();
+        Booking additionalBooking2 = Booking.builder()
+            .number("BOO999")
+            .activity(fullyOccupiedActivity.getNumber())
+            .account(additionalAccount2.getLogin())
+            .creationDate(OffsetDateTime.now().plusDays(5))
+            .active(true)
+            .build();
+        bookings.addAll(List.of(additionalBooking1, additionalBooking2));
+        List<Account> accounts = new ArrayList<>(Arrays.asList(
+            accountWithLowPreferenceBooking, accountWithMidPreferenceBooking,
+            accountWithHighPreferenceBooking, accountWithPendingBooking,
+            additionalAccount1, additionalAccount2
+        ));
 
         lowPreferenceBooking.setCreationDate(OffsetDateTime.now());
         highPreferenceBooking.setCreationDate(OffsetDateTime.now().plusDays(1));
         midPreferenceBooking.setCreationDate(OffsetDateTime.now().plusDays(2));
         pendingBooking.setCreationDate(OffsetDateTime.now().plusDays(3));
-        additionalBooking1.setCreationDate(OffsetDateTime.now().plusDays(4));
-        additionalBooking2.setCreationDate(OffsetDateTime.now().plusDays(5));
 
         when(bookingRepositoryPort
             .findByClientAndActivity(accountWithLowPreferenceBooking.getLogin(),
@@ -147,25 +165,59 @@ public class OrderFactorServiceTest {
             .findByClientAndActivity(additionalAccount2.getLogin(),
                 fullyOccupiedActivity.getNumber())).thenReturn(Optional.of(additionalBooking2));
 
-        List<Account> accounts = bookings.stream()
-            .map(Booking::getAccount)
+        when(accountRepositoryPort.find("acc5")).thenReturn(additionalAccount1);
+        when(accountRepositoryPort.find("acc6")).thenReturn(additionalAccount2);
+
+        List<Booking> oldBookings = bookings.stream()
+            .filter(booking -> !booking.getNumber().equals(newBookingNumber))
             .collect(Collectors.toList());
 
+        when(bookingRepositoryPort.findByActivity("ACT001")).thenReturn(oldBookings);
+        Booking booking = bookings.stream()
+            .filter(b -> b.getNumber().equals(newBookingNumber))
+            .findFirst().get();
+
+        Account account = accounts.stream()
+            .filter(ac -> ac.getLogin().equals(booking.getAccount()))
+            .findFirst().get();
+
         //when
-        accounts.forEach(account ->
-            orderFactorService.calculateBookingOrderFactor(bookings.stream()
-                .filter(booking -> booking.getAccount().getLogin().equals(account.getLogin()))
-                .findFirst().get()));
+        orderFactorService.calculateBookingOrderFactor(booking);
 
         //then
-        assertAll(() -> {
-            assertEquals(4f * 1.3f, accountWithLowPreferenceBooking.getLoyaltyFactor(), DELTA);
-            assertEquals(10f * 1.25f, accountWithHighPreferenceBooking.getLoyaltyFactor(), DELTA);
-            assertEquals(7.5f * 1.2f, accountWithMidPreferenceBooking.getLoyaltyFactor(), DELTA);
-            assertEquals(1.5f * 1.15f, accountWithPendingBooking.getLoyaltyFactor(), DELTA);
-            assertEquals(2.0f * 1.1f, additionalAccount1.getLoyaltyFactor(), DELTA);
-            assertEquals(4.0f * 1.05f, additionalAccount2.getLoyaltyFactor(), DELTA);
-        });
+        assertEquals(currentLoyaltyFactor * expectedMultiplier, account.getLoyaltyFactor(), DELTA);
+    }
+
+    @Test
+    void shouldReturnTrueWhenIsActivityFullCalled() {
+        //given
+        bookings = bookings.subList(0, 3);
+        bookings.forEach(booking -> booking.setActivity(activityWithVacancies.getNumber()));
+        when(bookingRepositoryPort.findAllByActiveTrueAndCompletedFalse()).thenReturn(bookings);
+        //then
+        assertTrue(orderFactorService.isActivityFull(activityWithVacancies));
+    }
+
+    @Test
+    void shouldReturnTrueWhenIsActivityFullWithNewlyAddedBookingCalled() {
+        //given
+        bookings = bookings.subList(0, 3);
+        bookings.forEach(booking -> booking.setActivity(activityWithVacancies.getNumber()));
+        Booking newBooking = Booking.builder()
+            .number("BOO099")
+            .activity(activityWithVacancies.getNumber())
+            .active(true)
+            .completed(false)
+            .build();
+        //then
+        assertTrue(orderFactorService.isActivityFull(activityWithVacancies, newBooking));
+    }
+
+    @AfterEach
+    void cleanUp() {
+        initActivities();
+        initAccounts();
+        initBookings();
     }
 
     private void initActivities() {
@@ -182,36 +234,36 @@ public class OrderFactorServiceTest {
 
     private void initBookings() {
         pendingBooking = Booking.builder()
-            .account(accountWithPendingBooking)
+            .account(accountWithPendingBooking.getLogin())
             .active(true)
-            .activity(fullyOccupiedActivity)
+            .activity(fullyOccupiedActivity.getNumber())
             .completed(false)
             .pending(true)
             .number("BOO003")
             .build();
 
         highPreferenceBooking = Booking.builder()
-            .account(accountWithHighPreferenceBooking)
+            .account(accountWithHighPreferenceBooking.getLogin())
             .active(true)
-            .activity(fullyOccupiedActivity)
+            .activity(fullyOccupiedActivity.getNumber())
             .completed(false)
             .pending(false)
             .number("BOO004")
             .build();
 
         midPreferenceBooking = Booking.builder()
-            .account(accountWithMidPreferenceBooking)
+            .account(accountWithMidPreferenceBooking.getLogin())
             .active(true)
-            .activity(fullyOccupiedActivity)
+            .activity(fullyOccupiedActivity.getNumber())
             .completed(false)
             .pending(false)
             .number("BOO005")
             .build();
 
         lowPreferenceBooking = Booking.builder()
-            .account(accountWithLowPreferenceBooking)
+            .account(accountWithLowPreferenceBooking.getLogin())
             .active(true)
-            .activity(fullyOccupiedActivity)
+            .activity(fullyOccupiedActivity.getNumber())
             .completed(false)
             .pending(false)
             .number("BOO006")

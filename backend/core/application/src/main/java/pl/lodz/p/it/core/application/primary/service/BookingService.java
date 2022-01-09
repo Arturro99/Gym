@@ -83,8 +83,19 @@ public class BookingService extends BaseService<Booking> implements
     }
 
     @Override
+    public Booking findByClientAndNumber(String login, String number) {
+        return bookingRepositoryPort.findByClientAndNumber(login, number);
+    }
+
+    @Override
     public Booking save(Booking booking) {
         Activity activity = activityRepositoryPort.find(booking.getActivity());
+        if (activity.getTrainer().equals(booking.getAccount())) {
+            throw BookingException.bookingClientTrainerConflictException();
+        }
+        if (!activity.getActive()) {
+            throw BookingException.bookingActivityInactiveConflictException();
+        }
         Optional<Booking> existingBooking;
 
         try {
@@ -99,14 +110,16 @@ public class BookingService extends BaseService<Booking> implements
             booking.setCreationDate(OffsetDateTime.now());
             orderFactorService.calculateBookingOrderFactor(booking);
             if (orderFactorService.isActivityFull(activity, booking)) {
-                algorithm.applyPreference(activity, booking);
+                algorithm.applyPreference(activity, booking, true);
             }
             return repository.save(booking);
         }
         if (!existingBooking.get().getActive() && !existingBooking.get().getCompleted()) {
+            existingBooking = Optional.of(bookingRepositoryPort.find(existingBooking.get().getNumber()));
             existingBooking.get().setActive(true);
+            orderFactorService.calculateBookingOrderFactor(existingBooking.get());
             if (orderFactorService.isActivityFull(activity)) {
-                algorithm.applyPreference(activity, existingBooking.get());
+                algorithm.applyPreference(activity, existingBooking.get(), true);
             }
         } else if (existingBooking.get().getCompleted()) {
             throw BookingException.bookingCancellationDeadlineException();
@@ -114,6 +127,21 @@ public class BookingService extends BaseService<Booking> implements
             throw BookingException.possessedBookingConflictException();
         }
         return repository.update(existingBooking.get().getNumber(), existingBooking.get());
+    }
+
+    @Override
+    public Booking cancelBooking(String number, String login) {
+        Booking booking = bookingRepositoryPort.findByClientAndNumber(login, number);
+        Activity activity = activityRepositoryPort.find(booking.getActivity());
+
+        if (activity.getStartDate().minus(cancellationTime, ChronoUnit.MINUTES)
+            .isBefore(OffsetDateTime.now())) {
+            throw BookingException.bookingCancellationDeadlineException();
+        }
+
+        orderFactorService.recalculateBookingOrderFactorAfterCancellation(booking);
+        algorithm.applyPreference(activity, booking, false);
+        return bookingRepositoryPort.cancelBooking(number);
     }
 
     @Override

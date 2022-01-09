@@ -1,34 +1,178 @@
-get:
-  tags:
-    - account
-  summary: Get accounts
-  description: Get all accounts
-  operationId: getAccounts
-  responses:
-    200:
-      description: Operation successful
+general:
+  get:
+    tags:
+      - account
+    summary: Get accounts
+    description: Get all accounts
+    operationId: getAccounts
+    responses:
+      200:
+        description: Operation successful
+        content:
+          application/json:
+            schema:
+              $ref: '../../schemas/account/AccountGeneralResponseList.yml#/components/schemas/AccountGeneralResponseList'
+      500:
+        description: Internal server error
+  post:
+    tags:
+      - account
+    summary: Add account
+    description: Create a new account
+    operationId: createAccount
+    requestBody:
+      required: true
       content:
         application/json:
           schema:
-            $ref: '../../schemas/account/AccountGeneralResponseList.yml#/components/schemas/AccountGeneralResponseList'
-    500:
-      description: Internal server error
-post:
-  tags:
-    - account
-  summary: Add account
-  description: Create a new account
-  operationId: createAccount
-  requestBody:
-    required: true
-    content:
-      application/json:
-        schema:
-          $ref: '../../schemas/account/AccountRequestPost.yml#/components/schemas/AccountRequestPost'
-  responses:
-    201:
-      description: Operation successful
+            $ref: '../../schemas/account/AccountRequestPost.yml#/components/schemas/AccountRequestPost'
+    responses:
+      201:
+        description: Operation successful
+        content:
+          application/json:
+            schema:
+              $ref: '../../schemas/account/AccountGeneralResponse.yml#/components/schemas/AccountGeneralResponse'
+
+own:
+  get:
+    tags:
+      - account
+    summary: Get own account details
+    description: Get the details of own account
+    operationId: getOwnAccount
+    responses:
+      200:
+        description: Operation successful
+        content:
+          application/json:
+            schema:
+              $ref: '../../schemas/account/AccountDetailsResponse.yml#/components/schemas/AccountDetailsResponse'
+      500:
+        description: Internal server error
+
+  put:
+    tags:
+      - account
+    summary: Update own account
+    description: Update own account
+    operationId: updateOwnAccount
+    requestBody:
+      required: true
       content:
         application/json:
           schema:
-            $ref: '../../schemas/account/AccountGeneralResponse.yml#/components/schemas/AccountGeneralResponse'
+            $ref: '../../schemas/account/AccountOwnRequestPut.yml#/components/schemas/AccountOwnRequestPut'
+    responses:
+      200:
+        description: Operation successful
+        content:
+          application/json:
+            schema:
+              $ref: '../../schemas/account/AccountDetailsResponse.yml#/components/schemas/AccountDetailsResponse'
+
+trainingPlan:
+  withoutParam:
+    get:
+      tags:
+        - account
+      summary: Get own training plans
+      description: List all own training plans
+      operationId: getOwnTrainingPlans
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '../../schemas/training/TrainingPlanResponseList.yml#/components/schemas/TrainingPlanResponseList'
+    post:
+      tags:
+        - account
+      summary: Add training plan
+      description: Assign a new training plan to own account
+      operationId: addTrainingPlan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../../schemas/account/AccountRequestPutObject.yml#/components/schemas/AccountRequestPutObject'
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '../../schemas/account/AccountDetailsResponse.yml#/components/schemas/AccountDetailsResponse'
+        500:
+          description: Internal server error
+  remove:
+    delete:
+      tags:
+        - account
+      summary: Remove training plan
+      description: Remove from own account training plan with the given number
+      operationId: deleteTrainingPlan
+      parameters:
+        - in: path
+          name: number
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Operation successful
+
+diet:
+  withoutParam:
+    get:
+      tags:
+        - account
+      summary: Get own diets
+      description: List all own diets
+      operationId: getOwnDiets
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '../../schemas/diet/DietResponseList.yml#/components/schemas/DietResponseList'
+    post:
+      tags:
+        - account
+      summary: Add diet
+      description: Assign a new diet to own account
+      operationId: addDiet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../../schemas/account/AccountRequestPutObject.yml#/components/schemas/AccountRequestPutObject'
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '../../schemas/account/AccountDetailsResponse.yml#/components/schemas/AccountDetailsResponse'
+        500:
+          description: Internal server error
+  remove:
+    delete:
+      tags:
+        - account
+      summary: Remove diet
+      description: Remove from own account diet with the given number
+      operationId: deleteDiet
+      parameters:
+        - in: path
+          name: number
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Operation successful

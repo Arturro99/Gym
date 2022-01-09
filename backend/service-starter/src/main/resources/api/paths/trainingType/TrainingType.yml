@@ -1,0 +1,13 @@
+get:
+  tags:
+    - training
+  summary: Get training types
+  description: Display all training types
+  operationId: getTrainingTypes
+  responses:
+    200:
+      description: Operation successful
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/trainingType/TrainingTypeResponseList.yml#/components/schemas/TrainingTypeResponseList'

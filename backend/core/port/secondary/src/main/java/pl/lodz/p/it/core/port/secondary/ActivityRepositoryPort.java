@@ -10,4 +10,11 @@ import java.util.List;
 public interface ActivityRepositoryPort extends BaseRepositoryPort<Activity> {
 
     List<Activity> findByTrainer(String login);
+
+    /**
+     * Method responsble for deactivating activity.
+     *
+     * @param number Activity's number
+     */
+    void deactivate(String number);
 }

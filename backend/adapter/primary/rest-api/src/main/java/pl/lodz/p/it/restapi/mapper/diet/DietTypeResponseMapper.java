@@ -1,21 +1,24 @@
 package pl.lodz.p.it.restapi.mapper.diet;
 
+import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import pl.lodz.p.it.restapi.dto.DietType;
+import pl.lodz.p.it.core.domain.DietType;
+import pl.lodz.p.it.restapi.dto.DietTypeResponse;
 import pl.lodz.p.it.restapi.mapper.BaseResponseMapper;
 
-import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
-
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = IGNORE)
-public interface DietTypeResponseMapper extends BaseResponseMapper<DietType, pl.lodz.p.it.core.domain.DietType> {
+public interface DietTypeResponseMapper extends
+    BaseResponseMapper<DietTypeResponse, DietType> {
 
     @Override
     @Mapping(source = "name", target = "title")
-    DietType toDtoModel(pl.lodz.p.it.core.domain.DietType domainModel);
+    DietTypeResponse toDtoModel(DietType domainModel);
 
     @Override
     @Mapping(source = "name", target = "title")
-    DietType toDtoModel(@MappingTarget DietType dtoModel, pl.lodz.p.it.core.domain.DietType domainModel);
+    DietTypeResponse toDtoModel(@MappingTarget DietTypeResponse dtoModel,
+        DietType domainModel);
 }

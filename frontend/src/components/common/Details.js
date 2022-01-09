@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 export default class Details extends Component {
@@ -12,7 +12,15 @@ export default class Details extends Component {
     )
   }
 
-  renderField(paramName, label, data, link = false, linkDestination = 'accounts') {
+  renderRefreshButton(onRefresh, t) {
+    return (
+        <button className="btn btn-primary float-end mb-2 ms-3"
+                onClick={onRefresh}>{t('refresh')}</button>
+    )
+  }
+
+  renderField(paramName, label, data, link = false,
+      linkDestination = 'accounts') {
     return (
         <div className="row row-cols-2 justify-content-center">
           <label

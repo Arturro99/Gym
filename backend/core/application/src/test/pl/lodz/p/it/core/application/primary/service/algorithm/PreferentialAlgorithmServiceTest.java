@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import lombok.AccessLevel;
@@ -18,27 +20,27 @@ import org.mockito.MockitoAnnotations;
 import pl.lodz.p.it.core.domain.Account;
 import pl.lodz.p.it.core.domain.Activity;
 import pl.lodz.p.it.core.domain.Booking;
+import pl.lodz.p.it.core.port.secondary.AccountRepositoryPort;
 import pl.lodz.p.it.core.port.secondary.BookingRepositoryPort;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PreferentialAlgorithmServiceTest {
 
+    final List<Booking> bookings = new ArrayList<>();
     @Mock
     BookingRepositoryPort bookingRepositoryPort;
-
+    @Mock
+    AccountRepositoryPort accountRepositoryPort;
     @InjectMocks
     PreferentialAlgorithmService algorithm;
-
     Booking pendingBooking;
     Booking highPreferenceBooking;
     Booking midPreferenceBooking;
     Booking lowPreferenceBooking;
-
     Account accountWithPendingBooking;
     Account accountWithHighPreferenceBooking;
     Account accountWithMidPreferenceBooking;
     Account accountWithLowPreferenceBooking;
-
     Activity fullyOccupiedActivity;
 
     @BeforeEach
@@ -49,11 +51,19 @@ public class PreferentialAlgorithmServiceTest {
         initAccounts();
         initBookings();
 
-        List<Booking> bookings = List.of(
+        bookings.addAll(Arrays.asList(
             pendingBooking, highPreferenceBooking,
             midPreferenceBooking, lowPreferenceBooking
-        );
+        ));
         when(bookingRepositoryPort.findAll()).thenReturn(bookings);
+        when(accountRepositoryPort.find(accountWithMidPreferenceBooking.getLogin()))
+            .thenReturn(accountWithMidPreferenceBooking);
+        when(accountRepositoryPort.find(accountWithPendingBooking.getLogin()))
+            .thenReturn(accountWithPendingBooking);
+        when(accountRepositoryPort.find(accountWithHighPreferenceBooking.getLogin()))
+            .thenReturn(accountWithHighPreferenceBooking);
+        when(accountRepositoryPort.find(accountWithLowPreferenceBooking.getLogin()))
+            .thenReturn(accountWithLowPreferenceBooking);
         when(bookingRepositoryPort
             .findByClientAndActivity(accountWithHighPreferenceBooking.getLogin(),
                 fullyOccupiedActivity.getNumber()))
@@ -74,12 +84,17 @@ public class PreferentialAlgorithmServiceTest {
 
     @ParameterizedTest
     @ValueSource(floats = {1.5f, 11f})
-    void shouldApplyPreferenceWhenApplyPreferenceCalled(
+    void shouldApplyPreferenceWithNewlyAddedBookingWhenApplyPreferenceCalled(
         float accountWithPendingBookingLoyaltyFactor) {
         //given
         accountWithPendingBooking.setLoyaltyFactor(accountWithPendingBookingLoyaltyFactor);
+        when(bookingRepositoryPort.findByActivity(fullyOccupiedActivity.getNumber()))
+            .thenReturn(new ArrayList<>(
+                Arrays.asList(pendingBooking, midPreferenceBooking, lowPreferenceBooking)));
+        when(bookingRepositoryPort.findAllByActiveTrueAndCompletedFalse())
+            .thenReturn(bookings);
         //when
-        algorithm.applyPreference(fullyOccupiedActivity, highPreferenceBooking);
+        algorithm.applyPreference(fullyOccupiedActivity, highPreferenceBooking, true);
 
         //then
         assertAll(() -> {
@@ -105,36 +120,36 @@ public class PreferentialAlgorithmServiceTest {
 
     private void initBookings() {
         pendingBooking = Booking.builder()
-            .account(accountWithPendingBooking)
+            .account(accountWithPendingBooking.getLogin())
             .active(true)
-            .activity(fullyOccupiedActivity)
+            .activity(fullyOccupiedActivity.getNumber())
             .completed(false)
             .pending(true)
             .number("BOO003")
             .build();
 
         highPreferenceBooking = Booking.builder()
-            .account(accountWithHighPreferenceBooking)
+            .account(accountWithHighPreferenceBooking.getLogin())
             .active(true)
-            .activity(fullyOccupiedActivity)
+            .activity(fullyOccupiedActivity.getNumber())
             .completed(false)
             .pending(false)
             .number("BOO004")
             .build();
 
         midPreferenceBooking = Booking.builder()
-            .account(accountWithMidPreferenceBooking)
+            .account(accountWithMidPreferenceBooking.getLogin())
             .active(true)
-            .activity(fullyOccupiedActivity)
+            .activity(fullyOccupiedActivity.getNumber())
             .completed(false)
             .pending(false)
             .number("BOO005")
             .build();
 
         lowPreferenceBooking = Booking.builder()
-            .account(accountWithLowPreferenceBooking)
+            .account(accountWithLowPreferenceBooking.getLogin())
             .active(true)
-            .activity(fullyOccupiedActivity)
+            .activity(fullyOccupiedActivity.getNumber())
             .completed(false)
             .pending(false)
             .number("BOO006")
