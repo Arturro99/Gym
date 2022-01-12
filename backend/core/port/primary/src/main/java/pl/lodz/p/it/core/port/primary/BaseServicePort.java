@@ -1,5 +1,6 @@
 package pl.lodz.p.it.core.port.primary;
 
+import pl.lodz.p.it.core.domain.BaseModel;
 import pl.lodz.p.it.core.shared.exception.core.BaseException;
 
 import javax.validation.Valid;
@@ -10,7 +11,7 @@ import java.util.List;
  *
  * @param <U> Model object that will be handled via this interface
  */
-public interface BaseServicePort<U> {
+public interface BaseServicePort<U extends BaseModel> {
 
     /**
      * Method responsible for finding object of a generic type with given key.
