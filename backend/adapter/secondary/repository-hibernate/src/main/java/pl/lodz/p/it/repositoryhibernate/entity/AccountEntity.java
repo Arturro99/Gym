@@ -115,13 +115,6 @@ public class AccountEntity extends BaseEntity {
     )
     private Set<DietEntity> diets;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-    @JoinTable(
-        name = "booking",
-        joinColumns = {@JoinColumn(name = "account")},
-        inverseJoinColumns = {@JoinColumn(name = "number")}
-    )
-
     @Override
     public int hashCode() {
         int hash = 0;

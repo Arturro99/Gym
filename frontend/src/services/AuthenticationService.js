@@ -61,7 +61,6 @@ export function attachToken() {
 }
 
 export function confirmRegistration(token, t) {
-  console.log(token)
   return http.get(`${config.apiUrl}/confirmRegistration/${token}`).catch(ex => {
     if (ex.response.data.error.errorKey === keys.URL_NOT_FOUND_ERROR) {
       toast.error(t('url_notFound'));

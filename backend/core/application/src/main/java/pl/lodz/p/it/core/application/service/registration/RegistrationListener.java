@@ -52,6 +52,6 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
         mailServicePort.sendEmail(email,
             mailMessages.createSubjectForAccountConfirmation(),
         mailMessages.createTextForAccountConfirmation(
-            String.format("<a href=\"http://localhost:3000/confirmRegistration/%s\">Link</a>", token)));
+            String.format("<a href=\"https://localhost:3000/confirmRegistration/%s\">Link</a>", token)));
     }
 }

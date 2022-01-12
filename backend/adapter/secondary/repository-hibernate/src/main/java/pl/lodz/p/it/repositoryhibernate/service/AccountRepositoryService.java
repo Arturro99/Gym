@@ -84,7 +84,7 @@ public class AccountRepositoryService extends
         this.accountMapper = accountMapper;
     }
 
-    @Transactional(propagation = Propagation.NEVER)
+    @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         final AccountEntity account = accountRepository.findByBusinessId(username)
@@ -140,7 +140,9 @@ public class AccountRepositoryService extends
 
             entity.setTrainingPlans(trainingPlans);
         }
-
+        if (Optional.ofNullable(account.getModifiedBy()).isEmpty()) {
+            updated.setModifiedBy(null);
+        }
 
         AccountEntity response = repository.save(updated);
         return mapper.toDomainModel(response);

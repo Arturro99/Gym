@@ -1,18 +1,21 @@
 package pl.lodz.p.it.repositoryhibernate;
 
+import static org.springframework.transaction.annotation.Propagation.SUPPORTS;
+
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import pl.lodz.p.it.repositoryhibernate.mapper.AccountMapper;
+import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.repositoryhibernate.entity.AccountEntity;
+import pl.lodz.p.it.repositoryhibernate.mapper.AccountMapper;
 import pl.lodz.p.it.repositoryhibernate.repository.AccountRepository;
-
-import java.util.Optional;
 
 @Component
 @AllArgsConstructor
+@Transactional(propagation = SUPPORTS)
 public class SystemLoggedInUserAuditorAware implements AuditorAware<AccountEntity> {
 
     AccountRepository accountRepository;

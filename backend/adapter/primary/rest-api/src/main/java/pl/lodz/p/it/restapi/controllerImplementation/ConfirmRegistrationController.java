@@ -22,26 +22,9 @@ public class ConfirmRegistrationController implements ConfirmRegistrationApiDele
 
     DisposableUrlServicePort disposableUrlServicePort;
 
-    AccountServicePort accountServicePort;
-
     @Override
     public ResponseEntity<Void> confirmRegistration(String token) {
-        DisposableUrl disposableUrl;
-
-        disposableUrl = disposableUrlServicePort.find(token);
-
-        if (disposableUrl.getExpireDate().isBefore(OffsetDateTime.now())) {
-            throw DisposableUrlException.urlExpiredException();
-        }
-
-        Account account = accountServicePort.find(disposableUrl.getAccount());
-        account.setConfirmed(true);
-        account.setModifiedBy(null);
-        disposableUrl.setExpireDate(OffsetDateTime.now().minus(1, MINUTES));
-
-        accountServicePort.update(account.getLogin(), account);
-        disposableUrlServicePort.update(token, disposableUrl);
-
+        disposableUrlServicePort.confirmRegistration(token);
         return ResponseEntity.ok().build();
     }
 }

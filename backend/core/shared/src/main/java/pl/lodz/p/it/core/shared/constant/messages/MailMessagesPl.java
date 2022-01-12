@@ -19,8 +19,7 @@ public class MailMessagesPl extends MailMessages {
 
     @Override
     public String createTextForAccountConfirmation(String link) {
-        String linkFormat = String.format("<a href='%s'/>", link);
-        return String.join(": ", "Link potwierdzający\n", linkFormat);
+        return String.join(": ", "Link potwierdzający\n", link);
     }
 
     @Override
