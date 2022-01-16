@@ -26,7 +26,7 @@ import pl.lodz.p.it.core.port.secondary.ActivityRepositoryPort;
 import pl.lodz.p.it.core.port.secondary.BookingRepositoryPort;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-class IntervalFactorsServiceTest {
+class IntervalFactorServiceTest {
 
     static final float absenceFactor = 0.3f;
     static final float membershipFactor = 2f;
@@ -43,7 +43,7 @@ class IntervalFactorsServiceTest {
     ActivityRepositoryPort activityRepositoryPort;
 
     @InjectMocks
-    IntervalFactorsService intervalFactorsService;
+    IntervalFactorService intervalFactorService;
 
     Booking activeAndUncompletedAndPendingExpiredBooking;
     Booking activeAndUncompletedAndNotPendingNonExpiredBooking;
@@ -61,9 +61,9 @@ class IntervalFactorsServiceTest {
         MockitoAnnotations.openMocks(this);
 
         ReflectionTestUtils.setField(
-            intervalFactorsService, "absenceFactor", absenceFactor);
+            intervalFactorService, "absenceFactor", absenceFactor);
         ReflectionTestUtils.setField(
-            intervalFactorsService, "membershipFactor", membershipFactor);
+            intervalFactorService, "membershipFactor", membershipFactor);
 
         initAccounts();
         initActivities();
@@ -112,7 +112,7 @@ class IntervalFactorsServiceTest {
             .thenReturn(List.of(accountWithMembership, accountWithoutMembership));
 
         //when
-        intervalFactorsService.scheduleGymMembershipVerification();
+        intervalFactorService.scheduleGymMembershipVerification();
 
         //then
         assertAll(() -> {
@@ -131,7 +131,7 @@ class IntervalFactorsServiceTest {
                 activeAndUncompletedAndPendingExpiredBooking));
 
         //when
-        intervalFactorsService.scheduleActivityAbsenceVerification();
+        intervalFactorService.scheduleActivityAbsenceVerification();
 
         //then
         assertAll(() -> {

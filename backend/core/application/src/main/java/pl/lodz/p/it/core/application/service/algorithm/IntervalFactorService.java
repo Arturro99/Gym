@@ -29,7 +29,7 @@ import pl.lodz.p.it.core.port.secondary.BookingRepositoryPort;
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Transactional(propagation = REQUIRES_NEW, isolation = READ_COMMITTED)
-public class IntervalFactorsService {
+public class IntervalFactorService {
 
     final AccountRepositoryPort accountRepositoryPort;
 
@@ -44,7 +44,7 @@ public class IntervalFactorsService {
     float membershipFactor;
 
     @Autowired
-    public IntervalFactorsService(AccountRepositoryPort accountRepositoryPort,
+    public IntervalFactorService(AccountRepositoryPort accountRepositoryPort,
         BookingRepositoryPort bookingRepositoryPort,
         ActivityRepositoryPort activityRepositoryPort) {
 

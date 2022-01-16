@@ -18,7 +18,7 @@ import pl.lodz.p.it.core.port.secondary.AccountRepositoryPort;
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Transactional(propagation = REQUIRES_NEW, isolation = READ_COMMITTED)
-public class ThirdPartyFactorsService {
+public class ThirdPartyFactorService {
 
     final AccountRepositoryPort accountRepositoryPort;
 
@@ -26,7 +26,7 @@ public class ThirdPartyFactorsService {
     float presenceFactor;
 
     @Autowired
-    public ThirdPartyFactorsService(AccountRepositoryPort accountRepositoryPort) {
+    public ThirdPartyFactorService(AccountRepositoryPort accountRepositoryPort) {
 
         this.accountRepositoryPort = accountRepositoryPort;
     }

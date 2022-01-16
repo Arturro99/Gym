@@ -16,7 +16,7 @@ import pl.lodz.p.it.core.domain.Account;
 import pl.lodz.p.it.core.port.secondary.AccountRepositoryPort;
 
 @FieldDefaults(level = PRIVATE)
-class ThirdPartyFactorsServiceTest {
+class ThirdPartyFactorServiceTest {
 
     static final float presenceFactor = 1.5f;
     static final float loyaltyFactor = 10.0f;
@@ -25,14 +25,14 @@ class ThirdPartyFactorsServiceTest {
     AccountRepositoryPort accountRepositoryPort;
 
     @InjectMocks
-    ThirdPartyFactorsService thirdPartyFactorsService;
+    ThirdPartyFactorService thirdPartyFactorService;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
         ReflectionTestUtils.setField(
-            thirdPartyFactorsService, "presenceFactor", presenceFactor);
+            thirdPartyFactorService, "presenceFactor", presenceFactor);
 
         when(accountRepositoryPort.update(any(), any())).thenReturn(null);
     }
@@ -46,7 +46,7 @@ class ThirdPartyFactorsServiceTest {
             .build();
 
         //when
-        thirdPartyFactorsService.rewardAccount(account);
+        thirdPartyFactorService.rewardAccount(account);
 
         //then
         Account updatedAccount = Account.builder()

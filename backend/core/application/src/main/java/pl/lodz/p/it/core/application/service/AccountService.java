@@ -1,7 +1,7 @@
 package pl.lodz.p.it.core.application.service;
 
 import static org.springframework.transaction.annotation.Isolation.READ_COMMITTED;
-import static org.springframework.transaction.annotation.Propagation.REQUIRED;
+import static org.springframework.transaction.annotation.Propagation.MANDATORY;
 import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class AccountService extends BaseService<Account> implements
     }
 
     @Override
-    @Transactional(propagation = REQUIRED, isolation = READ_COMMITTED)
+    @Transactional(propagation = MANDATORY, isolation = READ_COMMITTED)
     public Account save(Account account) {
         return super.save(account);
     }

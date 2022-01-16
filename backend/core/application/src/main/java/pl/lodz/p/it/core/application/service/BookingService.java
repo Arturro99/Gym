@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.core.application.service.algorithm.OrderFactorService;
 import pl.lodz.p.it.core.application.service.algorithm.PreferentialAlgorithmService;
-import pl.lodz.p.it.core.application.service.algorithm.ThirdPartyFactorsService;
+import pl.lodz.p.it.core.application.service.algorithm.ThirdPartyFactorService;
 import pl.lodz.p.it.core.domain.Account;
 import pl.lodz.p.it.core.domain.Activity;
 import pl.lodz.p.it.core.domain.Booking;
@@ -45,7 +45,7 @@ public class BookingService extends BaseService<Booking> implements
 
     final ActivityRepositoryPort activityRepositoryPort;
 
-    final ThirdPartyFactorsService thirdPartyFactorsService;
+    final ThirdPartyFactorService thirdPartyFactorService;
 
     @Value("${algorithm.activity.cancellation.deadline}")
     long cancellationTime;
@@ -56,14 +56,14 @@ public class BookingService extends BaseService<Booking> implements
         OrderFactorService orderFactorService,
         PreferentialAlgorithmService algorithm,
         ActivityRepositoryPort activityRepositoryPort,
-        ThirdPartyFactorsService thirdPartyFactorsService) {
+        ThirdPartyFactorService thirdPartyFactorService) {
         super(bookingRepositoryPort);
         this.bookingRepositoryPort = bookingRepositoryPort;
         this.accountRepositoryPort = accountRepositoryPort;
         this.orderFactorService = orderFactorService;
         this.algorithm = algorithm;
         this.activityRepositoryPort = activityRepositoryPort;
-        this.thirdPartyFactorsService = thirdPartyFactorsService;
+        this.thirdPartyFactorService = thirdPartyFactorService;
     }
 
     @Override
@@ -168,7 +168,7 @@ public class BookingService extends BaseService<Booking> implements
             throw BookingException.bookingCompletionException();
         }
 
-        thirdPartyFactorsService.rewardAccount(account);
+        thirdPartyFactorService.rewardAccount(account);
         return bookingRepositoryPort.completeBooking(number);
     }
 }
