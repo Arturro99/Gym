@@ -25,5 +25,6 @@
   "URL_NOT_FOUND_ERROR": "error.url.notFound",
   "URL_GONE_ERROR": "error.url.gone",
 
-  "CONSTRAINT_VIOLATION": "error.general.constraintViolation"
+  "CONSTRAINT_VIOLATION": "error.general.constraintViolation",
+  "OPTIMISTIC_LOCK": "error.general.optimisticLock"
 }

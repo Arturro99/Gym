@@ -87,7 +87,7 @@ class TrainingPlansTable extends Component {
     const { trainingPlan, deleteModalId } = this.state;
 
     return (
-        <div className="card-header">
+        <div className="card-header bg-light">
           <ConfirmModal
               title={myTable ? 'confirm_trainingPlan_cancellation_title'
                   : 'confirm_trainingPlan_deletion_title'}

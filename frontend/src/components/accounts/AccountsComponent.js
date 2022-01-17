@@ -20,6 +20,7 @@ class AccountsComponent extends Component {
   paginatedAccounts = {};
 
   async componentDidMount() {
+    this.props.changeImage('accounts');
     const { t } = this.props;
     await this.resetAccounts(t);
   }
@@ -53,7 +54,6 @@ class AccountsComponent extends Component {
   }
 
   render() {
-    const { length: count } = this.state.accounts;
     const {
       pageSize,
       currentPage,
@@ -61,10 +61,6 @@ class AccountsComponent extends Component {
       accounts
     } = this.state;
     const { t } = this.props;
-
-    if (count === 0) {
-      return <h1>{t('noAccounts')}</h1>;
-    }
 
     return (
         <div className="row mt-5">

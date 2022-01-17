@@ -100,7 +100,7 @@ class BookingsTable extends Component {
       this.columns = this.columns.filter(column => column.path !== 'account');
     }
     return (
-        <div className="card-header">
+        <div className="card-header bg-light">
           <ConfirmModal
               title={myTable ? (booking.active === t('active')
                   ? 'confirm_booking_cancellation_title'

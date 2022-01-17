@@ -18,6 +18,7 @@ class MyDietsComponent extends Component {
   paginatedDiets = {};
 
   async componentDidMount() {
+    this.props.changeImage('diets');
     await this.resetDiets();
   }
 

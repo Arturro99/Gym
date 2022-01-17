@@ -46,7 +46,7 @@ class DietDetails extends Details {
   render() {
     const { t } = this.props;
     return (
-        <div className="card text-center shadow-lg mt-3 w-75 mx-auto">
+        <div className="card text-center shadow-lg mt-3 w-75 mx-auto bg-light">
           <UpdateDietModal diet={this.state.data.diet}
                            updateDetails={this.updateDetails}/>
           <div className="card-header">

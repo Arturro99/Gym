@@ -30,7 +30,7 @@ class RegisterForm extends Form {
     repeatedPassword: Joi.string().required(),
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
-    phoneNumber: Joi.string().min(9).max(12).required().allow("")
+    phoneNumber: Joi.string().min(9).max(9).required()
   };
 
   schema = Joi.object({
@@ -75,7 +75,7 @@ class RegisterForm extends Form {
   render() {
     const { t } = this.props;
     return (
-        <div className="card-header mt-5 w-50 mx-auto">
+        <div className="card-header mt-5 w-50 mx-auto bg-light">
           <h1 className="text-center">Register</h1>
           <form onSubmit={this.handleSubmit}>
             {this.renderInput("login", t("login"))}

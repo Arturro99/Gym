@@ -47,8 +47,8 @@ export async function updateBooking(booking, t) {
   });
 }
 
-export async function createBooking(activityNumber, login, t) {
-  return await http.post(`${config.apiUrl}/bookings`,
+export async function createOwnBooking(activityNumber, login, t) {
+  return await http.post(`${config.apiUrl}/bookings/own`,
       JSON.stringify({ activity: activityNumber, account: login })).catch(
       ex => {
         if (ex.response.data.error.errorKey === keys.BOOKING_CONFLICT_ERROR) {
@@ -67,6 +67,32 @@ export async function createBooking(activityNumber, login, t) {
           toast.error(t('activity_inactive_conflict'));
         }
       }).then(response => {
+    if (response && response.status === 200) {
+      toast.success(t('booking_add_success'));
+    }
+  });
+}
+
+export async function createBooking(activityNumber, login, t) {
+  return await http.post(`${config.apiUrl}/bookings`,
+    JSON.stringify({ activity: activityNumber, account: login })).catch(
+    ex => {
+      if (ex.response.data.error.errorKey === keys.BOOKING_CONFLICT_ERROR) {
+        toast.error(t('booking_possessing_conflict'));
+      } else if (ex.response.data.error.errorKey
+        === keys.ACCESS_LEVEL_INAPPROPRIATE) {
+        toast.error(t('accessLevel_inappropriate_client'));
+      } else if (ex.response.data.error.errorKey
+        === keys.BOOKING_CONFLICT_CANCELLATION_ERROR) {
+        toast.error(t('booking_completion_cancellation_conflict'));
+      } else if (ex.response.data.error.errorKey
+        === keys.BOOKING_CONFLICT_CLIENT_TRAINER_ERROR) {
+        toast.error(t('booking_completion_clientTrainer_conflict'));
+      } else if (ex.response.data.error.errorKey
+        === keys.BOOKING_CONFLICT_ACTIVITY_INACTIVE_ERROR) {
+        toast.error(t('activity_inactive_conflict'));
+      }
+    }).then(response => {
     if (response && response.status === 200) {
       toast.success(t('booking_add_success'));
     }
