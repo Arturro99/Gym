@@ -6,6 +6,8 @@ import static org.springframework.transaction.annotation.Propagation.MANDATORY;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+
+import com.sun.mail.util.MailSSLSocketFactory;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.core.port.primary.mailing.MailServicePort;
+
+import java.security.GeneralSecurityException;
+import java.util.Properties;
 
 @Service
 @Transactional(propagation = MANDATORY, isolation = READ_COMMITTED)
@@ -35,6 +40,11 @@ public class MailServiceImpl implements MailServicePort {
     @Override
     public void sendEmail(String to, String subject, String text) {
         try {
+            Properties properties = new Properties();
+            MailSSLSocketFactory sf = new MailSSLSocketFactory();
+            sf.setTrustAllHosts(true);
+            properties.put("mail.imaps.ssl.trust", "*");
+            properties.put("mail.imaps.ssl.socketFactory", sf);
             MimeMessage message = mailSender.createMimeMessage();
             message.setSubject(subject);
 
@@ -43,7 +53,7 @@ public class MailServiceImpl implements MailServicePort {
             helper.setTo(to);
             helper.setText(text, true);
             mailSender.send(message);
-        } catch (MessagingException ex) {
+        } catch (MessagingException | GeneralSecurityException ex) {
             throw new RuntimeException(ex);
         }
     }

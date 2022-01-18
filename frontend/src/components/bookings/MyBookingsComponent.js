@@ -40,9 +40,9 @@ class MyBookingsComponent extends Component {
     const { t } = this.props;
     const bookings = await getOwnBookings();
     bookings.forEach(booking => {
+      booking.pending = booking.pending ? t('pending') : booking.active ? t('non_pending') : '-';
       booking.active = booking.active ? t('active') : t('inactive');
       booking.completed = booking.completed ? t('completed') : t('incomplete');
-      booking.pending = booking.pending ? t('pending') : t('non_pending');
     })
     this.setState({
       bookings: bookings

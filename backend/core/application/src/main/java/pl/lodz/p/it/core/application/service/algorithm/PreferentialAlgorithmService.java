@@ -9,10 +9,15 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.core.domain.Account;
 import pl.lodz.p.it.core.domain.Activity;
 import pl.lodz.p.it.core.domain.Booking;
+import pl.lodz.p.it.core.port.primary.mailing.MailServicePort;
 import pl.lodz.p.it.core.port.secondary.AccountRepositoryPort;
 import pl.lodz.p.it.core.port.secondary.BookingRepositoryPort;
+import pl.lodz.p.it.core.shared.constant.messages.MailMessages;
+import pl.lodz.p.it.core.shared.constant.messages.MailMessagesEn;
+import pl.lodz.p.it.core.shared.constant.messages.MailMessagesPl;
 import pl.lodz.p.it.core.shared.exception.BookingException;
 
+import javax.mail.MessagingException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +38,8 @@ public class PreferentialAlgorithmService {
     final BookingRepositoryPort bookingRepositoryPort;
 
     final AccountRepositoryPort accountRepositoryPort;
+
+    final MailServicePort mailServicePort;
 
     /**
      * Method responsible for applying the preference to the users that signed up for the activity
@@ -94,11 +101,17 @@ public class PreferentialAlgorithmService {
             .collect(Collectors.toList());
     }
 
-    //Method responsible for sending a notification when one user was removed from activity due to their insufficient loyalty factor.
-    //TODO implement here sending an email to the substituted user
+    //Method responsible for sending a notification when booking's state changed
     private void sendNotification(Account account, Activity activity, boolean preferred) {
-        log.info("Account: {} was removed from activity: {}", account.getLogin(),
-            activity.getNumber());
+        MailMessages mailMessages =
+            account.getLanguage().equals("en") ? new MailMessagesEn() : new MailMessagesPl();
+
+        try {
+            mailServicePort.sendEmail(account.getEmail(), mailMessages.createSubjectForBookingStateChange(),
+                mailMessages.createTextForBookingStateChange(activity.getName(), preferred));
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 
     //Method responsible for setting pending field in the provided booking.

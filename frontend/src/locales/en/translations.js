@@ -150,6 +150,7 @@ export const TRANSLATIONS_EN = {
 
   //Account
   accounts: 'Accounts',
+  account: 'Account',
   myAccount: 'My account',
   updateAccount: 'Update account',
   accountDetails: 'Account details',
