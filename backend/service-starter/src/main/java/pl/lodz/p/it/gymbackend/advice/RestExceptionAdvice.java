@@ -9,6 +9,7 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import javax.validation.ConstraintViolationException;
 import org.postgresql.util.PSQLException;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -54,6 +55,12 @@ public class RestExceptionAdvice {
     @ResponseStatus(GONE)
     public ErrorResponse expiredException(ExpiredException e) {
         return ErrorResponse.error(e.getErrorKey(), e.getMessage());
+    }
+
+    @ExceptionHandler(OptimisticLockingFailureException.class)
+    @ResponseStatus(CONFLICT)
+    public ErrorResponse optimisticLockException(OptimisticLockingFailureException e) {
+        return ErrorResponse.error(ErrorKey.OPTIMISTIC_LOCK, e.getMessage());
     }
 
     @ExceptionHandler(PSQLException.class)

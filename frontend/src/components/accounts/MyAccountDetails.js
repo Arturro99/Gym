@@ -19,6 +19,7 @@ class MyAccountDetails extends Details {
   paginatedDiets = {};
 
   componentDidMount() {
+    this.props.changeImage('accountDetails');
     this.updateDetails();
     const myModalEl = document.getElementById('updateAccountModal')
     myModalEl.addEventListener('hidden.bs.modal', () => {
@@ -54,7 +55,7 @@ class MyAccountDetails extends Details {
     const { t } = this.props;
     const { account } = this.state.data;
     return (
-        <div className="card text-center shadow-lg mt-3 w-75 mx-auto">
+        <div className="card text-center shadow-lg mt-3 w-75 mx-auto bg-light">
           <UpdateAccountForm account={this.state.data.account}
                              own={true}/>
           <div className="card-header">

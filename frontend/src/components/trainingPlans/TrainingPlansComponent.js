@@ -24,6 +24,7 @@ class TrainingPlansComponent extends Component {
   paginatedTrainingPlans = {};
 
   async componentDidMount() {
+    this.props.changeImage('trainingPlans');
     await this.resetTrainingPlans();
   }
 

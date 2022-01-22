@@ -12,7 +12,7 @@ import {
   getCurrentRole,
   getCurrentUser
 } from "../../services/AuthenticationService";
-import { createBooking } from "../../services/BookingService";
+import { createOwnBooking } from "../../services/BookingService";
 import { parseFromOffsetDateTimeToLegibleFormat } from "../../services/DateParser";
 import config from "../../config.json";
 
@@ -28,6 +28,7 @@ class ActivitiesComponent extends Component {
   paginatedActivities = {};
 
   async componentDidMount() {
+    this.props.changeImage('activities');
     const { t } = this.props;
     await this.resetActivities();
   }
@@ -59,7 +60,7 @@ class ActivitiesComponent extends Component {
 
   handleApply = async activity => {
     const { t } = this.props;
-    await createBooking(activity.number, getCurrentUser(), t);
+    await createOwnBooking(activity.number, getCurrentUser(), t);
   }
 
   handleSort = sortColumn => {
@@ -67,7 +68,6 @@ class ActivitiesComponent extends Component {
   }
 
   render() {
-    const { length: count } = this.state.activities;
     const {
       pageSize,
       currentPage,
@@ -75,10 +75,6 @@ class ActivitiesComponent extends Component {
       activities
     } = this.state;
     const { t } = this.props;
-
-    if (count === 0) {
-      return <h1>{t('noActivities')}</h1>;
-    }
 
     return (
         <div className="row mt-5">

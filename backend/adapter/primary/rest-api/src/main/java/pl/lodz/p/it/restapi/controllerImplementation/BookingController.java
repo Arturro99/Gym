@@ -56,6 +56,14 @@ public class BookingController implements BookingsApiDelegate {
     }
 
     @Override
+    public ResponseEntity<BookingDetailsResponse> createBooking(BookingRequestPost bookingRequestPost) {
+        Booking booking = bookingRequestPostMapper.toDomainModel(bookingRequestPost);
+        booking.setAccount(bookingRequestPost.getAccount());
+        Booking saved = bookingServicePort.save(booking);
+        return ResponseEntity.ok(bookingDetailsResponseMapper.toDtoModel(saved));
+    }
+
+    @Override
     public ResponseEntity<BookingDetailsResponse> cancelBooking(String number) {
         Booking updated = bookingServicePort.cancelBooking(number);
         return ResponseEntity.ok(bookingDetailsResponseMapper.toDtoModel(updated));

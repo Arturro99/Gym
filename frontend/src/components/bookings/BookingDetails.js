@@ -44,7 +44,7 @@ class BookingDetails extends Details {
   render() {
     const { t } = this.props;
     return (
-        <div className="card text-center shadow-lg mt-3 w-75 mx-auto">
+        <div className="card text-center shadow-lg mt-3 w-75 mx-auto bg-light">
           <div className="card-header">
             <h1>{t('bookingDetails')}</h1>
             {this.renderRefreshButton(this.updateDetails, t)}

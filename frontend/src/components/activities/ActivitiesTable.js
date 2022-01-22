@@ -88,7 +88,7 @@ class ActivitiesTable extends Component {
     const { activity, deactivateModalId } = this.state;
 
     return (
-        <div className="card-header">
+        <div className="card-header bg-light">
           <ConfirmModal title='confirm_activity_deactivation_title'
                         message='confirm_activity_deactivation_message'
                         modalId={`${deactivateModalId}`}

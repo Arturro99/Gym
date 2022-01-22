@@ -49,10 +49,6 @@ public class DisposableUrlEntity extends BaseEntity {
     @UrlActions(enumClass = UrlAction.class)
     private String actionType;
 
-    @Column(name = "new_email", unique = true)
-    @Email(message = "Email is not valid")
-    private String newEmail;
-
     @Column(name = "expiration_date", nullable = false)
     private OffsetDateTime expireDate;
 

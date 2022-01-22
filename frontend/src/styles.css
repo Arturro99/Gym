@@ -121,3 +121,57 @@
   right: 0;
   left: 0;
 }
+
+.diets {
+  background: url('res/diets.png') no-repeat center center fixed;
+}
+
+.activities {
+  background: url('res/activities.png') no-repeat center center fixed;
+}
+
+.trainingPlans {
+  background: url('res/trainingPlans.png') no-repeat center center fixed;
+}
+
+.accounts {
+  background: url('res/accounts.png') no-repeat center center fixed;
+}
+
+.accountDetails {
+  background: url('res/accountDetails.png') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.bookings {
+  background: url('res/bookings.png') no-repeat center center fixed;
+  background-size: 100%;
+}
+
+.main {
+  background: url('res/main.png') no-repeat center center fixed;
+}
+
+.diets, .activities, .main, .trainingPlans {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
+
+.logo {
+  background-image: url('res/logo.jpg');
+  background-position: center;
+  background-position-y: 40%;
+  background-size: 100%;
+  width: 100px;
+  height: 60px;
+}
+
+.bg-light {
+  --bs-bg-opacity: 0.9 !important;
+}
+
+.ownOpacity {
+  opacity: 90%;
+}

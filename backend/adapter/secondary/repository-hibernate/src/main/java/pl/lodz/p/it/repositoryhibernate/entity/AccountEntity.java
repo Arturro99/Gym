@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
@@ -85,22 +86,6 @@ public class AccountEntity extends BaseEntity {
     @LastModifiedBy
     @JoinColumn(name = "modified_by", referencedColumnName = "id", table = "account_details")
     private AccountEntity modifiedBy;
-
-    @Column(name = "last_known_good_login", table = "account_details")
-    @PastOrPresent
-    private OffsetDateTime lastKnownGoodLogin;
-
-    @Column(name = "last_known_good_login_ip", table = "account_details")
-    @Size(max = 39)
-    private String lastKnownGoodLoginIp;
-
-    @Column(name = "last_known_bad_login", table = "account_details")
-    @PastOrPresent
-    private OffsetDateTime lastKnownBadLogin;
-
-    @Column(name = "last_known_bad_login_ip", table = "account_details")
-    @Size(max = 39)
-    private String lastKnownBadLoginIp;
 
     @Column(name = "bad_logins_counter", nullable = false, table = "account_details")
     @Range(min = 0)

@@ -46,7 +46,7 @@ class TrainingPlanDetails extends Details {
   render() {
     const { t } = this.props;
     return (
-        <div className="card text-center shadow-lg mt-3 w-75 mx-auto">
+        <div className="card text-center shadow-lg mt-3 w-75 mx-auto bg-light">
           <UpdateTrainingPlanModal trainingPlan={this.state.data.trainingPlan}/>
           <div className="card-header">
             <h1>{t('trainingPlanDetails')}</h1>

@@ -8,6 +8,11 @@ public class MailMessagesEn extends MailMessages {
     }
 
     @Override
+    public String createSubjectForBookingStateChange() {
+        return "Booking's state change";
+    }
+
+    @Override
     public String createSubjectForPasswordResetting() {
         return "Reset password";
     }
@@ -20,6 +25,13 @@ public class MailMessagesEn extends MailMessages {
     @Override
     public String createTextForAccountConfirmation(String link) {
         return String.join(": ", "Confirmation link", link);
+    }
+
+    @Override
+    public String createTextForBookingStateChange(String activity, boolean preferred) {
+        return preferred ?
+            String.join(" ", "Your booking is eligible to be enrolled in activity", activity) :
+            String.join(" ", "Unfortunately, your booking for activity", activity, "was changed to pending.");
     }
 
     @Override

@@ -1,14 +1,13 @@
-import React, { Component } from "react";
-import { Redirect, Route, Switch } from 'react-router'
+import React, {Component} from "react";
+import {Redirect, Route, Switch} from 'react-router'
 import '../locales/i18n';
 import ActivitiesComponent from "./activities/ActivitiesComponent";
-import DietsComponent from "./diets/DietsComponent";
 import TrainingPlansComponent from "./trainingPlans/TrainingPlansComponent";
 import RegisterForm from "./accounts/RegisterForm";
 import LoginForm from "./LoginForm";
 import NavigationBar from "./common/NavigationBar";
 import ActivityForm from "./activities/ActivityForm";
-import { withTranslation } from "react-i18next";
+import {withTranslation} from "react-i18next";
 import DietForm from "./diets/DietForm";
 import TrainingPlanForm from "./trainingPlans/TrainingPlanForm";
 import AccountDetails from "./accounts/AccountDetails";
@@ -22,18 +21,13 @@ import MyBookingsComponent from "./bookings/MyBookingsComponent";
 import ActivityDetails from "./activities/ActivityDetails";
 import BookingDetails from "./bookings/BookingDetails";
 import MyAccountDetails from "./accounts/MyAccountDetails";
-import { ToastContainer } from "react-toastify";
+import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
-import {
-  getCurrentRole,
-  getCurrentUser,
-  getRoles,
-  signOut,
-  switchCurrentRole
-} from "../services/AuthenticationService";
+import {getCurrentRole, getCurrentUser, getRoles, signOut, switchCurrentRole} from "../services/AuthenticationService";
 import ConfirmRegistrationComponent from "./ConfirmRegistrationComponent";
 import MainWindowComponent from "./MainWindowComponent";
 import ErrorComponent from "./errors/ErrorComponent";
+import DietsComponent from "./diets/DietsComponent";
 
 class MainComponent extends Component {
 
@@ -51,7 +45,8 @@ class MainComponent extends Component {
       login: '',
       roles: [],
       currentRole: '',
-    }
+    },
+    obj: ''
   }
 
   componentDidMount() {
@@ -62,6 +57,11 @@ class MainComponent extends Component {
         this.resetData();
       }
     })
+  }
+
+  changeImage = img => {
+    this.setState({ obj: img })
+    this.forceUpdate();
   }
 
   handleChangeRoleClick = role => {
@@ -85,6 +85,7 @@ class MainComponent extends Component {
   render() {
     const { headers, data } = this.state;
     return (
+      <div className={this.state.obj} style={{ height: 1000 }}>
         <React.Fragment>
           <NavigationBar headers={headers}
                          data={data}
@@ -95,32 +96,35 @@ class MainComponent extends Component {
           <main className="container">
             <Switch>
               <Route exact path={'/activities'}
-                     component={ActivitiesComponent}/>
-              <Route exact path={'/diets'} component={DietsComponent}/>
+                     render={() => <ActivitiesComponent changeImage={this.changeImage}/>}/>
+              <Route exact path={'/diets'}
+                     render={() => <DietsComponent changeImage={this.changeImage}/>}/>/>
               <Route exact path={'/trainingPlans'}
-                     component={TrainingPlansComponent}/>
+                     render={() => <TrainingPlansComponent changeImage={this.changeImage}/>}/>/>
               <Route exact path={'/accounts'}
-                     component={AccountsComponent}/>
-              <Route exact path={'/accounts/own'} component={MyAccountDetails}/>
+                     render={() => <AccountsComponent changeImage={this.changeImage}/>}/>/>
+              <Route exact path={'/accounts/own'}
+                     render={() => <MyAccountDetails changeImage={this.changeImage}/>}/>/>
               <Route exact path={'/accounts/:login'}
-                     render={(props) => <AccountDetails {...props}/>}/>
+                     render={(props) => <AccountDetails {...props} changeImage={this.changeImage}/>}/>
               <Route exact path={'/register'} component={RegisterForm}/>
               <Route path="/activities/new" component={ActivityForm}/>
               <Route path="/activities/:number"
                      render={(props) => <ActivityDetails {...props}/>}/>
               <Route path="/diets/new" component={DietForm}/>
-              <Route exact path="/diets/own" component={MyDietsComponent}/>
+              <Route exact path="/diets/own"
+                     render={() => <MyDietsComponent changeImage={this.changeImage}/>}/>/>
               <Route path="/diets/:number"
                      render={(props) => <DietDetails {...props}/>}/>
               <Route exact path="/trainingPlans/own"
-                     component={MyTrainingPlansComponent}/>
+                     render={() => <MyTrainingPlansComponent changeImage={this.changeImage}/>}/>/>
               <Route path="/trainingPlans/new" component={TrainingPlanForm}/>
               <Route path="/trainingPlans/:number"
                      render={(props) => <TrainingPlanDetails {...props}/>}/>
               <Route exact path={'/bookings'}
-                     component={BookingsComponent}/>
+                     render={() => <BookingsComponent changeImage={this.changeImage}/>}/>
               <Route exact path="/bookings/own"
-                     component={MyBookingsComponent}/>
+                     render={() => <MyBookingsComponent changeImage={this.changeImage}/>}/>
               <Route exact path="/bookings/own/:number"
                      render={(props) => <BookingDetails {...props}
                                                         own={true}/>}/>
@@ -128,21 +132,22 @@ class MainComponent extends Component {
                      render={(props) => <BookingDetails {...props}/>}/>
               <Route exact path={'/confirmRegistration/:token'}
                      render={(props) =>
-                         <ConfirmRegistrationComponent {...props} />}/>
+                       <ConfirmRegistrationComponent {...props} />}/>
               <Route exact path={'/'}
-                     component={MainWindowComponent}/>
+                     render={() => <MainWindowComponent changeImage={this.changeImage}/>}/>/>
               <Route exact path={'/error403'}
                      render={() =>
-                         <ErrorComponent title="access_forbidden"
-                                         code="403"/>}/>
+                       <ErrorComponent title="access_forbidden"
+                                       code="403"/>}/>
               <Route exact path='/error404'
                      render={() =>
-                         <ErrorComponent title="not_found"
-                                         code="404"/>}/>
+                       <ErrorComponent title="not_found"
+                                       code="404"/>}/>
               <Redirect from='*' to='/error404'/>
             </Switch>
           </main>
         </React.Fragment>
+      </div>
     );
   }
 }

@@ -43,8 +43,9 @@ public class AuthController implements AuthenticateApiDelegate {
             authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(credentialsRequest.getLogin(),
                     credentialsRequest.getPassword()));
-            Account account = accountServicePort.find(credentialsRequest.getLogin());
-            account.setBadLoginsCounter(0);
+            Account account = Account.builder()
+                            .badLoginsCounter(0)
+                                    .build();
             accountServicePort.update(credentialsRequest.getLogin(), account);
         } catch (LockedException ex) {
             throw SecurityException.accountInactiveException();

@@ -59,7 +59,7 @@ class AccountsTable extends Component {
     const { account, blockModalId } = this.state;
 
     return (
-        <div className="card-header">
+        <div className="card-header bg-light">
           <ConfirmModal title='confirm_block_title'
                         message={account.active === this.props.t('active')
                             ? 'confirm_block_message'

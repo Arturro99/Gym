@@ -26,9 +26,6 @@
             <column name="action_type" type="varchar(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="new_email" type="varchar(70)">
-                <constraints unique="true"/>
-            </column>
             <column name="expiration_date" type="timestamp">
                 <constraints nullable="false"/>
             </column>
