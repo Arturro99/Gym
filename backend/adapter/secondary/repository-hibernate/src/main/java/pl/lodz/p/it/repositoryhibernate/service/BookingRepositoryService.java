@@ -1,33 +1,32 @@
 package pl.lodz.p.it.repositoryhibernate.service;
 
-import static org.springframework.transaction.annotation.Isolation.READ_COMMITTED;
-import static org.springframework.transaction.annotation.Propagation.MANDATORY;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.lodz.p.it.repositoryhibernate.mapper.BookingMapper;
 import pl.lodz.p.it.core.domain.Booking;
 import pl.lodz.p.it.core.port.secondary.BookingRepositoryPort;
 import pl.lodz.p.it.core.shared.constant.Level;
-import pl.lodz.p.it.core.shared.exception.AccessLevelException;
-import pl.lodz.p.it.core.shared.exception.AccountException;
-import pl.lodz.p.it.core.shared.exception.ActivityException;
-import pl.lodz.p.it.core.shared.exception.BookingAvoidableException;
-import pl.lodz.p.it.core.shared.exception.BookingException;
+import pl.lodz.p.it.core.shared.exception.*;
 import pl.lodz.p.it.repositoryhibernate.entity.AccessLevelEntity;
 import pl.lodz.p.it.repositoryhibernate.entity.AccountEntity;
 import pl.lodz.p.it.repositoryhibernate.entity.ActivityEntity;
 import pl.lodz.p.it.repositoryhibernate.entity.BookingEntity;
+import pl.lodz.p.it.repositoryhibernate.mapper.BookingMapper;
 import pl.lodz.p.it.repositoryhibernate.repository.AccessLevelRepository;
 import pl.lodz.p.it.repositoryhibernate.repository.AccountRepository;
 import pl.lodz.p.it.repositoryhibernate.repository.ActivityRepository;
 import pl.lodz.p.it.repositoryhibernate.repository.BookingRepository;
+
+import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static org.springframework.transaction.annotation.Isolation.READ_COMMITTED;
+import static org.springframework.transaction.annotation.Propagation.MANDATORY;
 
 /**
  * Service class responsible for operating on booking repository.
@@ -50,15 +49,18 @@ public class BookingRepositoryService extends
 
     private final ActivityRepository activityRepository;
 
+    private final EntityManager entityManager;
+
     @Autowired
     public BookingRepositoryService(BookingRepository repository, BookingMapper mapper,
-        AccountRepository accountRepository, AccessLevelRepository accessLevelRepository,
-        ActivityRepository activityRepository) {
+                                    AccountRepository accountRepository, AccessLevelRepository accessLevelRepository,
+                                    ActivityRepository activityRepository, EntityManager entityManager) {
         super(repository, mapper);
         this.bookingRepository = repository;
         this.accountRepository = accountRepository;
         this.accessLevelRepository = accessLevelRepository;
         this.activityRepository = activityRepository;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -122,7 +124,7 @@ public class BookingRepositoryService extends
     @Override
     public Booking save(Booking booking) {
         AccountEntity account = accountRepository.findByBusinessId(
-            booking.getAccount())
+                booking.getAccount())
             .orElseThrow(AccountException::accountNotFoundException);
         if (!hasClientRole(account)) {
             throw AccessLevelException.illegalAccessLevel();
@@ -135,6 +137,7 @@ public class BookingRepositoryService extends
             throw ActivityException.activityExpiredException();
         }
 
+        entityManager.lock(activity, LockModeType.OPTIMISTIC_FORCE_INCREMENT);
         BookingEntity entity = repository.instantiate();
         entity = mapper.toEntityModel(entity, booking);
         entity.setBusinessId(generateNumber());
@@ -151,6 +154,10 @@ public class BookingRepositoryService extends
             BookingException::bookingNotFoundException);
         BookingEntity updated = mapper
             .toEntityModel(entity, booking);
+        ActivityEntity activity = activityRepository
+            .findByBusinessId(booking.getActivity())
+            .orElseThrow(ActivityException::activityNotFoundException);
+        entityManager.lock(activity, LockModeType.OPTIMISTIC_FORCE_INCREMENT);
         BookingEntity response = repository.save(updated);
         return mapper.toDomainModel(response);
     }
