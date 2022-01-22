@@ -6,6 +6,7 @@ import {
 } from "../../services/AuthenticationService";
 import config from '../../config.json';
 import { withTranslation } from "react-i18next";
+import '../../styles.css'
 
 const NavigationBar = (props) => {
 
@@ -27,7 +28,7 @@ const NavigationBar = (props) => {
           getCurrentRole() === config.CLIENT ? clientHeaders : '';
   return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <Link className="navbar-brand" to="/">Gym&Style</Link>
+        <Link className="navbar-brand logo ownOpacity" to="/"/>
         {getCurrentRole() ?
             <ul className="navbar-nav ms-sm-5">
               {renderedHeaders.map(header =>

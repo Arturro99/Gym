@@ -36,10 +36,6 @@
             <column name="creation_date" type="timestamp" defaultValueNumeric="${now}">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_known_good_login" type="timestamp"/>
-            <column name="last_known_good_login_ip" type="varchar(39)"/>
-            <column name="last_known_bad_login" type="timestamp"/>
-            <column name="last_known_bad_login_ip" type="varchar(39)"/>
             <column name="bad_logins_counter" type="integer" defaultValue="0"/>
         </createTable>
     </changeSet>

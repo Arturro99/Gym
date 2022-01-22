@@ -17,4 +17,11 @@ public interface DisposableUrlServicePort extends BaseServicePort<DisposableUrl>
      * @param actionType Action type for a new url
      */
     void createDisposableUrl(String url, String login, UrlAction actionType);
+
+    /**
+     * Method responsible for confirming user registration.
+     *
+     * @param token Disposable url's identifier
+     */
+    void confirmRegistration(String token);
 }

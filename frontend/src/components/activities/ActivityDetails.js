@@ -48,7 +48,7 @@ class ActivityDetails extends Details {
   render() {
     const { t } = this.props;
     return (
-        <div className="card text-center shadow-lg mt-3 w-75 mx-auto">
+        <div className="card text-center shadow-lg mt-3 w-75 mx-auto bg-light">
           <UpdateActivityModal activity={this.state.data.activity}/>
           <div className="card-header">
             <h1>{t('activityDetails')}</h1>

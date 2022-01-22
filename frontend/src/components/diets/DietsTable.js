@@ -81,7 +81,7 @@ class DietsTable extends Component {
     const { diet, deleteModalId } = this.state;
 
     return (
-        <div className="card-header">
+        <div className="card-header bg-light">
           <ConfirmModal title={myTable ? 'confirm_diet_cancellation_title'
               : 'confirm_diet_cancellation_title'}
                         message={myTable ? 'confirm_diet_cancellation_message'

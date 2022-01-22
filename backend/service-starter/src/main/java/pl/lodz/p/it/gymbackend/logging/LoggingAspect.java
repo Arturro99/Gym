@@ -63,7 +63,7 @@ public class LoggingAspect {
     /**
      * Pointcut leading to methods in core mappers
      */
-    @Pointcut("execution(* pl.lodz.p.it.core.application.secondary.mapper..*(..))")
+    @Pointcut("execution(* pl.lodz.p.it.repositoryhibernate.mapper..*(..))")
     public void methodsInCoreMappers() {
     }
 

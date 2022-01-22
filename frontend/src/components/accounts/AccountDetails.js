@@ -18,6 +18,7 @@ class AccountDetails extends Details {
   }
 
   async componentDidMount() {
+    this.props.changeImage('accountDetails');
     await this.updateDetails();
     await this.updateAccessLevels();
 
@@ -70,7 +71,7 @@ class AccountDetails extends Details {
     const { t } = this.props;
     const { account, roles } = this.state.data;
     return (
-        <div className="card text-center shadow-lg mt-3 w-75 mx-auto">
+        <div className="card text-center shadow-lg mt-3 w-75 mx-auto bg-light">
           <UpdateAccountForm account={account}/>
           <AccessLevelModal account={account}
                             accessLevels={roles}/>

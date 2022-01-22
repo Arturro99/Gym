@@ -4,7 +4,7 @@ import BookingsTable from "../bookings/BookingsTable";
 import { Component } from "react";
 import {
   cancelOwnBooking,
-  createBooking,
+  createOwnBooking,
   getOwnBookings
 } from "../../services/BookingService";
 
@@ -30,18 +30,19 @@ class MyBookingsComponent extends Component {
       .catch(() => this.resetBookings())
       .then(() => this.resetBookings());
     } else {
-      await createBooking(booking.activity, booking.account, t)
+      await createOwnBooking(booking.activity, booking.account, t)
       .then(() => this.resetBookings());
     }
   }
 
   resetBookings = async () => {
+    this.props.changeImage('bookings');
     const { t } = this.props;
     const bookings = await getOwnBookings();
     bookings.forEach(booking => {
+      booking.pending = booking.pending ? t('pending') : booking.active ? t('non_pending') : '-';
       booking.active = booking.active ? t('active') : t('inactive');
       booking.completed = booking.completed ? t('completed') : t('incomplete');
-      booking.pending = booking.pending ? t('pending') : t('non_pending');
     })
     this.setState({
       bookings: bookings
@@ -53,7 +54,6 @@ class MyBookingsComponent extends Component {
   }
 
   render() {
-    const { length: count } = this.state.bookings;
     const {
       pageSize,
       currentPage,
@@ -61,10 +61,6 @@ class MyBookingsComponent extends Component {
       bookings
     } = this.state;
     const { t } = this.props;
-
-    if (count === 0) {
-      return <h1>{t('noBookings')}</h1>;
-    }
 
     return (
         <div className="row mt-5">

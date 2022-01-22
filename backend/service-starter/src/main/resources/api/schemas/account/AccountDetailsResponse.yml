@@ -20,16 +20,6 @@ components:
           type: string
         language:
           type: string
-        lastKnownGoodLoginIp:
-          type: string
-        lastKnownGoodLogin:
-          type: string
-          format: date-time
-        lastKnownBadLoginIp:
-          type: string
-        lastKnownBadLogin:
-          type: string
-          format: date-time
         badLoginsCounter:
           type: integer
         loyaltyFactor:

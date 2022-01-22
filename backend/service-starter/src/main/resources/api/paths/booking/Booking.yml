@@ -13,6 +13,26 @@ own:
             schema:
               $ref: '../../schemas/booking/BookingResponseList.yml#/components/schemas/BookingResponseList'
 
+  post:
+    tags:
+      - booking
+    summary: Add booking
+    description: Create a new booking for own account
+    operationId: createOwnBooking
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/booking/BookingRequestPost.yml#/components/schemas/BookingRequestPost'
+    responses:
+      201:
+        description: Operation successful
+        content:
+          application/json:
+            schema:
+              $ref: '../../schemas/booking/BookingDetailsResponse.yml#/components/schemas/BookingDetailsResponse'
+
 all:
   get:
     tags:
@@ -32,8 +52,8 @@ all:
     tags:
       - booking
     summary: Add booking
-    description: Create a new booking for own account
-    operationId: createOwnBooking
+    description: Add/activate booking for another account
+    operationId: createBooking
     requestBody:
       required: true
       content:

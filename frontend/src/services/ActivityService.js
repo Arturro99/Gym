@@ -32,6 +32,9 @@ export async function createActivity(activity, t) {
     } else if (ex.response.data.error.errorKey
         === keys.CONSTRAINT_VIOLATION) {
       toast.error(t('activity_inappropriate_date'));
+    } else if (ex.response.data.error.errorKey
+      === keys.OPTIMISTIC_LOCK) {
+      toast.error(t('activity_optimisticLock'));
     }
   }).then(response => {
     if (response && response.status === 201) {
@@ -56,6 +59,9 @@ export async function updateActivity(activity, t) {
     } else if (ex.response.data.error.errorKey
       === keys.CONSTRAINT_VIOLATION) {
       toast.error(t('activity_inappropriate_date'));
+    } else if (ex.response.data.error.errorKey
+      === keys.OPTIMISTIC_LOCK) {
+      toast.error(t('activity_optimisticLock'));
     }
   });
 }

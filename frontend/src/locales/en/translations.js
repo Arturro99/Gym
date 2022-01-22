@@ -56,7 +56,7 @@ export const TRANSLATIONS_EN = {
   error_login_string_alphanum: 'Login must contain only alphanumeric symbols',
   error_email_string_email: 'Not a valid email',
   error_phoneNumber_string_min: 'Phone number must have at least 9 digits',
-  error_phoneNumber_string_max: 'Phone number must have at most 12 digits',
+  error_phoneNumber_string_max: 'Phone number must have at most 9 digits',
   error_login_string_empty: 'Login required',
   error_email_string_empty: 'Email required',
   error_password_string_empty: 'Password required',
@@ -94,6 +94,7 @@ export const TRANSLATIONS_EN = {
   activity_add_success: 'Activity added successfully',
   activity_deactivate_success: 'Activity deactivated successfully',
   activity_inappropriate_date: 'Date should be a value from future',
+  activity_optimisticLock: 'A place for activity has recently been booked',
 
   //Diets
   noDiets: 'No available diets. Try again later...',
@@ -149,6 +150,7 @@ export const TRANSLATIONS_EN = {
 
   //Account
   accounts: 'Accounts',
+  account: 'Account',
   myAccount: 'My account',
   updateAccount: 'Update account',
   accountDetails: 'Account details',

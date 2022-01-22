@@ -1,12 +1,15 @@
-import { Component } from "react";
-import { confirmRegistration } from "../services/AuthenticationService";
-import { withTranslation } from "react-i18next";
+import {Component} from "react";
+import {withTranslation} from "react-i18next";
 
 class MainWindowComponent extends Component {
 
+  componentDidMount() {
+    this.props.changeImage('main');
+  }
+
   render() {
     return (
-        <div/>
+      <div/>
     );
   }
 }
