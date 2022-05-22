@@ -20,12 +20,15 @@
         <li><a href="#frontend">Frontend</a></li>
       </ul>
     </li>
+    <li>
+      <a href="#sample-views">Sample views</a>
+    </li>
   </ol>
 </details>
 
 ## About the project
 Gym is a multi-access system providing functionalities like bookings places for group activities in a local gym, managing customers' diets, training plans and
-in general managing customer's accounts.
+in general managing customers' accounts.
 The main functionality - booking places is mainly handled by a kind of preferential algorithm which is responsible for i.a.
 deciding about the order of booking in case of considerable interest in particular activities. 
 
@@ -61,4 +64,15 @@ Apart from the info provided above, the project was created with the help of som
 * **Liquibase** useful for tracking database changes and facilitating its creation, initiation and configuration.
 * **OpenAPI 3.0** helpful in auto-generating REST interfaces, DTOs and swagger docs.
 * **Mapstruct** doing the donkey work in generating mappers for both driven and driving object models.
+* 
 ### Frontend
+The view was implemented in the form of Single Page Application. It supports internationalization depending on browser language settings. 
+It also contains all required validation on the user side with proper error indication.
+Frontend handles received JWT, decodes it and then saves particular user information like roles in the local storage in order to use it to dynamically display page data.
+While implementing the view of the application some additional Javascript libraries were used:
+* **axios** providing interceptors and http methods.
+* **Joi** providing validation tools.
+* **i18next** enabling internationalization configuration.
+
+## Sample views
+
