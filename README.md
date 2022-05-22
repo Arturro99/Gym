@@ -50,5 +50,15 @@ to smoothly replace or add adapters and ports in case of any further changes.
 ## Technical details
 
 ### Backend
-
+Communication between server and client is handled via REST. The driving/primary adapters, which are entry points to the hexagon, are responsible for implementing endpoints whereas the driven/secondary ones do the ORM.
+The system supports transactions along with obeying numerous constraints that were justified by business reasons.
+Exceptions are handled via advice mechanism and then a proper error code with particular error key and timestamp are sent to the client.
+Attention was also paid to the security issues which were basically handled by Spring Security. JWT mechanism is used for authentication. In order to maintain
+its credibility it was signed with HS256 algorithm. It also support refreshing after each succeeded call. Authorization is handled by SecurityContext which is injected whenever needed and a proper HttpSecurity configuration. HTTPS protocol is used to maintain data confidentiality.
+Cors configuration was also included aiming to facilitate communication between backend and frontend.
+Logging was implemented using aspect programming and a Slf4j library.
+Apart from the info provided above, the project was created with the help of some additional libraries:
+* **Liquibase** useful for tracking database changes and facilitating its creation, initiation and configuration.
+* **OpenAPI 3.0** helpful in auto-generating REST interfaces, DTOs and swagger docs.
+* **Mapstruct** doing the donkey work in generating mappers for both driven and driving object models.
 ### Frontend
