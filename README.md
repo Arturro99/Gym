@@ -22,6 +22,13 @@
     </li>
     <li>
       <a href="#sample-views">Sample views</a>
+        <ul>
+          <li><a href="#login-form">Login form</a></li>
+          <li><a href="#register-form">Register form</a></li>
+          <li><a href="#bookings-list">Bookings list</a></li>
+          <li><a href="#activities-list">Activities list</a></li>
+          <li><a href="#user-details">User details</a></li>
+      </ul>
     </li>
   </ol>
 </details>
@@ -75,4 +82,19 @@ While implementing the view of the application some additional Javascript librar
 * **i18next** enabling internationalization configuration.
 
 ## Sample views
+
+### Login form
+![image](https://user-images.githubusercontent.com/48444511/169711840-71657abe-f672-4c1a-848f-7ff5f0c8c7a6.png)
+
+### Register form
+![image](https://user-images.githubusercontent.com/48444511/169712361-aa52a3f7-173c-4145-bf56-a5765eed372d.png)
+
+### Bookings list
+![image](https://user-images.githubusercontent.com/48444511/169712104-1ddaf3ab-0dee-4c6e-8e61-9882e0f19968.png)
+
+### Activities list
+![image](https://user-images.githubusercontent.com/48444511/169712147-5e9ac531-1f67-448d-b0fa-46792d028a5e.png)
+
+### User details
+![image](https://user-images.githubusercontent.com/48444511/169712445-74f27d01-d335-434b-a4f5-1c101e37420d.png)
 
